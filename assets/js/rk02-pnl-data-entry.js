@@ -9,7 +9,6 @@
 // 4. Papar jadual RK02
 // =====================================================
 
-
 document.addEventListener(
 "DOMContentLoaded",
 ()=>{

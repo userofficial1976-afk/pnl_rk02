@@ -20,9 +20,6 @@ console.log(
 );
 
 
-const db =
-window.supabaseClient;
-
 
 let pengguna = null;
 
@@ -47,7 +44,9 @@ bacaPengguna();
 await muatAnggota();
 
 
+
 }
+
 
 
 
@@ -77,6 +76,7 @@ nama:"ADMIN FPB",
 jawatan:"ADMIN",
 
 unit:"",
+
 pos:""
 
 };
@@ -108,186 +108,44 @@ pengguna.jawatan
 }
 
 
+
 // =====================================================
-// LOAD ANGGOTA
+// LOAD DATA ANGGOTA
 // =====================================================
 
 async function muatAnggota(){
 
-    try{
 
+try{
+
+
+let query =
+window.supabaseClient
+.from(
+"Data_Anggota"
+)
+.select(`
+noskb,
+wilayah,
+kawasan,
+pangkat,
+nama,
+poskhidmat,
+unit,
+jawatan,
+ketua_pos,
+ketua_unit,
+rm_pehariklmbiasa,
+rm_perharioffday,
+rm_perjamoffday,
+rm_perharicutiam,
+rm_perjamcutiam
+`);
 
-        const {
-            data,
-            error
-        } = await window.supabaseClient
-        .from("Data_Anggota")
-        .select(`
-            noskb,
-            nama,
-            poskhidmat,
-            unit,
-            jawatan,
-            ketua_pos,
-            ketua_unit,
-            rm_pehariklmbiasa,
-            rm_perharioffday,
-            rm_perjamoffday,
-            rm_perharicutiam,
-            rm_perjamcutiam
-        `)
-        .order("nama");
 
 
-        if(error){
-
-            console.error(error);
-
-            alert("Gagal membaca Data_Anggota");
-
-            return;
-
-        }
-
-
-        console.log(
-            "DATA ANGGOTA:",
-            data
-        );
-
-
-        paparSenaraiAnggota(data);
-
-
-
-    }catch(err){
-
-        console.error(err);
-
-        alert("Ralat sambungan anggota");
-
-    }
-
-}
-function paparSenaraiAnggota(data){
-
-
-    const tbody =
-    document.getElementById(
-        "rk02TableBody"
-    );
-
-
-    tbody.innerHTML="";
-
-
-    data.forEach(
-        (anggota,index)=>{
-
-
-        tbody.innerHTML += `
-
-        <tr>
-
-
-        <td>
-        ${index+1}
-        </td>
-
-
-        <td class="skb-cell">
-        ${anggota.noskb ?? ""}
-        </td>
-
-
-        <td class="name-cell">
-        ${anggota.nama ?? ""}
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td>
-        <input type="number" min="0" value="0">
-        </td>
-
-
-        <td class="total-cell">
-        0
-        </td>
-
-
-        <td class="total-cell">
-        RM 0.00
-        </td>
-
-
-        </tr>
-
-        `;
-
-
-    });
-
-
-    document.getElementById(
-        "bilanganAnggota"
-    ).innerHTML =
-    data.length;
-
-
-    document.getElementById(
-        "summaryAnggota"
-    ).innerHTML =
-    data.length + " ORANG";
-
-
-}
 // ================================
-// KETUA POS
+// FILTER AKSES
 // ================================
 
 
@@ -309,11 +167,6 @@ pengguna.pos
 
 
 
-// ================================
-// KETUA UNIT
-// ================================
-
-
 if(
 pengguna.jawatan
 ===
@@ -332,6 +185,7 @@ pengguna.unit
 
 
 
+
 const {
 
 data,
@@ -340,12 +194,24 @@ error
 
 }
 =
-await query;
+await query.order(
+"nama"
+);
 
 
 
-if(error)
+if(error){
+
 throw error;
+
+}
+
+
+
+console.log(
+"DATA ANGGOTA:",
+data
+);
 
 
 
@@ -384,6 +250,7 @@ alert(
 // PAPAR TABLE
 // =====================================================
 
+
 function paparAnggota(){
 
 
@@ -391,6 +258,11 @@ const tbody =
 document.getElementById(
 "rk02TableBody"
 );
+
+
+
+if(!tbody)
+return;
 
 
 
@@ -410,24 +282,25 @@ tbody.innerHTML += `
 
 <tr>
 
+
 <td>
 ${i+1}
 </td>
 
 
 <td class="skb-cell">
-${a.noskb}
+${a.noskb ?? ""}
 </td>
 
 
 <td class="name-cell">
 
-${a.nama}
+${a.nama ?? ""}
 
 <br>
 
 <small>
-${a.pangkat || ""}
+${a.pangkat ?? ""}
 </small>
 
 </td>
@@ -484,19 +357,13 @@ ${a.pangkat || ""}
 </td>
 
 
-
 <td class="total-cell">
-
 0
-
 </td>
 
 
-
 <td class="total-cell">
-
 RM 0.00
-
 </td>
 
 
@@ -516,20 +383,22 @@ dataAnggota.length
 );
 
 
+
 setText(
 "summaryAnggota",
-`${dataAnggota.length} ORANG`
+dataAnggota.length + " ORANG"
 );
+
 
 
 }
 
 
 
-
 // =====================================================
 // HELPER
 // =====================================================
+
 
 function setText(
 id,
@@ -541,8 +410,13 @@ const el =
 document.getElementById(id);
 
 
-if(el)
+
+if(el){
+
 el.textContent=value;
+
+}
+
 
 
 }

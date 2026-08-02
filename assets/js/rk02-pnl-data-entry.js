@@ -1,12 +1,6 @@
 // =====================================================
 // RK02-PNL-DATA-ENTRY.JS
 // FPB DUTY COMMAND CENTER V2
-//
-// FASA 1:
-// - Login user
-// - Kawalan akses
-// - Load Data_Anggota
-// - Papar anggota RK02
 // =====================================================
 
 
@@ -28,9 +22,8 @@ let dataAnggota = [];
 
 
 // =====================================================
-// START SYSTEM
+// START
 // =====================================================
-
 
 mula();
 
@@ -45,43 +38,62 @@ bacaPengguna();
 await muatAnggota();
 
 
-
 }
 
 
 
 // =====================================================
-// USER LOGIN
+// USER
 // =====================================================
 
 
 function bacaPengguna(){
 
 
-
 pengguna =
 JSON.parse(
-localStorage.getItem(
-"fpb_user"
-)
+localStorage.getItem("fpb_user")
 );
 
+
+
+/*
+ JIKA TIADA LOGIN
+ GUNA CONTOH KETUA POS
+*/
 
 
 if(!pengguna){
 
 
-pengguna = {
+pengguna={
 
-nama:"ADMIN FPB",
 
-jawatan:"ADMIN",
+nama:
+"KETUA POS F102-01",
 
-unit:"",
 
-pos:""
+jawatan:
+"KETUA POS",
+
+
+unit:
+"JERANGAU",
+
+
+pos:
+"F102-01 (SS) KILANG SAWIT JERANGAU"
+
 
 };
+
+
+
+localStorage.setItem(
+"fpb_user",
+JSON.stringify(pengguna)
+);
+
 
 
 }
@@ -119,11 +131,12 @@ pengguna.jawatan
 
 
 // =====================================================
-// LOAD DATA ANGGOTA
+// LOAD ANGGOTA
 // =====================================================
 
 
 async function muatAnggota(){
+
 
 
 try{
@@ -131,9 +144,7 @@ try{
 
 let query =
 window.supabaseClient
-.from(
-"Data_Anggota"
-)
+.from("Data_Anggota")
 .select(`
 
 noskb,
@@ -172,39 +183,13 @@ rm_perjamcutiam
 
 
 
-// =====================================================
-// FILTER AKSES
-// =====================================================
-
-
-// ADMIN
-// semua data
-
-
-if(
-pengguna.jawatan === "KETUA UNIT"
-&&
-pengguna.unit
-){
-
-
-query =
-query.eq(
-"unit",
-pengguna.unit
-);
-
-
-}
-
-
-
+// ===============================
+// FILTER KETUA POS
+// ===============================
 
 
 if(
 pengguna.jawatan === "KETUA POS"
-&&
-pengguna.pos
 ){
 
 
@@ -220,10 +205,26 @@ pengguna.pos
 
 
 
+// ===============================
+// FILTER KETUA UNIT
+// ===============================
 
-// =====================================================
-// RUN QUERY
-// =====================================================
+
+if(
+pengguna.jawatan === "KETUA UNIT"
+){
+
+
+query =
+query.eq(
+"unit",
+pengguna.unit
+);
+
+
+}
+
+
 
 
 const {
@@ -242,11 +243,12 @@ await query
 
 
 
-if(error){
 
+
+if(error)
 throw error;
 
-}
+
 
 
 
@@ -257,12 +259,16 @@ data
 
 
 
+
 dataAnggota =
 data || [];
 
 
 
+
 paparAnggota();
+
+
 
 
 
@@ -272,7 +278,6 @@ catch(err){
 
 
 console.error(
-"ERROR DATA ANGGOTA:",
 err
 );
 
@@ -292,13 +297,13 @@ alert(
 
 
 
+
 // =====================================================
-// PAPAR TABLE RK02
+// PAPAR TABLE
 // =====================================================
 
 
 function paparAnggota(){
-
 
 
 const tbody =
@@ -313,7 +318,8 @@ return;
 
 
 
-tbody.innerHTML = "";
+tbody.innerHTML="";
+
 
 
 
@@ -327,23 +333,18 @@ i
 
 tbody.innerHTML += `
 
+
 <tr>
 
 
 <td>
-
 ${i+1}
-
 </td>
-
 
 
 <td class="skb-cell">
-
 ${a.noskb ?? ""}
-
 </td>
-
 
 
 <td class="name-cell">
@@ -353,63 +354,60 @@ ${a.nama ?? ""}
 <br>
 
 <small>
-
 ${a.pangkat ?? ""}
-
 </small>
 
-
 </td>
 
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
 <td>
-<input type="number" min="0" value="0">
+<input type="number" value="0">
 </td>
 
 
@@ -429,7 +427,9 @@ RM 0.00
 </td>
 
 
+
 </tr>
+
 
 `;
 
@@ -438,9 +438,6 @@ RM 0.00
 });
 
 
-
-
-// jumlah anggota
 
 
 setText(
@@ -452,12 +449,13 @@ dataAnggota.length
 
 setText(
 "summaryAnggota",
-dataAnggota.length + " ORANG"
+dataAnggota.length+" ORANG"
 );
 
 
 
 }
+
 
 
 
@@ -475,17 +473,12 @@ value
 
 
 const el =
-document.getElementById(
-id
-);
+document.getElementById(id);
 
 
 
-if(el){
-
-el.textContent = value;
-
-}
+if(el)
+el.textContent=value;
 
 
 

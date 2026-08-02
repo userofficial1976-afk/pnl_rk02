@@ -28,8 +28,9 @@ let dataAnggota = [];
 
 
 // =====================================================
-// START
+// START SYSTEM
 // =====================================================
+
 
 mula();
 
@@ -49,12 +50,13 @@ await muatAnggota();
 
 
 
-
 // =====================================================
 // USER LOGIN
 // =====================================================
 
+
 function bacaPengguna(){
+
 
 
 pengguna =
@@ -69,7 +71,7 @@ localStorage.getItem(
 if(!pengguna){
 
 
-pengguna={
+pengguna = {
 
 nama:"ADMIN FPB",
 
@@ -83,6 +85,13 @@ pos:""
 
 
 }
+
+
+
+console.log(
+"PENGGUNA:",
+pengguna
+);
 
 
 
@@ -113,6 +122,7 @@ pengguna.jawatan
 // LOAD DATA ANGGOTA
 // =====================================================
 
+
 async function muatAnggota(){
 
 
@@ -125,28 +135,70 @@ window.supabaseClient
 "Data_Anggota"
 )
 .select(`
+
 noskb,
+
 wilayah,
+
 kawasan,
+
 pangkat,
+
 nama,
+
 poskhidmat,
+
 unit,
+
 jawatan,
+
 ketua_pos,
+
 ketua_unit,
+
 rm_pehariklmbiasa,
+
 rm_perharioffday,
+
 rm_perjamoffday,
+
 rm_perharicutiam,
+
 rm_perjamcutiam
+
 `);
 
 
 
-// ================================
+
+
+// =====================================================
 // FILTER AKSES
-// ================================
+// =====================================================
+
+
+// ADMIN
+// semua data
+
+
+if(
+pengguna.jawatan === "KETUA UNIT"
+&&
+pengguna.unit
+){
+
+
+query =
+query.eq(
+"unit",
+pengguna.unit
+);
+
+
+}
+
+
+
 
 
 if(
@@ -167,27 +219,86 @@ pengguna.pos
 
 
 
-if(
-pengguna.jawatan === "KETUA UNIT"
-&&
-pengguna.unit
-){
 
 
-query =
-query.eq(
-"unit",
-pengguna.unit
+// =====================================================
+// RUN QUERY
+// =====================================================
+
+
+const {
+
+data,
+
+error
+
+}
+
+=
+await query
+.order(
+"nama"
 );
 
 
+
+if(error){
+
+throw error;
+
 }
+
+
+
+console.log(
+"DATA ANGGOTA FILTER:",
+data
+);
+
+
+
+dataAnggota =
+data || [];
+
+
+
+paparAnggota();
+
+
+
+}
+
+catch(err){
+
+
+console.error(
+"ERROR DATA ANGGOTA:",
+err
+);
+
+
+alert(
+"Gagal membaca Data_Anggota"
+);
+
+
+
+}
+
+
+
+}
+
+
+
+
 // =====================================================
-// PAPAR TABLE
+// PAPAR TABLE RK02
 // =====================================================
 
 
 function paparAnggota(){
+
 
 
 const tbody =
@@ -202,7 +313,7 @@ return;
 
 
 
-tbody.innerHTML="";
+tbody.innerHTML = "";
 
 
 
@@ -213,20 +324,26 @@ i
 )=>{
 
 
-tbody.innerHTML += `
 
+tbody.innerHTML += `
 
 <tr>
 
 
 <td>
+
 ${i+1}
+
 </td>
+
 
 
 <td class="skb-cell">
+
 ${a.noskb ?? ""}
+
 </td>
+
 
 
 <td class="name-cell">
@@ -236,9 +353,12 @@ ${a.nama ?? ""}
 <br>
 
 <small>
+
 ${a.pangkat ?? ""}
+
 </small>
 
+
 </td>
 
 
@@ -291,26 +411,36 @@ ${a.pangkat ?? ""}
 <td>
 <input type="number" min="0" value="0">
 </td>
+
 
 
 <td class="total-cell">
+
 0
+
 </td>
 
 
+
 <td class="total-cell">
+
 RM 0.00
+
 </td>
 
 
 </tr>
 
-
 `;
+
 
 
 });
 
+
+
+
+// jumlah anggota
 
 
 setText(
@@ -331,6 +461,8 @@ dataAnggota.length + " ORANG"
 
 
 
+
+
 // =====================================================
 // HELPER
 // =====================================================
@@ -343,13 +475,15 @@ value
 
 
 const el =
-document.getElementById(id);
+document.getElementById(
+id
+);
 
 
 
 if(el){
 
-el.textContent=value;
+el.textContent = value;
 
 }
 

@@ -114,44 +114,178 @@ pengguna.jawatan
 
 async function muatAnggota(){
 
-
-try{
-
-
-let query =
-db
-
-.from("Data_Anggota")
-
-.select(`
-
-noskb,
-nama,
-pangkat,
-poskhidmat,
-unit,
-jawatan,
-ketua_pos,
-ketua_unit,
-status,
-
-rm_pehariklmbiasa,
-rm_perharioffday,
-rm_perjamoffday,
-rm_perharicutiam,
-rm_perjamcutiam
-
-`)
-
-.eq(
-"status",
-"AKTIF"
-);
+    try{
 
 
+        const {
+            data,
+            error
+        } = await window.supabaseClient
+        .from("Data_Anggota")
+        .select(`
+            noskb,
+            nama,
+            poskhidmat,
+            unit,
+            jawatan,
+            ketua_pos,
+            ketua_unit,
+            rm_pehariklmbiasa,
+            rm_perharioffday,
+            rm_perjamoffday,
+            rm_perharicutiam,
+            rm_perjamcutiam
+        `)
+        .order("nama");
+
+
+        if(error){
+
+            console.error(error);
+
+            alert("Gagal membaca Data_Anggota");
+
+            return;
+
+        }
+
+
+        console.log(
+            "DATA ANGGOTA:",
+            data
+        );
+
+
+        paparSenaraiAnggota(data);
 
 
 
+    }catch(err){
+
+        console.error(err);
+
+        alert("Ralat sambungan anggota");
+
+    }
+
+}
+function paparSenaraiAnggota(data){
+
+
+    const tbody =
+    document.getElementById(
+        "rk02TableBody"
+    );
+
+
+    tbody.innerHTML="";
+
+
+    data.forEach(
+        (anggota,index)=>{
+
+
+        tbody.innerHTML += `
+
+        <tr>
+
+
+        <td>
+        ${index+1}
+        </td>
+
+
+        <td class="skb-cell">
+        ${anggota.noskb ?? ""}
+        </td>
+
+
+        <td class="name-cell">
+        ${anggota.nama ?? ""}
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td>
+        <input type="number" min="0" value="0">
+        </td>
+
+
+        <td class="total-cell">
+        0
+        </td>
+
+
+        <td class="total-cell">
+        RM 0.00
+        </td>
+
+
+        </tr>
+
+        `;
+
+
+    });
+
+
+    document.getElementById(
+        "bilanganAnggota"
+    ).innerHTML =
+    data.length;
+
+
+    document.getElementById(
+        "summaryAnggota"
+    ).innerHTML =
+    data.length + " ORANG";
+
+
+}
 // ================================
 // KETUA POS
 // ================================

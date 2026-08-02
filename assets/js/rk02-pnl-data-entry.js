@@ -82,7 +82,7 @@ unit:
 
 
 pos:
-"F102-01 (SS) KILANG SAWIT JERANGAU"
+"F102-01(SS)Kilang Sawit Jerangau"
 
 
 };

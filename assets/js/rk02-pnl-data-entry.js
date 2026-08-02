@@ -150,9 +150,9 @@ rm_perjamcutiam
 
 
 if(
-pengguna.jawatan
-===
-"KETUA POS"
+pengguna.jawatan === "KETUA POS"
+&&
+pengguna.pos
 ){
 
 
@@ -168,9 +168,9 @@ pengguna.pos
 
 
 if(
-pengguna.jawatan
-===
-"KETUA UNIT"
+pengguna.jawatan === "KETUA UNIT"
+&&
+pengguna.unit
 ){
 
 
@@ -182,70 +182,6 @@ pengguna.unit
 
 
 }
-
-
-
-
-const {
-
-data,
-
-error
-
-}
-=
-await query.order(
-"nama"
-);
-
-
-
-if(error){
-
-throw error;
-
-}
-
-
-
-console.log(
-"DATA ANGGOTA:",
-data
-);
-
-
-
-dataAnggota =
-data || [];
-
-
-
-paparAnggota();
-
-
-
-}
-catch(err){
-
-
-console.error(
-err
-);
-
-
-alert(
-"Gagal membaca Data_Anggota"
-);
-
-
-}
-
-
-
-}
-
-
-
 // =====================================================
 // PAPAR TABLE
 // =====================================================

@@ -9,7 +9,6 @@
 // - Papar anggota RK02
 // =====================================================
 
-
 document.addEventListener(
 "DOMContentLoaded",
 ()=>{

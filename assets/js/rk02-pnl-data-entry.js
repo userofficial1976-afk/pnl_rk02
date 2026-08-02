@@ -194,9 +194,9 @@ pengguna.jawatan === "KETUA POS"
 
 
 query =
-query.eq(
+query.ilike(
 "poskhidmat",
-pengguna.pos
+"%F102-01%"
 );
 
 

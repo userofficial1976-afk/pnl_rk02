@@ -1,1 +1,457 @@
+/* =====================================================
+   FPB DUTY COMMAND CENTER V2
+   MASTER COMMAND THEME
+   command-theme.css
+===================================================== */
 
+
+/* =====================================================
+   ROOT
+===================================================== */
+
+:root{
+
+    --primary:#247b83;
+    --primary-dark:#1d626a;
+    --primary-light:#5b9da0;
+
+    --bg:#f3f7f7;
+
+    --card:#ffffff;
+
+    --text:#173f43;
+
+    --muted:#708386;
+
+    --border:#dce7e8;
+
+    --shadow:
+    0 10px 30px rgba(25,70,75,.08);
+
+}
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+*{
+
+    box-sizing:border-box;
+
+}
+
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    background:
+    var(--bg);
+
+    color:
+    var(--text);
+
+}
+
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:290px;
+
+    height:100vh;
+
+    padding:22px;
+
+    color:white;
+
+    background:
+
+    linear-gradient(
+        180deg,
+        #174f56,
+        #247b83
+    );
+
+    display:flex;
+
+    flex-direction:column;
+
+    z-index:1000;
+
+}
+
+
+
+.sidebar-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    margin-bottom:35px;
+
+}
+
+
+.sidebar-brand img{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:15px;
+
+}
+
+
+.sidebar-brand strong{
+
+    display:block;
+
+    font-size:18px;
+
+}
+
+
+.sidebar-brand span{
+
+    display:block;
+
+    font-size:11px;
+
+    opacity:.75;
+
+}
+
+
+
+/* =====================================================
+   MENU
+===================================================== */
+
+.sidebar-menu{
+
+    flex:1;
+
+}
+
+
+.sidebar-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:13px 15px;
+
+    margin-bottom:8px;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:13px;
+
+    font-size:14px;
+
+    transition:.2s;
+
+}
+
+
+.sidebar-menu a:hover,
+
+.sidebar-menu a.active{
+
+    background:
+
+    rgba(
+        255,
+        255,
+        255,
+        .16
+    );
+
+}
+
+
+
+/* =====================================================
+   SIDEBAR FOOTER
+===================================================== */
+
+.sidebar-footer{
+
+    padding-top:20px;
+
+    border-top:
+
+    1px solid
+
+    rgba(
+        255,
+        255,
+        255,
+        .2
+    );
+
+}
+
+
+.sidebar-footer small{
+
+    display:block;
+
+    opacity:.7;
+
+}
+
+
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.main-content{
+
+    margin-left:290px;
+
+    min-height:100vh;
+
+}
+
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar{
+
+    height:82px;
+
+    padding:0 30px;
+
+    background:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:
+
+    1px solid
+
+    var(--border);
+
+}
+
+
+.topbar h2{
+
+    margin:0;
+
+    font-size:20px;
+
+}
+
+
+.topbar p{
+
+    margin:5px 0 0;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+
+
+.topbar-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.topbar-user span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+}
+
+
+
+.user-avatar{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    color:white;
+
+    font-weight:800;
+
+    background:
+
+    linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+}
+
+
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
+.mobile-bottom-nav{
+
+    display:none;
+
+}
+
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+
+@media(max-width:800px){
+
+
+.sidebar{
+
+    display:none;
+
+}
+
+
+.main-content{
+
+    margin-left:0;
+
+}
+
+
+.topbar{
+
+    padding:0 15px;
+
+}
+
+
+.topbar h2{
+
+    font-size:16px;
+
+}
+
+
+
+.mobile-bottom-nav{
+
+    position:fixed;
+
+    display:flex;
+
+    bottom:0;
+
+    left:0;
+
+    right:0;
+
+    height:70px;
+
+    background:white;
+
+    border-top:
+
+    1px solid
+
+    var(--border);
+
+    z-index:2000;
+
+    justify-content:space-around;
+
+}
+
+
+
+.mobile-bottom-nav a{
+
+    flex:1;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:#587074;
+
+    font-size:11px;
+
+    padding-top:10px;
+
+}
+
+
+
+.mobile-bottom-nav a.active{
+
+    color:var(--primary);
+
+    font-weight:800;
+
+}
+
+
+
+}

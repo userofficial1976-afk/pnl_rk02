@@ -4,343 +4,229 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>
-RK02 PNL Data Entry — FPB Duty Command Center V2
+RK02 AND PNL DATA ENTRY FORM
 </title>
-
-
-<link rel="icon" href="../logo.png">
-
-
-<link rel="stylesheet" href="../assets/css/command-theme.css">
 
 
 <style>
 
-
-/* =====================================================
-   RK02 PNL DATA ENTRY INTERFACE
-===================================================== */
-
-
-.page-title{
-
-font-size:28px;
-font-weight:800;
-color:#247b83;
-
-}
-
-
-.hero-rk02{
-
-background:
-linear-gradient(
-135deg,
-#3d7f86,
-#5b9da0
-);
-
-padding:30px;
-
-border-radius:18px;
-
-color:white;
-
-margin-bottom:25px;
-
-}
-
-
-.hero-rk02 h1{
+body{
 
 margin:0;
-
-font-size:32px;
-
-}
-
-
-.hero-rk02 p{
-
-margin-top:8px;
-
-opacity:.9;
+font-family:Arial,Helvetica,sans-serif;
+background:#d9d9d9;
+font-size:12px;
 
 }
 
 
+/* HEADER */
 
-/* CARD */
+.header{
 
-.rk-card{
+height:55px;
+
+background:#eeeeee;
+
+border-bottom:2px solid #999;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:0 20px;
+
+}
+
+
+.title{
+
+font-size:18px;
+font-weight:bold;
+color:#555;
+
+}
+
+
+.section{
+
+font-size:16px;
+font-weight:bold;
+color:#16834b;
+
+}
+
+
+
+
+/* MAIN */
+
+.container{
+
+display:grid;
+
+grid-template-columns:360px 1fr;
+
+gap:5px;
+
+padding:5px;
+
+}
+
+
+
+
+/* LEFT PANEL */
+
+.info-panel{
 
 background:white;
 
-border-radius:18px;
-
-padding:25px;
-
-box-shadow:
-0 8px 25px rgba(0,0,0,.08);
-
-margin-bottom:25px;
+border:1px solid #aaa;
 
 }
 
 
-
-.rk-card h2{
-
-color:#247b83;
-
-font-size:20px;
-
-margin-bottom:20px;
-
-}
-
-
-
-/* GRID */
-
-
-.form-grid{
+.info-row{
 
 display:grid;
 
-grid-template-columns:
-repeat(4,1fr);
+grid-template-columns:120px 1fr;
 
-gap:18px;
-
-}
-
-
-
-.form-group{
-
-display:flex;
-
-flex-direction:column;
-
-gap:7px;
+height:26px;
 
 }
 
 
-.form-group label{
+.label{
 
-font-weight:700;
-
-font-size:14px;
-
-color:#555;
-
-}
-
-
-.form-group input,
-.form-group select{
-
-padding:12px;
-
-border-radius:10px;
-
-border:1px solid #ddd;
-
-font-size:15px;
-
-}
-
-
-
-/* SUMMARY */
-
-
-.summary-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:18px;
-
-}
-
-
-.summary-box{
-
-padding:20px;
-
-border-radius:16px;
-
-background:#eef7f8;
-
-text-align:center;
-
-}
-
-
-.summary-box h3{
-
-margin:0;
-
-font-size:28px;
-
-color:#247b83;
-
-}
-
-
-.summary-box span{
-
-font-size:13px;
-
-color:#555;
-
-}
-
-
-
-/* BUTTON */
-
-
-.action-panel{
-
-display:flex;
-
-gap:15px;
-
-flex-wrap:wrap;
-
-}
-
-
-.btn{
-
-padding:13px 22px;
-
-border-radius:12px;
-
-border:none;
-
-font-weight:700;
-
-cursor:pointer;
-
-}
-
-
-
-.btn-save{
-
-background:#247b83;
+background:#258f55;
 
 color:white;
 
-}
+padding:6px;
 
-
-.btn-reset{
-
-background:#eee;
+font-weight:bold;
 
 }
 
 
-.btn-preview{
+.value{
 
-background:#5b9da0;
+background:#f8f8f8;
 
-color:white;
+padding:6px;
+
+border-left:1px solid white;
 
 }
+
+
 
 
 
 /* TABLE */
 
+.table-box{
 
-.rk-table{
+background:white;
 
-width:100%;
+overflow:auto;
+
+}
+
+
+
+table{
 
 border-collapse:collapse;
 
+width:100%;
+
 }
 
 
-.rk-table th{
 
-background:#247b83;
+th{
+
+background:#258f55;
 
 color:white;
 
-padding:12px;
+padding:6px;
+
+border:1px solid #ddd;
+
+font-size:11px;
 
 }
 
 
-.rk-table td{
+td{
 
-padding:12px;
+height:24px;
 
-border-bottom:1px solid #ddd;
+border:1px solid #ccc;
 
 text-align:center;
 
+background:#fff;
+
 }
 
 
 
-/* MOBILE */
+.name{
+
+text-align:left;
+
+padding-left:8px;
+
+}
+
+
+
+
+/* PECAHAN */
+
+.bottom{
+
+margin:5px;
+
+background:white;
+
+}
+
+
+.bottom-title{
+
+background:#258f55;
+
+color:white;
+
+padding:8px;
+
+font-weight:bold;
+
+}
+
 
 @media(max-width:900px){
 
-
-.form-grid{
-
-grid-template-columns:
-1fr 1fr;
-
-}
-
-
-.summary-grid{
-
-grid-template-columns:
-1fr 1fr;
-
-}
-
-
-}
-
-
-
-@media(max-width:600px){
-
-
-.form-grid,
-.summary-grid{
+.container{
 
 grid-template-columns:1fr;
 
 }
 
 
-.hero-rk02 h1{
-
-font-size:24px;
-
 }
 
-
-}
 
 
 </style>
@@ -349,88 +235,25 @@ font-size:24px;
 </head>
 
 
-
 <body>
 
 
-<!-- SIDEBAR -->
 
-<div class="sidebar">
+<div class="header">
 
 
-<div class="brand">
+<div class="title">
 
-<img src="../logo.png">
+📅 RK02 AND PNL DATA ENTRY FORM<br>
 
-<h3>
-FPB DUTY
-</h3>
+WILAYAH TERENGGANU
 
 </div>
 
 
+<div class="section">
 
-<a href="../index.html">
-🏠 Dashboard
-</a>
-
-
-<a href="#">
-👮 Senarai Anggota
-</a>
-
-
-<a href="#">
-📅 Jadual Duty
-</a>
-
-
-<a href="#">
-📌 Kod Duty
-</a>
-
-
-<a class="active">
-
-📊 RK02 PNL Data Entry
-
-</a>
-
-
-<a href="#">
-⚙ Tetapan
-</a>
-
-
-</div>
-
-
-
-
-<!-- MAIN -->
-
-
-<div class="main">
-
-
-
-<!-- TOPBAR -->
-
-
-<div class="topbar">
-
-<div>
-
-<b>
-RK02 COMMAND PANEL
-</b>
-
-</div>
-
-
-<div>
-
-Ketua Pos
+✓ Data Entry Section
 
 </div>
 
@@ -441,114 +264,109 @@ Ketua Pos
 
 
 
-
-<!-- CONTENT -->
-
-
-<div class="content">
+<div class="container">
 
 
 
-<div class="hero-rk02">
+<!-- MAKLUMAT KIRI -->
 
 
-<h1>
-RK02 PNL DATA ENTRY
-</h1>
+<div class="info-panel">
 
 
-<p>
-Panel kawalan data pos untuk pengiraan dan penyediaan laporan RK02.
-</p>
-
-
+<div class="info-row">
+<div class="label">Tahun</div>
+<div class="value">2026</div>
 </div>
 
 
-
-
-
-<!-- MAKLUMAT POS -->
-
-
-<div class="rk-card">
-
-
-<h2>
-🏢 Maklumat Pos Kawalan
-</h2>
-
-
-
-<div class="form-grid">
-
-
-<div class="form-group">
-
-<label>
-Pos Kawalan
-</label>
-
-<select>
-
-<option>
--- Pilih Pos --
-</option>
-
-</select>
-
+<div class="info-row">
+<div class="label">Bulan</div>
+<div class="value">JULAI</div>
 </div>
 
 
-
-<div class="form-group">
-
-<label>
-Jenis Khidmat
-</label>
-
-<select>
-
-<option>
--- Pilih --
-</option>
-
-</select>
-
+<div class="info-row">
+<div class="label">Kod/Nama Pos</div>
+<div class="value">F/102-01(SS) Kilang Sawit Jerangau</div>
 </div>
 
 
-
-
-<div class="form-group">
-
-<label>
-Syarikat
-</label>
-
-<input
-type="text"
-placeholder="Nama syarikat"
->
-
+<div class="info-row">
+<div class="label">Bilangan Anggota</div>
+<div class="value">6 ORANG</div>
 </div>
 
 
-
-<div class="form-group">
-
-<label>
-Atur Tugas
-</label>
-
-<input
-type="text"
-placeholder="Atur tugas"
->
-
+<div class="info-row">
+<div class="label">Jam Khidmat</div>
+<div class="value">1240</div>
 </div>
 
 
+<div class="info-row">
+<div class="label">Jam KLM</div>
+<div class="value">0</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Jumlah KM (RM)</div>
+<div class="value">0</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Jumlah KM (MPV)</div>
+<div class="value">0</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Atur Tugas Pos</div>
+<div class="value"></div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Kawasan</div>
+<div class="value">F/102 - Jerangau</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Nama Ketua Unit</div>
+<div class="value">-</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Nama Ketua Pos</div>
+<div class="value">-</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Jumlah Jam ESKOT</div>
+<div class="value">0</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Kadar Bayaran Sejam</div>
+<div class="value">RM21.75</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Jumlah Pendapatan</div>
+<div class="value">RM26,970.00</div>
+</div>
+
+
+<div class="info-row">
+<div class="label">Jumlah Hari/Bulan</div>
+<div class="value">31</div>
 </div>
 
 
@@ -559,291 +377,66 @@ placeholder="Atur tugas"
 
 
 
+<!-- TABLE ANGGOTA -->
 
-<!-- KEPERLUAN ANGGOTA -->
 
+<div class="table-box">
 
-<div class="rk-card">
 
-
-<h2>
-👥 Keperluan Anggota
-</h2>
-
-
-
-<div class="form-grid">
-
-
-
-<div class="form-group">
-
-<label>
-KEA
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-KEK
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Bil Anggota PB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Jam Sehari PB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Kadar RM Sehari PB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Bil Anggota PPB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Jam Sehari PPB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-<div class="form-group">
-
-<label>
-Kadar RM Sehari PPB
-</label>
-
-<input type="number">
-
-</div>
-
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- SUMMARY -->
-
-
-<div class="rk-card">
-
-
-<h2>
-📊 Ringkasan Kawalan
-</h2>
-
-
-
-<div class="summary-grid">
-
-
-<div class="summary-box">
-
-<h3>
-0
-</h3>
-
-<span>
-Jumlah Anggota
-</span>
-
-</div>
-
-
-
-<div class="summary-box">
-
-<h3>
-RM 0
-</h3>
-
-<span>
-Jumlah Harian
-</span>
-
-</div>
-
-
-
-<div class="summary-box">
-
-<h3>
-RM 0
-</h3>
-
-<span>
-Jumlah Bulanan
-</span>
-
-</div>
-
-
-
-<div class="summary-box">
-
-<h3>
-0
-</h3>
-
-<span>
-Status Data
-</span>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- ACTION -->
-
-
-<div class="rk-card">
-
-
-<h2>
-🎛 Control Panel
-</h2>
-
-
-<div class="action-panel">
-
-
-<button class="btn btn-save">
-💾 SIMPAN DATA
-</button>
-
-
-<button class="btn btn-reset">
-🔄 RESET
-</button>
-
-
-<button class="btn btn-preview">
-📄 PREVIEW RK02
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- TABLE -->
-
-
-<div class="rk-card">
-
-
-<h2>
-📋 Senarai Data Pos
-</h2>
-
-
-
-<table class="rk-table">
+<table>
 
 
 <tr>
 
-<th>
-Pos
+<th rowspan="2">
+No SKB
 </th>
 
-<th>
-KEA
+
+<th rowspan="2">
+Nama Anggota
 </th>
 
-<th>
-KEK
+
+<th rowspan="2">
+Hari<br>Biasa
 </th>
 
-<th>
-PB
+
+<th colspan="3">
+Hari Offday
 </th>
 
-<th>
-PPB
+
+<th colspan="2">
+Hari Cuti AM
 </th>
 
-<th>
-Status
+
+<th rowspan="2">
+Pendapatan Eskot
 </th>
+
+
+<th rowspan="2">
+Jam
+</th>
+
+
+<th rowspan="2">
+KM
+</th>
+
+
+<th rowspan="2">
+Medical
+</th>
+
+
+<th rowspan="2">
+Travel
+</th>
+
 
 </tr>
 
@@ -851,29 +444,159 @@ Status
 
 <tr>
 
-<td>
--
+<th>
+&lt;4 Jam
+</th>
+
+<th>
+4-8 Jam
+</th>
+
+<th>
+&gt;8 Jam
+</th>
+
+
+<th>
+&lt;8 Jam
+</th>
+
+<th>
+&gt;8 Jam
+</th>
+
+
+</tr>
+
+
+
+
+<tr>
+<td>2503643</td>
+<td class="name">Mohd Shaiful Azlan</td>
+<td>12</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+<tr>
+<td>2503826</td>
+<td class="name">Ahmad Hazwan</td>
+<td>22</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- PECAHAN KLM -->
+
+
+<div class="bottom">
+
+
+<div class="bottom-title">
+PECAHAN KLM
+</div>
+
+
+
+<table>
+
+
+<tr>
+
+<th>
+No SKB
+</th>
+
+<th>
+Nama Anggota
+</th>
+
+<th>
+Pentadbiran
+</th>
+
+<th>
+Panjang KLM
+</th>
+
+<th>
+Eskot
+</th>
+
+<th>
+CIT
+</th>
+
+<th>
+Kawasan Tambahan
+</th>
+
+<th>
+Kawasan Wang
+</th>
+
+<th>
+Premis
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>2503643</td>
+
+<td class="name">
+Mohd Shaiful Azlan
 </td>
 
-<td>
-0
-</td>
+<td></td>
 
-<td>
-0
-</td>
+<td></td>
 
-<td>
-0
-</td>
+<td></td>
 
-<td>
-0
-</td>
+<td></td>
 
-<td>
-Belum Ada Data
-</td>
+<td></td>
+
+<td></td>
+
+<td></td>
 
 </tr>
 
@@ -884,11 +607,6 @@ Belum Ada Data
 </div>
 
 
-
-</div>
-
-
-</div>
 
 
 </body>

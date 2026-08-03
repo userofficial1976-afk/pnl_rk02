@@ -412,427 +412,227 @@ catch(err){
 function paparAnggota(){
 
 
-    const tbody =
+const tbody = document.getElementById(
+    "rk02TableBody"
+);
 
-    document.getElementById(
 
-        "rk02TableBody"
+if(!tbody) return;
 
-    );
 
+tbody.innerHTML = "";
 
-    if(!tbody)
 
-    return;
+if(dataAnggota.length === 0){
 
 
-    tbody.innerHTML = "";
+tbody.innerHTML = `
 
+<tr>
 
-    // =================================================
-    // TIADA DATA
-    // =================================================
+<td colspan="15"
+style="
+padding:30px;
+text-align:center;
+color:#718487;
+">
 
-    if(
+TIADA DATA ANGGOTA DIJUMPAI
 
-        dataAnggota.length === 0
+</td>
 
-    ){
+</tr>
 
+`;
 
-        tbody.innerHTML = `
 
-        <tr>
+setText(
+    "bilanganAnggota",
+    0
+);
 
-            <td
 
-            colspan="15"
+setText(
+    "summaryAnggota",
+    "0 ORANG"
+);
 
-            style="
 
-            padding:30px;
-
-            text-align:center;
-
-            color:#718487;
-
-            "
-
-            >
-
-                TIADA DATA ANGGOTA DIJUMPAI
-
-            </td>
-
-        </tr>
-
-        `;
-
-
-        setText(
-
-            "bilanganAnggota",
-
-            0
-
-        );
-
-
-        setText(
-
-            "summaryAnggota",
-
-            "0 ORANG"
-
-        );
-
-
-        return;
-
-
-    }
-
-
-    // =================================================
-    // PAPAR ANGGOTA
-    // =================================================
-
-    dataAnggota.forEach(
-
-    (
-
-        a,
-
-        i
-
-    )=>{
-
-
-        tbody.innerHTML += `
-
-
-        <tr>
-
-
-            <!-- BIL -->
-
-            <td>
-
-                ${i + 1}
-
-            </td>
-
-
-            <!-- NO SKB -->
-
-            <td class="skb-cell">
-
-                ${a.noskb ?? ""}
-
-            </td>
-
-
-            <!-- NAMA -->
-
-            <td class="name-cell">
-
-                ${a.nama ?? ""}
-
-                <br>
-
-                <small>
-
-                    ${a.pangkat ?? ""}
-
-                </small>
-
-            </td>
-
-
-            <!-- HARI BIASA -->
-
-            <td>
-
-                <input
-
-                class="rk02-input hari-biasa"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- JAM KLM BIASA -->
-
-            <td>
-
-                <input
-
-                class="rk02-input jam-klm-biasa"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- HARI OFF 4 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input off-4"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- HARI OFF 4-8 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input off-48"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- HARI OFF >8 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input off-8"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- CUTI AM <8 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input cuti-8"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- CUTI AM 8 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input cuti-8p"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- CUTI AM >8 JAM -->
-
-            <td>
-
-                <input
-
-                class="rk02-input cuti-8l"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- JAM ESKOT -->
-
-            <td>
-
-                <input
-
-                class="rk02-input jam-eskot"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- KLM ESKOT -->
-
-            <td>
-
-                <input
-
-                class="rk02-input klm-eskot"
-
-                type="number"
-
-                min="0"
-
-                value="0"
-
-                >
-
-            </td>
-
-
-            <!-- JUMLAH JAM -->
-
-            <td
-
-            class="total-cell row-jumlah-jam"
-
-            >
-
-                0
-
-            </td>
-
-
-            <!-- JUMLAH RM -->
-
-            <td
-
-            class="total-cell row-jumlah-rm"
-
-            >
-
-                RM 0.00
-
-            </td>
-
-
-        </tr>
-
-
-        `;
-
-
-    });
-
-
-    // =================================================
-    // EVENT INPUT
-    // =================================================
-
-    tbody
-
-    .querySelectorAll(
-
-        "input"
-
-    )
-
-    .forEach(
-
-    input=>{
-
-
-        input.addEventListener(
-
-            "input",
-
-            kiraSemua
-
-        );
-
-
-    });
-
-
-    // =================================================
-    // UPDATE BILANGAN
-    // =================================================
-
-    setText(
-
-        "bilanganAnggota",
-
-        dataAnggota.length
-
-    );
-
-
-    setText(
-
-        "summaryAnggota",
-
-        dataAnggota.length +
-
-        " ORANG"
-
-    );
-
-
-    kiraSemua();
-
+return;
 
 }
 
 
+
+
+dataAnggota.forEach(
+(a,i)=>{
+
+
+tbody.insertAdjacentHTML(
+"beforeend",
+
+
+`
+
+<tr>
+
+
+<td>${i+1}</td>
+
+
+<td class="skb-cell">
+
+${a.noskb ?? ""}
+
+</td>
+
+
+<td class="name-cell">
+
+${a.nama ?? ""}
+
+<br>
+
+<small>
+
+${a.pangkat ?? ""}
+
+</small>
+
+</td>
+
+
+
+<td>
+<input class="rk02-input hari-biasa"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input jam-klm-biasa"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input off-4"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input off-48"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input off-8"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input cuti-8"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input cuti-8p"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input cuti-8l"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input jam-eskot"
+type="number"
+value="0">
+</td>
+
+
+<td>
+<input class="rk02-input klm-eskot"
+type="number"
+value="0">
+</td>
+
+
+<td class="total-cell row-jumlah-jam">
+
+0
+
+</td>
+
+
+<td class="total-cell row-jumlah-rm">
+
+RM 0.00
+
+</td>
+
+
+</tr>
+
+
+`
+
+);
+
+
+});
+
+
+
+tbody
+.querySelectorAll("input")
+.forEach(input=>{
+
+
+input.addEventListener(
+"input",
+kiraSemua
+);
+
+
+});
+
+
+
+setText(
+"bilanganAnggota",
+dataAnggota.length
+);
+
+
+
+setText(
+"summaryAnggota",
+dataAnggota.length+" ORANG"
+);
+
+
+
+kiraSemua();
+
+
+}
 // =====================================================
 // SECTION 5
 // PAPAR POS TAMPUNGAN

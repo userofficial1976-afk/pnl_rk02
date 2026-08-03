@@ -2270,3 +2270,65 @@ nilai
 
 }
 ```
+/* =====================================================
+   SECTION 5 — POS TAMPUNGAN
+===================================================== */
+
+#posTampunganTableBody .name-cell{
+
+    min-width:240px;
+
+    text-align:left;
+
+}
+
+
+#posTampunganTableBody .pos-input{
+
+    width:72px;
+
+    height:37px;
+
+    padding:0 6px;
+
+    border:
+
+    1px solid
+
+    #d5e1e2;
+
+    border-radius:9px;
+
+    outline:none;
+
+    color:#24474b;
+
+    background:#ffffff;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    text-align:center;
+
+}
+
+
+#posTampunganTableBody .pos-input:focus{
+
+    border-color:#247b83;
+
+    box-shadow:
+
+    0 0 0 3px
+
+    rgba(
+        36,
+        123,
+        131,
+        .10
+    );
+
+}

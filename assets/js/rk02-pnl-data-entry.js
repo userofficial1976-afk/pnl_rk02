@@ -487,3 +487,55 @@ el.textContent=value;
 
 
 });
+
+/* =====================================================
+   POS TAMPUNGAN INPUT
+===================================================== */
+
+
+.pos-select{
+
+width:150px;
+
+height:38px;
+
+border:1px solid #d5e1e2;
+
+border-radius:9px;
+
+padding:0 8px;
+
+font-size:12px;
+
+font-weight:700;
+
+color:#24474b;
+
+}
+
+
+
+.pos-input{
+
+width:75px!important;
+
+height:37px;
+
+text-align:center;
+
+}
+
+
+.pos-input:focus,
+
+.pos-select:focus{
+
+border-color:#247b83;
+
+box-shadow:
+
+0 0 0 3px
+
+rgba(36,123,131,.10);
+
+}

@@ -1157,39 +1157,36 @@ pasangEventPosTampungan();
 // =====================================================
 
 function binaDropdownPos(
-
 nomborPos,
-
 noSkb
-
 ){
 
 
+let html = `
 
-let html =
+<td>
 
-`
+<select
+
+class="input-pos-tampungan"
+
+data-pos="${nomborPos}"
+
+data-skb="${noSkb}"
+
+>
 
 <option value="">
-
 -- PILIH POS --
-
 </option>
-
 `;
 
 
-
-
-
 dataPosKawalan.forEach(
+(pos)=>{
 
-pos=>{
 
-
-html +=
-
-`
+html += `
 
 <option value="${escapeHtml(pos)}">
 
@@ -1204,28 +1201,7 @@ ${escapeHtml(pos)}
 });
 
 
-
-
-
-
-
-return
-
-`
-
-<td>
-
-<select
-
-class="input-pos-tampungan"
-
-data-pos="${nomborPos}"
-
-data-no-skb="${escapeHtml(noSkb)}"
-
->
-
-${html}
+html += `
 
 </select>
 
@@ -1234,12 +1210,10 @@ ${html}
 `;
 
 
+return html;
+
 
 }
-
-
-
-
 
 
 

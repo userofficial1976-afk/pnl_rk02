@@ -181,46 +181,35 @@ async function mula(){
 
 function bacaPengguna(){
 
+    const dataPengguna =
 
-    const dataLocal =
+        localStorage.getItem(
+            "pengguna"
+        )
 
-    localStorage.getItem(
+        ||
 
-        "pengguna"
+        localStorage.getItem(
+            "currentUser"
+        )
 
-    )
+        ||
 
-
-    ||
-
-    localStorage.getItem(
-
-        "user"
-
-    )
-
-
-    ||
-
-    localStorage.getItem(
-
-        "currentUser"
-
-    );
+        localStorage.getItem(
+            "userData"
+        );
 
 
     if(
-
-        !dataLocal
-
+        !dataPengguna
     ){
 
-
         console.warn(
-
-            "DATA PENGGUNA TIDAK DIJUMPAI"
-
+            "DATA PENGGUNA BELUM DIINPUT - SISTEM TERUSKAN"
         );
+
+
+        pengguna = null;
 
 
         return;
@@ -230,31 +219,26 @@ function bacaPengguna(){
 
     try{
 
-
         pengguna =
 
         JSON.parse(
-
-            dataLocal
-
+            dataPengguna
         );
 
+
+        console.log(
+            "DATA PENGGUNA:",
+            pengguna
+        );
 
     }
 
     catch(
-
         error
-
     ){
 
-
-        console.error(
-
-            "RALAT BACA PENGGUNA:",
-
-            error
-
+        console.warn(
+            "DATA PENGGUNA TIDAK SAH - SISTEM TERUSKAN"
         );
 
 
@@ -262,93 +246,7 @@ function bacaPengguna(){
 
     }
 
-
-    if(
-
-        !pengguna
-
-    ){
-
-        return;
-
-    }
-
-
-    const nama =
-
-    pengguna.nama
-
-    ||
-
-    pengguna.nama_pengguna
-
-    ||
-
-    "PENGGUNA";
-
-
-    const jawatan =
-
-    pengguna.jawatan
-
-    ||
-
-    pengguna.peranan
-
-    ||
-
-    "PENGGUNA";
-
-
-    const unit =
-
-    pengguna.unit
-
-    ||
-
-    "";
-
-
-    const pos =
-
-    pengguna.poskhidmat
-
-    ||
-
-    pengguna.pos
-
-    ||
-
-    "";
-
-
-    setText(
-
-        "namaPengguna",
-
-        nama
-
-    );
-
-
-    setText(
-
-        "jawatanPengguna",
-
-        jawatan
-
-    );
-
-
-    setText(
-
-        "paparPeranan",
-
-        jawatan
-
-    );
-
-
+}
     // =============================================
     // PAPAR UNIT
     // HTML PERLU GUNA id="unit"

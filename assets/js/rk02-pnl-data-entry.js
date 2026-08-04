@@ -671,7 +671,7 @@ async function muatAnggota(){
 
         pangkat,
 
-        no_anggota,
+        noanggota,
 
         nama,
 
@@ -1028,7 +1028,7 @@ function paparJadualRK02(){
 
             ||
 
-            anggota.no_anggota
+            anggota.noanggota
 
             ||
 
@@ -1343,7 +1343,7 @@ function paparPosTampungan(){
 
             ||
 
-            anggota.no_anggota
+            anggota.noanggota
 
             ||
 
@@ -1721,7 +1721,7 @@ function kiraJadualRK02(){
 
             ||
 
-            anggota.no_anggota
+            anggota.noanggota
 
             ||
 
@@ -3216,7 +3216,7 @@ function kumpulDataSimpan(){
 
             ||
 
-            anggota.no_anggota
+            anggota.noanggota
 
             ||
 

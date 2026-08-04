@@ -107,7 +107,8 @@ try{
 
     await muatAnggota();
 
-
+    await muatDropdownPosTampungan();
+    paparAnggotaTampungan();
 
     paparJadualRK02();
 
@@ -2871,7 +2872,7 @@ document
 "click",
 
 simpanData
-
+simpanPosTampungan
 );
 
 
@@ -3259,6 +3260,494 @@ select.appendChild(option);
 
 
 }
+
+
+}
+// =====================================================
+// RK02 POS TAMPUNGAN MODULE
+// =====================================================
+
+
+let senaraiPosTampungan = [];
+let anggotaTampungan = [];
+
+
+// =====================================================
+// LOAD DROPDOWN HEADER POS
+// =====================================================
+
+async function muatDropdownPosTampungan(){
+
+
+    const {data,error}=await supabase
+    .from("data_pos")
+    .select(
+        "pos_kawalan"
+    )
+    .order(
+        "pos_kawalan"
+    );
+
+
+    if(error){
+
+        console.error(
+            "GAGAL LOAD POS",
+            error
+        );
+
+        return;
+
+    }
+
+
+    senaraiPosTampungan=data || [];
+
+
+    let dropdown = [
+
+        "headerPos1",
+        "headerPos2",
+        "headerPos3",
+        "headerPos4",
+        "headerPos5",
+        "headerPos6"
+
+    ];
+
+
+    dropdown.forEach(
+    (id)=>{
+
+
+        let el=document.getElementById(id);
+
+
+        if(!el)
+        return;
+
+
+        el.innerHTML=
+        `
+        <option value="">
+        -- PILIH POS --
+        </option>
+        `;
+
+
+        senaraiPosTampungan.forEach(
+        (p)=>{
+
+
+            el.innerHTML +=
+            `
+            <option value="${p.pos_kawalan}">
+            ${p.pos_kawalan}
+            </option>
+            `;
+
+
+        });
+
+
+    });
+
+
+}
+
+
+
+// =====================================================
+// PAPAR ANGGOTA POS TAMPUNGAN
+// =====================================================
+
+
+function paparAnggotaTampungan(){
+
+
+    let tbody =
+    document.getElementById(
+        "posTampunganTableBody"
+    );
+
+
+    if(!tbody)
+    return;
+
+
+
+    tbody.innerHTML="";
+
+
+
+    anggotaTampungan.forEach(
+    (a,index)=>{
+
+
+        tbody.innerHTML +=
+        `
+
+<tr>
+
+
+<td>
+${index+1}
+</td>
+
+
+<td>
+${a.no_skb}
+</td>
+
+
+<td class="name-cell">
+${a.nama}
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="1"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="2"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="3"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="4"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="5"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input 
+type="number"
+min="0"
+class="jam-pos"
+data-pos="6"
+data-skb="${a.no_skb}"
+value="0">
+</td>
+
+
+<td>
+<input type="number" value="0">
+</td>
+
+
+<td>
+<input type="number" value="0">
+</td>
+
+
+<td>
+<input type="number" value="0">
+</td>
+
+
+<td>
+<input type="number" value="0">
+</td>
+
+
+<td>
+<input type="number" value="0">
+</td>
+
+
+</tr>
+
+`;
+
+
+
+    });
+
+
+
+}
+
+
+
+// =====================================================
+// KIRA JUMLAH POS
+// =====================================================
+
+
+function kiraJumlahPosTampungan(){
+
+
+let jumlahJam =
+[
+0,0,0,0,0,0
+];
+
+
+document
+.querySelectorAll(".jam-pos")
+.forEach(
+(input)=>{
+
+
+let jam =
+Number(input.value)||0;
+
+
+let pos =
+Number(input.dataset.pos)-1;
+
+
+jumlahJam[pos]+=jam;
+
+
+});
+
+
+
+jumlahJam.forEach(
+(jumlah,index)=>{
+
+
+let el =
+document.getElementById(
+"totalPos"+(index+1)
+);
+
+
+if(el)
+el.innerText=jumlah;
+
+
+
+});
+
+
+
+}
+
+
+
+// =====================================================
+// EVENT INPUT JAM
+// =====================================================
+
+
+document.addEventListener(
+"input",
+(e)=>{
+
+
+if(
+e.target.classList.contains(
+"jam-pos"
+)
+){
+
+    kiraJumlahPosTampungan();
+
+}
+
+
+});
+
+
+
+// =====================================================
+// SIMPAN DATA POS TAMPUNGAN
+// =====================================================
+
+
+async function simpanPosTampungan(){
+
+
+let poskhidmat =
+document.getElementById(
+"kodNamaPos"
+).innerText;
+
+
+
+let headerPos={
+
+pos1:
+document.getElementById("headerPos1").value,
+
+pos2:
+document.getElementById("headerPos2").value,
+
+pos3:
+document.getElementById("headerPos3").value,
+
+pos4:
+document.getElementById("headerPos4").value,
+
+pos5:
+document.getElementById("headerPos5").value,
+
+pos6:
+document.getElementById("headerPos6").value
+
+};
+
+
+
+let rows=[];
+
+
+
+document
+.querySelectorAll(
+"#posTampunganTableBody tr"
+)
+.forEach(
+(row)=>{
+
+
+let input =
+row.querySelectorAll(
+"input"
+);
+
+
+
+rows.push({
+
+bulan:
+Number(
+document.getElementById("bulan").value
+),
+
+tahun:
+Number(
+document.getElementById("tahun").value
+),
+
+
+...headerPos,
+
+
+no_skb:
+row.children[1].innerText,
+
+
+nama:
+row.children[2].innerText,
+
+
+poskhidmat,
+
+
+jam_pos1:
+Number(input[0].value)||0,
+
+jam_pos2:
+Number(input[1].value)||0,
+
+jam_pos3:
+Number(input[2].value)||0,
+
+jam_pos4:
+Number(input[3].value)||0,
+
+jam_pos5:
+Number(input[4].value)||0,
+
+jam_pos6:
+Number(input[5].value)||0,
+
+
+eskot:
+Number(input[6].value)||0,
+
+cit:
+Number(input[7].value)||0,
+
+kawalan_tambahan:
+Number(input[8].value)||0,
+
+kawalan_wang:
+Number(input[9].value)||0,
+
+pemandu:
+Number(input[10].value)||0
+
+
+});
+
+
+});
+
+
+
+const {error}=await supabase
+.from(
+"rk02_pos_tampungan"
+)
+.insert(
+rows
+);
+
+
+
+if(error){
+
+console.error(error);
+
+alert(
+"Gagal simpan data"
+);
+
+return;
+
+}
+
+
+
+alert(
+"Data Pos Tampungan berjaya disimpan"
+);
+
 
 
 }

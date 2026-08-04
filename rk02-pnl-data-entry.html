@@ -1656,11 +1656,12 @@ max-width:800px
         <div>
 
             <strong id="namaPengguna">
-            NAMA PENGGUNA
+            NAMA PENGGUNA <!-- ambil dari Data_Anggota.nama -->
+               
             </strong>
 
             <span id="jawatanPengguna">
-            KETUA POS
+            KETUA POS <!-- ambil dari Data_Anggota.jawatan -->
             </span>
 
         </div>
@@ -1952,7 +1953,7 @@ max-width:800px
 
             <label>
 
-            Unit
+            Unit <!-- ambil dari Data_Anggota.unit -->
 
             </label>
 
@@ -1960,7 +1961,7 @@ max-width:800px
             <input
             id="wilayah"
             type="text"
-            value="TERENGGANU"
+            value="TERENGGANU" 
             readonly
             >
 
@@ -2017,7 +2018,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Nama Pos
+            Nama Pos <!-- ambil dari Data_Anggota.poskhidmat -->
 
             </span>
 
@@ -2038,7 +2039,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Nama Ketua Unit
+            Nama Ketua Unit <!-- ambil dari Data_Anggota.ketua_unit -->
 
             </span>
 
@@ -2058,7 +2059,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Nama Ketua Pos
+            Nama Ketua Pos <!-- ambil dari Data_Anggota.ketua_pos -->
 
             </span>
 
@@ -2078,7 +2079,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Bilangan Anggota
+            Bilangan Anggota <!-- ambil dari data_pos.bil_anggota_ppb -->
 
             </span>
 
@@ -2098,7 +2099,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Jam Khidmat Sehari
+            Jam Khidmat Sehari  <!-- ambil dari data_pos.jam_sehari_pb + data_pos.jam_sehari_ppb-->
 
             </span>
 
@@ -2118,7 +2119,8 @@ max-width:800px
 
             <span class="info-label">
 
-            Jam Khidmat Anggota PB
+            Jam Khidmat Anggota PB <!-- ambil dari data_pos.jam_sehari_pb-->
+
 
             </span>
 
@@ -2138,7 +2140,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Jam Khidmat Anggota PPB
+            Jam Khidmat Anggota PPB <!-- ambil dari data_pos.jam_sehari_ppb-->
 
             </span>
 
@@ -2158,7 +2160,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Atur Tugas
+            Atur Tugas <!-- ambil dari data_pos.aturtugas-->
 
             </span>
 
@@ -2178,7 +2180,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Nama Ketua Pos
+            Jumlah Jam Sebulan <!-- ambil dari data_pos.jam_sehari_pb + data_pos.jam_sehari_ppb * bulan yang dipilih -->
 
             </span>
 
@@ -2198,7 +2200,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Jumlah Jam Eskot
+            Jumlah RM Pendapatan PB <!-- ambil dari data_pos.jam_sehari_pb  * bulan yang dipilih * data_pos.kadar_rm_sehari_pb -->
 
             </span>
 
@@ -2218,7 +2220,7 @@ max-width:800px
 
             <span class="info-label">
 
-            Jumlah KLM Eskot
+            Jumlah RM Pendapatan PPB <!-- ambil dari data_pos.jam_sehari_pb  * bulan yang dipilih * data_pos.kadar_rm_sehari_ppb -->
 
             </span>
 
@@ -2238,7 +2240,9 @@ max-width:800px
 
             <span class="info-label">
 
-            Jumlah Pendapatan
+            Jumlah Pendapatan Jumlah RM Pendapatan PB <!-- ambil dari 
+               data_pos.jam_sehari_pb  * bulan yang dipilih * data_pos.kadar_rm_sehari_pb 
+               + (data_pos.jam_sehari_pb  * bulan yang dipilih * data_pos.kadar_rm_sehari_pb) -->
 
             </span>
 

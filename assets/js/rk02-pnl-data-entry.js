@@ -150,85 +150,35 @@ catch(error){
 function bacaPengguna(){
 
 
-
 const data =
 
-
 localStorage.getItem("pengguna")
-
 ||
-
-localStorage.getItem("currentUser")
-
-||
-
-localStorage.getItem("userData");
-
-
+localStorage.getItem("currentUser");
 
 
 
 if(!data){
 
+console.warn(
+"TIADA DATA PENGGUNA"
+);
 
-    console.warn(
-    "TIADA DATA PENGGUNA"
-    );
-
-
-    pengguna=null;
-
-
-    return;
-
+return;
 
 }
-
 
 
 
 try{
 
 
-    pengguna = JSON.parse(data);
-
-
-}
-
-catch(e){
-
-
-    pengguna=null;
-
-
-}
-
-
-
-
-
-const unit =
-
-document.getElementById(
-"unit"
-);
-
-
-
-if(unit){
-
-
-    unit.value =
-    pengguna?.unit || "";
-
-
-}
-
+pengguna = JSON.parse(data);
 
 
 
 console.log(
-"PENGGUNA:",
+"DATA KETUA POS:",
 pengguna
 );
 
@@ -236,6 +186,54 @@ pengguna
 
 }
 
+catch(error){
+
+
+console.error(
+"DATA PENGGUNA ROSAK",
+error
+);
+
+
+pengguna=null;
+
+
+}
+
+
+
+
+// papar maklumat header
+
+setText(
+"namaPengguna",
+pengguna.nama || "-"
+);
+
+
+
+setText(
+"jawatanPengguna",
+pengguna.jawatan || "-"
+);
+
+
+
+setText(
+"unitPengguna",
+pengguna.unit || "-"
+);
+
+
+
+setText(
+"kodNamaPos",
+pengguna.poskhidmat || "-"
+);
+
+
+
+}
 
 
 

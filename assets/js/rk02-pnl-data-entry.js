@@ -103,7 +103,7 @@ try{
 
     await muatPosKawalan();
 
-
+    isiDropdownHeaderPos();
 
     await muatAnggota();
 
@@ -3217,6 +3217,48 @@ return String(teks||"")
 .replace(/"/g,"&quot;")
 
 .replace(/'/g,"&#039;");
+
+
+}
+// =====================================================
+// DROPDOWN HEADER POS 1 - 6
+// =====================================================
+
+function isiDropdownHeaderPos(){
+
+
+for(let i=1;i<=6;i++){
+
+
+const select = document.getElementById(
+    "headerPos"+i
+);
+
+
+if(!select){
+    continue;
+}
+
+
+dataPosKawalan.forEach(pos=>{
+
+
+const option=document.createElement("option");
+
+
+option.value=pos;
+
+
+option.textContent=pos;
+
+
+select.appendChild(option);
+
+
+});
+
+
+}
 
 
 }

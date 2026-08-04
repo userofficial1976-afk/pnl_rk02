@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="ms">
 
 <head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <title>
 FPB Duty Login
 </title>
 
-<script src="supabase-config.js"></script>
 
 </head>
 
@@ -21,21 +25,24 @@ FPB DUTY COMMAND CENTER
 </h2>
 
 
+
 <input 
 id="no_skb"
-placeholder="No SKB">
+placeholder="No SKB"
+>
 
 
-<br>
+<br><br>
 
 
 <input 
 id="password"
 type="password"
-placeholder="Password">
+placeholder="Password"
+>
 
 
-<br>
+<br><br>
 
 
 <button onclick="login()">
@@ -45,11 +52,23 @@ LOGIN
 </button>
 
 
+
+
+
+<!-- SUPABASE LIBRARY DAHULU -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase-config.js"></script>
 
-<script src="login.js"></script>
+<!-- CONFIG SELEPAS LIBRARY -->
+
+<script src="./supabase-config.js"></script>
+
+
+<!-- LOGIN LAST -->
+
+<script src="./login.js"></script>
+
 
 
 </body>

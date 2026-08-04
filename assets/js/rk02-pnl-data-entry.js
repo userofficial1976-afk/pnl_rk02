@@ -635,78 +635,70 @@ async function muatPosKawalan(){
 
 async function muatAnggota(){
 
+    console.log(
+        "MULA MUAT DATA ANGGOTA..."
+    );
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+        "Data_Anggota"
+    )
+
+    .select(
+        "*"
+    )
+
+    .order(
+        "nama",
+        {
+            ascending:true
+        }
+    );
+
 
     if(
-
-        typeof supabaseClient ===
-
-        "undefined"
-
+        error
     ){
 
-        return;
+        console.error(
+            "RALAT SUPABASE DATA ANGGOTA:",
+            error
+        );
+
+        throw error;
 
     }
 
 
-    let query =
+    dataAnggota =
 
-    supabaseClient
+    data
 
-    .from(
+    ||
 
-        "Data_Anggota"
+    [];
 
-    )
 
-    .select(
-
-        `
-
-        noskb,
-
-        wilayah,
-
-        kawasan,
-
-        pangkat,
-
-        noanggota,
-
-        nama,
-
-        pos,
-
-        poskhidmat,
-
-        unit,
-
-        jawatan,
-
-        ketua_pos,
-
-        ketua_unit,
-
-        status,
-
-        gaji_pokok,
-
-        gaji_elaun,
-
-        rm_pehariklmbiasa,
-
-        rm_perharioffday,
-
-        rm_perjamoffday,
-
-        rm_perharicutiam,
-
-        rm_perjamcutiam
-
-        `
-
+    console.log(
+        "DATA ANGGOTA BERJAYA DIMUAT:",
+        dataAnggota
     );
 
+
+    console.log(
+        "JUMLAH ANGGOTA:",
+        dataAnggota.length
+    );
+
+}
 
     // =============================================
     // FILTER UNIT

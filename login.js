@@ -65,7 +65,10 @@ localStorage.setItem(
 JSON.stringify(data)
 
 );
-
+localStorage.setItem(
+    "currentUser",
+    JSON.stringify(data)
+);
 
 
 console.log(

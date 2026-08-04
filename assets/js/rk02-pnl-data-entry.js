@@ -709,7 +709,38 @@ ketuaPos
 
 
 
+function binaInputJamPos(
+nomborPos,
+noSkb
+){
 
+return `
+
+<td>
+
+<input
+
+type="number"
+
+min="0"
+
+step="0.5"
+
+value="0"
+
+class="jam-pos"
+
+data-pos="${nomborPos}"
+
+data-skb="${noSkb}"
+
+>
+
+</td>
+
+`;
+
+}
 
 // =====================================================
 // PAPAR JADUAL RK02
@@ -983,211 +1014,143 @@ kiraSemua();
 function paparPosTampungan(){
 
 
-
 const tbody =
-
 document.getElementById(
-
 "posTampunganTableBody"
-
 );
 
 
-
-
-if(!tbody){
-
-return;
-
-}
-
-
+if(!tbody) return;
 
 
 tbody.innerHTML="";
 
 
 
-
-
-if(dataAnggota.length===0){
-
-
-tbody.innerHTML=
-
-`
-
-<tr>
-
-<td colspan="14">
-
-TIADA DATA ANGGOTA
-
-</td>
-
-</tr>
-
-`;
-
-return;
-
-
-}
-
-
-
-
-
-
-
 dataAnggota.forEach(
-
 (anggota,index)=>{
 
 
-
 const noSkb =
-
-anggota.noskb
-
-||
-
-anggota.noanggota
-
-||
-
+anggota.noskb ||
+anggota.noanggota ||
 "";
 
 
 
+tbody.innerHTML += `
 
-
-
-
-const row =
-
-document.createElement(
-"tr"
-);
-
-
-
-
-
-
-
-row.innerHTML =
-
-`
+<tr>
 
 <td>
 ${index+1}
 </td>
 
 
-<td class="skb-cell">
-
+<td>
 ${escapeHtml(noSkb)}
-
 </td>
-
 
 
 <td class="name-cell">
-
-${escapeHtml(
-anggota.nama || "-"
-)}
-
+${escapeHtml(anggota.nama)}
 </td>
-
-
 
 
 
 ${binaDropdownPos(1,noSkb)}
 
+${binaInputJamPos(1,noSkb)}
+
+
 ${binaDropdownPos(2,noSkb)}
+
+${binaInputJamPos(2,noSkb)}
+
 
 ${binaDropdownPos(3,noSkb)}
 
+${binaInputJamPos(3,noSkb)}
+
+
 ${binaDropdownPos(4,noSkb)}
+
+${binaInputJamPos(4,noSkb)}
+
 
 ${binaDropdownPos(5,noSkb)}
 
+${binaInputJamPos(5,noSkb)}
+
+
 ${binaDropdownPos(6,noSkb)}
 
+${binaInputJamPos(6,noSkb)}
 
 
 
-
-${binaInputTampungan(
-"eskot",
-noSkb
-)}
-
-
-
-${binaInputTampungan(
-"cit",
-noSkb
-)}
+<td>
+<input 
+type="number"
+class="input-tampungan"
+data-jenis="eskot"
+value="0">
+</td>
 
 
+<td>
+<input 
+type="number"
+class="input-tampungan"
+data-jenis="cit"
+value="0">
+</td>
 
 
-${binaInputTampungan(
-"kawalanTambahan",
-noSkb
-)}
+<td>
+<input 
+type="number"
+class="input-tampungan"
+data-jenis="kawalanTambahan"
+value="0">
+</td>
 
 
+<td>
+<input 
+type="number"
+class="input-tampungan"
+data-jenis="kawalanWang"
+value="0">
+</td>
 
 
-
-${binaInputTampungan(
-"kawalanWang",
-noSkb
-)}
-
-
-
-
-${binaInputTampungan(
-"pemandu",
-noSkb
-)}
+<td>
+<input 
+type="number"
+class="input-tampungan"
+data-jenis="pemandu"
+value="0">
+</td>
 
 
+</tr>
 
 `;
-
-
-
-
-tbody.appendChild(row);
-
-
-
-});
-
-
-
-
-
-
-pasangEventPosTampungan();
 
 
 
 }
 
 
+);
 
 
 
+pasangEventPosTampungan();
 
 
+}
 
 // =====================================================
 // DROPDOWN POS 1 - 6

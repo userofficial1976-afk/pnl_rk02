@@ -663,7 +663,7 @@ async function muatAnggota(){
 
         `
 
-        no_skb,
+        noskb,
 
         wilayah,
 
@@ -1024,7 +1024,7 @@ function paparJadualRK02(){
 
             const noSkb =
 
-            anggota.no_skb
+            anggota.noskb
 
             ||
 
@@ -1339,7 +1339,7 @@ function paparPosTampungan(){
 
             const noSkb =
 
-            anggota.no_skb
+            anggota.noskb
 
             ||
 
@@ -1717,7 +1717,7 @@ function kiraJadualRK02(){
 
             const noSkb =
 
-            anggota.no_skb
+            anggota.noskb
 
             ||
 
@@ -3212,7 +3212,7 @@ function kumpulDataSimpan(){
 
             const noSkb =
 
-            anggota.no_skb
+            anggota.noskb
 
             ||
 
@@ -3271,7 +3271,7 @@ function kumpulDataSimpan(){
 
             rekod.push({
 
-                no_skb:
+                noskb:
 
                 noSkb,
 

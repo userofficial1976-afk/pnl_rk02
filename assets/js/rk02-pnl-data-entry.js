@@ -1058,32 +1058,15 @@ ${escapeHtml(anggota.nama)}
 
 
 
-${binaDropdownPos(1,noSkb)}
-
 ${binaInputJamPos(1,noSkb)}
-
-
-${binaDropdownPos(2,noSkb)}
 
 ${binaInputJamPos(2,noSkb)}
 
-
-${binaDropdownPos(3,noSkb)}
-
 ${binaInputJamPos(3,noSkb)}
-
-
-${binaDropdownPos(4,noSkb)}
 
 ${binaInputJamPos(4,noSkb)}
 
-
-${binaDropdownPos(5,noSkb)}
-
 ${binaInputJamPos(5,noSkb)}
-
-
-${binaDropdownPos(6,noSkb)}
 
 ${binaInputJamPos(6,noSkb)}
 

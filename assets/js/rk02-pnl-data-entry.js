@@ -2005,7 +2005,98 @@ formatNombor(nilai.pemandu)
 // SIMPAN + HELPER FUNCTION
 // =====================================================
 
+// =====================================================
+// RINGKASAN DASHBOARD
+// =====================================================
 
+function kiraRingkasan(){
+
+
+const jam = nombor(
+
+document.getElementById(
+"totalJamKeseluruhan"
+)?.textContent
+
+);
+
+
+
+const rm = nombor(
+
+document.getElementById(
+"totalRmKeseluruhan"
+)?.textContent
+
+);
+
+
+
+const klm =
+
+nombor(
+
+document.getElementById(
+"totalJamKlmBiasa"
+)?.textContent
+
+)
+
++
+
+nombor(
+
+document.getElementById(
+"totalKlmEskotTable"
+)?.textContent
+
+);
+
+
+
+
+
+setText(
+
+"summaryAnggota",
+
+dataAnggota.length+" ORANG"
+
+);
+
+
+
+setText(
+
+"summaryJam",
+
+formatNombor(jam)+" JAM"
+
+);
+
+
+
+setText(
+
+"summaryKlm",
+
+formatNombor(klm)+" JAM"
+
+);
+
+
+
+setText(
+
+"summaryPendapatan",
+
+formatRM(rm)
+
+);
+
+
+
+}
 
 
 

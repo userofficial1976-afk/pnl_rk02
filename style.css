@@ -147,24 +147,37 @@ button{
 
 /* TANDATANGAN */
 
+/* =====================================
+   PENGESAHAN 3 KOTAK SEPERTI PDF
+===================================== */
+
 .pengesahan{
 
     display:grid;
 
     grid-template-columns:repeat(3,1fr);
 
+    gap:8px;
+
+    margin-top:20px;
+
     width:100%;
-
-    margin-top:25px;
-
-    text-align:center;
-
-    font-size:9px;
 
 }
 
 
+
 .sign-box{
+
+    border:1px solid #000;
+
+    min-height:130px;
+
+    padding:8px;
+
+    text-align:center;
+
+    font-size:9px;
 
     line-height:1.4;
 

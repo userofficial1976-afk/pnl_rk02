@@ -811,28 +811,43 @@ async function kemasKiniMaklumatOperasi(){
     );
 
 
-    setText(
-        "bilanganAnggotaPPB",
-        formatNombor(
-            data.bil_anggota_ppb
-        )
-    );
+setText(
+
+    "bilanganAnggotaPPB",
+
+    data.bil_anggota_ppb
+
+    ||
+
+    "0"
+
+);
 
 
-    setText(
-        "jamKhidmatPPB",
-        formatNombor(
-            data.jam_sehari_ppb
-        )
-    );
+setText(
+
+    "jamKhidmatPPB",
+
+    data.jam_sehari_ppb
+
+    ||
+
+    "0"
+
+);
 
 
-    setText(
-        "kadarRMPB",
-        formatRM(
-            data.kadar_rm_sehari_pb
-        )
-    );
+setText(
+
+    "kadarRMPPB",
+
+    data.kadar_rm_sehari_ppb
+
+    ||
+
+    "RM 0.00"
+
+);
 
 
     setText(

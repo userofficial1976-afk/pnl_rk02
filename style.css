@@ -149,9 +149,11 @@ button{
 
 .pengesahan{
 
-    display:grid !important;
+    display:grid;
 
     grid-template-columns:repeat(3,1fr);
+
+    width:100%;
 
     margin-top:25px;
 
@@ -162,5 +164,8 @@ button{
 }
 
 
+.sign-box{
+
+    line-height:1.4;
 
 }

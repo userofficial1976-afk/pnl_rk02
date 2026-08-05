@@ -1,0 +1,200 @@
+/* =====================================================
+   LAPORAN RK02 - PRINT A3 LANDSCAPE PDF
+   ===================================================== */
+
+@media print {
+
+    @page {
+        size: A3 landscape;
+        margin: 10mm;
+    }
+
+
+    body {
+
+        background:#fff !important;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+
+    }
+
+
+    /* Sembunyikan butang cetak */
+
+    button {
+
+        display:none !important;
+
+    }
+
+
+    .rk02-report {
+
+        width:100% !important;
+
+        margin:0 !important;
+
+        padding:0 !important;
+
+    }
+
+
+    /* HEADER */
+
+    .report-header {
+
+        text-align:center;
+
+        margin-bottom:15px;
+
+    }
+
+
+    .report-header h2 {
+
+        font-size:18px;
+
+    }
+
+
+    .report-header h3 {
+
+        font-size:15px;
+
+    }
+
+
+    .info-grid {
+
+        display:grid;
+
+        grid-template-columns:repeat(3,1fr);
+
+        border:1px solid #000;
+
+        margin-bottom:10px;
+
+    }
+
+
+    .info-grid div {
+
+        padding:8px;
+
+        border-right:1px solid #000;
+
+        font-size:12px;
+
+    }
+
+
+
+    /* TABLE RK02 */
+
+    .rk02-table {
+
+        width:100%;
+
+        border-collapse:collapse;
+
+        table-layout:fixed;
+
+        font-size:10px;
+
+    }
+
+
+    .rk02-table th {
+
+        background:#ddd !important;
+
+        color:#000 !important;
+
+        border:1px solid #000;
+
+        padding:5px;
+
+        text-align:center;
+
+        vertical-align:middle;
+
+    }
+
+
+    .rk02-table td {
+
+        border:1px solid #000;
+
+        padding:5px;
+
+        text-align:center;
+
+    }
+
+
+    .rk02-table thead {
+
+        display:table-header-group;
+
+    }
+
+
+    .rk02-table tr {
+
+        page-break-inside:avoid;
+
+    }
+
+
+
+    /* RUMUSAN */
+
+    .rumusan {
+
+        margin-top:20px;
+
+        width:40%;
+
+    }
+
+
+    .rumusan table {
+
+        width:100%;
+
+        border-collapse:collapse;
+
+    }
+
+
+    .rumusan td {
+
+        border:1px solid #000;
+
+        padding:6px;
+
+        font-size:11px;
+
+    }
+
+
+
+    /* PENGESAHAN */
+
+    .pengesahan {
+
+        display:flex;
+
+        justify-content:space-between;
+
+        margin-top:40px;
+
+        text-align:center;
+
+        font-size:12px;
+
+    }
+
+
+}

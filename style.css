@@ -276,29 +276,7 @@
 }
 
 
-.rumusan{
 
-    margin-top:30px;
-
-}
-
-
-.rumusan table{
-
-    border-collapse:collapse;
-
-    width:50%;
-
-}
-
-
-.rumusan td{
-
-    border:1px solid #000;
-
-    padding:8px;
-
-}
 
 
 .pengesahan{
@@ -542,28 +520,37 @@ body{
 
 
 
-/* ============================= */
-/* RUMUSAN */
-/* ============================= */
-
+/* =====================================
+   RK02 BAWAH - CUTI AWAM + RUMUSAN KLM
+===================================== */
 
 .rk02-bottom{
 
-    display:grid;
+    display:flex;
 
-    grid-template-columns:40% 60%;
+    flex-direction:row;
+
+    width:100%;
 
     gap:10px;
 
     margin-top:10px;
 
+    align-items:flex-start;
+
 }
 
 
-.cuti-catatan,
+.cuti-catatan{
+
+    width:40%;
+
+}
+
+
 .rumusan-klm{
 
-    border:1px solid #000;
+    width:60%;
 
 }
 
@@ -686,47 +673,7 @@ body{
 /* ============================= */
 
 
-@media print{
 
-
-    body{
-
-        background:#fff;
-
-    }
-
-
-    button{
-
-        display:none;
-
-    }
-
-
-    .rk02-report{
-
-        page-break-inside:avoid;
-
-    }
-
-
-    .rk02-table{
-
-        page-break-inside:auto;
-
-    }
-
-
-    tr{
-
-        page-break-inside:avoid;
-
-        page-break-after:auto;
-
-    }
-
-
-}
 
  /* ================================= */
 /* RK02 FINAL ALIGNMENT PDF STYLE */

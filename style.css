@@ -853,3 +853,72 @@ body{
     height:22px;
 
 }
+/* =====================================
+   RK02 TABLE NIPIS SEPERTI PDF
+===================================== */
+
+
+.rk02-table th{
+
+    padding:2px 3px;
+
+    font-size:8.5px;
+
+    line-height:1;
+
+}
+
+
+
+.rk02-table td{
+
+    padding:2px 3px;
+
+    font-size:8.5px;
+
+    line-height:1;
+
+    height:18px;
+
+}
+
+
+
+/* HEADER 2 BARIS */
+
+.rk02-table thead th{
+
+    height:24px;
+
+    padding:2px;
+
+}
+
+
+
+/* 10 BARIS ANGGOTA */
+
+.rk02-table tbody tr{
+
+    height:18px;
+
+}
+
+
+.rk02-table tbody td{
+
+    height:18px;
+
+}
+
+
+
+/* JUMLAH BAWAH */
+
+.rk02-table tfoot td{
+
+    height:20px;
+
+    padding:2px;
+
+}

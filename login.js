@@ -4,7 +4,7 @@
 
 async function login() {
 
-```
+
 const no_skb = document
     .getElementById("no_skb")
     .value

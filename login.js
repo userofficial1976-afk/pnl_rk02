@@ -1,109 +1,229 @@
 async function login(){
 
-
+```
 const no_skb =
-document.getElementById(
-"no_skb"
-).value;
+
+document
+.getElementById(
+    "no_skb"
+)
+.value
+.trim();
 
 
 const password =
-document.getElementById(
-"password"
-).value;
+
+document
+.getElementById(
+    "password"
+)
+.value
+.trim();
 
 
+// =====================================================
+// SEMAK INPUT
+// =====================================================
+
+if(
+
+    !no_skb
+
+    ||
+
+    !password
+
+){
+
+    alert(
+        "Sila masukkan No. SKB dan kata laluan"
+    );
+
+    return;
+
+}
+
+
+// =====================================================
+// LOGIN SUPABASE
+// =====================================================
 
 const {
 
-data,
+    data,
 
-error
+    error
 
-}= await supabaseClient
+} = await supabaseClient
 
-.from("pengguna")
+.from(
+    "pengguna"
+)
 
-.select("*")
-
-.eq(
-"no_skb",
-no_skb
+.select(
+    "*"
 )
 
 .eq(
-"password",
-password
+    "no_skb",
+    no_skb
 )
 
-.single();
+.eq(
+    "password",
+    password
+)
+
+.maybeSingle();
 
 
+// =====================================================
+// SEMAK RALAT
+// =====================================================
 
-if(error || !data){
+if(error){
 
+    console.error(
+        "RALAT LOGIN:",
+        error
+    );
 
-alert(
-"Login gagal"
-);
+    alert(
+        "Ralat semasa proses login"
+    );
 
-
-return;
-
+    return;
 
 }
 
 
+// =====================================================
+// DATA TIDAK DIJUMPAI
+// =====================================================
 
-// simpan pengguna
+if(!data){
 
+    alert(
+        "No. SKB atau kata laluan tidak sah"
+    );
+
+    return;
+
+}
+
+
+// =====================================================
+// PAPAR LOG
+// =====================================================
+
+console.log(
+    "LOGIN BERJAYA:",
+    data
+);
+
+
+// =====================================================
+// SIMPAN PENGGUNA
+// =====================================================
 
 localStorage.setItem(
 
-"pengguna",
+    "pengguna",
 
-JSON.stringify(data)
+    JSON.stringify(
+        data
+    )
 
 );
+
+
 localStorage.setItem(
+
     "currentUser",
-    JSON.stringify(data)
+
+    JSON.stringify(
+        data
+    )
+
 );
+
+
+// =====================================================
+// NORMALKAN JAWATAN
+// =====================================================
+
+const jawatan =
+
+String(
+
+    data.jawatan
+
+    ||
+
+    data.peranan
+
+    ||
+
+    ""
+
+)
+
+.trim()
+
+.toUpperCase();
 
 
 console.log(
-"LOGIN:",
-data
+    "JAWATAN LOGIN:",
+    jawatan
 );
 
 
+// =====================================================
+// SEMAK AKSES
+// =====================================================
 
+const aksesDibenarkan =
 
-// semak jawatan
+    jawatan.includes(
+        "KETUA POS"
+    )
+
+    ||
+
+    jawatan.includes(
+        "KETUA UNIT"
+    )
+
+    ||
+
+    jawatan.includes(
+        "ADMIN"
+    );
 
 
 if(
-data.jawatan==="KETUA POS"
+
+    !aksesDibenarkan
+
 ){
 
+    alert(
+        "Akses belum dibuka"
+    );
 
-window.location.href=
+    return;
+
+}
+
+
+// =====================================================
+// BUKA RK02 & PNL
+// =====================================================
+
+window.location.href =
 
 "rk02-pnl-data-entry.html";
-
-
-}
-
-else{
-
-
-alert(
-"Akses belum dibuka"
-);
-
-
-}
-
-
+```
 
 }

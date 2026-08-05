@@ -2167,30 +2167,51 @@ function pasangEventUtama(){
 
 
 document
-
 .getElementById("bulan")
-
 ?.addEventListener(
 
 "change",
 
-kiraMaklumatBulanan
+()=>{
+
+    kiraMaklumatBulanan();
+
+
+    if(dataOperasiPos){
+
+        paparDataOperasiPos(
+            dataOperasiPos
+        );
+
+    }
+
+}
 
 );
 
 
 
 
-
 document
-
 .getElementById("tahun")
-
 ?.addEventListener(
 
 "change",
 
-kiraMaklumatBulanan
+()=>{
+
+    kiraMaklumatBulanan();
+
+
+    if(dataOperasiPos){
+
+        paparDataOperasiPos(
+            dataOperasiPos
+        );
+
+    }
+
+}
 
 );
 

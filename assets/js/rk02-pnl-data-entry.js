@@ -97,7 +97,7 @@ try{
 
 
 
-    await muatAnggota();
+    await ();
 
 
 
@@ -408,6 +408,98 @@ async function muatAnggota(){
         "MULA LOAD ANGGOTA"
     );
 
+
+    // ==============================
+    // LOAD ANGGOTA POS SEMASA
+    // ==============================
+
+    const {data,error}=await supabase
+    .from("Data_Anggota")
+    .select(`
+        noskb,
+        nama,
+        pangkat,
+        noanggota,
+        unit,
+        poskhidmat,
+        jawatan,
+        status
+    `)
+    .eq(
+        "unit",
+        pengguna.unit
+    )
+    .eq(
+        "poskhidmat",
+        pengguna.poskhidmat
+    );
+
+
+    if(error){
+
+        console.error(
+            "ERROR LOAD ANGGOTA",
+            error
+        );
+
+        return;
+
+    }
+
+
+    dataAnggota=data || [];
+
+
+    console.log(
+        "DATA ANGGOTA:",
+        dataAnggota
+    );
+
+
+
+    // ==============================
+    // LOAD SEMUA ORGANISASI UNIT
+    // UNTUK KETUA UNIT
+    // ==============================
+
+    const {data:organisasi,error:err2}=await supabase
+    .from("Data_Anggota")
+    .select(`
+        noskb,
+        nama,
+        unit,
+        jawatan,
+        status
+    `)
+    .eq(
+        "unit",
+        pengguna.unit
+    );
+
+
+    if(err2){
+
+        console.error(
+            "ERROR ORGANISASI",
+            err2
+        );
+
+    }
+
+
+    dataOrganisasi = organisasi || [];
+
+
+    console.log(
+        "DATA ORGANISASI:",
+        dataOrganisasi
+    );
+
+
+
+    paparMaklumatKetua();
+
+}
 
     // =====================================================
     // MAKLUMAT PENGGUNA

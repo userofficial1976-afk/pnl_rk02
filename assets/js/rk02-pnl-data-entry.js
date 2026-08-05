@@ -3368,12 +3368,12 @@ const rmPPBSehari = nombor(
 
 
 const pendapatanPB =
-rmPBSehari * JumlahJamPB;
+rmPBSehari * jumlahJamPB;
 
 
 
 const pendapatanPPB =
-rmPPBSehari * JumlahJamPPB;
+rmPPBSehari * jumlahJamPPB;
 
 
 

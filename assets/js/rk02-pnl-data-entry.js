@@ -762,7 +762,117 @@ data-skb="${noSkb}"
 </td>
 
 `;
+// =================================================
+// DATA OPERASI
+// =================================================
 
+
+const jamPB = nombor(
+    data.jam_sehari_pb
+);
+
+
+const jamPPB = nombor(
+    data.jam_sehari_ppb
+);
+
+
+const jamSehari = 
+jamPB + jamPPB;
+
+
+
+const rmPB = nombor(
+    data.kadar_rm_sehari_pb
+);
+
+
+const rmPPB = nombor(
+    data.kadar_rm_sehari_ppb
+);
+
+
+const jumlahRM =
+rmPB + rmPPB;
+
+
+
+// ===============================
+// JAM KHIDMAT SEHARI
+// ===============================
+
+setText(
+"jamKhidmatSehari",
+formatNombor(jamSehari) + " JAM"
+);
+
+
+
+// ===============================
+// JAM PB
+// ===============================
+
+setText(
+"jamKhidmatPB",
+formatNombor(jamPB) + " JAM"
+);
+
+
+
+// ===============================
+// JAM PPB
+// ===============================
+
+setText(
+"jamKhidmatPPB",
+formatNombor(jamPPB) + " JAM"
+);
+
+
+
+// ===============================
+// ATUR TUGAS
+// ===============================
+
+setText(
+"aturTugas",
+data.atur_tugas || "-"
+);
+
+
+
+// ===============================
+// JUMLAH JAM SEBULAN
+// ===============================
+
+kiraJamBulanan(
+jamSehari
+);
+
+
+
+// ===============================
+// PENDAPATAN
+// ===============================
+
+setText(
+"pendapatanPB",
+formatRM(rmPB)
+);
+
+
+
+setText(
+"pendapatanPPB",
+formatRM(rmPPB)
+);
+
+
+
+setText(
+"jumlahPendapatan",
+formatRM(jumlahRM)
+);
 }
 
 // =====================================================
@@ -3075,6 +3185,52 @@ select.appendChild(option);
 
 }
 
+
+
+}
+// =================================================
+// KIRA JAM SEBULAN
+// =================================================
+
+function kiraJamBulanan(jamSehari){
+
+
+const bulan = nombor(
+document.getElementById("bulan")?.value
+);
+
+
+const tahun = nombor(
+document.getElementById("tahun")?.value
+);
+
+
+
+if(!bulan || !tahun){
+
+return;
+
+}
+
+
+
+const jumlahHari = new Date(
+tahun,
+bulan,
+0
+).getDate();
+
+
+
+const jumlahJam = 
+jamSehari * jumlahHari;
+
+
+
+setText(
+"jumlahJamSebulan",
+formatNombor(jumlahJam)+" JAM"
+);
 
 
 }

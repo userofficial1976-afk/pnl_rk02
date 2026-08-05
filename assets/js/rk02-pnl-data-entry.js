@@ -611,25 +611,238 @@ async function muatAnggota(){
 // KEMAS KINI MAKLUMAT OPERASI
 // =====================================================
 
- kemasKiniMaklumatOperasi(){
+async function kemasKiniMaklumatOperasi(){
 
-   
-// =====================================================
-// MAKLUMAT ATAS PAGE
-// =====================================================
-
-function kemasKiniMaklumatOperasi(){
+    const posKhidmat = String(
+        pengguna?.poskhidmat || ""
+    ).trim();
 
 
+    // =================================================
+    // NAMA POS
+    // =================================================
 
-if(
-dataAnggota.length===0
-){
+    setText(
+        "kodNamaPos",
+        posKhidmat || "-"
+    );
 
-return;
+
+    setText(
+        "namaPos",
+        posKhidmat || "-"
+    );
+
+
+    // =================================================
+    // BILANGAN ANGGOTA
+    // =================================================
+
+    setText(
+        "bilanganAnggota",
+        dataAnggota.length + " ORANG"
+    );
+
+
+    // =================================================
+    // NAMA KETUA POS
+    // =================================================
+
+    const ketuaPos =
+
+        dataAnggota[0]?.ketua_pos
+
+        ||
+
+        pengguna?.nama
+
+        ||
+
+        "-";
+
+
+    setText(
+        "namaKetuaPos",
+        ketuaPos
+    );
+
+
+    // =================================================
+    // NAMA KETUA UNIT
+    // =================================================
+
+    const ketuaUnit =
+
+        dataAnggota[0]?.ketua_unit
+
+        ||
+
+        "-";
+
+
+    setText(
+        "namaKetuaUnit",
+        ketuaUnit
+    );
+
+
+    // Sokongan jika HTML masih menggunakan ID lama
+
+    setText(
+        "ketuaUnit",
+        ketuaUnit
+    );
+
+
+    setText(
+        "ketuaPos",
+        ketuaPos
+    );
+
+
+    // =================================================
+    // JIKA POS TIADA
+    // =================================================
+
+    if(!posKhidmat){
+
+        console.warn(
+            "POS KHIDMAT TIDAK DIJUMPAI"
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // AMBIL DATA DARIPADA data_pos
+    // =================================================
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+        "data_pos"
+    )
+
+    .select(
+        "*"
+    )
+
+    .eq(
+        "pos_kawalan",
+        posKhidmat
+    )
+
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "RALAT DATA POS:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if(!data){
+
+        console.warn(
+            "DATA POS TIDAK DIJUMPAI:",
+            posKhidmat
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "DATA POS:",
+        data
+    );
+
+
+    // =================================================
+    // DATA OPERASI
+    // =================================================
+
+    setText(
+        "jenisKhidmat",
+        data.jenis_khidmat || "-"
+    );
+
+
+    setText(
+        "syarikat",
+        data.syarikat || "-"
+    );
+
+
+    setText(
+        "aturTugas",
+        data.atur_tugas || "-"
+    );
+
+
+    setText(
+        "bilanganAnggotaPB",
+        formatNombor(
+            data.bil_anggota_pb
+        )
+    );
+
+
+    setText(
+        "jamKhidmatPB",
+        formatNombor(
+            data.jam_sehari_pb
+        )
+    );
+
+
+    setText(
+        "bilanganAnggotaPPB",
+        formatNombor(
+            data.bil_anggota_ppb
+        )
+    );
+
+
+    setText(
+        "jamKhidmatPPB",
+        formatNombor(
+            data.jam_sehari_ppb
+        )
+    );
+
+
+    setText(
+        "kadarRMPB",
+        formatRM(
+            data.kadar_rm_sehari_pb
+        )
+    );
+
+
+    setText(
+        "kadarRMPPB",
+        formatRM(
+            data.kadar_rm_sehari_ppb
+        )
+    );
 
 }
-
 
 
 
@@ -2662,87 +2875,50 @@ alert(
 
 function kiraMaklumatBulanan(){
 
+    const bulan = nombor(
+        document.getElementById(
+            "bulan"
+        )?.value
+    );
 
 
-const bulan =
-
-nombor(
-
-document.getElementById(
-"bulan"
-)?.value
-
-);
+    const tahun = nombor(
+        document.getElementById(
+            "tahun"
+        )?.value
+    );
 
 
+    if(!bulan || !tahun){
+
+        return;
+
+    }
 
 
-const tahun =
-
-nombor(
-
-document.getElementById(
-"tahun"
-)?.value
-
-);
+    const hari = new Date(
+        tahun,
+        bulan,
+        0
+    ).getDate();
 
 
+    // GUNA ID KHAS UNTUK JUMLAH HARI
+
+    setText(
+        "jumlahHariBulan",
+        hari + " HARI"
+    );
 
 
+    // SOKONGAN JIKA HTML GUNA ID INI
 
-if(!bulan || !tahun){
-
-return;
-
-}
-
-
-
-
-
-
-
-const hari =
-
-new Date(
-
-tahun,
-
-bulan,
-
-0
-
-)
-
-.getDate();
-
-
-
-
-
-
-
-setText(
-
-"namaKetuaPos",
-
-hari+" HARI"
-
-);
-
-
+    setText(
+        "jumlahHari",
+        hari + " HARI"
+    );
 
 }
-
-
-
-
-
-
-
-
-
 
 // =====================================================
 // NILAI INPUT

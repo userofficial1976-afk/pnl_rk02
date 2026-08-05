@@ -87,25 +87,38 @@ button{
 
 
 
-/* BAHAGIAN BAWAH */
+/* =====================================
+   BAHAGIAN BAWAH RK02 TABLE PDF
+===================================== */
 
-.rk02-bottom{
 
-    display:flex !important;
-
-    flex-direction:row !important;
+.rk02-bottom-table{
 
     width:100%;
 
-    margin-top:8px;
+    border-collapse:collapse;
 
-    gap:8px;
+    margin-top:5px;
 
 }
 
 
 
-.cuti-catatan{
+.rk02-bottom-table td{
+
+    border:1px solid #000;
+
+    vertical-align:top;
+
+    padding:4px;
+
+    font-size:8px;
+
+}
+
+
+
+.cuti-box{
 
     width:35%;
 
@@ -113,36 +126,39 @@ button{
 
 
 
-.rumusan-klm{
+.rumusan-box{
 
     width:65%;
+
+    text-align:center;
 
 }
 
 
 
-.rumusan-klm table{
+.rumusan-klm-table{
 
     width:100%;
 
     border-collapse:collapse;
 
+    margin-top:3px;
+
 }
 
 
 
-.rumusan-klm td{
+.rumusan-klm-table td{
 
     border:1px solid #000;
 
-    padding:2px;
+    padding:1px;
 
-    font-size:8px;
+    height:12px;
 
-    height:16px;
+    font-size:7.5px;
 
 }
-
 
 
 /* TANDATANGAN */
@@ -225,7 +241,7 @@ button{
 
 /* RUMUSAN */
 
-.rk02-bottom{
+.rk02-bottom-table{
 
     margin-top:4px;
 

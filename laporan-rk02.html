@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+Laporan RK02 Bulanan
+</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="rk02-report">
+
+
+<!-- ============================= -->
+<!-- HEADER LAPORAN -->
+<!-- ============================= -->
+
+
+<div class="report-header">
+
+
+<h2>
+FGV SECURITY SERVICES SDN BHD
+</h2>
+
+
+<h3>
+RUMUSAN KERJA LEBIH MASA BULANAN ANGGOTA
+</h3>
+
+
+<div class="info-grid">
+
+
+<div>
+NAMA POS :
+<span id="namaPos">
+-
+</span>
+</div>
+
+
+<div>
+KAWASAN :
+<span id="kawasan">
+-
+</span>
+</div>
+
+
+<div>
+BULAN :
+<span id="bulanLaporan">
+-
+</span>
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- ============================= -->
+<!-- TABLE ANGGOTA -->
+<!-- ============================= -->
+
+
+<table class="rk02-table">
+
+
+<thead>
+
+
+<tr>
+
+<th rowspan="2">
+BIL
+</th>
+
+
+<th rowspan="2">
+BIL SKB / NO ANGGOTA
+</th>
+
+
+<th rowspan="2">
+NAMA ANGGOTA
+</th>
+
+
+<th rowspan="2">
+GAJI POKOK
+(RM)
+</th>
+
+
+<th colspan="2">
+HARI BIASA
+</th>
+
+
+<th colspan="2">
+HARI OFF
+</th>
+
+
+<th colspan="2">
+HARI CUTI AM
+</th>
+
+
+<th colspan="2">
+KLM TUGAS
+</th>
+
+
+<th rowspan="2">
+JUMLAH
+(RM)
+</th>
+
+
+</tr>
+
+
+
+<tr>
+
+
+<th>
+JAM
+</th>
+
+
+<th>
+RM
+</th>
+
+
+<th>
+JAM
+</th>
+
+
+<th>
+RM
+</th>
+
+
+<th>
+JAM
+</th>
+
+
+<th>
+RM
+</th>
+
+
+<th>
+JAM
+</th>
+
+
+<th>
+RM
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="rk02ReportBody">
+
+
+</tbody>
+
+
+
+<tfoot>
+
+
+<tr>
+
+
+<td colspan="4">
+
+JUMLAH
+
+</td>
+
+
+<td id="jumlahJamBiasa">
+0
+</td>
+
+
+<td id="jumlahRmBiasa">
+RM 0.00
+</td>
+
+
+<td id="jumlahJamOff">
+0
+</td>
+
+
+<td id="jumlahRmOff">
+RM 0.00
+</td>
+
+
+<td id="jumlahJamCuti">
+0
+</td>
+
+
+<td id="jumlahRmCuti">
+RM 0.00
+</td>
+
+
+<td id="jumlahJamTugas">
+0
+</td>
+
+
+<td id="jumlahRmTugas">
+RM 0.00
+</td>
+
+
+<td id="jumlahRmKeseluruhan">
+RM 0.00
+</td>
+
+
+</tr>
+
+
+</tfoot>
+
+
+</table>
+
+
+
+
+
+<!-- ============================= -->
+<!-- RUMUSAN -->
+<!-- ============================= -->
+
+
+<div class="rumusan">
+
+
+<h3>
+RUMUSAN KLM BAGI BULAN SEMASA
+</h3>
+
+
+
+<table>
+
+
+<tr>
+
+<td>
+KLM Tugas Eskot
+</td>
+
+<td>
+<span id="rmEskot">
+RM -
+</span>
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+KLM Tugas CIT
+</td>
+
+<td>
+<span id="rmCit">
+RM -
+</span>
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+KLM Kawalan Wang
+</td>
+
+<td>
+<span id="rmWang">
+RM -
+</span>
+</td>
+
+</tr>
+
+
+
+<tr>
+
+<td>
+KLM Tugas Tampungan Pos
+</td>
+
+<td>
+<span id="rmTampungan">
+RM -
+</span>
+</td>
+
+</tr>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+<!-- ============================= -->
+<!-- PENGESAHAN -->
+<!-- ============================= -->
+
+
+<div class="pengesahan">
+
+
+<div>
+
+DISEDIAKAN OLEH<br><br><br>
+
+
+_____________________<br>
+
+KETUA POS
+
+</div>
+
+
+
+<div>
+
+DISAHKAN OLEH<br><br><br>
+
+
+_____________________<br>
+
+KETUA UNIT
+
+</div>
+
+
+
+<div>
+
+DISAHKAN OLEH<br><br><br>
+
+
+_____________________<br>
+
+PEGAWAI OPERASI
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<button onclick="window.print()">
+CETAK / SIMPAN PDF
+</button>
+
+
+
+<script src="laporan-rk02.js"></script>
+
+
+</body>
+
+</html>

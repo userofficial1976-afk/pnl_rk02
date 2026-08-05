@@ -619,114 +619,41 @@ RM 2,586.96
 
 
 </div>
-<!-- ============================= -->
-<!-- PENGESAHAN -->
-<!-- ============================= -->
+/* =====================================
+   PENGESAHAN 3 KOTAK SEPERTI PDF
+===================================== */
 
+.pengesahan{
 
-<div class="pengesahan">
+    display:grid;
 
+    grid-template-columns:repeat(3,1fr);
 
-<div class="sign-box">
+    gap:8px;
 
-<b>
-DISEDIAKAN OLEH<br>
-KETUA POS
-</b>
+    margin-top:20px;
 
+    width:100%;
 
-<br><br>
-
-Saya sahkan KLM anggota yang bertugas di POS kawalan<br>
-di bawah kawalan saya adalah betul
-
-
-<br><br><br>
-
-
-____________________________
-
-<br>
-
-(Che Razman Bin Che Ibrahim)<br>
-
-L/Kpl / PB
-
-
-<br><br>
-
-Tandatangan & Nama
-
-
-</div>
+}
 
 
 
+.sign-box{
 
+    border:1px solid #000;
 
-<div class="sign-box">
+    min-height:130px;
 
-<b>
-DISAHKAN OLEH<br>
-KETUA UNIT
-</b>
+    padding:8px;
 
+    text-align:center;
 
-<br><br>
+    font-size:9px;
 
-Saya telah menyemak dan mengesahkan tuntutan KLM anggota<br>
-disenaraikan adalah betul dan tidak bercanggah dengan peraturan<br>
-syarikat.
+    line-height:1.4;
 
-
-<br><br>
-
-
-____________________________
-
-
-<br>
-
-(Mohd Faisal Bin Othman)<br>
-
-L/Kpl/PB
-
-
-<br><br>
-
-Tandatangan & Cop
-
-
-</div>
-
-
-
-
-
-<div class="sign-box">
-
-<b>
-DISAHKAN OLEH<br>
-PEGAWAI OPERASI
-</b>
-
-
-<br><br><br><br><br>
-
-
-____________________________
-
-
-<br><br>
-
-
-Tandatangan & Cop
-
-
-</div>
-
-
-</div>
+}
 
 
 <button onclick="window.print()">

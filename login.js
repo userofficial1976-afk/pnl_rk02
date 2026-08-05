@@ -1,221 +1,109 @@
-// =====================================================
-// LOGIN.JS
-// =====================================================
-
-async function login() {
+async function login(){
 
 
-const no_skb = document
-    .getElementById("no_skb")
-    .value
-    .trim();
-
-const password = document
-    .getElementById("password")
-    .value
-    .trim();
+const no_skb =
+document.getElementById(
+"no_skb"
+).value;
 
 
-// SEMAK INPUT
-
-if (no_skb === "" || password === "") {
-
-    alert("Sila masukkan No. SKB dan kata laluan");
-
-    return;
-
-}
+const password =
+document.getElementById(
+"password"
+).value;
 
 
-// LOGIN SUPABASE
 
-const response = await supabaseClient
+const {
 
-    .from("pengguna")
+data,
 
-    .select("*")
+error
 
-    .eq("no_skb", no_skb)
+}= await supabaseClient
 
-    .eq("password", password)
+.from("pengguna")
 
-    .maybeSingle();
+.select("*")
 
-
-// SEMAK RALAT
-
-if (response.error) {
-
-    console.error(
-
-        "RALAT LOGIN:",
-
-        response.error
-
-    );
-
-    alert(
-
-        "Ralat semasa proses login"
-
-    );
-
-    return;
-
-}
-
-
-// SEMAK PENGGUNA
-
-if (!response.data) {
-
-    alert(
-
-        "No. SKB atau kata laluan tidak sah"
-
-    );
-
-    return;
-
-}
-
-
-// DATA PENGGUNA
-
-const pengguna = response.data;
-
-
-console.log(
-
-    "LOGIN BERJAYA:",
-
-    pengguna
-
-);
-
-
-// SEMAK STATUS
-
-const status = String(
-
-    pengguna.status || ""
-
+.eq(
+"no_skb",
+no_skb
 )
 
-.trim()
-
-.toUpperCase();
-
-
-if (
-
-    status !== ""
-
-    &&
-
-    status !== "AKTIF"
-
-) {
-
-    alert(
-
-        "Akaun pengguna tidak aktif"
-
-    );
-
-    return;
-
-}
-
-
-// SIMPAN LOGIN
-
-localStorage.setItem(
-
-    "pengguna",
-
-    JSON.stringify(
-
-        pengguna
-
-    )
-
-);
-
-
-localStorage.setItem(
-
-    "currentUser",
-
-    JSON.stringify(
-
-        pengguna
-
-    )
-
-);
-
-
-// NORMALKAN JAWATAN
-
-const jawatan = String(
-
-    pengguna.jawatan || ""
-
+.eq(
+"password",
+password
 )
 
-.trim()
-
-.toUpperCase();
+.single();
 
 
-console.log(
 
-    "JAWATAN:",
+if(error || !data){
 
-    jawatan
-
-);
-
-
-// AKSES SISTEM
-
-if (
-
-    jawatan === "KETUA POS"
-
-    ||
-
-    jawatan === "KETUA UNIT"
-
-    ||
-
-    jawatan === "ADMIN"
-
-) {
-
-    window.location.href =
-
-    "rk02-pnl-data-entry.html";
-
-    return;
-
-}
-
-
-// JAWATAN TIDAK DIBENARKAN
 
 alert(
+"Login gagal"
+);
 
-    "Akses belum dibuka. Jawatan: " +
 
-    (
+return;
 
-        jawatan || "TIADA"
 
-    )
+}
+
+
+
+// simpan pengguna
+
+
+localStorage.setItem(
+
+"pengguna",
+
+JSON.stringify(data)
 
 );
-```
+localStorage.setItem(
+    "currentUser",
+    JSON.stringify(data)
+);
+
+
+console.log(
+"LOGIN:",
+data
+);
+
+
+
+
+// semak jawatan
+
+
+if(
+data.jawatan==="KETUA POS"
+){
+
+
+window.location.href=
+
+"rk02-pnl-data-entry.html";
+
+
+}
+
+else{
+
+
+alert(
+"Akses belum dibuka"
+);
+
+
+}
+
+
 
 }

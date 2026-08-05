@@ -184,3 +184,88 @@ button{
     line-height:1.35;
 
 }
+
+
+/* CSS lama tuan */
+
+
+/* ==========================================
+   RK02 FINAL FIT 1 HELAI A4 LANDSCAPE
+========================================== */
+
+@media print {
+
+
+@page{
+    size:A4 landscape;
+    margin:5mm;
+}
+
+
+/* TABLE */
+
+.rk02-table th{
+
+    font-size:7.5px;
+    height:18px;
+    padding:1px;
+
+}
+
+
+.rk02-table td{
+
+    font-size:7.5px;
+    height:14px;
+    padding:1px;
+
+}
+
+
+
+/* RUMUSAN */
+
+.rk02-bottom{
+
+    margin-top:4px;
+
+}
+
+
+.rumusan-klm td{
+
+    font-size:7.5px;
+    height:12px;
+    padding:1px;
+
+}
+
+
+.rk02-bottom h4{
+
+    font-size:8px;
+    padding:2px;
+
+}
+
+
+
+/* TANDATANGAN */
+
+.pengesahan{
+
+    margin-top:8px;
+
+}
+
+
+.sign-box{
+
+    height:90px;
+    padding:4px;
+    font-size:7.5px;
+
+}
+
+
+}

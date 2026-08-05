@@ -996,8 +996,6 @@ ${escapeHtml(anggota.nama)}
 
 ${binaInputRK02("hariBiasa",noSkb)}
 
-${binaInputRK02("jamKlmBiasa",noSkb)}
-
 ${binaInputRK02("off4",noSkb)}
 
 ${binaInputRK02("off48",noSkb)}
@@ -1008,11 +1006,15 @@ ${binaInputRK02("cuti8",noSkb)}
 
 ${binaInputRK02("cuti8P",noSkb)}
 
-${binaInputRK02("cuti8L",noSkb)}
-
 ${binaInputRK02("jamEskot",noSkb)}
 
 ${binaInputRK02("klmEskot",noSkb)}
+
+${binaInputRK02("medical",noSkb)}
+
+${binaInputRK02("travel",noSkb)}
+
+${binaInputRK02("cit",noSkb)}
 
 
 

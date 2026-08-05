@@ -2307,7 +2307,7 @@ async()=>{
 
 
 await simpanPosTampungan();
-
+await simpanRK02();
 
 }
 
@@ -3477,6 +3477,174 @@ formatRM(jumlahPendapatan)
 
 kiraJamBulanan(
 jamSehari
+);
+
+
+
+}
+
+// =====================================================
+// SIMPAN RK02 DATA ENTRY
+// TABLE : rk02_data_entry
+// =====================================================
+
+async function simpanRK02(){
+
+
+let rows=[];
+
+
+document
+.querySelectorAll(
+"#rk02TableBody tr"
+)
+.forEach(row=>{
+
+
+const input =
+row.querySelectorAll(
+".rk02-input"
+);
+
+
+rows.push({
+
+
+bulan:Number(
+document.getElementById("bulan").value
+),
+
+
+tahun:Number(
+document.getElementById("tahun").value
+),
+
+
+poskhidmat:
+
+document.getElementById(
+"kodNamaPos"
+)?.innerText || "",
+
+
+
+no_skb:
+
+row.children[1].innerText,
+
+
+
+nama:
+
+row.children[2].innerText,
+
+
+
+
+
+hari_biasa:
+Number(input[0]?.value)||0,
+
+
+off4:
+Number(input[1]?.value)||0,
+
+
+off48:
+Number(input[2]?.value)||0,
+
+
+off8:
+Number(input[3]?.value)||0,
+
+
+cuti8:
+Number(input[4]?.value)||0,
+
+
+cuti8p:
+Number(input[5]?.value)||0,
+
+
+jam_eskot:
+Number(input[6]?.value)||0,
+
+
+km_eskot:
+Number(input[7]?.value)||0,
+
+
+medical:
+Number(input[8]?.value)||0,
+
+
+travel:
+Number(input[9]?.value)||0,
+
+
+cit:
+Number(input[10]?.value)||0,
+
+dikemaskini_oleh:
+
+pengguna?.nama || "-"
+
+
+
+});
+
+
+});
+
+
+
+if(rows.length===0){
+
+alert(
+"Tiada data RK02"
+);
+
+return;
+
+}
+
+
+
+
+const {
+
+error
+
+}=await supabaseClient
+
+.from(
+"rk02_data_entry"
+)
+
+.insert(
+rows
+);
+
+
+
+if(error){
+
+console.error(
+error
+);
+
+alert(
+"Gagal simpan RK02"
+);
+
+return;
+
+}
+
+
+
+alert(
+"RK02 berjaya disimpan"
 );
 
 

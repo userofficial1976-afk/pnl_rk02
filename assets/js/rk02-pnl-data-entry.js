@@ -97,7 +97,7 @@ try{
 
 
 
-    await ();
+    await muatAnggota();
 
 
 
@@ -487,17 +487,22 @@ async function muatAnggota(){
     }
 
 
-    dataOrganisasi = organisasi || [];
+dataOrganisasi = organisasi || [];
 
 
-    console.log(
-        "DATA ORGANISASI:",
-        dataOrganisasi
-    );
+console.log(
+    "DATA ORGANISASI:",
+    dataOrganisasi
+);
 
 
+// PAPAR KETUA
+paparMaklumatKetua();
 
-    paparMaklumatKetua();
+
+// TERUSKAN KEMAS KINI OPERASI
+await kemasKiniMaklumatOperasi();
+
 
 }
 
@@ -771,8 +776,13 @@ ketuaPos
 
 const ketuaUnit =
 dataOrganisasi.find(
-x=>x.jawatan==="Ketua Unit"
-)?.nama || "-";
+x =>
+String(x.jawatan)
+.toUpperCase()
+.includes("KETUA UNIT")
+)?.nama
+||
+"-";
 
 
 setText(
@@ -1045,7 +1055,46 @@ ketuaPos
 
 }
 
+function paparMaklumatKetua(){
 
+
+const ketuaPos =
+pengguna?.nama
+||
+"-";
+
+
+setText(
+"namaKetuaPos",
+ketuaPos
+);
+
+
+
+const ketuaUnit =
+dataOrganisasi.find(
+x =>
+String(x.jawatan)
+.toUpperCase()
+.includes("KETUA UNIT")
+)?.nama
+||
+"-";
+
+
+setText(
+"namaKetuaUnit",
+ketuaUnit
+);
+
+
+console.log(
+"KETUA UNIT PAPAR:",
+ketuaUnit
+);
+
+
+}
 
 
 

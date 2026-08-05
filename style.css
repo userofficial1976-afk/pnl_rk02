@@ -809,3 +809,16 @@ body{
     display:table-footer-group;
 
 }
+
+.rk02-table tbody tr{
+
+    height:22px;
+
+}
+
+
+.rk02-table tbody td{
+
+    height:22px;
+
+}

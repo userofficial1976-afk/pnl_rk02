@@ -1016,13 +1016,7 @@ ${binaInputRK02("klmEskot",noSkb)}
 
 
 
-<td data-total-jam="${noSkb}">
-0
-</td>
 
-
-<td data-total-rm="${noSkb}">
-RM 0.00
 </td>
 
 `;

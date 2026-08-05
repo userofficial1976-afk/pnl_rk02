@@ -955,7 +955,7 @@ type="number"
 
 min="0"
 
-step="0.5"
+step="1"
 
 value="0"
 
@@ -1166,7 +1166,7 @@ type="number"
 
 min="0"
 
-step="0.5"
+step="1"
 
 value="0"
 
@@ -1458,7 +1458,7 @@ type="number"
 
 min="0"
 
-step="0.5"
+step="1"
 
 value="0"
 

@@ -547,25 +547,66 @@ body{
 /* ============================= */
 
 
-.rumusan{
+.rk02-bottom{
 
-    margin-top:12px;
+    display:grid;
 
-    width:45%;
+    grid-template-columns:40% 60%;
+
+    gap:10px;
+
+    margin-top:10px;
 
 }
 
 
-.rumusan h3{
+.cuti-catatan,
+.rumusan-klm{
 
-    font-size:11px;
+    border:1px solid #000;
+
+}
+
+
+.rk02-bottom h4{
+
+    text-align:center;
+
+    font-size:10px;
+
+    margin:0;
+
+    padding:5px;
 
     border-bottom:1px solid #000;
 
 }
 
 
-.rumusan table{
+.cuti-list{
+
+    min-height:45px;
+
+    padding:8px;
+
+    font-size:10px;
+
+}
+
+
+.catatan-box{
+
+    height:45px;
+
+    padding:8px;
+
+    font-size:10px;
+
+}
+
+
+
+.rumusan-klm table{
 
     width:100%;
 
@@ -574,15 +615,50 @@ body{
 }
 
 
-.rumusan td{
+.rumusan-klm td{
 
     border:1px solid #000;
 
-    padding:5px;
+    padding:3px;
+
+    font-size:9px;
 
 }
 
 
+.rumusan-klm td:nth-child(1){
+
+    width:8%;
+
+    text-align:center;
+
+}
+
+
+.rumusan-klm td:nth-child(3){
+
+    width:15%;
+
+    text-align:center;
+
+}
+
+
+.rumusan-klm td:nth-child(4){
+
+    width:20%;
+
+    text-align:right;
+
+}
+
+
+
+.jumlah-klm{
+
+    font-weight:bold;
+
+}
 
 /* ============================= */
 /* PENGESAHAN */

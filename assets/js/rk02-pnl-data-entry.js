@@ -107,7 +107,7 @@ try{
 
     paparPosTampungan();
 
-
+    await muatPosTampunganDisimpan();
 
     kiraSemua();
 
@@ -2184,7 +2184,8 @@ async()=>{
 
 
     await muatRK02();
-
+    paparPosTampungan();
+    await muatPosTampunganDisimpan();
 
 }
 
@@ -2214,7 +2215,10 @@ async()=>{
 
 
     await muatRK02();
+    paparPosTampungan();
 
+
+    await muatPosTampunganDisimpan();
 
 }
 
@@ -2739,14 +2743,19 @@ error
 }=await supabaseClient
 
 .from(
-
 "rk02_pos_tampungan"
-
 )
 
-.insert(
+.upsert(
 
-rows
+rows,
+
+{
+
+onConflict:
+"bulan,tahun,poskhidmat,no_skb"
+
+}
 
 );
 
@@ -2755,12 +2764,12 @@ rows
 
 
 
-
-
 if(error){
 
-
-console.error(error);
+console.error(
+"RALAT SIMPAN POS TAMPUNGAN:",
+error
+);
 
 
 alert(
@@ -2770,8 +2779,17 @@ alert(
 
 return;
 
-
 }
+
+
+// MUAT SEMULA DATA SELEPAS SIMPAN
+
+await muatPosTampunganDisimpan();
+
+
+alert(
+"Data Pos Tampungan berjaya dikemaskini"
+);
 
 
 
@@ -4024,6 +4042,212 @@ function setNilaiRK02(
         Number(nilai) || 0;
 
     }
+
+
+}
+
+// =====================================================
+// MUAT SEMULA DATA POS TAMPUNGAN
+// =====================================================
+
+async function muatPosTampunganDisimpan(){
+
+    const bulan = Number(
+        document.getElementById("bulan")?.value
+    );
+
+    const tahun = Number(
+        document.getElementById("tahun")?.value
+    );
+
+    const poskhidmat =
+    pengguna?.poskhidmat || "";
+
+
+    if(
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ){
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+        "rk02_pos_tampungan"
+    )
+
+    .select("*")
+
+    .eq(
+        "bulan",
+        bulan
+    )
+
+    .eq(
+        "tahun",
+        tahun
+    )
+
+    .eq(
+        "poskhidmat",
+        poskhidmat
+    );
+
+
+    if(error){
+
+        console.error(
+            "RALAT MUAT POS TAMPUNGAN:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !data ||
+        data.length === 0
+    ){
+
+        console.log(
+            "TIADA DATA POS TAMPUNGAN DISIMPAN"
+        );
+
+        return;
+
+    }
+
+
+    data.forEach(
+    rekod=>{
+
+
+        const noSkb =
+        String(
+            rekod.no_skb || ""
+        ).trim();
+
+
+        const row =
+
+        [...document.querySelectorAll(
+            "#posTampunganTableBody tr"
+        )]
+
+        .find(
+            tr =>
+
+            String(
+                tr.children[1]
+                ?.textContent || ""
+            )
+
+            .trim() === noSkb
+        );
+
+
+        if(!row){
+
+            return;
+
+        }
+
+
+        const input =
+
+        row.querySelectorAll(
+            "input"
+        );
+
+
+        input[0].value =
+        nombor(
+            rekod.jam_pos1
+        );
+
+
+        input[1].value =
+        nombor(
+            rekod.jam_pos2
+        );
+
+
+        input[2].value =
+        nombor(
+            rekod.jam_pos3
+        );
+
+
+        input[3].value =
+        nombor(
+            rekod.jam_pos4
+        );
+
+
+        input[4].value =
+        nombor(
+            rekod.jam_pos5
+        );
+
+
+        input[5].value =
+        nombor(
+            rekod.jam_pos6
+        );
+
+
+        input[6].value =
+        nombor(
+            rekod.eskot
+        );
+
+
+        input[7].value =
+        nombor(
+            rekod.cit
+        );
+
+
+        input[8].value =
+        nombor(
+            rekod.kawalan_tambahan
+        );
+
+
+        input[9].value =
+        nombor(
+            rekod.kawalan_wang
+        );
+
+
+        input[10].value =
+        nombor(
+            rekod.pemandu
+        );
+
+
+    });
+
+
+    kiraSemua();
+
+
+    console.log(
+        "DATA POS TAMPUNGAN BERJAYA DIPAPAR"
+    );
 
 
 }

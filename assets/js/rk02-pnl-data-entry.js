@@ -103,6 +103,7 @@ try{
 
     paparJadualRK02();
 
+    await muatRK02();
 
     paparPosTampungan();
 
@@ -2168,7 +2169,7 @@ document
 
 "change",
 
-()=>{
+async()=>{
 
     kiraMaklumatBulanan();
 
@@ -2180,6 +2181,10 @@ document
         );
 
     }
+
+
+    await muatRK02();
+
 
 }
 
@@ -2194,7 +2199,7 @@ document
 
 "change",
 
-()=>{
+async()=>{
 
     kiraMaklumatBulanan();
 
@@ -2206,6 +2211,10 @@ document
         );
 
     }
+
+
+    await muatRK02();
+
 
 }
 
@@ -3490,167 +3499,531 @@ jamSehari
 
 async function simpanRK02(){
 
+    const bulan = Number(
+        document.getElementById(
+            "bulan"
+        )?.value
+    );
 
-let rows=[];
 
+    const tahun = Number(
+        document.getElementById(
+            "tahun"
+        )?.value
+    );
 
-document
-.querySelectorAll(
-"#rk02TableBody tr"
-)
-.forEach(row=>{
 
+    const poskhidmat =
 
-const input =
-row.querySelectorAll(
-".rk02-input"
-);
+    document.getElementById(
+        "kodNamaPos"
+    )?.innerText || "";
 
 
-rows.push({
+    if(
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ){
 
+        alert(
+            "Sila pilih bulan, tahun dan pos"
+        );
 
-bulan:Number(
-document.getElementById("bulan").value
-),
+        return;
 
-
-tahun:Number(
-document.getElementById("tahun").value
-),
-
-
-poskhidmat:
-
-document.getElementById(
-"kodNamaPos"
-)?.innerText || "",
-
-
-
-no_skb:
-
-row.children[1].innerText,
-
-
-
-nama:
-
-row.children[2].innerText,
-
-
-
-
-
-hari_biasa:
-Number(input[0]?.value)||0,
-
-
-off4:
-Number(input[1]?.value)||0,
-
-
-off48:
-Number(input[2]?.value)||0,
-
-
-off8:
-Number(input[3]?.value)||0,
-
-
-cuti8:
-Number(input[4]?.value)||0,
-
-
-cuti8p:
-Number(input[5]?.value)||0,
-
-
-jam_eskot:
-Number(input[6]?.value)||0,
-
-
-km_eskot:
-Number(input[7]?.value)||0,
-
-
-medical:
-Number(input[8]?.value)||0,
-
-
-travel:
-Number(input[9]?.value)||0,
-
-
-cit:
-Number(input[10]?.value)||0,
-
-dikemaskini_oleh:
-
-pengguna?.nama || "-"
-
-
-
-});
-
-
-});
-
-
-
-if(rows.length===0){
-
-alert(
-"Tiada data RK02"
-);
-
-return;
-
-}
-
-
-
-
-const {
-
-error
-
-}=await supabaseClient
-
-.from(
-"rk02_data_entry"
-)
-
-.upsert(
-    rows,
-    {
-        onConflict:
-        "bulan,tahun,poskhidmat,no_skb"
     }
-);
 
 
+    const ambilNilai = (
 
-if(error){
+        row,
 
-console.error(
-error
-);
+        jenis
 
-alert(
-"Gagal simpan RK02"
-);
+    ) => {
 
-return;
+
+        return Number(
+
+            row.querySelector(
+
+                `.rk02-input[data-jenis="${jenis}"]`
+
+            )?.value
+
+        ) || 0;
+
+
+    };
+
+
+    const rows = [];
+
+
+    document
+
+    .querySelectorAll(
+
+        "#rk02TableBody tr"
+
+    )
+
+    .forEach(
+
+        row=>{
+
+
+            const no_skb =
+
+            row.children[1]
+
+            ?.innerText
+
+            .trim();
+
+
+            const nama =
+
+            row.children[2]
+
+            ?.innerText
+
+            .trim();
+
+
+            if(
+                !no_skb
+            ){
+
+                return;
+
+            }
+
+
+            rows.push({
+
+
+                bulan,
+
+
+                tahun,
+
+
+                poskhidmat,
+
+
+                no_skb,
+
+
+                nama,
+
+
+                hari_biasa:
+
+                ambilNilai(
+                    row,
+                    "hariBiasa"
+                ),
+
+
+                off4:
+
+                ambilNilai(
+                    row,
+                    "off4"
+                ),
+
+
+                off48:
+
+                ambilNilai(
+                    row,
+                    "off48"
+                ),
+
+
+                off8:
+
+                ambilNilai(
+                    row,
+                    "off8"
+                ),
+
+
+                cuti8:
+
+                ambilNilai(
+                    row,
+                    "cuti8"
+                ),
+
+
+                cuti8p:
+
+                ambilNilai(
+                    row,
+                    "cuti8P"
+                ),
+
+
+                jam_eskot:
+
+                ambilNilai(
+                    row,
+                    "jamEskot"
+                ),
+
+
+                km_eskot:
+
+                ambilNilai(
+                    row,
+                    "klmEskot"
+                ),
+
+
+                medical:
+
+                ambilNilai(
+                    row,
+                    "medical"
+                ),
+
+
+                travel:
+
+                ambilNilai(
+                    row,
+                    "travel"
+                ),
+
+
+                cit:
+
+                ambilNilai(
+                    row,
+                    "cit"
+                ),
+
+
+                dikemaskini_oleh:
+
+                pengguna?.nama || "-"
+
+
+            });
+
+
+        }
+
+    );
+
+
+    if(
+        rows.length===0
+    ){
+
+        alert(
+            "Tiada data RK02 untuk disimpan"
+        );
+
+        return;
+
+    }
+
+
+    const {
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+        "rk02_data_entry"
+    )
+
+    .upsert(
+
+        rows,
+
+        {
+
+            onConflict:
+
+            "bulan,tahun,poskhidmat,no_skb"
+
+        }
+
+    );
+
+
+    if(error){
+
+        console.error(
+            "RALAT SIMPAN RK02:",
+            error
+        );
+
+
+        alert(
+            "Gagal simpan RK02"
+        );
+
+
+        return;
+
+    }
+
+
+    alert(
+        "RK02 berjaya disimpan"
+    );
+
+
+}
+
+// =====================================================
+// MUAT SEMULA DATA RK02 MENGIKUT BULAN / TAHUN / POS
+// =====================================================
+
+async function muatRK02(){
+
+    const bulan = Number(
+        document.getElementById(
+            "bulan"
+        )?.value
+    );
+
+
+    const tahun = Number(
+        document.getElementById(
+            "tahun"
+        )?.value
+    );
+
+
+    const poskhidmat =
+
+    document.getElementById(
+        "kodNamaPos"
+    )?.innerText || "";
+
+
+    if(
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ){
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+        "rk02_data_entry"
+    )
+
+    .select("*")
+
+    .eq(
+        "bulan",
+        bulan
+    )
+
+    .eq(
+        "tahun",
+        tahun
+    )
+
+    .eq(
+        "poskhidmat",
+        poskhidmat
+    );
+
+
+    if(error){
+
+        console.error(
+            "RALAT MUAT RK02:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    // RESET INPUT DAHULU
+
+    document
+
+    .querySelectorAll(
+        ".rk02-input"
+    )
+
+    .forEach(
+
+        input=>{
+
+            input.value=0;
+
+        }
+
+    );
+
+
+    // JIKA TIADA DATA,
+    // KEKALKAN NILAI 0
+
+    if(
+        !data ||
+        data.length===0
+    ){
+
+        kiraSemua();
+
+        return;
+
+    }
+
+
+    // PAPAR DATA YANG DISIMPAN
+
+    data.forEach(
+
+        rekod=>{
+
+
+            setNilaiRK02(
+                "hariBiasa",
+                rekod.no_skb,
+                rekod.hari_biasa
+            );
+
+
+            setNilaiRK02(
+                "off4",
+                rekod.no_skb,
+                rekod.off4
+            );
+
+
+            setNilaiRK02(
+                "off48",
+                rekod.no_skb,
+                rekod.off48
+            );
+
+
+            setNilaiRK02(
+                "off8",
+                rekod.no_skb,
+                rekod.off8
+            );
+
+
+            setNilaiRK02(
+                "cuti8",
+                rekod.no_skb,
+                rekod.cuti8
+            );
+
+
+            setNilaiRK02(
+                "cuti8P",
+                rekod.no_skb,
+                rekod.cuti8p
+            );
+
+
+            setNilaiRK02(
+                "jamEskot",
+                rekod.no_skb,
+                rekod.jam_eskot
+            );
+
+
+            setNilaiRK02(
+                "klmEskot",
+                rekod.no_skb,
+                rekod.km_eskot
+            );
+
+
+            setNilaiRK02(
+                "medical",
+                rekod.no_skb,
+                rekod.medical
+            );
+
+
+            setNilaiRK02(
+                "travel",
+                rekod.no_skb,
+                rekod.travel
+            );
+
+
+            setNilaiRK02(
+                "cit",
+                rekod.no_skb,
+                rekod.cit
+            );
+
+
+        }
+
+    );
+
+
+    kiraSemua();
+
 
 }
 
 
 
-alert(
-"RK02 berjaya disimpan"
-);
+// =====================================================
+// ISI NILAI INPUT RK02
+// =====================================================
 
+function setNilaiRK02(
+
+    jenis,
+
+    noSkb,
+
+    nilai
+
+){
+
+
+    const input =
+
+    document.querySelector(
+
+        `.rk02-input[data-jenis="${jenis}"][data-no-skb="${noSkb}"]`
+
+    );
+
+
+    if(input){
+
+        input.value =
+
+        Number(nilai) || 0;
+
+    }
 
 
 }

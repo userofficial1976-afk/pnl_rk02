@@ -648,19 +648,15 @@ async function kemasKiniMaklumatOperasi(){
     // NAMA KETUA POS
     // =================================================
 
-const ketuaPos = 
-    dataAnggota.find(
-        x => x.ketua_pos 
-    )?.ketua_pos
-    ||
-    pengguna?.nama
-    ||
-    "-";
+const ketuaPos =
+pengguna?.nama
+||
+"-";
 
 
 setText(
-    "namaKetuaPos",
-    ketuaPos
+"namaKetuaPos",
+ketuaPos
 );
 
 
@@ -668,20 +664,20 @@ setText(
     // NAMA KETUA UNIT
     // =================================================
 
-const ketuaUnit = 
-    dataAnggota.find(
-        x => x.ketua_unit
-    )?.ketua_unit
-    ||
-    "-"
-;
+const ketuaUnit =
+dataSemuaAnggota.find(
+    x =>
+    x.unit === pengguna.unit &&
+    x.jawatan === "Ketua Unit"
+)?.nama
+||
+"-";
 
 
 setText(
-    "namaKetuaUnit",
-    ketuaUnit
+"namaKetuaUnit",
+ketuaUnit
 );
-
 
     // Sokongan jika HTML masih menggunakan ID lama
 

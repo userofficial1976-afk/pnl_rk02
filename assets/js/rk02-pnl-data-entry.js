@@ -3621,8 +3621,12 @@ error
 "rk02_data_entry"
 )
 
-.insert(
-rows
+.upsert(
+    rows,
+    {
+        onConflict:
+        "bulan,tahun,poskhidmat,no_skb"
+    }
 );
 
 

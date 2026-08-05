@@ -607,11 +607,250 @@ async function muatAnggota(){
     );
 
 
+// =====================================================
+// KEMAS KINI MAKLUMAT OPERASI
+// =====================================================
+
+async function kemasKiniMaklumatOperasi(){
+
+    const posKhidmat = String(
+
+        pengguna?.poskhidmat
+
+        ||
+
+        ""
+
+    ).trim();
+
+
     // =====================================================
-    // KEMAS KINI HEADER
+    // NAMA POS
     // =====================================================
 
-    kemasKiniMaklumatOperasi();
+    setText(
+
+        "namaPos",
+
+        posKhidmat || "-"
+
+    );
+
+
+    // =====================================================
+    // BILANGAN ANGGOTA
+    // =====================================================
+
+    setText(
+
+        "bilanganAnggota",
+
+        dataAnggota.length + " ORANG"
+
+    );
+
+
+    // =====================================================
+    // NAMA KETUA POS
+    // =====================================================
+
+    setText(
+
+        "namaKetuaPos",
+
+        pengguna?.nama || "-"
+
+    );
+
+
+    // =====================================================
+    // AMBIL DATA POS
+    // =====================================================
+
+    if(!posKhidmat){
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+    .from(
+
+        "data_pos"
+
+    )
+
+    .select(
+
+        "*"
+
+    )
+
+    .eq(
+
+        "pos_kawalan",
+
+        posKhidmat
+
+    )
+
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+
+            "RALAT DATA POS:",
+
+            error
+
+        );
+
+        return;
+
+    }
+
+
+    if(!data){
+
+        console.warn(
+
+            "DATA POS TIDAK DIJUMPAI:",
+
+            posKhidmat
+
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+
+        "DATA POS:",
+
+        data
+
+    );
+
+
+    // =====================================================
+    // MAKLUMAT DARIPADA data_pos
+    // =====================================================
+
+    setText(
+
+        "jenisKhidmat",
+
+        data.jenis_khidmat || "-"
+
+    );
+
+
+    setText(
+
+        "syarikat",
+
+        data.syarikat || "-"
+
+    );
+
+
+    setText(
+
+        "aturTugas",
+
+        data.atur_tugas || "-"
+
+    );
+
+
+    setText(
+
+        "bilanganAnggotaPB",
+
+        formatNombor(
+
+            data.bil_anggota_pb
+
+        )
+
+    );
+
+
+    setText(
+
+        "jamKhidmatPB",
+
+        formatNombor(
+
+            data.jam_sehari_pb
+
+        )
+
+    );
+
+
+    setText(
+
+        "bilanganAnggotaPPB",
+
+        formatNombor(
+
+            data.bil_anggota_ppb
+
+        )
+
+    );
+
+
+    setText(
+
+        "jamKhidmatPPB",
+
+        formatNombor(
+
+            data.jam_sehari_ppb
+
+        )
+
+    );
+
+
+    setText(
+
+        "kadarRMPB",
+
+        formatRM(
+
+            data.kadar_rm_sehari_pb
+
+        )
+
+    );
+
+
+    setText(
+
+        "kadarRMPPB",
+
+        formatRM(
+
+            data.kadar_rm_sehari_ppb
+
+        )
+
+    );
 
 }
 

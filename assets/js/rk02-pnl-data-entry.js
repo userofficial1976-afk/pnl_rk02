@@ -3304,55 +3304,117 @@ data
 function paparDataOperasiPos(data){
 
 
-const jamPB=nombor(
-data.jam_sehari_pb
+const bulan = nombor(
+document.getElementById("bulan")?.value
 );
 
 
-const jamPPB=nombor(
-data.jam_sehari_ppb
+const tahun = nombor(
+document.getElementById("tahun")?.value
 );
 
 
-const jumlahJam =
-jamPB + jamPPB;
+
+const jumlahHari = new Date(
+tahun,
+bulan,
+0
+).getDate();
 
 
 
-const rmPB=nombor(
-data.kadar_rm_sehari_pb
+
+// ===============================
+// JAM KHIDMAT
+// ===============================
+
+const jamPBSehari = nombor(
+    data.jam_sehari_pb
 );
 
 
-const rmPPB=nombor(
-data.kadar_rm_sehari_ppb
+const jamPPBSehari = nombor(
+    data.jam_sehari_ppb
 );
 
 
-const jumlahRM =
-rmPB + rmPPB;
+const jamSehari =
+jamPBSehari + jamPPBSehari;
 
+
+
+const jumlahJamPB =
+jamPBSehari * jumlahHari;
+
+
+const jumlahJamPPB =
+jamPPBSehari * jumlahHari;
+
+
+
+// ===============================
+// PENDAPATAN
+// ===============================
+
+const rmPBSehari = nombor(
+    data.kadar_rm_sehari_pb
+);
+
+
+const rmPPBSehari = nombor(
+    data.kadar_rm_sehari_ppb
+);
+
+
+
+const pendapatanPB =
+rmPBSehari * jumlahHari;
+
+
+
+const pendapatanPPB =
+rmPPBSehari * jumlahHari;
+
+
+
+const jumlahPendapatan =
+pendapatanPB + pendapatanPPB;
+
+
+
+
+
+// ===============================
+// PAPAR JAM
+// ===============================
 
 
 setText(
 "jamKhidmatPB",
-formatNombor(jamPB)+" JAM"
+formatNombor(jumlahJamPB)+" JAM"
 );
 
 
 
 setText(
 "jamKhidmatPPB",
-formatNombor(jamPPB)+" JAM"
+formatNombor(jumlahJamPPB)+" JAM"
 );
 
 
 
 setText(
 "jamKhidmatSehari",
-formatNombor(jumlahJam)+" JAM"
+formatNombor(jamSehari)+" JAM"
 );
 
+
+
+
+
+// ===============================
+// ATUR TUGAS
+// ===============================
 
 
 setText(
@@ -3362,29 +3424,42 @@ data.atur_tugas || "-"
 
 
 
+
+
+// ===============================
+// PAPAR PENDAPATAN
+// ===============================
+
+
 setText(
 "pendapatanPB",
-formatRM(rmPB)
+formatRM(pendapatanPB)
 );
 
 
 
 setText(
 "pendapatanPPB",
-formatRM(rmPPB)
+formatRM(pendapatanPPB)
 );
 
 
 
 setText(
 "jumlahPendapatan",
-formatRM(jumlahRM)
+formatRM(jumlahPendapatan)
 );
 
 
 
+
+
+// ===============================
+// JUMLAH JAM SEBULAN
+// ===============================
+
 kiraJamBulanan(
-jumlahJam
+jamSehari
 );
 
 

@@ -14,7 +14,7 @@ let pengguna = null;
 let dataAnggota = [];
 let dataOrganisasi=[];
 let dataPosKawalan = [];
-
+let dataOperasiPos = null;
 
 
 
@@ -329,9 +329,14 @@ error
 
 .from("data_pos")
 
-.select(
-"pos_kawalan"
-)
+.select(`
+    pos_kawalan,
+    atur_tugas,
+    jam_sehari_pb,
+    jam_sehari_ppb,
+    kadar_rm_sehari_pb,
+    kadar_rm_sehari_ppb
+`)
 
 .order(
 "pos_kawalan",

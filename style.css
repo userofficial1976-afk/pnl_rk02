@@ -312,3 +312,190 @@
     text-align:center;
 
 }
+/* ==========================================
+   RK02 PRINT A4 LANDSCAPE
+========================================== */
+
+@media print {
+
+
+@page {
+
+    size:A4 landscape;
+
+    margin:10mm;
+
+}
+
+
+
+body{
+
+    background:white !important;
+
+    -webkit-print-color-adjust:exact;
+
+    print-color-adjust:exact;
+
+}
+
+
+
+button{
+
+    display:none !important;
+
+}
+
+
+
+.rk02-report{
+
+    width:100% !important;
+
+    margin:0 !important;
+
+    padding:0 !important;
+
+}
+
+
+
+.report-header h2{
+
+    font-size:18px;
+
+    margin:0;
+
+}
+
+
+.report-header h3{
+
+    font-size:14px;
+
+    margin:5px;
+
+}
+
+
+
+.info-grid{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+
+
+.rk02-table{
+
+    width:100%;
+
+    table-layout:fixed;
+
+    font-size:10px;
+
+}
+
+
+
+.rk02-table th{
+
+    font-size:10px;
+
+    padding:4px;
+
+}
+
+
+
+.rk02-table td{
+
+    font-size:10px;
+
+    padding:4px;
+
+}
+
+
+
+.rk02-table thead{
+
+    display:table-header-group;
+
+}
+
+
+
+.rk02-table tr{
+
+    page-break-inside:avoid;
+
+}
+
+
+
+/* Lebar kolum RK02 */
+
+.rk02-table th:nth-child(1),
+.rk02-table td:nth-child(1){
+
+    width:4%;
+
+}
+
+
+.rk02-table th:nth-child(2),
+.rk02-table td:nth-child(2){
+
+    width:10%;
+
+}
+
+
+.rk02-table th:nth-child(3),
+.rk02-table td:nth-child(3){
+
+    width:22%;
+
+}
+
+
+.rk02-table th:nth-child(4),
+.rk02-table td:nth-child(4){
+
+    width:10%;
+
+}
+
+
+
+.rk02-table th:nth-child(n+5),
+.rk02-table td:nth-child(n+5){
+
+    width:6%;
+
+}
+
+
+
+.rumusan{
+
+    width:40%;
+
+    margin-top:20px;
+
+}
+
+
+
+.pengesahan{
+
+    margin-top:50px;
+
+}
+
+
+
+}

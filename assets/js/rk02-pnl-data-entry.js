@@ -12,7 +12,7 @@
 let pengguna = null;
 
 let dataAnggota = [];
-
+let dataOrganisasi=[];
 let dataPosKawalan = [];
 
 
@@ -584,7 +584,20 @@ async function muatAnggota(){
 
     data || [];
 
+    async function muatOrganisasi(){
 
+const {data,error}=await supabase
+.from("Data_Anggota")
+.select("*")
+.eq(
+"unit",
+pengguna.unit
+);
+
+
+dataOrganisasi=data || [];
+
+}
     // =====================================================
     // PAPAR LOG
     // =====================================================
@@ -665,13 +678,9 @@ ketuaPos
     // =================================================
 
 const ketuaUnit =
-dataSemuaAnggota.find(
-    x =>
-    x.unit === pengguna.unit &&
-    x.jawatan === "Ketua Unit"
-)?.nama
-||
-"-";
+dataOrganisasi.find(
+x=>x.jawatan==="Ketua Unit"
+)?.nama || "-";
 
 
 setText(

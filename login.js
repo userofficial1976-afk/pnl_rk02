@@ -1,166 +1,65 @@
 // =====================================================
 // LOGIN.JS
-// FPB DUTY COMMAND CENTER V2
 // =====================================================
 
-// =====================================================
-// FUNGSI LOGIN
-// =====================================================
-
-async function login(){
+async function login() {
 
 ```
-// =================================================
-// AMBIL INPUT
-// =================================================
+const no_skb = document.getElementById("no_skb").value.trim();
 
-const no_skb =
-
-document
-.getElementById(
-    "no_skb"
-)
-.value
-.trim();
+const password = document.getElementById("password").value.trim();
 
 
-const password =
+if (no_skb === "" || password === "") {
 
-document
-.getElementById(
-    "password"
-)
-.value
-.trim();
-
-
-// =================================================
-// SEMAK INPUT
-// =================================================
-
-if(
-
-    no_skb === ""
-
-    ||
-
-    password === ""
-
-){
-
-    alert(
-        "Sila masukkan No. SKB dan kata laluan"
-    );
+    alert("Sila masukkan No. SKB dan kata laluan");
 
     return;
 
 }
 
 
-// =================================================
-// LOGIN SUPABASE
-// =================================================
-
-const {
-
-    data,
-
-    error
-
-} = await supabaseClient
-
-.from(
-    "pengguna"
-)
-
-.select(
-    "*"
-)
-
-.eq(
-    "no_skb",
-    no_skb
-)
-
-.eq(
-    "password",
-    password
-)
-
-.maybeSingle();
+const result = await supabaseClient
+    .from("pengguna")
+    .select("*")
+    .eq("no_skb", no_skb)
+    .eq("password", password)
+    .maybeSingle();
 
 
-// =================================================
-// SEMAK RALAT SUPABASE
-// =================================================
+const data = result.data;
 
-if(error){
-
-    console.error(
-
-        "RALAT LOGIN:",
-
-        error
-
-    );
+const error = result.error;
 
 
-    alert(
+if (error) {
 
-        "Ralat sambungan sistem"
+    console.error("RALAT LOGIN:", error);
 
-    );
-
+    alert("Ralat sambungan sistem");
 
     return;
 
 }
 
 
-// =================================================
-// SEMAK DATA PENGGUNA
-// =================================================
+if (!data) {
 
-if(!data){
-
-    alert(
-
-        "No. SKB atau kata laluan tidak sah"
-
-    );
-
+    alert("No. SKB atau kata laluan tidak sah");
 
     return;
 
 }
 
 
-// =================================================
-// PAPAR DATA LOGIN
-// =================================================
+console.log("LOGIN BERJAYA:", data);
 
-console.log(
-
-    "LOGIN BERJAYA:",
-
-    data
-
-);
-
-
-// =================================================
-// SIMPAN DATA PENGGUNA
-// =================================================
 
 localStorage.setItem(
 
     "pengguna",
 
-    JSON.stringify(
-
-        data
-
-    )
+    JSON.stringify(data)
 
 );
 
@@ -169,38 +68,20 @@ localStorage.setItem(
 
     "currentUser",
 
-    JSON.stringify(
-
-        data
-
-    )
+    JSON.stringify(data)
 
 );
 
 
-// =================================================
-// NORMALKAN JAWATAN
-// =================================================
+const jawatan = String(
 
-const jawatan =
+    data.jawatan ||
 
-String(
-
-    data.jawatan
-
-    ||
-
-    data.peranan
-
-    ||
+    data.peranan ||
 
     ""
 
-)
-
-.trim()
-
-.toUpperCase();
+).trim().toUpperCase();
 
 
 console.log(
@@ -212,56 +93,33 @@ console.log(
 );
 
 
-// =================================================
-// SEMAK AKSES
-// =================================================
-
 const aksesDibenarkan =
 
-    jawatan.includes(
-
-        "KETUA POS"
-
-    )
+    jawatan.includes("KETUA POS")
 
     ||
 
-    jawatan.includes(
-
-        "KETUA UNIT"
-
-    )
+    jawatan.includes("KETUA UNIT")
 
     ||
 
-    jawatan.includes(
-
-        "ADMIN"
-
-    );
+    jawatan.includes("ADMIN");
 
 
-if(
-
-    !aksesDibenarkan
-
-){
+if (!aksesDibenarkan) {
 
     alert(
 
-        "Akses belum dibuka"
+        "Akses belum dibuka. Jawatan: " +
+
+        (jawatan || "TIADA")
 
     );
-
 
     return;
 
 }
 
-
-// =================================================
-// MASUK HALAMAN RK02 & PNL
-// =================================================
 
 window.location.href =
 

@@ -922,3 +922,101 @@ body{
     padding:2px;
 
 }
+/* =====================================
+   RK02 RUMUSAN KLM NIPIS SEPERTI PDF
+===================================== */
+
+
+.rumusan-klm h4{
+
+    padding:3px;
+
+    font-size:9px;
+
+    line-height:1;
+
+}
+
+
+
+.rumusan-klm table{
+
+    border-collapse:collapse;
+
+}
+
+
+
+.rumusan-klm td{
+
+    padding:2px 3px;
+
+    height:16px;
+
+    font-size:8.5px;
+
+    line-height:1;
+
+    vertical-align:middle;
+
+}
+
+
+
+/* NO */
+
+.rumusan-klm td:nth-child(1){
+
+    width:8%;
+
+    text-align:center;
+
+}
+
+
+
+/* KETERANGAN */
+
+.rumusan-klm td:nth-child(2){
+
+    width:52%;
+
+    text-align:left;
+
+}
+
+
+
+/* JAM */
+
+.rumusan-klm td:nth-child(3){
+
+    width:15%;
+
+    text-align:center;
+
+}
+
+
+
+/* RM */
+
+.rumusan-klm td:nth-child(4){
+
+    width:25%;
+
+    text-align:right;
+
+}
+
+
+
+/* JUMLAH KLM */
+
+.rumusan-klm .jumlah-klm td{
+
+    height:18px;
+
+    font-weight:bold;
+
+}

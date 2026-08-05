@@ -99,7 +99,7 @@ try{
 
     await muatAnggota();
 
-
+    await muatDataOperasiPos();
 
     paparJadualRK02();
 
@@ -3236,6 +3236,157 @@ setText(
 "jumlahJamSebulan",
 formatNombor(jumlahJam)+" JAM"
 );
+
+
+}
+async function muatDataOperasiPos(){
+
+const pos = pengguna?.poskhidmat;
+
+if(!pos){
+    return;
+}
+
+
+const {
+
+data,
+
+error
+
+}= await supabaseClient
+
+.from("data_pos")
+
+.select(`
+pos_kawalan,
+atur_tugas,
+jam_sehari_pb,
+jam_sehari_ppb,
+kadar_rm_sehari_pb,
+kadar_rm_sehari_ppb
+`)
+
+.eq(
+"pos_kawalan",
+pos
+)
+
+.single();
+
+
+
+if(error){
+
+console.error(
+"RALAT DATA POS:",
+error
+);
+
+return;
+
+}
+
+
+
+dataOperasiPos=data;
+
+
+
+paparDataOperasiPos(
+data
+);
+
+
+
+}
+
+function paparDataOperasiPos(data){
+
+
+const jamPB=nombor(
+data.jam_sehari_pb
+);
+
+
+const jamPPB=nombor(
+data.jam_sehari_ppb
+);
+
+
+const jumlahJam =
+jamPB + jamPPB;
+
+
+
+const rmPB=nombor(
+data.kadar_rm_sehari_pb
+);
+
+
+const rmPPB=nombor(
+data.kadar_rm_sehari_ppb
+);
+
+
+const jumlahRM =
+rmPB + rmPPB;
+
+
+
+setText(
+"jamKhidmatPB",
+formatNombor(jamPB)+" JAM"
+);
+
+
+
+setText(
+"jamKhidmatPPB",
+formatNombor(jamPPB)+" JAM"
+);
+
+
+
+setText(
+"jamKhidmatSehari",
+formatNombor(jumlahJam)+" JAM"
+);
+
+
+
+setText(
+"aturTugas",
+data.atur_tugas || "-"
+);
+
+
+
+setText(
+"pendapatanPB",
+formatRM(rmPB)
+);
+
+
+
+setText(
+"pendapatanPPB",
+formatRM(rmPPB)
+);
+
+
+
+setText(
+"jumlahPendapatan",
+formatRM(jumlahRM)
+);
+
+
+
+kiraJamBulanan(
+jumlahJam
+);
+
 
 
 }

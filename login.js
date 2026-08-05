@@ -83,7 +83,7 @@ data
 
 
 if(
-data.jawatan==="KETUA POS"
+data.jawatan==="Ketua Pos"
 ){
 
 

@@ -651,3 +651,161 @@ body{
 
 
 }
+
+ /* ================================= */
+/* RK02 FINAL ALIGNMENT PDF STYLE */
+/* ================================= */
+
+
+.rk02-report{
+
+    line-height:1.15;
+
+}
+
+
+
+/* HEADER INFO */
+
+.info-grid{
+
+    font-size:10px;
+
+    height:24px;
+
+}
+
+
+.info-grid div{
+
+    display:flex;
+
+    align-items:center;
+
+}
+
+
+
+/* TABLE HEADER */
+
+.rk02-table thead th{
+
+    height:28px;
+
+    padding:2px 3px;
+
+    line-height:1.1;
+
+}
+
+
+
+.rk02-table tbody td{
+
+    height:20px;
+
+    padding:2px 3px;
+
+}
+
+
+
+/* NAMA ANGGOTA */
+
+.rk02-table td:nth-child(3){
+
+    text-align:left;
+
+    padding-left:6px;
+
+}
+
+
+
+/* FORMAT RM */
+
+.rk02-table td:not(:nth-child(3)){
+
+    white-space:nowrap;
+
+}
+
+
+
+/* FOOTER JUMLAH */
+
+.rk02-table tfoot td{
+
+    height:24px;
+
+    padding:3px;
+
+}
+
+
+
+/* RUMUSAN KLM */
+
+.rumusan{
+
+    margin-top:8px;
+
+    width:40%;
+
+}
+
+
+.rumusan h3{
+
+    margin:0;
+
+    padding:4px;
+
+    text-align:center;
+
+    font-size:10px;
+
+}
+
+
+.rumusan td{
+
+    height:20px;
+
+    font-size:10px;
+
+}
+
+
+
+/* PENGESAHAN */
+
+.pengesahan{
+
+    margin-top:18px;
+
+}
+
+
+.pengesahan div{
+
+    line-height:1.4;
+
+}
+
+
+
+/* SUPAYA TIDAK TERPOTONG */
+
+.rk02-table thead{
+
+    display:table-header-group;
+
+}
+
+
+.rk02-table tfoot{
+
+    display:table-footer-group;
+
+}

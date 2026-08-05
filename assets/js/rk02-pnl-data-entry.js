@@ -414,7 +414,13 @@ async function muatAnggota(){
     // =====================================================
 
     const unit = String(
-        pengguna?.unit || ""
+
+        pengguna?.unit
+
+        ||
+
+        ""
+
     ).trim();
 
 
@@ -435,13 +441,9 @@ async function muatAnggota(){
     .toUpperCase();
 
 
-    const pos = String(
+    const posKhidmat = String(
 
         pengguna?.poskhidmat
-
-        ||
-
-        pengguna?.pos
 
         ||
 
@@ -464,354 +466,127 @@ async function muatAnggota(){
 
     console.log(
         "POS KETUA POS:",
-        pos
+        posKhidmat
     );
 
 
     // =====================================================
-    // KETUA POS
+    // BINA QUERY
+    // =====================================================
+
+    let query =
+
+    supabaseClient
+
+    .from(
+        "Data_Anggota"
+    )
+
+    .select(
+        "*"
+    );
+
+
+    // =====================================================
+    // FILTER UNIT
+    // =====================================================
+
+    if(unit){
+
+        query = query.eq(
+
+            "unit",
+
+            unit
+
+        );
+
+    }
+
+
+    // =====================================================
+    // FILTER POS
+    // HANYA GUNA COLUMN poskhidmat
     // =====================================================
 
     if(
+
         jawatan.includes(
             "KETUA POS"
         )
+
+        &&
+
+        posKhidmat
+
     ){
 
-        // -------------------------------------------------
-        // QUERY 1:
-        // CARI MENGIKUT COLUMN "pos"
-        // -------------------------------------------------
+        query = query.eq(
 
-        let queryPos =
+            "poskhidmat",
 
-        supabaseClient
-
-        .from(
-            "Data_Anggota"
-        )
-
-        .select(
-            "*"
-        );
-
-
-        if(unit){
-
-            queryPos = queryPos.eq(
-
-                "unit",
-
-                unit
-
-            );
-
-        }
-
-
-        if(pos){
-
-            queryPos = queryPos.eq(
-
-                "pos",
-
-                pos
-
-            );
-
-        }
-
-
-        const {
-
-            data: dataPos,
-
-            error: errorPos
-
-        } = await queryPos
-
-        .order(
-
-            "nama",
-
-            {
-
-                ascending:true
-
-            }
+            posKhidmat
 
         );
-
-
-        // -------------------------------------------------
-        // QUERY 2:
-        // CARI MENGIKUT COLUMN "poskhidmat"
-        // -------------------------------------------------
-
-        let queryPosKhidmat =
-
-        supabaseClient
-
-        .from(
-            "Data_Anggota"
-        )
-
-        .select(
-            "*"
-        );
-
-
-        if(unit){
-
-            queryPosKhidmat =
-
-            queryPosKhidmat.eq(
-
-                "unit",
-
-                unit
-
-            );
-
-        }
-
-
-        if(pos){
-
-            queryPosKhidmat =
-
-            queryPosKhidmat.eq(
-
-                "poskhidmat",
-
-                pos
-
-            );
-
-        }
-
-
-        const {
-
-            data: dataPosKhidmat,
-
-            error: errorPosKhidmat
-
-        } = await queryPosKhidmat
-
-        .order(
-
-            "nama",
-
-            {
-
-                ascending:true
-
-            }
-
-        );
-
-
-        // -------------------------------------------------
-        // SEMAK RALAT
-        // -------------------------------------------------
-
-        if(
-            errorPos
-        ){
-
-            console.error(
-
-                "RALAT QUERY POS:",
-
-                errorPos
-
-            );
-
-            throw errorPos;
-
-        }
-
-
-        if(
-            errorPosKhidmat
-        ){
-
-            console.error(
-
-                "RALAT QUERY POSKHIDMAT:",
-
-                errorPosKhidmat
-
-            );
-
-            throw errorPosKhidmat;
-
-        }
-
-
-        // -------------------------------------------------
-        // GABUNG DATA
-        // -------------------------------------------------
-
-        const dataGabung = [
-
-            ...(dataPos || []),
-
-            ...(dataPosKhidmat || [])
-
-        ];
-
-
-        // -------------------------------------------------
-        // BUANG DUPLIKAT
-        // -------------------------------------------------
-
-        const dataUnik = Array.from(
-
-            new Map(
-
-                dataGabung.map(
-
-                    anggota => [
-
-                        String(
-
-                            anggota.noskb
-
-                            ||
-
-                            anggota.no_skb
-
-                            ||
-
-                            anggota.noanggota
-
-                            ||
-
-                            anggota.id
-
-                        ),
-
-                        anggota
-
-                    ]
-
-                )
-
-            ).values()
-
-        );
-
-
-        // -------------------------------------------------
-        // SUSUN NAMA
-        // -------------------------------------------------
-
-        dataUnik.sort(
-
-            (a,b)=>
-
-            String(
-                a.nama || ""
-            )
-
-            .localeCompare(
-
-                String(
-                    b.nama || ""
-                ),
-
-                "ms"
-
-            )
-
-        );
-
-
-        dataAnggota = dataUnik;
-
 
     }
 
 
     // =====================================================
-    // SELAIN KETUA POS
+    // LOAD DATA
     // =====================================================
 
-    else{
+    const {
 
-        let query =
+        data,
 
-        supabaseClient
+        error
 
-        .from(
-            "Data_Anggota"
-        )
+    } = await query
 
-        .select(
-            "*"
-        );
+    .order(
 
+        "nama",
 
-        if(unit){
+        {
 
-            query = query.eq(
-
-                "unit",
-
-                unit
-
-            );
+            ascending:true
 
         }
 
+    );
 
-        const {
 
-            data,
+    // =====================================================
+    // SEMAK RALAT
+    // =====================================================
+
+    if(error){
+
+        console.error(
+
+            "RALAT LOAD ANGGOTA:",
 
             error
 
-        } = await query
-
-        .order(
-
-            "nama",
-
-            {
-
-                ascending:true
-
-            }
-
         );
 
-
-        if(error){
-
-            console.error(
-
-                "RALAT LOAD ANGGOTA:",
-
-                error
-
-            );
-
-            throw error;
-
-        }
-
-
-        dataAnggota =
-
-        data || [];
+        throw error;
 
     }
 
 
     // =====================================================
-    // PAPAR HASIL
+    // SIMPAN DATA
+    // =====================================================
+
+    dataAnggota =
+
+    data || [];
+
+
+    // =====================================================
+    // PAPAR LOG
     // =====================================================
 
     console.log(
@@ -831,6 +606,10 @@ async function muatAnggota(){
 
     );
 
+
+    // =====================================================
+    // KEMAS KINI HEADER
+    // =====================================================
 
     kemasKiniMaklumatOperasi();
 

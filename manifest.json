@@ -1,0 +1,8 @@
+{
+  "name": "FPB RK02 & PNL System",
+  "short_name": "FPB RK02",
+  "start_url": "./rk02-pnl-data-entry.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#247b83"
+}

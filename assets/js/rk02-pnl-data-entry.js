@@ -404,364 +404,217 @@ dataPosKawalan
 
 async function muatAnggota(){
 
-    console.log(
-        "MULA LOAD ANGGOTA"
-    );
+console.log(
+"MULA LOAD ANGGOTA"
+);
 
 
-    // ==============================
-    // LOAD ANGGOTA POS SEMASA
-    // ==============================
+// ===============================
+// MAKLUMAT LOGIN
+// ===============================
 
-    const {data,error}=await supabase
-    .from("Data_Anggota")
-    .select(`
-        noskb,
-        nama,
-        pangkat,
-        noanggota,
-        unit,
-        poskhidmat,
-        jawatan,
-        status
-    `)
-    .eq(
-        "unit",
-        pengguna.unit
-    )
-    .eq(
-        "poskhidmat",
-        pengguna.poskhidmat
-    );
+const unit = pengguna?.unit || "";
+
+const jawatan =
+String(
+pengguna?.jawatan || ""
+)
+.toUpperCase();
 
 
-    if(error){
+const posKhidmat =
+pengguna?.poskhidmat || "";
 
-        console.error(
-            "ERROR LOAD ANGGOTA",
-            error
-        );
-
-        return;
-
-    }
-
-
-    dataAnggota=data || [];
-
-
-    console.log(
-        "DATA ANGGOTA:",
-        dataAnggota
-    );
-
-
-
-    // ==============================
-    // LOAD SEMUA ORGANISASI UNIT
-    // UNTUK KETUA UNIT
-    // ==============================
-
-    const {data:organisasi,error:err2}=await supabase
-    .from("Data_Anggota")
-    .select(`
-        noskb,
-        nama,
-        unit,
-        jawatan,
-        status
-    `)
-    .eq(
-        "unit",
-        pengguna.unit
-    );
-
-
-    if(err2){
-
-        console.error(
-            "ERROR ORGANISASI",
-            err2
-        );
-
-    }
-
-
-dataOrganisasi = organisasi || [];
 
 
 console.log(
-    "DATA ORGANISASI:",
-    dataOrganisasi
+"UNIT PENGGUNA:",
+unit
 );
 
 
-// PAPAR KETUA
-paparMaklumatKetua();
+console.log(
+"JAWATAN:",
+jawatan
+);
 
 
-// TERUSKAN KEMAS KINI OPERASI
-await kemasKiniMaklumatOperasi();
+console.log(
+"POS KETUA POS:",
+posKhidmat
+);
 
 
-}
 
-    // =====================================================
-    // MAKLUMAT PENGGUNA
-    // =====================================================
+// ===============================
+// LOAD ANGGOTA
+// ===============================
 
-    const unit = String(
 
-        pengguna?.unit
+let query = supabaseClient
 
-        ||
-
-        ""
-
-    ).trim();
-
-
-    const jawatan = String(
-
-        pengguna?.jawatan
-
-        ||
-
-        pengguna?.peranan
-
-        ||
-
-        ""
-
-    )
-    .trim()
-    .toUpperCase();
-
-
-    const posKhidmat = String(
-
-        pengguna?.poskhidmat
-
-        ||
-
-        ""
-
-    ).trim();
-
-
-    console.log(
-        "UNIT PENGGUNA:",
-        unit
-    );
-
-
-    console.log(
-        "JAWATAN:",
-        jawatan
-    );
-
-
-    console.log(
-        "POS KETUA POS:",
-        posKhidmat
-    );
-
-
-    // =====================================================
-    // BINA QUERY
-    // =====================================================
-
-    let query =
-
-    supabaseClient
-
-    .from(
-        "Data_Anggota"
-    )
-
-    .select(
-        "*"
-    );
-
-
-    // =====================================================
-    // FILTER UNIT
-    // =====================================================
-
-    if(unit){
-
-        query = query.eq(
-
-            "unit",
-
-            unit
-
-        );
-
-    }
-
-
-    // =====================================================
-    // FILTER POS
-    // HANYA GUNA COLUMN poskhidmat
-    // =====================================================
-
-    if(
-
-        jawatan.includes(
-            "KETUA POS"
-        )
-
-        &&
-
-        posKhidmat
-
-    ){
-
-        query = query.eq(
-
-            "poskhidmat",
-
-            posKhidmat
-
-        );
-
-    }
-
-
-    // =====================================================
-    // LOAD DATA
-    // =====================================================
-
-    const {
-
-        data,
-
-        error
-
-    } = await query
-
-    .order(
-
-        "nama",
-
-        {
-
-            ascending:true
-
-        }
-
-    );
-
-
-    // =====================================================
-    // SEMAK RALAT
-    // =====================================================
-
-    if(error){
-
-        console.error(
-
-            "RALAT LOAD ANGGOTA:",
-
-            error
-
-        );
-
-        throw error;
-
-    }
-
-
-    // =====================================================
-    // SIMPAN DATA
-    // =====================================================
-
-    dataAnggota =
-
-    data || [];
-
-    async function muatOrganisasi(){
-
-const {data,error}=await supabase
 .from("Data_Anggota")
-.select("*")
+
+.select(`
+*
+`)
+
 .eq(
 "unit",
-pengguna.unit
+unit
 );
 
 
-dataOrganisasi=data || [];
+
+if(
+jawatan.includes("KETUA POS")
+){
+
+query =
+query.eq(
+"poskhidmat",
+posKhidmat
+);
 
 }
-    // =====================================================
-    // PAPAR LOG
-    // =====================================================
-
-    console.log(
-
-        "JUMLAH ANGGOTA:",
-
-        dataAnggota.length
-
-    );
 
 
-    console.log(
 
-        "DATA ANGGOTA:",
+const {
 
-        dataAnggota
+data,
 
-    );
+error
+
+}= await query
+
+.order(
+"nama",
+{
+ascending:true
+}
+);
+
+
+
+if(error){
+
+console.error(
+"RALAT ANGGOTA",
+error
+);
+
+return;
+
+}
+
+
+
+dataAnggota =
+data || [];
+
+
+
+console.log(
+"JUMLAH ANGGOTA:",
+dataAnggota.length
+);
+
+
+console.log(
+"DATA ANGGOTA:",
+dataAnggota
+);
+
+
+
+
+// ===============================
+// LOAD ORGANISASI UNIT
+// ===============================
+
+
+const {
+
+data:organisasi,
+
+error:errOrganisasi
+
+}=await supabaseClient
+
+.from("Data_Anggota")
+
+.select(`
+nama,
+jawatan,
+unit
+`)
+
+.eq(
+"unit",
+unit
+);
+
+
+
+if(errOrganisasi){
+
+console.error(
+"RALAT ORGANISASI",
+errOrganisasi
+);
+
+}
+
+
+
+dataOrganisasi =
+organisasi || [];
+
+
+
+console.log(
+"DATA ORGANISASI:",
+dataOrganisasi
+);
+
+
+
+
+// ===============================
+// PAPAR MAKLUMAT
+// ===============================
+
+
+paparMaklumatKetua();
+
+kemasKiniMaklumatOperasi();
+
+
+
+}
+
+
+
 
 
 // =====================================================
-// KEMAS KINI MAKLUMAT OPERASI
+// PAPAR KETUA POS / UNIT
 // =====================================================
 
-async function kemasKiniMaklumatOperasi(){
 
-    const posKhidmat = String(
-        pengguna?.poskhidmat || ""
-    ).trim();
+function paparMaklumatKetua(){
 
 
-    // =================================================
-    // NAMA POS
-    // =================================================
-
-    setText(
-        "kodNamaPos",
-        posKhidmat || "-"
-    );
-
-
-    setText(
-        "namaPos",
-        posKhidmat || "-"
-    );
-
-
-    // =================================================
-    // BILANGAN ANGGOTA
-    // =================================================
-
-    setText(
-        "bilanganAnggota",
-        dataAnggota.length + " ORANG"
-    );
-
-
-    // =================================================
-    // NAMA KETUA POS
-    // =================================================
 
 const ketuaPos =
+
 pengguna?.nama
+
 ||
+
 "-";
+
 
 
 setText(
@@ -770,19 +623,41 @@ ketuaPos
 );
 
 
-    // =================================================
-    // NAMA KETUA UNIT
-    // =================================================
+
+setText(
+"ketuaPos",
+ketuaPos
+);
+
+
+
+
+
 
 const ketuaUnit =
+
 dataOrganisasi.find(
+
 x =>
-String(x.jawatan)
+
+String(
+x.jawatan || ""
+)
+
 .toUpperCase()
-.includes("KETUA UNIT")
+
+.includes(
+"KETUA UNIT"
+)
+
 )?.nama
+
 ||
+
 "-";
+
+
+
 
 
 setText(
@@ -790,313 +665,72 @@ setText(
 ketuaUnit
 );
 
-    // Sokongan jika HTML masih menggunakan ID lama
-
-    setText(
-        "ketuaUnit",
-        ketuaUnit
-    );
-
-
-    setText(
-        "ketuaPos",
-        ketuaPos
-    );
-
-
-    // =================================================
-    // JIKA POS TIADA
-    // =================================================
-
-    if(!posKhidmat){
-
-        console.warn(
-            "POS KHIDMAT TIDAK DIJUMPAI"
-        );
-
-        return;
-
-    }
-
-
-    // =================================================
-    // AMBIL DATA DARIPADA data_pos
-    // =================================================
-
-    const {
-
-        data,
-
-        error
-
-    } = await supabaseClient
-
-    .from(
-        "data_pos"
-    )
-
-    .select(
-        "*"
-    )
-
-    .eq(
-        "pos_kawalan",
-        posKhidmat
-    )
-
-    .maybeSingle();
-
-
-    if(error){
-
-        console.error(
-            "RALAT DATA POS:",
-            error
-        );
-
-        return;
-
-    }
-
-
-    if(!data){
-
-        console.warn(
-            "DATA POS TIDAK DIJUMPAI:",
-            posKhidmat
-        );
-
-        return;
-
-    }
-
-
-    console.log(
-        "DATA POS:",
-        data
-    );
-
-
-    // =================================================
-    // DATA OPERASI
-    // =================================================
-
-    setText(
-        "jenisKhidmat",
-        data.jenis_khidmat || "-"
-    );
-
-
-    setText(
-        "syarikat",
-        data.syarikat || "-"
-    );
-
-
-    setText(
-        "aturTugas",
-        data.atur_tugas || "-"
-    );
-
-
-    setText(
-        "bilanganAnggotaPB",
-        formatNombor(
-            data.bil_anggota_pb
-        )
-    );
-
-
-    setText(
-        "jamKhidmatPB",
-        formatNombor(
-            data.jam_sehari_pb
-        )
-    );
 
 
 setText(
-
-    "bilanganAnggotaPPB",
-
-    data.bil_anggota_ppb
-
-    ||
-
-    "0"
-
+"ketuaUnit",
+ketuaUnit
 );
 
 
-setText(
 
-    "jamKhidmatPPB",
-
-    data.jam_sehari_ppb
-
-    ||
-
-    "0"
-
+console.log(
+"KETUA UNIT:",
+ketuaUnit
 );
 
 
-setText(
-
-    "kadarRMPPB",
-
-    data.kadar_rm_sehari_ppb
-
-    ||
-
-    "RM 0.00"
-
-);
-
-
-    setText(
-        "kadarRMPPB",
-        formatRM(
-            data.kadar_rm_sehari_ppb
-        )
-    );
 
 }
 
 
 
-const pertama =
-dataAnggota[0];
 
 
+// =====================================================
+// MAKLUMAT OPERASI
+// =====================================================
+
+
+function kemasKiniMaklumatOperasi(){
 
 
 
 const pos =
 
-pertama.poskhidmat
-
-||
-
-pertama.pos
+pengguna?.poskhidmat
 
 ||
 
 "-";
-
-
-
-
-const ketuaUnit =
-
-pertama.ketua_unit
-
-||
-
-"-";
-
-
-
-
-const ketuaPos =
-
-pertama.ketua_pos
-
-||
-
-"-";
-
-
 
 
 
 setText(
-
 "kodNamaPos",
-
 pos
-
 );
 
 
 
+setText(
+"namaPos",
+pos
+);
+
+
 
 setText(
-
 "bilanganAnggota",
 
-dataAnggota.length+" ORANG"
-
-);
-
-
-
-
-setText(
-
-"ketuaUnit",
-
-ketuaUnit
-
-);
-
-
-
-
-setText(
-
-"ketuaPos",
-
-ketuaPos
+dataAnggota.length +
+" ORANG"
 
 );
 
 
 
 }
-
-function paparMaklumatKetua(){
-
-
-const ketuaPos =
-pengguna?.nama
-||
-"-";
-
-
-setText(
-"namaKetuaPos",
-ketuaPos
-);
-
-
-
-const ketuaUnit =
-dataOrganisasi.find(
-x =>
-String(x.jawatan)
-.toUpperCase()
-.includes("KETUA UNIT")
-)?.nama
-||
-"-";
-
-
-setText(
-"namaKetuaUnit",
-ketuaUnit
-);
-
-
-console.log(
-"KETUA UNIT PAPAR:",
-ketuaUnit
-);
-
-
-}
-
-
 
 function binaInputJamPos(
 nomborPos,

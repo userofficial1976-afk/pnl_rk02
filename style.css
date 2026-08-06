@@ -1,3 +1,314 @@
+/* ===================================================
+   RK02 - PAPARAN HTML (SCREEN)
+   =================================================== */
+
+body{
+
+    margin:20px;
+    padding:0;
+
+    background:#edf2f7;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+}
+
+
+.rk02-report{
+
+    width:1123px;
+
+    margin:25px auto;
+
+    background:#fff;
+
+    padding:20px;
+
+    border-radius:8px;
+
+    box-shadow:0 5px 18px rgba(0,0,0,.15);
+
+}
+
+
+/* ==========================
+   HEADER
+========================== */
+
+.report-header{
+
+    text-align:center;
+
+    margin-bottom:15px;
+
+}
+
+
+.report-header h2{
+
+    margin:0;
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+
+.report-header h3{
+
+    margin:6px 0 15px;
+
+    font-size:24px;
+
+    font-weight:700;
+
+}
+
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr 1fr;
+
+    gap:20px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+}
+
+
+
+/* ==========================
+   TABLE RK02
+========================== */
+
+.rk02-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+}
+
+
+.rk02-table th,
+.rk02-table td{
+
+    border:1px solid #000;
+
+    padding:6px;
+
+    font-size:14px;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+}
+
+
+.rk02-table th{
+
+    background:#f3f3f3;
+
+    font-weight:bold;
+
+}
+
+
+
+/* ==========================
+   TABLE RUMUSAN
+========================== */
+
+.rk02-bottom-table{
+
+    width:100%;
+
+    margin-top:10px;
+
+    border-collapse:collapse;
+
+}
+
+
+.rk02-bottom-table th,
+.rk02-bottom-table td{
+
+    border:1px solid #000;
+
+    padding:6px;
+
+    font-size:14px;
+
+}
+
+
+.cuti-title{
+
+    text-align:left;
+
+}
+
+
+.cuti-content{
+
+    text-align:left;
+
+}
+
+
+.catatan-title{
+
+    font-weight:bold;
+
+    text-align:left;
+
+}
+
+
+.catatan-content{
+
+    text-align:left;
+
+}
+
+
+.keterangan-klm{
+
+    text-align:left;
+
+}
+
+
+.jam-klm{
+
+    text-align:center;
+
+}
+
+
+.rm-klm{
+
+    text-align:right;
+
+}
+
+
+
+/* ==========================
+   PENGESAHAN
+========================== */
+
+.pengesahan-table{
+
+    width:100%;
+
+    margin-top:12px;
+
+    border-collapse:collapse;
+
+}
+
+
+.pengesahan-table td{
+
+    width:33.333%;
+
+    border:1px solid #000;
+
+    padding:12px;
+
+    height:200px;
+
+    vertical-align:top;
+
+    text-align:center;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+
+.sign-title{
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    margin-bottom:15px;
+
+}
+
+
+.sign-text{
+
+    min-height:70px;
+
+}
+
+
+.sign-space{
+
+    height:35px;
+
+}
+
+
+.sign-line{
+
+    margin-top:10px;
+
+    font-size:16px;
+
+}
+
+
+.sign-name{
+
+    margin-top:8px;
+
+}
+
+
+.sign-footer{
+
+    margin-top:18px;
+
+    font-weight:bold;
+
+}
+
+
+
+/* ==========================
+   BUTTON
+========================== */
+
+button{
+
+    display:block;
+
+    margin:20px auto;
+
+    padding:12px 24px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+}
+
+
+
 /* ==========================================
    RK02 PRINT PDF A4 LANDSCAPE
 ========================================== */

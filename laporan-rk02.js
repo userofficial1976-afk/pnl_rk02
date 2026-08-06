@@ -49,7 +49,7 @@ const SENARAI_BULAN = [
 
 
 // =====================================================
-// INIT
+// INIT SYSTEM
 // =====================================================
 
 document.addEventListener(
@@ -58,17 +58,18 @@ async()=>{
 
 
     console.log(
-        "LAPORAN RK02 SYSTEM START"
+        "LAPORAN RK02 START"
     );
 
 
-    if(!supabase){
+    if(typeof supabase === "undefined"){
 
         console.error(
-            "SUPABASE TIADA"
+            "SUPABASE TIDAK DIJUMPAI"
         );
 
         return;
+
     }
 
 
@@ -81,12 +82,7 @@ async()=>{
 
 
 
-    binaDropdownBulan();
-
-    binaDropdownTahun();
-
-
-    pasangEventLaporan();
+    pasangEvent();
 
 
 
@@ -101,6 +97,8 @@ async()=>{
 
 
 
+
+
 // =====================================================
 // LOAD PENGGUNA
 // =====================================================
@@ -108,36 +106,39 @@ async()=>{
 async function muatPengguna(){
 
 
-    try{
+try{
 
 
-        pengguna =
-        JSON.parse(
-            localStorage.getItem(
-                "pengguna"
-            )
-        );
-
-
-
-        if(!pengguna)
-            return;
+    pengguna =
+    JSON.parse(
+        localStorage.getItem(
+            "pengguna"
+        )
+    );
 
 
 
-        paparHeaderLaporan();
+    if(!pengguna)
+        return;
 
 
-    }
 
-    catch(error){
+    paparHeader();
 
-        console.error(
-            "LOAD PENGGUNA ERROR",
-            error
-        );
 
-    }
+
+}
+
+catch(error){
+
+
+    console.error(
+        "PENGGUNA ERROR",
+        error
+    );
+
+
+}
 
 
 }
@@ -147,11 +148,13 @@ async function muatPengguna(){
 
 
 
+
+
 // =====================================================
-// PAPAR HEADER LAPORAN
+// PAPAR HEADER
 // =====================================================
 
-function paparHeaderLaporan(){
+function paparHeader(){
 
 
     if(!pengguna)
@@ -160,31 +163,20 @@ function paparHeaderLaporan(){
 
 
     setText(
-        "namaPengguna",
-        pengguna.nama
+        "namaPos",
+        pengguna.pos || "-"
     );
+
 
 
     setText(
-        "jawatanPengguna",
-        pengguna.jawatan
+        "kawasan",
+        pengguna.unit || "-"
     );
-
-
-    setText(
-        "unitPengguna",
-        pengguna.unit
-    );
-
-
-    setText(
-        "kodNamaPos",
-        pengguna.pos
-    );
-
 
 
 }
+
 
 
 
@@ -197,6 +189,7 @@ function paparHeaderLaporan(){
 // =====================================================
 
 async function muatPos(){
+
 
 
 try{
@@ -230,7 +223,7 @@ try{
 
 
     console.log(
-        "POS:",
+        "DATA POS",
         dataPos
     );
 
@@ -240,15 +233,19 @@ try{
 
 catch(error){
 
+
     console.error(
         "LOAD POS ERROR",
         error
     );
 
+
 }
 
 
 }
+
+
 
 
 
@@ -274,13 +271,12 @@ try{
     await supabase
     .from("Data_Anggota")
     .select(`
-    
+
         no_skb,
         nama,
         pangkat,
-        unit,
         pos,
-        jawatan,
+        unit,
 
         rm_pehariklmbiasa,
         rm_perharioffday,
@@ -303,9 +299,10 @@ try{
 
 
     console.log(
-        "ANGGOTA:",
+        "DATA ANGGOTA",
         dataAnggota
     );
+
 
 
 }
@@ -322,8 +319,10 @@ catch(error){
 }
 
 
-
 }
+
+
+
 
 
 
@@ -364,6 +363,7 @@ try{
             posLaporan
         );
 
+
     }
 
 
@@ -388,7 +388,7 @@ try{
 
 
     console.log(
-        "DUTY RK02:",
+        "DATA DUTY",
         dataDuty
     );
 
@@ -407,7 +407,104 @@ catch(error){
 
 }
 
+
+
 }
+
+
+
+
+
+
+
+
+
+// =====================================================
+// EVENT BUTTON
+// =====================================================
+
+function pasangEvent(){
+
+
+let btn =
+document.getElementById(
+    "btnPapar"
+);
+
+
+
+if(btn){
+
+
+btn.addEventListener(
+"click",
+async()=>{
+
+
+    bulanLaporan =
+    document.getElementById(
+        "bulan"
+    ).value;
+
+
+
+    tahunLaporan =
+    document.getElementById(
+        "tahun"
+    ).value;
+
+
+
+    posLaporan =
+    document.getElementById(
+        "pilihPos"
+    ).value;
+
+
+
+    if(
+        !bulanLaporan ||
+        !tahunLaporan
+    ){
+
+        alert(
+            "Sila pilih bulan dan tahun"
+        );
+
+        return;
+
+    }
+
+
+
+    setText(
+        "bulanLaporan",
+        SENARAI_BULAN[
+            Number(bulanLaporan)
+        ]+
+        " "+
+        tahunLaporan
+    );
+
+
+
+    await muatDuty();
+
+
+    prosesRK02();
+
+
+
+});
+
+
+}
+
+
+}
+
+
+
 
 
 
@@ -421,16 +518,17 @@ catch(error){
 function setText(id,value){
 
 
-    let el =
-    document.getElementById(id);
+let el =
+document.getElementById(id);
 
 
-    if(el){
 
-        el.textContent =
-        value || "-";
+if(el){
 
-    }
+    el.textContent =
+    value || "-";
+
+}
 
 
 }
@@ -440,14 +538,15 @@ function setText(id,value){
 function formatRM(value){
 
 
-    return Number(value || 0)
-    .toLocaleString(
-        "ms-MY",
-        {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
-        }
-    );
+return Number(value || 0)
+.toLocaleString(
+    "ms-MY",
+    {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+    }
+);
+
 
 }
 
@@ -457,203 +556,12 @@ function formatRM(value){
 // =====================================================
 
 
-// =====================================================
-// BINA DROPDOWN BULAN
-// =====================================================
-
-function binaDropdownBulan(){
-
-
-    let select =
-    document.getElementById(
-        "bulan"
-    );
-
-
-    if(!select)
-        return;
-
-
-
-    select.innerHTML =
-    `
-    <option value="">
-    -- PILIH BULAN --
-    </option>
-    `;
-
-
-
-    SENARAI_BULAN
-    .forEach((bulan,index)=>{
-
-
-        if(index>0){
-
-            select.innerHTML +=
-            `
-            <option value="${index}">
-            ${bulan}
-            </option>
-            `;
-
-        }
-
-
-    });
-
-
-}
-
-
-
-
-
-
-
-// =====================================================
-// BINA DROPDOWN TAHUN
-// =====================================================
-
-function binaDropdownTahun(){
-
-
-    let select =
-    document.getElementById(
-        "tahun"
-    );
-
-
-    if(!select)
-        return;
-
-
-
-    let tahun =
-    new Date()
-    .getFullYear();
-
-
-
-    select.innerHTML =
-    `
-    <option value="">
-    -- TAHUN --
-    </option>
-    `;
-
-
-
-    for(
-        let i=tahun-2;
-        i<=tahun+1;
-        i++
-    ){
-
-
-        select.innerHTML +=
-        `
-        <option value="${i}">
-        ${i}
-        </option>
-        `;
-
-
-    }
-
-
-}
-
-
-
-
-
-
-
-// =====================================================
-// EVENT LAPORAN
-// =====================================================
-
-function pasangEventLaporan(){
-
-
-    let btn =
-    document.getElementById(
-        "btnPapar"
-    );
-
-
-    if(btn){
-
-
-        btn.onclick =
-        async()=>{
-
-
-            bulanLaporan =
-            document.getElementById(
-                "bulan"
-            ).value;
-
-
-
-            tahunLaporan =
-            document.getElementById(
-                "tahun"
-            ).value;
-
-
-
-            posLaporan =
-            document.getElementById(
-                "pilihPos"
-            ).value;
-
-
-
-            if(
-                !bulanLaporan ||
-                !tahunLaporan
-            ){
-
-                alert(
-                    "Sila pilih bulan dan tahun"
-                );
-
-                return;
-
-            }
-
-
-
-            await muatDuty();
-
-
-            prosesLaporanRK02();
-
-
-        };
-
-
-    }
-
-
-
-}
-
-
-
-
-
-
-
 
 // =====================================================
 // PROSES DATA RK02
 // =====================================================
 
-function prosesLaporanRK02(){
-
+function prosesRK02(){
 
 
     laporanRK02 = [];
@@ -690,38 +598,34 @@ function prosesLaporanRK02(){
 
 
 
-        let rekod = {
+        let kiraan =
+        kiraKategori(
+            anggota,
+            dutyAnggota
+        );
 
+
+
+
+        laporanRK02.push({
 
             no_skb:
             anggota.no_skb,
 
-
             nama:
             anggota.nama,
-
 
             pangkat:
             anggota.pangkat,
 
-
-            pos:
-            anggota.pos,
-
+            gaji:
+            anggota.gaji_pokok || 0,
 
 
-            tugas:
-            dutyAnggota
+            ...kiraan
 
 
-
-        };
-
-
-
-        laporanRK02.push(
-            rekod
-        );
+        });
 
 
 
@@ -730,7 +634,7 @@ function prosesLaporanRK02(){
 
 
     console.log(
-        "DATA LAPORAN RK02",
+        "HASIL RK02",
         laporanRK02
     );
 
@@ -740,7 +644,324 @@ function prosesLaporanRK02(){
 
 
 
+    kiraJumlahKeseluruhan();
+
+
+
 }
+
+
+
+
+
+
+
+// =====================================================
+// KIRA KATEGORI KLM
+// =====================================================
+
+function kiraKategori(
+    anggota,
+    duty
+){
+
+
+
+let data = {
+
+
+    jamBiasa:0,
+
+    rmBiasa:0,
+
+
+    hariOffKurang4:0,
+
+    rmOffKurang4:0,
+
+
+    hariOff48:0,
+
+    rmOff48:0,
+
+
+    jamOffLebih8:0,
+
+    rmOffLebih8:0,
+
+
+    hariCutiKurang8:0,
+
+    rmCutiKurang8:0,
+
+
+    jamCutiLebih8:0,
+
+    rmCutiLebih8:0,
+
+
+    jumlahRM:0
+
+
+
+};
+
+
+
+
+
+
+duty.forEach(
+(d)=>{
+
+
+
+let jam =
+Number(
+    d.jam_kerja || 0
+);
+
+
+
+let kategori =
+(
+    d.kategori ||
+    d.jenis ||
+    d.waktu_tugasan ||
+    ""
+)
+.toUpperCase();
+
+
+
+
+
+
+
+// ===============================
+// HARI BIASA
+// ===============================
+
+if(
+kategori.includes(
+    "BIASA"
+)
+){
+
+
+data.jamBiasa += jam;
+
+
+
+data.rmBiasa +=
+Number(
+    anggota.rm_pehariklmbiasa || 0
+);
+
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// OFFDAY
+// ===============================
+
+else if(
+kategori.includes(
+    "OFF"
+)
+){
+
+
+
+if(jam < 4){
+
+
+
+data.hariOffKurang4++;
+
+
+
+data.rmOffKurang4 +=
+Number(
+    anggota.rm_perharioffday || 0
+);
+
+
+
+}
+
+else if(
+jam <= 8
+){
+
+
+
+data.hariOff48++;
+
+
+
+data.rmOff48 +=
+Number(
+    anggota.rm_perharioffday || 0
+);
+
+
+
+}
+
+else{
+
+
+
+data.jamOffLebih8 +=
+(jam-8);
+
+
+
+data.rmOffLebih8 +=
+
+Number(
+    anggota.rm_perharioffday || 0
+)
+
++
+
+(
+(jam-8)
+*
+Number(
+    anggota.rm_perjamoffday || 0
+)
+);
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// CUTI AM
+// ===============================
+
+else if(
+kategori.includes(
+    "CUTI"
+)
+){
+
+
+
+if(
+jam <= 8
+){
+
+
+
+data.hariCutiKurang8++;
+
+
+
+data.rmCutiKurang8 +=
+Number(
+    anggota.rm_perharicutiam || 0
+);
+
+
+
+}
+
+else{
+
+
+
+data.jamCutiLebih8 +=
+(jam-8);
+
+
+
+data.rmCutiLebih8 +=
+
+Number(
+    anggota.rm_perharicutiam || 0
+)
+
++
+
+(
+(jam-8)
+*
+Number(
+    anggota.rm_perjamcutiam || 0
+)
+);
+
+
+
+}
+
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+data.jumlahRM =
+
+data.rmBiasa
+
++
+
+data.rmOffKurang4
+
++
+
+data.rmOff48
+
++
+
+data.rmOffLebih8
+
++
+
+data.rmCutiKurang8
+
++
+
+data.rmCutiLebih8;
+
+
+
+
+return data;
+
+
+
+}
+
 
 
 
@@ -757,141 +978,151 @@ function binaTableRK02(){
 
 
 
-    let tbody =
-    document.getElementById(
-        "rk02Body"
-    );
+let tbody =
+document.getElementById(
+    "rk02ReportBody"
+);
 
 
 
-    if(!tbody)
-        return;
+if(!tbody)
+    return;
 
 
 
-    tbody.innerHTML="";
+tbody.innerHTML="";
 
 
 
-    let bil=1;
+let bil = 1;
 
 
 
-    laporanRK02
-    .forEach(
-    (data)=>{
 
+laporanRK02.forEach(
+(data)=>{
 
 
-        let tr =
-        document.createElement(
-            "tr"
-        );
 
+let tr =
+document.createElement(
+    "tr"
+);
 
 
-        let jumlahDuty =
-        data.tugas.length;
 
+tr.innerHTML =
 
+`
 
-        tr.innerHTML =
+<td>
+${bil}
+</td>
 
-        `
-        <td class="bil">
-            ${bil}
-        </td>
 
+<td>
+${data.no_skb || ""}
+</td>
 
-        <td>
-            ${data.no_skb || ""}
-        </td>
 
+<td>
+${data.nama || ""}
+</td>
 
-        <td>
-            ${data.nama || ""}
-        </td>
 
+<td>
+${formatRM(data.gaji)}
+</td>
 
-        <td>
-            ${data.pangkat || ""}
-        </td>
 
+<td>
+${data.jamBiasa}
+</td>
 
-        <td>
-            ${data.pos || ""}
-        </td>
 
+<td>
+RM ${formatRM(data.rmBiasa)}
+</td>
 
-        <td class="text-center">
-            ${jumlahDuty}
-        </td>
 
 
-        <td>
-            ${paparSenaraiDuty(
-                data.tugas
-            )}
-        </td>
+<td>
+${data.hariOffKurang4}
+</td>
 
-        `;
 
+<td>
+RM ${formatRM(data.rmOffKurang4)}
+</td>
 
 
-        tbody.appendChild(
-            tr
-        );
 
+<td>
+${data.hariOff48}
+</td>
 
 
-        bil++;
+<td>
+RM ${formatRM(data.rmOff48)}
+</td>
 
 
 
-    });
+<td>
+${data.jamOffLebih8}
+</td>
 
 
+<td>
+RM ${formatRM(data.rmOffLebih8)}
+</td>
 
-}
 
 
 
+<td>
+${data.hariCutiKurang8}
+</td>
 
 
+<td>
+RM ${formatRM(data.rmCutiKurang8)}
+</td>
 
 
 
+<td>
+${data.jamCutiLebih8}
+</td>
 
-// =====================================================
-// PAPAR SENARAI DUTY
-// =====================================================
 
-function paparSenaraiDuty(data){
+<td>
+RM ${formatRM(data.rmCutiLebih8)}
+</td>
 
 
 
-    let html="";
+<td>
+RM ${formatRM(data.jumlahRM)}
+</td>
 
 
+`;
 
-    data.forEach(
-    (d)=>{
 
 
-        html +=
-        `
-        ${d.tarikh}
-        -
-        ${d.waktu_tugasan || ""}
-        <br>
-        `;
+tbody.appendChild(
+    tr
+);
 
 
-    });
 
+bil++;
 
 
-    return html;
+
+});
+
 
 
 }
@@ -904,249 +1135,125 @@ function paparSenaraiDuty(data){
 
 
 // =====================================================
-// KIRAAN RM RK02
+// KIRA JUMLAH KESELURUHAN
 // =====================================================
 
-function kiraRMRK02(data){
+function kiraJumlahKeseluruhan(){
 
 
-    let jumlahRM = 0;
 
+let jumlah = {
 
-    let pecahan = {
 
+    jamBiasa:0,
+    rmBiasa:0,
 
-        biasa:0,
 
-        offday4_8:0,
+    hariOffKurang4:0,
+    rmOffKurang4:0,
 
-        offday8:0,
 
-        cutiam4_8:0,
+    hariOff48:0,
+    rmOff48:0,
 
-        cutiam8:0
 
+    jamOffLebih8:0,
+    rmOffLebih8:0,
 
-    };
 
+    hariCutiKurang8:0,
+    rmCutiKurang8:0,
 
 
+    jamCutiLebih8:0,
+    rmCutiLebih8:0,
 
-    data.tugas.forEach(
-    (d)=>{
 
+    jumlahRM:0
 
+};
 
-        let jam =
-        Number(
-            d.jam_kerja || 0
-        );
 
 
 
-        let kategori =
-        (d.kategori || "")
-        .toUpperCase();
 
+laporanRK02.forEach(
+(data)=>{
 
 
-        let anggota =
-        cariAnggota(
-            data.no_skb
-        );
 
+jumlah.jamBiasa +=
+data.jamBiasa;
 
 
-        if(!anggota)
-            return;
 
+jumlah.rmBiasa +=
+data.rmBiasa;
 
 
 
-        // ==========================
-        // HARI BIASA
-        // ==========================
 
-        if(
-            kategori.includes(
-                "BIASA"
-            )
-        ){
+jumlah.hariOffKurang4 +=
+data.hariOffKurang4;
 
 
-            let rm =
-            Number(
-                anggota.rm_pehariklmbiasa || 0
-            );
 
+jumlah.rmOffKurang4 +=
+data.rmOffKurang4;
 
-            pecahan.biasa += rm;
 
 
-            jumlahRM += rm;
 
+jumlah.hariOff48 +=
+data.hariOff48;
 
-        }
 
 
+jumlah.rmOff48 +=
+data.rmOff48;
 
 
 
-        // ==========================
-        // OFFDAY
-        // ==========================
 
-        else if(
-            kategori.includes(
-                "OFF"
-            )
-        ){
+jumlah.jamOffLebih8 +=
+data.jamOffLebih8;
 
 
 
-            if(jam <= 8){
+jumlah.rmOffLebih8 +=
+data.rmOffLebih8;
 
 
-                let rm =
-                Number(
-                    anggota.rm_perharioffday || 0
-                );
 
 
+jumlah.hariCutiKurang8 +=
+data.hariCutiKurang8;
 
-                pecahan.offday4_8 += rm;
 
 
-                jumlahRM += rm;
+jumlah.rmCutiKurang8 +=
+data.rmCutiKurang8;
 
 
 
-            }
-            else{
 
+jumlah.jamCutiLebih8 +=
+data.jamCutiLebih8;
 
-                let rmHari =
-                Number(
-                    anggota.rm_perharioffday || 0
-                );
 
 
-                let rmJam =
-                Number(
-                    anggota.rm_perjamoffday || 0
-                )
-                *
-                (jam-8);
+jumlah.rmCutiLebih8 +=
+data.rmCutiLebih8;
 
 
 
-                let rm =
-                rmHari + rmJam;
 
+jumlah.jumlahRM +=
+data.jumlahRM;
 
 
-                pecahan.offday8 += rm;
 
-
-                jumlahRM += rm;
-
-
-
-            }
-
-
-
-        }
-
-
-
-
-
-
-        // ==========================
-        // CUTI AM
-        // ==========================
-
-        else if(
-            kategori.includes(
-                "CUTI"
-            )
-        ){
-
-
-
-            if(jam <= 8){
-
-
-                let rm =
-                Number(
-                    anggota.rm_perharicutiam || 0
-                );
-
-
-
-                pecahan.cutiam4_8 += rm;
-
-
-                jumlahRM += rm;
-
-
-
-            }
-            else{
-
-
-                let rmHari =
-                Number(
-                    anggota.rm_perharicutiam || 0
-                );
-
-
-
-                let rmJam =
-                Number(
-                    anggota.rm_perjamcutiam || 0
-                )
-                *
-                (jam-8);
-
-
-
-                let rm =
-                rmHari + rmJam;
-
-
-
-                pecahan.cutiam8 += rm;
-
-
-                jumlahRM += rm;
-
-
-
-            }
-
-
-        }
-
-
-
-    });
-
-
-
-    return {
-
-        jumlahRM,
-
-        pecahan
-
-    };
-
-
-
-}
-
+});
 
 
 
@@ -1155,123 +1262,116 @@ function kiraRMRK02(data){
 
 
 // =====================================================
-// CARI DATA ANGGOTA
+// PAPAR FOOTER HTML
 // =====================================================
 
-function cariAnggota(no_skb){
 
-
-    return dataAnggota.find(
-    (a)=>{
-
-
-        return (
-            a.no_skb ==
-            no_skb
-        );
-
-
-    });
+setText(
+"jumlahJamBiasa",
+jumlah.jamBiasa
+);
 
 
 
-}
+setText(
+"jumlahRmBiasa",
+"RM " + formatRM(jumlah.rmBiasa)
+);
 
 
 
 
 
-
-
-// =====================================================
-// PAPAR JUMLAH RM
-// =====================================================
-
-function paparJumlahRM(){
-
-
-    let jumlah =
-    0;
+setText(
+"jumlahHariOffKurang4",
+jumlah.hariOffKurang4
+);
 
 
 
-    laporanRK02.forEach(
-    (data)=>{
-
-
-        let kira =
-        kiraRMRK02(
-            data
-        );
-
-
-
-        jumlah +=
-        kira.jumlahRM;
-
-
-
-    });
-
-
-
-
-    setText(
-        "jumlahRM",
-        "RM " +
-        formatRM(
-            jumlah
-        )
-    );
-
-
-
-}
+setText(
+"jumlahRmOffKurang4",
+"RM " + formatRM(jumlah.rmOffKurang4)
+);
 
 
 
 
 
+setText(
+"jumlahHariOff48",
+jumlah.hariOff48
+);
 
 
 
-// =====================================================
-// REFRESH & SIMPAN RM
-// =====================================================
-
-async function refreshSimpanRM(){
-
-
-
-    paparJumlahRM();
+setText(
+"jumlahRmOff48",
+"RM " + formatRM(jumlah.rmOff48)
+);
 
 
 
-    for(
-        let data of laporanRK02
-    ){
 
 
-        let kira =
-        kiraRMRK02(
-            data
-        );
+setText(
+"jumlahJamOffLebih8",
+jumlah.jamOffLebih8
+);
 
 
 
-        await simpanRM(
-            data,
-            kira
-        );
-
-
-    }
+setText(
+"jumlahRmOffLebih8",
+"RM " + formatRM(jumlah.rmOffLebih8)
+);
 
 
 
-    alert(
-        "Pengiraan RM RK02 telah dikemaskini"
-    );
+
+
+setText(
+"jumlahHariCutiKurang8",
+jumlah.hariCutiKurang8
+);
+
+
+
+setText(
+"jumlahRmCutiKurang8",
+"RM " + formatRM(jumlah.rmCutiKurang8)
+);
+
+
+
+
+
+setText(
+"jumlahJamCutiLebih8",
+jumlah.jamCutiLebih8
+);
+
+
+
+setText(
+"jumlahRmCutiLebih8",
+"RM " + formatRM(jumlah.rmCutiLebih8)
+);
+
+
+
+
+
+setText(
+"jumlahRmKeseluruhan",
+"RM " + formatRM(jumlah.jumlahRM)
+);
+
+
+
+
+
+return jumlah;
 
 
 
@@ -1286,62 +1386,158 @@ async function refreshSimpanRM(){
 
 
 // =====================================================
-// SIMPAN KE SUPABASE
+// RUMUSAN KLM BAWAH RK02
 // =====================================================
 
-async function simpanRM(
-    data,
-    kira
-){
+function binaRumusanKLM(){
+
+
+
+let jam = 0;
+
+let rm = 0;
+
+
+
+laporanRK02.forEach(
+(data)=>{
+
+
+jam +=
+data.jamBiasa
+
++
+data.jamOffLebih8
+
++
+data.jamCutiLebih8;
+
+
+
+rm +=
+data.jumlahRM;
+
+
+
+});
+
+
+
+
+
+let jamElement =
+document.querySelector(
+".jumlah-jam"
+);
+
+
+
+let rmElement =
+document.querySelector(
+".jumlah-rm"
+);
+
+
+
+if(jamElement){
+
+jamElement.textContent =
+jam;
+
+}
+
+
+
+if(rmElement){
+
+rmElement.textContent =
+"RM " +
+formatRM(rm);
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// =====================================================
+// SIMPAN LAPORAN RK02
+// =====================================================
+
+async function simpanLaporanRK02(){
 
 
 
 try{
 
 
-    let {
-        error
-    }
-    =
-    await supabase
-    .from(
-        "laporan_rk02"
-    )
-    .upsert({
+
+let jumlah =
+kiraJumlahKeseluruhan();
 
 
 
-        no_skb:
-        data.no_skb,
+let {
+error
+}
+=
+await supabase
+.from(
+"laporan_rk02"
+)
+.upsert({
 
 
-        bulan:
-        bulanLaporan,
+bulan:
+bulanLaporan,
 
 
-        tahun:
-        tahunLaporan,
+tahun:
+tahunLaporan,
 
 
-        pos:
-        posLaporan,
+pos:
+posLaporan,
 
 
-        jumlah_rm:
-        kira.jumlahRM,
+jumlah_rm:
+jumlah.jumlahRM,
 
 
-        dikemaskini_pada:
-        new Date()
+jumlah_jam:
+jumlah.jamBiasa
++
+jumlah.jamOffLebih8
++
+jumlah.jamCutiLebih8,
+
+
+dikemaskini_pada:
+new Date()
 
 
 
-    });
+});
 
 
 
-    if(error)
-        throw error;
+if(error)
+throw error;
+
+
+
+
+alert(
+"Laporan RK02 berjaya disimpan"
+);
 
 
 
@@ -1350,10 +1546,10 @@ try{
 catch(error){
 
 
-    console.error(
-        "SIMPAN RM ERROR",
-        error
-    );
+console.error(
+"SIMPAN RK02 ERROR",
+error
+);
 
 
 }
@@ -1368,25 +1564,10 @@ catch(error){
 
 
 
-// =====================================================
-// PRINT LAPORAN
-// =====================================================
-
-function cetakRK02(){
-
-
-    window.print();
-
-
-}
-
-
-
-
 
 
 // =====================================================
-// BUTTON REFRESH
+// BUTTON REFRESH RM
 // =====================================================
 
 document.addEventListener(
@@ -1394,17 +1575,74 @@ document.addEventListener(
 (e)=>{
 
 
-    if(
-        e.target.id ===
-        "btnRefreshRM"
-    ){
+if(
+e.target.id ===
+"btnRefreshRM"
+){
 
 
-        refreshSimpanRM();
+kiraJumlahKeseluruhan();
 
 
-    }
+binaRumusanKLM();
+
+
+simpanLaporanRK02();
+
+
+}
 
 
 
 });
+
+
+
+
+
+
+
+
+
+// =====================================================
+// CETAK
+// =====================================================
+
+function cetakRK02(){
+
+
+window.print();
+
+
+}
+
+
+
+
+
+
+
+// =====================================================
+// AUTO KIRA SELEPAS TABLE SIAP
+// =====================================================
+
+setTimeout(
+()=>{
+
+
+if(
+laporanRK02.length > 0
+){
+
+
+kiraJumlahKeseluruhan();
+
+binaRumusanKLM();
+
+
+}
+
+
+},
+500
+);

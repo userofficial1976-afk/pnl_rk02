@@ -23,7 +23,12 @@ let laporanRK02 = [];
 let bulanLaporan = "";
 let tahunLaporan = "";
 let posLaporan = "";
+// =====================================================
+// SUPABASE CLIENT
+// =====================================================
 
+const db =
+window.supabaseClient;
 
 
 
@@ -67,7 +72,7 @@ console.log(
 
 
 
-if(typeof supabase === "undefined"){
+if(!db){
 
 
 console.error(
@@ -212,7 +217,7 @@ data,
 error
 }
 =
-await supabase
+await db
 .from(
 "data_pos"
 )
@@ -283,7 +288,7 @@ data,
 error
 }
 =
-await supabase
+await db
 .from(
 "Data_Anggota"
 )
@@ -365,7 +370,7 @@ data,
 error
 }
 =
-await supabase
+await db
 .from(
 "rk02_data_entry"
 )
@@ -442,7 +447,7 @@ data,
 error
 }
 =
-await supabase
+await db
 .from(
 "rk02_pos_tampungan"
 )

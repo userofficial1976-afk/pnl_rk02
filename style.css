@@ -489,3 +489,155 @@ button{
     }
 
 }
+/* =========================================
+   PENGESAHAN - 1 TABLE 3 KOTAK
+========================================= */
+
+.pengesahan-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+    margin-top:8px;
+
+}
+
+
+.pengesahan-table td{
+
+    width:33.333%;
+
+    border:1px solid #000;
+
+    height:115px;
+
+    padding:5px;
+
+    text-align:center;
+
+    vertical-align:top;
+
+    font-size:8px;
+
+    line-height:1.25;
+
+}
+
+
+/* TAJUK */
+
+.sign-title{
+
+    font-weight:bold;
+
+    min-height:24px;
+
+}
+
+
+/* AYAT PENGESAHAN */
+
+.sign-text{
+
+    min-height:32px;
+
+    text-align:center;
+
+}
+
+
+/* RUANG TANDATANGAN */
+
+.sign-space{
+
+    height:16px;
+
+}
+
+
+/* GARIS TANDATANGAN */
+
+.sign-line{
+
+    font-size:10px;
+
+    line-height:1;
+
+}
+
+
+/* NAMA */
+
+.sign-name{
+
+    min-height:25px;
+
+}
+
+
+/* BAHAGIAN BAWAH */
+
+.sign-footer{
+
+    margin-top:4px;
+
+}
+
+
+/* PRINT PDF */
+
+@media print{
+
+    .pengesahan-table{
+
+        margin-top:5px;
+
+        page-break-inside:avoid;
+
+    }
+
+
+    .pengesahan-table td{
+
+        height:95px;
+
+        padding:3px;
+
+        font-size:7px;
+
+        line-height:1.15;
+
+    }
+
+
+    .sign-title{
+
+        min-height:20px;
+
+    }
+
+
+    .sign-text{
+
+        min-height:25px;
+
+    }
+
+
+    .sign-space{
+
+        height:10px;
+
+    }
+
+
+    .sign-name{
+
+        min-height:20px;
+
+    }
+
+}

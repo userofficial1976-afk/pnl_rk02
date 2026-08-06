@@ -1557,3 +1557,50 @@ window.print();
 
 
 }
+
+
+// =====================================================
+// ISI DROPDOWN BULAN
+// =====================================================
+
+function isiDropdownBulan(){
+
+
+let select =
+document.getElementById("bulan");
+
+
+if(!select)
+return;
+
+
+
+select.innerHTML = `
+<option value="">
+-- PILIH BULAN --
+</option>
+`;
+
+
+
+for(let i = 1; i < SENARAI_BULAN.length; i++){
+
+
+let option =
+document.createElement("option");
+
+
+option.value = i;
+
+
+option.textContent =
+SENARAI_BULAN[i];
+
+
+select.appendChild(option);
+
+
+}
+
+
+}

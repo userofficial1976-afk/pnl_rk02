@@ -67,7 +67,7 @@ console.log(
 
 
 
-if(typeof db === "undefined"){
+if(typeof supabase === "undefined"){
 
 
 console.error(
@@ -212,7 +212,7 @@ data,
 error
 }
 =
-await db
+await supabase
 .from(
 "data_pos"
 )
@@ -283,7 +283,7 @@ data,
 error
 }
 =
-await db
+await supabase
 .from(
 "Data_Anggota"
 )
@@ -365,7 +365,7 @@ data,
 error
 }
 =
-await db
+await supabase
 .from(
 "rk02_data_entry"
 )
@@ -442,7 +442,7 @@ data,
 error
 }
 =
-await db
+await supabase
 .from(
 "rk02_pos_tampungan"
 )

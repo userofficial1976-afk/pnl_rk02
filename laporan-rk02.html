@@ -103,37 +103,51 @@ Laporan RK02 Bulanan
 <table class="rk02-table">
 <colgroup>
 
-<col style="width:10mm">   <!-- BIL -->
 
-<col style="width:32mm">   <!-- NO SKB / NO ANGGOTA -->
 
-<col style="width:55mm">   <!-- NAMA ANGGOTA -->
+<col style="width:8mm">
 
-<col style="width:22mm">   <!-- GAJI POKOK -->
+<col style="width:28mm">
+
+<col style="width:55mm">
+
+<col style="width:18mm">
 
 
 <!-- HARI BIASA -->
-<col style="width:15mm">
-<col style="width:15mm">
-
-
-<!-- HARI OFF -->
-<col style="width:15mm">
+<col style="width:12mm">
 <col style="width:15mm">
 
 
-<!-- HARI CUTI AM -->
-<col style="width:15mm">
-<col style="width:15mm">
+<!-- HARI OFF KURANG 4 JAM -->
+<col style="width:10mm">
+<col style="width:12mm">
 
 
-<!-- KLM TUGAS -->
-<col style="width:15mm">
-<col style="width:15mm">
+<!-- HARI OFF 4-8 JAM -->
+<col style="width:10mm">
+<col style="width:12mm">
+
+
+<!-- HARI OFF >8 JAM -->
+<col style="width:10mm">
+<col style="width:12mm">
+
+
+<!-- CUTI AM <8 JAM -->
+<col style="width:10mm">
+<col style="width:12mm">
+
+
+<!-- CUTI AM >8 JAM -->
+<col style="width:10mm">
+<col style="width:12mm">
 
 
 <!-- JUMLAH -->
-<col style="width:25mm">
+<col style="width:20mm">
+
+
 
 
 </colgroup>
@@ -142,27 +156,19 @@ Laporan RK02 Bulanan
 
 <tr>
 
-<th rowspan="2">
-BIL
-</th>
-
+<th rowspan="2">BIL</th>
 
 <th rowspan="2">
-NO SKB /<br>
-NO ANGGOTA
+SKB / NO ANGGOTA
 </th>
-
 
 <th rowspan="2">
 NAMA ANGGOTA
 </th>
 
-
 <th rowspan="2">
-GAJI POKOK<br>
-(RM)
+GAJI POKOK<br>(RM)
 </th>
-
 
 
 <th colspan="2">
@@ -170,24 +176,63 @@ HARI BIASA
 </th>
 
 
-<th colspan="2">
+<th colspan="6">
 HARI OFF
 </th>
 
 
-<th colspan="2">
+<th colspan="4">
 HARI CUTI AM
-</th>
-
-
-<th colspan="2">
-KLM TUGAS
 </th>
 
 
 <th rowspan="2">
 JUMLAH<br>
-(RM)
+TUNTUTAN KLM
+</th>
+
+</tr>
+
+
+<tr>
+
+
+<!-- HARI BIASA -->
+
+<th>
+Jam
+</th>
+
+<th>
+RM
+</th>
+
+
+
+<!-- HARI OFF -->
+
+<th colspan="2">
+Kurang 4 Jam
+</th>
+
+<th colspan="2">
+4 Hingga 8 Jam
+</th>
+
+<th colspan="2">
+Lebih 8 Jam
+</th>
+
+
+
+<!-- CUTI AM -->
+
+<th colspan="2">
+Kurang 8 Jam
+</th>
+
+<th colspan="2">
+Lebih 8 Jam
 </th>
 
 
@@ -198,51 +243,69 @@ JUMLAH<br>
 <tr>
 
 
-<th>
-JAM
-</th>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 
-<th>
+
+<td></td>
+<td></td>
+
+
+<td>
+Hari
+</td>
+
+<td>
 RM
-</th>
+</td>
 
 
+<td>
+Hari
+</td>
 
-<th>
-JAM
-</th>
-
-<th>
+<td>
 RM
-</th>
+</td>
 
 
+<td>
+Jam
+</td>
 
-<th>
-JAM
-</th>
-
-<th>
+<td>
 RM
-</th>
+</td>
 
 
 
-<th>
-JAM
-</th>
+<td>
+Hari
+</td>
 
-<th>
+<td>
 RM
-</th>
+</td>
 
+
+<td>
+Jam
+</td>
+
+<td>
+RM
+</td>
+
+
+<td></td>
 
 
 </tr>
 
 
 </thead>
-
 
 
 <tbody id="rk02ReportBody">

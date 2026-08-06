@@ -307,7 +307,52 @@ button{
 
 }
 
+/* =========================================
+   PAPARAN HTML NORMAL
+   KECILKAN PENGESAHAN
+========================================= */
 
+.pengesahan-table td{
+
+    font-size:12px;
+    line-height:1.2;
+
+}
+
+
+.sign-title{
+
+    font-size:12px;
+
+}
+
+
+.sign-text{
+
+    font-size:11px;
+
+}
+
+
+.sign-line{
+
+    font-size:12px;
+
+}
+
+
+.sign-name{
+
+    font-size:11px;
+
+}
+
+
+.sign-footer{
+
+    font-size:11px;
+
+}
 
 /* ==========================================
    RK02 PRINT PDF A4 LANDSCAPE

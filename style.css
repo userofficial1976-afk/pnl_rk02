@@ -691,3 +691,183 @@ button{
     }
 
 }
+
+/* =========================================
+   HEADER MAKLUMAT RK02
+========================================= */
+
+.report-header{
+
+    width:100%;
+
+}
+
+
+.report-header h2{
+
+    text-align:center;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    margin:0;
+
+}
+
+
+.report-header h3{
+
+    text-align:center;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    margin:3px 0 8px;
+
+}
+
+
+/* TABLE MAKLUMAT */
+
+.report-info-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    table-layout:fixed;
+
+    margin-top:5px;
+
+}
+
+
+.report-info-table td{
+
+    border:none;
+
+    padding:2px 4px;
+
+    font-size:11px;
+
+    vertical-align:middle;
+
+}
+
+
+/* LABEL */
+
+.info-label{
+
+    width:12%;
+
+    font-weight:bold;
+
+    text-align:left;
+
+    white-space:nowrap;
+
+}
+
+
+/* NAMA POS */
+
+.info-pos{
+
+    width:68%;
+
+    text-align:left;
+
+    font-weight:bold;
+
+}
+
+
+/* RK-02 */
+
+.info-rk{
+
+    width:20%;
+
+    text-align:right;
+
+    font-weight:bold;
+
+    font-size:13px !important;
+
+}
+
+
+/* KAWASAN */
+
+.info-kawasan{
+
+    width:45%;
+
+    text-align:left;
+
+}
+
+
+/* BULAN */
+
+.info-bulan{
+
+    width:43%;
+
+    text-align:left;
+
+    font-weight:bold;
+
+}
+
+
+/* =========================================
+   CETAK PDF
+========================================= */
+
+@media print{
+
+    .report-header h2{
+
+        font-size:16px !important;
+
+        text-align:center !important;
+
+    }
+
+
+    .report-header h3{
+
+        font-size:14px !important;
+
+        text-align:center !important;
+
+    }
+
+
+    .report-info-table{
+
+        margin-top:4px;
+
+    }
+
+
+    .report-info-table td{
+
+        font-size:10px;
+
+        padding:1px 3px;
+
+    }
+
+
+    .info-rk{
+
+        font-size:12px !important;
+
+    }
+
+}

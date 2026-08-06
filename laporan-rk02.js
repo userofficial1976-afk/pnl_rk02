@@ -94,6 +94,7 @@ await muatPos();
 
 await muatAnggota();
 
+isiDropdownBulan();
 
 pasangEvent();
 
@@ -178,7 +179,7 @@ return;
 
 setText(
 "namaPos",
-pengguna.pos ||
+pengguna.poskhidmat ||
 "-"
 );
 
@@ -548,9 +549,7 @@ document.getElementById(
 
 
 posLaporan =
-document.getElementById(
-"pilihPos"
-).value;
+pengguna.poskhidmat;
 
 
 

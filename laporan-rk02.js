@@ -54,7 +54,54 @@ const SENARAI_BULAN = [
 
 ];
 
+// =====================================================
+// DROPDOWN BULAN
+// =====================================================
 
+function isiDropdownBulan(){
+
+
+let bulan =
+document.getElementById(
+"bulan"
+);
+
+
+if(!bulan)
+return;
+
+
+
+bulan.innerHTML="";
+
+
+
+for(let i=1;i<=12;i++){
+
+
+let option =
+document.createElement("option");
+
+
+option.value=i;
+
+
+option.textContent =
+SENARAI_BULAN[i];
+
+
+bulan.appendChild(option);
+
+
+}
+
+
+
+bulan.value =
+new Date().getMonth()+1;
+
+
+}
 
 
 // =====================================================
@@ -90,7 +137,6 @@ return;
 
 await muatPengguna();
 
-await muatPos();
 
 await muatAnggota();
 
@@ -1558,49 +1604,6 @@ window.print();
 
 }
 
-
-// =====================================================
-// ISI DROPDOWN BULAN
-// =====================================================
-
-function isiDropdownBulan(){
-
-
-let select =
-document.getElementById("bulan");
-
-
-if(!select)
-return;
-
-
-
-select.innerHTML = `
-<option value="">
--- PILIH BULAN --
-</option>
-`;
-
-
-
-for(let i = 1; i < SENARAI_BULAN.length; i++){
-
-
-let option =
-document.createElement("option");
-
-
-option.value = i;
-
-
-option.textContent =
-SENARAI_BULAN[i];
-
-
-select.appendChild(option);
-
-
-}
 
 
 }

@@ -1229,4 +1229,55 @@ button{
 }
 
 
+/* =========================================
+   TAMBAHAN - RAPATKAN PENGESAHAN RK02
+========================================= */
 
+.sign-title{
+
+    min-height:auto !important;
+
+    margin-bottom:3px !important;
+
+}
+
+
+.sign-text{
+
+    min-height:auto !important;
+
+    margin:0 !important;
+
+    line-height:1.15 !important;
+
+}
+
+
+.sign-space{
+
+    height:10px !important;
+
+}
+
+
+.sign-line{
+
+    margin-top:0 !important;
+
+}
+
+
+.sign-name{
+
+    margin-top:3px !important;
+
+    min-height:auto !important;
+
+}
+
+
+.sign-footer{
+
+    margin-top:3px !important;
+
+}

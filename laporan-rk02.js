@@ -1145,7 +1145,36 @@ bil++;
 
 });
 
+// Pastikan minimum 10 baris dipaparkan
+while (bil <= 10) {
 
+    let tr = document.createElement("tr");
+
+    tr.innerHTML = `
+        <td>${bil}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    `;
+
+    tbody.appendChild(tr);
+
+    bil++;
+
+}
 
 }
 // =====================================================
@@ -1261,56 +1290,6 @@ data.jumlahRM;
 
 
 });
-
-// Pastikan minimum 10 baris dipaparkan
-
-while (bil <= 10) {
-
-    let tr = document.createElement("tr");
-
-    tr.innerHTML = `
-
-    <td>${bil}</td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    <td></td>
-
-    `;
-
-    tbody.appendChild(tr);
-
-    bil++;
-
-}
 
 
 

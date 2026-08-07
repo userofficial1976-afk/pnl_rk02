@@ -1550,7 +1550,15 @@ console.log(
 "RUMUSAN KLM",
 jumlah
 );
+console.log(
+"JAM BIASA",
+jumlah.jamBiasa
+);
 
+console.log(
+"DATA TAMPUNGAN",
+dataTampungan
+);
 
 }
 
@@ -1575,7 +1583,7 @@ await muatTampungan();
 prosesRK02();
 
 
-binaRumusanKLM();
+
 
 
 

@@ -846,7 +846,7 @@ item.off8 || 0
 )
 *
 Number(
-anggota.rm_perharioffday || 0
+anggota.rm_perjamoffday || 0
 )
 ),
 
@@ -895,7 +895,7 @@ item.cuti8p || 0
 )
 *
 Number(
-anggota.rm_perharicutiam || 0
+anggota.rm_perjamcutiam || 0
 )
 ),
 

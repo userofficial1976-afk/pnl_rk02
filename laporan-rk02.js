@@ -1442,7 +1442,7 @@ tambahan:0
 laporanRK02.forEach((data)=>{
 
 jumlah.jamBiasa +=
-Number(data.hariBiasa || 0);
+Number(data.hari_biasa || 0);
 
 });
 

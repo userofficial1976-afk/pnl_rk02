@@ -1317,3 +1317,18 @@ button{
     margin-top:0 !important;
 
 }
+
+
+/* =====================================
+   PRINT
+   ===================================== */
+
+@media print{
+
+    .filter-rk02{
+
+        display:none !important;
+
+    }
+
+}

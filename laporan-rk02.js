@@ -1563,13 +1563,13 @@ jumlah.tambahan;
 // PAPAR
 // ===================================
 
-setText("klm01", jumlah.kawalan);
-setText("klm02", jumlah.pentadbiran);
-setText("klm03", jumlah.pemandu);
-setText("klm04", jumlah.tampungan);
-setText("klm05", jumlah.eskot);
-setText("klm06", jumlah.cit);
-setText("klm07", jumlah.wang);
+setText("klm01", jumlah.pentadbiran);
+setText("klm02", jumlah.pemandu);
+setText("klm03", jumlah.tampungan);
+setText("klm04", jumlah.eskot);
+setText("klm05", jumlah.cit);
+setText("klm06", jumlah.wang);
+setText("klm07", jumlah.tambahan);
 setText("klm08", jumlah.tambahan);
 
 setText("jumlahKLM", jumlahKLM);

@@ -760,8 +760,10 @@ anggota.pangkat || "",
 
 gaji:
 Number(
-anggota.gaji_pokok || 0
-)
+String(anggota.gaji_pokok || 0)
+.replace(/,/g,'')
+.trim()
+),
 
 
 

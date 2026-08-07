@@ -1420,109 +1420,130 @@ return jumlah;
 
 function binaRumusanKLM(){
 
-
-
 let jumlah = {
 
-
-jam:0,
-
+jamBiasa:0,
+kawalan:0,
+pentadbiran:0,
+pemandu:0,
+tampungan:0,
 eskot:0,
-
 cit:0,
-
-tambahan:0,
-
 wang:0,
-
-pemandu:0
+tambahan:0
 
 };
 
 
+// ================================
+// JUMLAH JAM HARI BIASA ANGGOTA
+// ================================
+
+laporanRK02.forEach((data)=>{
+
+jumlah.jamBiasa +=
+Number(data.hariBiasa || 0);
+
+});
 
 
+// ================================
+// DATA TAMPUNGAN POS
+// ================================
 
-dataTampungan.forEach(
-(data)=>{
+dataTampungan.forEach((data)=>{
 
 
+// 03 KLM PEMANDU
+jumlah.pemandu +=
+Number(data.pemandu || 0);
 
-jumlah.jam +=
 
-Number(data.jam_pos1 || 0)
+// 04 KLM TAMPUNGAN POS
+jumlah.tampungan +=
 
-+
-
-Number(data.jam_pos2 || 0)
-
-+
-
-Number(data.jam_pos3 || 0)
-
-+
-
-Number(data.jam_pos4 || 0)
-
-+
-
-Number(data.jam_pos5 || 0)
-
-+
-
+Number(data.jam_pos1 || 0) +
+Number(data.jam_pos2 || 0) +
+Number(data.jam_pos3 || 0) +
+Number(data.jam_pos4 || 0) +
+Number(data.jam_pos5 || 0) +
 Number(data.jam_pos6 || 0);
 
 
-
+// 05 KLM ESKOT
 jumlah.eskot +=
 Number(data.eskot || 0);
 
 
-
+// 06 KLM CIT
 jumlah.cit +=
 Number(data.cit || 0);
 
 
-
-jumlah.tambahan +=
-Number(data.kawalan_tambahan || 0);
-
-
-
+// 07 KLM KAWALAN WANG
 jumlah.wang +=
 Number(data.kawalan_wang || 0);
 
 
-
-jumlah.pemandu +=
-Number(data.pemandu || 0);
-
+// 08 KLM TAMBAHAN
+jumlah.tambahan +=
+Number(data.kawalan_tambahan || 0);
 
 
 });
 
 
+// ================================
+// 01 KLM TUGAS KAWALAN
+// ================================
+
+jumlah.kawalan =
+
+jumlah.jamBiasa
+
+-
+jumlah.pemandu
+
+-
+jumlah.tampungan
+
+-
+jumlah.eskot
+
+-
+jumlah.cit
+
+-
+jumlah.wang
+
+-
+jumlah.tambahan;
 
 
 
-// Jumlah jam bawah RK02
+let jumlahKLM =
 
-let jam =
-document.querySelector(
-".jumlah-jam"
-);
-
-
-
-if(jam){
-
-jam.textContent =
-jumlah.jam;
-
-}
+jumlah.kawalan +
+jumlah.pentadbiran +
+jumlah.pemandu +
+jumlah.tampungan +
+jumlah.eskot +
+jumlah.cit +
+jumlah.wang +
+jumlah.tambahan;
 
 
 
+setText("klm01", jumlah.kawalan);
+setText("klm02", jumlah.pentadbiran);
+setText("klm03", jumlah.pemandu);
+setText("klm04", jumlah.tampungan);
+setText("klm05", jumlah.eskot);
+setText("klm06", jumlah.cit);
+setText("klm07", jumlah.wang);
+setText("klm08", jumlah.tambahan);
+
+setText("jumlahKLM", jumlahKLM);
 
 
 console.log(
@@ -1531,11 +1552,7 @@ jumlah
 );
 
 
-
 }
-
-
-
 
 
 

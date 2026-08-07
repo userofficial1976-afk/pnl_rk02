@@ -1037,59 +1037,50 @@ ${data.nama}
 </td>
 
 
-<td>
-RM ${formatRM(data.gaji)}
+<td>${formatRM(data.gaji)}
 </td>
 
 
 
 
-<td>
-${data.hariBiasa}
+<td>${data.hariBiasa}
 </td>
 
 
-<td>
-RM ${formatRM(data.rmBiasa)}
-</td>
-
-
-
-
-
-<td>
-${data.off4}
-</td>
-
-
-<td>
-RM ${formatRM(data.rmOff4)}
+<td>${formatRM(data.rmBiasa)}
 </td>
 
 
 
 
 
-<td>
-${data.off48}
+<td>${data.off4}
 </td>
 
 
-<td>
-RM ${formatRM(data.rmOff48)}
+<td>${formatRM(data.rmOff4)}
 </td>
 
 
 
 
 
-<td>
-${data.off8}
+<td>${data.off48}
 </td>
 
 
-<td>
-RM ${formatRM(data.rmOff8)}
+<td>${formatRM(data.rmOff48)}
+</td>
+
+
+
+
+
+<td>${data.off8}
+</td>
+
+
+<td>${formatRM(data.rmOff8)}
 </td>
 
 
@@ -1102,29 +1093,25 @@ ${data.cuti8}
 </td>
 
 
-<td>
-RM ${formatRM(data.rmCuti8)}
+<td>${formatRM(data.rmCuti8)}
 </td>
 
 
 
 
 
-<td>
-${data.cuti8p}
+<td>${data.cuti8p}
 </td>
 
 
-<td>
-RM ${formatRM(data.rmCuti8p)}
+<td>${formatRM(data.rmCuti8p)}
 </td>
 
 
 
 
 
-<td>
-RM ${formatRM(data.jumlahRM)}
+<td>${formatRM(data.jumlahRM)}
 </td>
 
 
@@ -1307,7 +1294,7 @@ jumlah.hariBiasa
 
 setText(
 "jumlahRmBiasa",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmBiasa
 )
 );
@@ -1324,7 +1311,7 @@ jumlah.off4
 
 setText(
 "jumlahRmOffKurang4",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmOff4
 )
 );
@@ -1341,7 +1328,7 @@ jumlah.off48
 
 setText(
 "jumlahRmOff48",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmOff48
 )
 );
@@ -1358,7 +1345,7 @@ jumlah.off8
 
 setText(
 "jumlahRmOffLebih8",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmOff8
 )
 );
@@ -1375,7 +1362,7 @@ jumlah.cuti8
 
 setText(
 "jumlahRmCutiKurang8",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmCuti8
 )
 );
@@ -1392,7 +1379,7 @@ jumlah.cuti8p
 
 setText(
 "jumlahRmCutiLebih8",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.rmCuti8p
 )
 );
@@ -1402,7 +1389,7 @@ jumlah.rmCuti8p
 
 setText(
 "jumlahRmKeseluruhan",
-"RM " + formatRM(
+"" + formatRM(
 jumlah.jumlahRM
 )
 );

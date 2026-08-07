@@ -342,7 +342,7 @@ await db
 .select(`
 
 noskb,
-no_anggota
+
 nama,
 pangkat,
 poskhidmat,
@@ -747,15 +747,9 @@ let data = {
 
 noskb:
 item.no_skb,
-no_anggota:
-item.no_anggota,
+
     
-paparNoSKB:
-item.no_skb +
-" / " +
-(anggota.pangkat || "") +
-" " +
-(anggota.no_anggota || ""),
+
 
 
 nama:

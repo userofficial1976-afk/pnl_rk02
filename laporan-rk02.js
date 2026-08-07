@@ -1039,8 +1039,7 @@ ${data.nama}
 </td>
 
 
-<td>
-${data.gaji}
+<td>${formatRM(data.gaji)}
 </td>
 
 

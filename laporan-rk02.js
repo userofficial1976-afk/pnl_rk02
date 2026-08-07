@@ -748,7 +748,7 @@ let data = {
 noskb:
 item.no_skb,
 
-    
+ 
 
 
 
@@ -1033,7 +1033,7 @@ ${bil}
 </td>
 
 
-<td>${data.paparNoSKB || ""}</td>
+<td>${data.noskb || ""}</td>
 
 
 <td>

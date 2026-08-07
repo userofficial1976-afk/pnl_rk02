@@ -747,7 +747,9 @@ let data = {
 
 noskb:
 item.no_skb,
-
+no_anggota:
+item.no_anggota,
+    
 paparNoSKB:
 item.no_skb +
 " / " +

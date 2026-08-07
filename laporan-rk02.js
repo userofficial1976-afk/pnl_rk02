@@ -1572,7 +1572,7 @@ setText("klm06", jumlah.wang);
 setText("klm07", jumlah.tambahan);
 setText("klm08", jumlah.kawalan);
 
-setText("jumlahKLM", jumlahKLM);
+setText("jumlahKLM", jumlah.jamBiasa);
 
 
 

@@ -1435,9 +1435,9 @@ tambahan:0
 };
 
 
-// ================================
+// ===================================
 // JUMLAH JAM HARI BIASA ANGGOTA
-// ================================
+// ===================================
 
 laporanRK02.forEach((data)=>{
 
@@ -1447,19 +1447,23 @@ Number(data.hari_biasa || 0);
 });
 
 
-// ================================
+
+// ===================================
 // DATA TAMPUNGAN POS
-// ================================
+// ===================================
 
 dataTampungan.forEach((data)=>{
 
 
-// 03 KLM PEMANDU
+// 03 KLM TUGAS PEMANDU
+
 jumlah.pemandu +=
 Number(data.pemandu || 0);
 
 
-// 04 KLM TAMPUNGAN POS
+
+// 04 KLM TUGAS TAMPUNGAN POS
+
 jumlah.tampungan +=
 
 Number(data.jam_pos1 || 0) +
@@ -1470,22 +1474,30 @@ Number(data.jam_pos5 || 0) +
 Number(data.jam_pos6 || 0);
 
 
-// 05 KLM ESKOT
+
+// 05 KLM TUGAS ESKOT
+
 jumlah.eskot +=
 Number(data.eskot || 0);
 
 
-// 06 KLM CIT
+
+// 06 KLM TUGAS CIT
+
 jumlah.cit +=
 Number(data.cit || 0);
 
 
+
 // 07 KLM KAWALAN WANG
+
 jumlah.wang +=
 Number(data.kawalan_wang || 0);
 
 
+
 // 08 KLM TAMBAHAN
+
 jumlah.tambahan +=
 Number(data.kawalan_tambahan || 0);
 
@@ -1493,9 +1505,18 @@ Number(data.kawalan_tambahan || 0);
 });
 
 
-// ================================
+
+// ===================================
+// 02 KLM PENTADBIRAN PEJABAT
+// ===================================
+
+jumlah.pentadbiran = 0;
+
+
+
+// ===================================
 // 01 KLM TUGAS KAWALAN
-// ================================
+// ===================================
 
 jumlah.kawalan =
 
@@ -1521,6 +1542,10 @@ jumlah.tambahan;
 
 
 
+// ===================================
+// JUMLAH KESELURUHAN KLM
+// ===================================
+
 let jumlahKLM =
 
 jumlah.kawalan +
@@ -1534,6 +1559,10 @@ jumlah.tambahan;
 
 
 
+// ===================================
+// PAPAR
+// ===================================
+
 setText("klm01", jumlah.kawalan);
 setText("klm02", jumlah.pentadbiran);
 setText("klm03", jumlah.pemandu);
@@ -1546,25 +1575,14 @@ setText("klm08", jumlah.tambahan);
 setText("jumlahKLM", jumlahKLM);
 
 
+
 console.log(
 "RUMUSAN KLM",
 jumlah
 );
-console.log(
-"JAM BIASA",
-jumlah.jamBiasa
-);
 
-console.log(
-"DATA TAMPUNGAN",
-dataTampungan
-);
 
 }
-
-
-
-
 
 
 // =====================================================

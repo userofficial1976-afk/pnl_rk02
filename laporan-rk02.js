@@ -1570,7 +1570,7 @@ setText("klm04", jumlah.eskot);
 setText("klm05", jumlah.cit);
 setText("klm06", jumlah.wang);
 setText("klm07", jumlah.tambahan);
-setText("klm08", jumlah.tambahan);
+setText("klm08", jumlah.kawalan);
 
 setText("jumlahKLM", jumlahKLM);
 

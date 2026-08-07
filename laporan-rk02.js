@@ -971,7 +971,7 @@ binaTableRK02();
 
 kiraJumlahKeseluruhan();
 
-
+binaRumusanKLM();
 
 }
 

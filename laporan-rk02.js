@@ -1030,12 +1030,12 @@ ${bil}
 
 
 <td>
-${data.noskb} " "
-${data.noang}
+${data.noskb}
 </td>
 
 
 <td>
+${data.noang}
 ${data.nama}
 </td>
 

@@ -347,7 +347,7 @@ pangkat,
 poskhidmat,
 unit,
 gaji_pokok,
-
+no_anggota
 rm_pehariklmbiasa,
 rm_perharioffday,
 rm_perjamoffday,
@@ -747,6 +747,8 @@ let data = {
 noskb:
 item.no_skb,
 
+noang:
+anggota.no_anggota || "",
 
 nama:
 item.nama ||
@@ -1028,7 +1030,8 @@ ${bil}
 
 
 <td>
-${data.noskb}
+${data.noskb} " "
+${data.noang}
 </td>
 
 

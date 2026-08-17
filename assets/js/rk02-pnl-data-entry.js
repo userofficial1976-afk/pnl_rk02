@@ -1699,24 +1699,93 @@ function kiraRingkasan() {
 
 
     // =================================================
-    // JUMLAH KLM
-    //
-    // AMBIL TERUS DARIPADA
-    // JUMLAH KLM KESELURUHAN DATA ENTRY ANGGOTA
+    // KIRA DATA KLM
     // =================================================
 
-    const klm = nombor(
+    const dataKLM =
+        kiraJumlahKLMDataEntryAnggota();
 
-        document.getElementById(
-            "totalKLMKeseluruhan"
-        )?.textContent
+
+    // =================================================
+    // KLM HARI BIASA
+    //
+    // Contoh:
+    // 20
+    // =================================================
+
+    setText(
+        "summaryKLMHariBiasa",
+
+        formatNombor(
+            dataKLM.hariBiasa
+        )
 
     );
 
 
+    // =================================================
+    // KLM OFFDAY
+    //
+    // Contoh:
+    // 3 Hari / 2 Jam
+    // =================================================
+
+    setText(
+        "summaryKLMOffday",
+
+        formatNombor(
+            dataKLM.offdayHari
+        )
+        +
+        " Hari / "
+        +
+        formatNombor(
+            dataKLM.offdayJam
+        )
+        +
+        " Jam"
+
+    );
+
+
+    // =================================================
+    // KLM CUTI AM
+    //
+    // Contoh:
+    // 1 Hari / 4 Jam
+    // =================================================
+
+    setText(
+        "summaryKLMCutiAm",
+
+        formatNombor(
+            dataKLM.cutiAmHari
+        )
+        +
+        " Hari / "
+        +
+        formatNombor(
+            dataKLM.cutiAmJam
+        )
+        +
+        " Jam"
+
+    );
+
+
+    // =================================================
+    // JUMLAH KLM KESELURUHAN
+    // =================================================
+
     setText(
         "summaryKlm",
-        formatNombor(klm) + " JAM"
+
+        formatNombor(
+            dataKLM.keseluruhan
+        )
+        +
+        " JAM"
+
     );
 
 
@@ -1735,7 +1804,9 @@ function kiraRingkasan() {
 
     setText(
         "summaryPendapatan",
+
         formatRM(rm)
+
     );
 
 }

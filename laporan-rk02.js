@@ -1681,13 +1681,19 @@ async function muatCutiAwam() {
     }
 
 
+    const namaBulan =
+        SENARAI_BULAN[
+            Number(bulan)
+        ];
+
+
     const {
         data,
         error
     } = await db
         .from("cuti_awam")
         .select("*")
-        .eq("bulan", SENARAI_BULAN[Number(bulan)])
+        .eq("bulan", namaBulan)
         .eq("tahun", Number(tahun))
         .eq("negeri", "Terengganu")
         .eq("status", "AKTIF")
@@ -1707,66 +1713,82 @@ async function muatCutiAwam() {
     }
 
 
-    const container =
-        document.getElementById(
-            "senaraiCutiAwam"
-        );
+    /*
+    =========================================
+    KOSONGKAN 5 ROW DAHULU
+    =========================================
+    */
 
+    for (let i = 1; i <= 5; i++) {
 
-    if (!container) {
+        const row =
+            document.getElementById(
+                "cutiAwam" + i
+            );
 
-        console.warn(
-            "ELEMENT senaraiCutiAwam TIDAK DIJUMPAI"
-        );
+        if (row) {
 
-        return;
+            row.textContent = "-";
+
+        }
+
     }
 
 
-    if (!data || data.length === 0) {
+    /*
+    =========================================
+    PAPAR MAKSIMUM 5 CUTI
+    =========================================
+    */
 
-        container.textContent =
-            "- Tiada cuti awam -";
+    (data || [])
+        .slice(0, 5)
+        .forEach(
+            (cuti, index) => {
 
-        return;
-    }
-
-
-    container.innerHTML =
-        data.map(cuti => {
-
-            const tarikh =
-                new Date(
-                    cuti.tarikh + "T00:00:00"
-                );
-
-
-            const hari =
-                String(
-                    tarikh.getDate()
-                ).padStart(2, "0");
+                const row =
+                    document.getElementById(
+                        "cutiAwam" +
+                        (index + 1)
+                    );
 
 
-            const bulanTarikh =
-                String(
-                    tarikh.getMonth() + 1
-                ).padStart(2, "0");
+                if (!row) return;
 
 
-            const tahunTarikh =
-                tarikh.getFullYear();
+                const tarikh =
+                    new Date(
+                        cuti.tarikh +
+                        "T00:00:00"
+                    );
 
 
-            return `
-                ${hari}/${bulanTarikh}/${tahunTarikh}
-                - ${cuti.nama_cuti}
-            `;
+                const hari =
+                    String(
+                        tarikh.getDate()
+                    ).padStart(2, "0");
 
-        }).join("<br>");
+
+                const bulanTarikh =
+                    String(
+                        tarikh.getMonth() + 1
+                    ).padStart(2, "0");
+
+
+                const tahunTarikh =
+                    tarikh.getFullYear();
+
+
+                row.textContent =
+                    `${hari}/${bulanTarikh}/${tahunTarikh} - ${cuti.nama_cuti}`;
+
+            }
+        );
 
 
     console.log(
-        "CUTI AWAM",
+        "CUTI AWAM BULAN",
+        namaBulan,
         data
     );
 

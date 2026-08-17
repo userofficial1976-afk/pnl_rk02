@@ -1193,7 +1193,8 @@ function kiraSemua(){
 
 
     kiraMaklumatBulanan();
-
+        // JUMLAH PAPARAN SAHAJA
+    kiraJumlahPaparanRK02();
 
     // =================================================
     // JUMLAH KLM DATA ENTRY ANGGOTA
@@ -4014,5 +4015,119 @@ function kiraJumlahKLMDataEntryAnggota() {
             jumlahKeseluruhan
 
     };
+
+}
+
+
+function kiraJumlahPaparanRK02() {
+
+    let hariBiasa = 0;
+    let offdayHari = 0;
+    let offdayJam = 0;
+    let cutiAmHari = 0;
+    let cutiAmJam = 0;
+    let eskot = 0;
+    let medical = 0;
+    let travel = 0;
+    let cit = 0;
+
+    dataAnggota.forEach(anggota => {
+
+        const noSkb =
+            anggota.noskb ||
+            anggota.noanggota ||
+            "";
+
+        hariBiasa += nilaiInput(
+            "hariBiasa",
+            noSkb
+        );
+
+        offdayHari += nilaiInput(
+            "off4",
+            noSkb
+        );
+
+        offdayJam += nilaiInput(
+            "off48",
+            noSkb
+        );
+
+        cutiAmHari += nilaiInput(
+            "cuti8",
+            noSkb
+        );
+
+        cutiAmJam += nilaiInput(
+            "cuti8P",
+            noSkb
+        );
+
+        eskot += nilaiInput(
+            "jamEskot",
+            noSkb
+        );
+
+        medical += nilaiInput(
+            "medical",
+            noSkb
+        );
+
+        travel += nilaiInput(
+            "travel",
+            noSkb
+        );
+
+        cit += nilaiInput(
+            "cit",
+            noSkb
+        );
+
+    });
+
+    setText(
+        "totalHariBiasa",
+        formatNombor(hariBiasa)
+    );
+
+    setText(
+        "totalOffdayHari",
+        formatNombor(offdayHari)
+    );
+
+    setText(
+        "totalOffdayJam",
+        formatNombor(offdayJam)
+    );
+
+    setText(
+        "totalCutiAmHari",
+        formatNombor(cutiAmHari)
+    );
+
+    setText(
+        "totalCutiAmJam",
+        formatNombor(cutiAmJam)
+    );
+
+    setText(
+        "totalEskot",
+        formatNombor(eskot)
+    );
+
+    setText(
+        "totalMedical",
+        formatNombor(medical)
+    );
+
+    setText(
+        "totalTravel",
+        formatNombor(travel)
+    );
+
+    setText(
+        "totalCit",
+        formatNombor(cit)
+    );
 
 }

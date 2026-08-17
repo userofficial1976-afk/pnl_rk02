@@ -1668,7 +1668,7 @@ window.print();
 
 
 // =====================================================
-// MUAT CUTI AWAM
+// MUAT CUTI AWAM IKUT BULAN
 // =====================================================
 
 async function muatCutiAwam() {
@@ -1676,12 +1676,8 @@ async function muatCutiAwam() {
     const bulanSelect =
         document.getElementById("bulan");
 
-    const tahunSelect =
-        document.getElementById("tahun");
 
-
-    if (!bulanSelect || !tahunSelect) {
-        console.error("DROPDOWN BULAN / TAHUN TIADA");
+    if (!bulanSelect) {
         return;
     }
 
@@ -1689,25 +1685,19 @@ async function muatCutiAwam() {
     const bulanNo =
         Number(bulanSelect.value);
 
-    const tahun =
-        Number(tahunSelect.value);
-
 
     const namaBulan =
         SENARAI_BULAN[bulanNo];
 
 
-    console.log("================================");
-    console.log("CUTI AWAM");
-    console.log("Bulan No   :", bulanNo);
-    console.log("Nama Bulan :", namaBulan);
-    console.log("Tahun      :", tahun);
-    console.log("================================");
+    console.log(
+        "MUAT CUTI AWAM BULAN:",
+        namaBulan
+    );
 
 
     // =================================================
     // AMBIL DATA CUTI AWAM
-    // JANGAN FILTER DULU
     // =================================================
 
     const {
@@ -1716,6 +1706,9 @@ async function muatCutiAwam() {
     } = await db
         .from("cuti_awam")
         .select("*")
+        .eq("bulan", namaBulan)
+        .eq("negeri", "Terengganu")
+        .eq("status", "AKTIF")
         .order("tarikh", {
             ascending: true
         });
@@ -1724,7 +1717,7 @@ async function muatCutiAwam() {
     if (error) {
 
         console.error(
-            "ERROR SUPABASE CUTI AWAM:",
+            "RALAT CUTI AWAM:",
             error
         );
 
@@ -1733,60 +1726,8 @@ async function muatCutiAwam() {
 
 
     console.log(
-        "SEMUA DATA CUTI AWAM:",
+        "DATA CUTI AWAM:",
         data
-    );
-
-
-    // =================================================
-    // FILTER DI JAVASCRIPT
-    // =================================================
-
-    const dataBulan =
-        (data || []).filter(
-            cuti => {
-
-                return (
-
-                    String(cuti.bulan)
-                        .trim()
-                        .toUpperCase()
-                    ===
-                    String(namaBulan)
-                        .trim()
-                        .toUpperCase()
-
-                    &&
-
-                    Number(cuti.tahun)
-                    ===
-                    tahun
-
-                    &&
-
-                    String(cuti.negeri)
-                        .trim()
-                        .toUpperCase()
-                    ===
-                    "TERENGGANU"
-
-                    &&
-
-                    String(cuti.status)
-                        .trim()
-                        .toUpperCase()
-                    ===
-                    "AKTIF"
-
-                );
-
-            }
-        );
-
-
-    console.log(
-        "CUTI BULAN DIPILIH:",
-        dataBulan
     );
 
 
@@ -1794,11 +1735,7 @@ async function muatCutiAwam() {
     // KOSONGKAN 5 ROW
     // =================================================
 
-    for (
-        let i = 1;
-        i <= 5;
-        i++
-    ) {
+    for (let i = 1; i <= 5; i++) {
 
         const row =
             document.getElementById(
@@ -1815,10 +1752,10 @@ async function muatCutiAwam() {
 
 
     // =================================================
-    // PAPAR CUTI
+    // PAPAR MAKSIMUM 5 CUTI
     // =================================================
 
-    dataBulan
+    (data || [])
         .slice(0, 5)
         .forEach(
             (cuti, index) => {
@@ -1845,15 +1782,13 @@ async function muatCutiAwam() {
                 const hari =
                     String(
                         tarikh.getDate()
-                    )
-                    .padStart(2, "0");
+                    ).padStart(2, "0");
 
 
                 const bulanTarikh =
                     String(
                         tarikh.getMonth() + 1
-                    )
-                    .padStart(2, "0");
+                    ).padStart(2, "0");
 
 
                 const tahunTarikh =
@@ -1865,6 +1800,5 @@ async function muatCutiAwam() {
 
             }
         );
-
 
 }

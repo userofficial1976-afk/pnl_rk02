@@ -1669,11 +1669,24 @@ window.print();
 
 async function muatCutiAwam() {
 
-    const bulan =
-        document.getElementById("bulan").value;
-
     const tahun =
-        document.getElementById("tahun").value;
+        Number(
+            document.getElementById("tahun").value
+        );
+
+    const bulan =
+        Number(
+            document.getElementById("bulan").value
+        );
+
+
+    console.log(
+        "CARI CUTI AWAM:",
+        {
+            bulan: bulan,
+            tahun: tahun
+        }
+    );
 
 
     if (!bulan || !tahun) {
@@ -1681,11 +1694,49 @@ async function muatCutiAwam() {
     }
 
 
-    const namaBulan =
-        SENARAI_BULAN[
-            Number(bulan)
-        ];
+    /*
+    =====================================================
+    TARIKH AWAL BULAN
+    =====================================================
+    */
 
+    const tarikhMula =
+        `${tahun}-${String(bulan).padStart(2, "0")}-01`;
+
+
+    /*
+    =====================================================
+    TARIKH AKHIR BULAN
+    =====================================================
+    */
+
+    const tarikhAkhirDate =
+        new Date(
+            tahun,
+            bulan,
+            0
+        );
+
+
+    const tarikhAkhir =
+        `${tahun}-${String(bulan).padStart(2, "0")}-${String(
+            tarikhAkhirDate.getDate()
+        ).padStart(2, "0")}`;
+
+
+    console.log(
+        "TARIKH CARI:",
+        tarikhMula,
+        "HINGGA",
+        tarikhAkhir
+    );
+
+
+    /*
+    =====================================================
+    AMBIL CUTI DARI SUPABASE
+    =====================================================
+    */
 
     const {
         data,
@@ -1693,38 +1744,74 @@ async function muatCutiAwam() {
     } = await db
         .from("cuti_awam")
         .select("*")
-        .eq("bulan", namaBulan)
-        .eq("tahun", Number(tahun))
-        .eq("negeri", "Terengganu")
-        .eq("status", "AKTIF")
-        .order("tarikh", {
-            ascending: true
-        });
+        .gte(
+            "tarikh",
+            tarikhMula
+        )
+        .lte(
+            "tarikh",
+            tarikhAkhir
+        )
+        .eq(
+            "negeri",
+            "Terengganu"
+        )
+        .eq(
+            "status",
+            "AKTIF"
+        )
+        .order(
+            "tarikh",
+            {
+                ascending: true
+            }
+        );
 
+
+    /*
+    =====================================================
+    SEMAK ERROR
+    =====================================================
+    */
 
     if (error) {
 
         console.error(
-            "RALAT MUAT CUTI AWAM:",
+            "RALAT SUPABASE CUTI AWAM:",
             error
+        );
+
+        alert(
+            "Ralat mengambil data cuti awam. Sila semak Console."
         );
 
         return;
     }
 
 
+    console.log(
+        "DATA CUTI AWAM:",
+        data
+    );
+
+
     /*
-    =========================================
-    KOSONGKAN 5 ROW DAHULU
-    =========================================
+    =====================================================
+    KOSONGKAN 5 ROW
+    =====================================================
     */
 
-    for (let i = 1; i <= 5; i++) {
+    for (
+        let i = 1;
+        i <= 5;
+        i++
+    ) {
 
         const row =
             document.getElementById(
                 "cutiAwam" + i
             );
+
 
         if (row) {
 
@@ -1736,12 +1823,25 @@ async function muatCutiAwam() {
 
 
     /*
-    =========================================
+    =====================================================
     PAPAR MAKSIMUM 5 CUTI
-    =========================================
+    =====================================================
     */
 
-    (data || [])
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        console.warn(
+            "TIADA CUTI AWAM UNTUK BULAN INI"
+        );
+
+        return;
+    }
+
+
+    data
         .slice(0, 5)
         .forEach(
             (cuti, index) => {
@@ -1756,6 +1856,12 @@ async function muatCutiAwam() {
                 if (!row) return;
 
 
+                /*
+                =========================================
+                FORMAT TARIKH
+                =========================================
+                */
+
                 const tarikh =
                     new Date(
                         cuti.tarikh +
@@ -1766,18 +1872,30 @@ async function muatCutiAwam() {
                 const hari =
                     String(
                         tarikh.getDate()
-                    ).padStart(2, "0");
+                    ).padStart(
+                        2,
+                        "0"
+                    );
 
 
                 const bulanTarikh =
                     String(
                         tarikh.getMonth() + 1
-                    ).padStart(2, "0");
+                    ).padStart(
+                        2,
+                        "0"
+                    );
 
 
                 const tahunTarikh =
                     tarikh.getFullYear();
 
+
+                /*
+                =========================================
+                PAPAR
+                =========================================
+                */
 
                 row.textContent =
                     `${hari}/${bulanTarikh}/${tahunTarikh} - ${cuti.nama_cuti}`;
@@ -1785,11 +1903,5 @@ async function muatCutiAwam() {
             }
         );
 
-
-    console.log(
-        "CUTI AWAM BULAN",
-        namaBulan,
-        data
-    );
 
 }

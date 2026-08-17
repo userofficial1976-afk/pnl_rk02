@@ -753,9 +753,9 @@ type="number"
 
 min="0"
 
-step="1"
 
-value="0"
+
+value=""
 
 class="jam-pos"
 
@@ -1070,9 +1070,9 @@ type="number"
 
 min="0"
 
-step="1"
 
-value="0"
+
+value=""
 
 class="rk02-input"
 
@@ -1212,7 +1212,7 @@ ${binaInputJamPos(6,noSkb)}
 type="number"
 class="input-tampungan"
 data-jenis="eskot"
-value="0">
+value="">
 </td>
 
 
@@ -1221,7 +1221,7 @@ value="0">
 type="number"
 class="input-tampungan"
 data-jenis="cit"
-value="0">
+value="">
 </td>
 
 
@@ -1230,7 +1230,7 @@ value="0">
 type="number"
 class="input-tampungan"
 data-jenis="kawalanTambahan"
-value="0">
+value="">
 </td>
 
 
@@ -1239,7 +1239,7 @@ value="0">
 type="number"
 class="input-tampungan"
 data-jenis="kawalanWang"
-value="0">
+value="">
 </td>
 
 
@@ -1248,7 +1248,7 @@ value="0">
 type="number"
 class="input-tampungan"
 data-jenis="pemandu"
-value="0">
+value="">
 </td>
 
 
@@ -1362,9 +1362,9 @@ type="number"
 
 min="0"
 
-step="1"
 
-value="0"
+
+value=""
 
 class="input-tampungan"
 
@@ -2387,7 +2387,7 @@ async function resetData(){
 
         input=>{
 
-            input.value = 0;
+            input.value = "";
 
         }
 

@@ -1669,19 +1669,32 @@ window.print();
 
 async function muatCutiAwam() {
 
-    const bulan = document.getElementById("bulan").value;
-    const tahun = document.getElementById("tahun").value;
+    const bulan =
+        document.getElementById("bulan").value;
 
-    const { data, error } = await supabase
+    const tahun =
+        document.getElementById("tahun").value;
+
+
+    if (!bulan || !tahun) {
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } = await db
         .from("cuti_awam")
         .select("*")
-        .eq("bulan", bulan)
+        .eq("bulan", SENARAI_BULAN[Number(bulan)])
         .eq("tahun", Number(tahun))
         .eq("negeri", "Terengganu")
         .eq("status", "AKTIF")
         .order("tarikh", {
             ascending: true
         });
+
 
     if (error) {
 
@@ -1693,12 +1706,21 @@ async function muatCutiAwam() {
         return;
     }
 
+
     const container =
         document.getElementById(
             "senaraiCutiAwam"
         );
 
-    if (!container) return;
+
+    if (!container) {
+
+        console.warn(
+            "ELEMENT senaraiCutiAwam TIDAK DIJUMPAI"
+        );
+
+        return;
+    }
 
 
     if (!data || data.length === 0) {
@@ -1715,21 +1737,25 @@ async function muatCutiAwam() {
 
             const tarikh =
                 new Date(
-                    cuti.tarikh
+                    cuti.tarikh + "T00:00:00"
                 );
+
 
             const hari =
                 String(
                     tarikh.getDate()
                 ).padStart(2, "0");
 
+
             const bulanTarikh =
                 String(
                     tarikh.getMonth() + 1
                 ).padStart(2, "0");
 
+
             const tahunTarikh =
                 tarikh.getFullYear();
+
 
             return `
                 ${hari}/${bulanTarikh}/${tahunTarikh}
@@ -1737,4 +1763,11 @@ async function muatCutiAwam() {
             `;
 
         }).join("<br>");
+
+
+    console.log(
+        "CUTI AWAM",
+        data
+    );
+
 }

@@ -651,7 +651,7 @@ class="jam-pos"
 data-pos="${nomborPos}"
 
 data-skb="${noSkb}"
-
+oninput="kiraSemua()"
 >
 
 </td>
@@ -822,7 +822,7 @@ class="rk02-input"
 data-jenis="${jenis}"
 
 data-no-skb="${escapeHtml(noSkb)}"
-
+oninput="kiraSemua()"
 >
 
 </td>
@@ -1094,7 +1094,7 @@ class="input-tampungan"
 data-jenis="${jenis}"
 
 data-no-skb="${escapeHtml(noSkb)}"
-
+oninput="kiraSemua()"
 >
 
 </td>

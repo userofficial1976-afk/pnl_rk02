@@ -5,23 +5,13 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard - FPB Duty Command Center</title>
+    <title>Dashboard FPB Duty System</title>
 
-    <link
-        rel="stylesheet"
-        href="dashboard.css"
-    >
-
-    <!-- SUPABASE -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- CONFIG SUPABASE AWAK -->
-    <script src="supabase-config.js"></script>
+    <link rel="stylesheet"
+          href="dashboard.css">
 
 </head>
 
@@ -30,93 +20,30 @@
 
 
 <!-- =====================================================
-     SIDEBAR
+     HEADER
      ===================================================== -->
 
-<aside class="sidebar">
+<header class="topbar">
 
-    <div class="sidebar-logo">
+    <div>
 
-        <div class="logo-title">
-            FPB
-        </div>
+        <h1>FPB DUTY SYSTEM</h1>
 
-        <div class="logo-subtitle">
-            DUTY COMMAND CENTER
-        </div>
+        <p>DASHBOARD</p>
 
     </div>
 
 
-    <nav class="sidebar-menu">
-
-        <a
-            href="dashboard.html"
-            class="menu-item active"
-        >
-            Dashboard
-        </a>
-
-
-        <a
-            href="senarai-anggota.html"
-            class="menu-item"
-        >
-            Senarai Anggota
-        </a>
-
-
-        <a
-            href="jadual-duty.html"
-            class="menu-item"
-        >
-            Jadual Duty
-        </a>
-
-
-        <a
-            href="kod-duty.html"
-            class="menu-item"
-        >
-            Kod Duty
-        </a>
-
-
-        <a
-            href="rk02-pnl-data-entry.html"
-            class="menu-item"
-        >
-            RK02 & PNL
-        </a>
-
-
-        <a
-            href="laporan.html"
-            class="menu-item"
-        >
-            Laporan
-        </a>
-
-
-        <a
-            href="tetapan.html"
-            class="menu-item"
-        >
-            Tetapan
-        </a>
-
-    </nav>
-
-
     <button
         type="button"
-        id="btnLogout"
-        class="logout-button"
-    >
-        LOG KELUAR
+        onclick="logout()"
+        class="btn-logout">
+
+        LOGOUT
+
     </button>
 
-</aside>
+</header>
 
 
 
@@ -124,251 +51,155 @@
      MAIN
      ===================================================== -->
 
-<main class="main-content">
+<main class="dashboard-container">
 
 
     <!-- =================================================
-         TOPBAR
+         MAKLUMAT POS
          ================================================= -->
 
-    <header class="topbar">
+    <section class="card">
 
-        <div>
+        <h2>Maklumat Pos</h2>
 
-            <div class="page-title">
-                Dashboard
+
+        <div class="maklumat-grid">
+
+
+            <div class="maklumat-item">
+
+                <span class="label">
+                    POS
+                </span>
+
+                <strong id="paparPos">
+                    -
+                </strong>
+
             </div>
 
-            <div class="page-subtitle">
-                Maklumat Pos & Anggota
+
+            <div class="maklumat-item">
+
+                <span class="label">
+                    NAMA KETUA UNIT
+                </span>
+
+                <strong id="paparKetuaUnit">
+                    -
+                </strong>
+
             </div>
+
+
+            <div class="maklumat-item">
+
+                <span class="label">
+                    NAMA KETUA POS
+                </span>
+
+                <strong id="paparKetuaPos">
+                    -
+                </strong>
+
+            </div>
+
 
         </div>
-
-
-        <div class="user-info">
-
-            <div
-                id="namaPengguna"
-                class="user-name"
-            >
-                -
-            </div>
-
-            <div
-                id="jawatanPengguna"
-                class="user-role"
-            >
-                -
-            </div>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =================================================
-         CONTENT
-         ================================================= -->
-
-    <section class="dashboard-container">
-
-
-        <!-- =============================================
-             MAKLUMAT POS
-             ============================================= -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div class="card-title">
-                    Maklumat Pos
-                </div>
-
-            </div>
-
-
-            <div class="maklumat-grid">
-
-
-                <div class="maklumat-item">
-
-                    <div class="maklumat-label">
-                        POS
-                    </div>
-
-                    <div
-                        id="paparPos"
-                        class="maklumat-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="maklumat-item">
-
-                    <div class="maklumat-label">
-                        UNIT
-                    </div>
-
-                    <div
-                        id="paparUnit"
-                        class="maklumat-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="maklumat-item">
-
-                    <div class="maklumat-label">
-                        NAMA KETUA UNIT
-                    </div>
-
-                    <div
-                        id="paparKetuaUnit"
-                        class="maklumat-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-                <div class="maklumat-item">
-
-                    <div class="maklumat-label">
-                        NAMA KETUA POS
-                    </div>
-
-                    <div
-                        id="paparKetuaPos"
-                        class="maklumat-value"
-                    >
-                        -
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =============================================
-             SENARAI ANGGOTA
-             ============================================= -->
-
-        <div class="card">
-
-            <div class="card-header anggota-header">
-
-                <div>
-
-                    <div class="card-title">
-                        Senarai Anggota Pos
-                    </div>
-
-                    <div class="card-description">
-
-                        Anggota yang berdaftar di pos
-                        pengguna yang sedang login.
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="jumlahAnggota"
-                    class="jumlah-badge"
-                >
-                    0 ORANG
-                </div>
-
-            </div>
-
-
-
-            <div class="table-wrapper">
-
-                <table class="anggota-table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th class="col-bil">
-                                BIL
-                            </th>
-
-                            <th>
-                                NO. SKB
-                            </th>
-
-                            <th>
-                                NO. ANGGOTA
-                            </th>
-
-                            <th>
-                                NAMA
-                            </th>
-
-                            <th>
-                                PANGKAT
-                            </th>
-
-                            <th>
-                                JAWATAN
-                            </th>
-
-                            <th>
-                                STATUS
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="anggotaTableBody">
-
-                        <tr>
-
-                            <td
-                                colspan="7"
-                                class="loading-cell"
-                            >
-                                Memuatkan data...
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
 
     </section>
+
+
+
+    <!-- =================================================
+         SENARAI ANGGOTA
+         ================================================= -->
+
+    <section class="card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Senarai Anggota Pos
+                </h2>
+
+                <p id="jumlahAnggota">
+                    0 ORANG
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            BIL
+                        </th>
+
+                        <th>
+                            NO. SKB
+                        </th>
+
+                        <th>
+                            NO. ANGGOTA
+                        </th>
+
+                        <th>
+                            NAMA
+                        </th>
+
+                        <th>
+                            PANGKAT
+                        </th>
+
+                        <th>
+                            JAWATAN
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="senaraiAnggota">
+
+                    <tr>
+
+                        <td colspan="6">
+                            Memuatkan data...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
 
 </main>
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
 <script src="dashboard.js"></script>
+
 
 </body>
 

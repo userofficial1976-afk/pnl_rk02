@@ -639,7 +639,7 @@ await muatRK02Entry();
 
 await muatTampungan();
 
-
+await muatCutiAwam();
 
 prosesRK02();
 
@@ -1667,4 +1667,74 @@ window.print();
 
 
 
+async function muatCutiAwam() {
 
+    const bulan = document.getElementById("bulan").value;
+    const tahun = document.getElementById("tahun").value;
+
+    const { data, error } = await supabase
+        .from("cuti_awam")
+        .select("*")
+        .eq("bulan", bulan)
+        .eq("tahun", Number(tahun))
+        .eq("negeri", "Terengganu")
+        .eq("status", "AKTIF")
+        .order("tarikh", {
+            ascending: true
+        });
+
+    if (error) {
+
+        console.error(
+            "RALAT MUAT CUTI AWAM:",
+            error
+        );
+
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            "senaraiCutiAwam"
+        );
+
+    if (!container) return;
+
+
+    if (!data || data.length === 0) {
+
+        container.textContent =
+            "- Tiada cuti awam -";
+
+        return;
+    }
+
+
+    container.innerHTML =
+        data.map(cuti => {
+
+            const tarikh =
+                new Date(
+                    cuti.tarikh
+                );
+
+            const hari =
+                String(
+                    tarikh.getDate()
+                ).padStart(2, "0");
+
+            const bulanTarikh =
+                String(
+                    tarikh.getMonth() + 1
+                ).padStart(2, "0");
+
+            const tahunTarikh =
+                tarikh.getFullYear();
+
+            return `
+                ${hari}/${bulanTarikh}/${tahunTarikh}
+                - ${cuti.nama_cuti}
+            `;
+
+        }).join("<br>");
+}

@@ -1680,54 +1680,23 @@ function kiraRingkasan() {
 
 
     // =================================================
-    // JUMLAH JAM
-    // =================================================
-
-    const jam = nombor(
-
-        document.getElementById(
-            "totalJamKeseluruhan"
-        )?.textContent
-
-    );
-
-
-    setText(
-        "summaryJam",
-        formatNombor(jam) + " JAM"
-    );
-
-
-    // =================================================
-    // KIRA DATA KLM
+    // KLM HARI BIASA
     // =================================================
 
     const dataKLM =
         kiraJumlahKLMDataEntryAnggota();
 
 
-    // =================================================
-    // KLM HARI BIASA
-    //
-    // Contoh:
-    // 20
-    // =================================================
-
     setText(
-        "summaryKLMHariBiasa",
-
+        "summaryJam",
         formatNombor(
             dataKLM.hariBiasa
-        )
-
+        ) + " JAM"
     );
 
 
     // =================================================
     // KLM OFFDAY
-    //
-    // Contoh:
-    // 3 Hari / 2 Jam
     // =================================================
 
     setText(
@@ -1737,22 +1706,18 @@ function kiraRingkasan() {
             dataKLM.offdayHari
         )
         +
-        " Hari / "
+        " HARI / "
         +
         formatNombor(
             dataKLM.offdayJam
         )
         +
-        " Jam"
-
+        " JAM"
     );
 
 
     // =================================================
     // KLM CUTI AM
-    //
-    // Contoh:
-    // 1 Hari / 4 Jam
     // =================================================
 
     setText(
@@ -1762,14 +1727,13 @@ function kiraRingkasan() {
             dataKLM.cutiAmHari
         )
         +
-        " Hari / "
+        " HARI / "
         +
         formatNombor(
             dataKLM.cutiAmJam
         )
         +
-        " Jam"
-
+        " JAM"
     );
 
 
@@ -1785,7 +1749,6 @@ function kiraRingkasan() {
         )
         +
         " JAM"
-
     );
 
 
@@ -1810,7 +1773,6 @@ function kiraRingkasan() {
     );
 
 }
-
 // =====================================================
 // EVENT UTAMA
 // =====================================================

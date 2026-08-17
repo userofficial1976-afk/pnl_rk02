@@ -1670,6 +1670,16 @@ function kiraJumlahPosTampungan() {
 function kiraRingkasan() {
 
     // =================================================
+    // JUMLAH ANGGOTA
+    // =================================================
+
+    setText(
+        "summaryAnggota",
+        dataAnggota.length + " ORANG"
+    );
+
+
+    // =================================================
     // JUMLAH JAM
     // =================================================
 
@@ -1682,8 +1692,36 @@ function kiraRingkasan() {
     );
 
 
+    setText(
+        "summaryJam",
+        formatNombor(jam) + " JAM"
+    );
+
+
     // =================================================
-    // JUMLAH RM
+    // JUMLAH KLM
+    //
+    // AMBIL TERUS DARIPADA
+    // JUMLAH KLM KESELURUHAN DATA ENTRY ANGGOTA
+    // =================================================
+
+    const klm = nombor(
+
+        document.getElementById(
+            "totalKLMKeseluruhan"
+        )?.textContent
+
+    );
+
+
+    setText(
+        "summaryKlm",
+        formatNombor(klm) + " JAM"
+    );
+
+
+    // =================================================
+    // JUMLAH PENDAPATAN
     // =================================================
 
     const rm = nombor(
@@ -1695,128 +1733,12 @@ function kiraRingkasan() {
     );
 
 
-    // =================================================
-    // JUMLAH KLM
-    //
-    // AMBIL TERUS DARIPADA
-    // KIRAAN DATA ENTRY ANGGOTA
-    // =================================================
-
-    const klmHariBiasa = nombor(
-
-        document.getElementById(
-            "totalKLMHariBiasa"
-        )?.textContent
-
-    );
-
-
-    const klmOffdayHari = nombor(
-
-        document.getElementById(
-            "totalKLMOffdayHari"
-        )?.textContent
-
-    );
-
-
-    const klmOffdayJam = nombor(
-
-        document.getElementById(
-            "totalKLMOffdayJam"
-        )?.textContent
-
-    );
-
-
-    const klmCutiAmHari = nombor(
-
-        document.getElementById(
-            "totalKLMCutiAmHari"
-        )?.textContent
-
-    );
-
-
-    const klmCutiAmJam = nombor(
-
-        document.getElementById(
-            "totalKLMCutiAmJam"
-        )?.textContent
-
-    );
-
-
-    // =================================================
-    // JUMLAH KLM KESELURUHAN
-    // =================================================
-
-    const klm =
-
-        klmHariBiasa +
-
-        klmOffdayHari +
-
-        klmOffdayJam +
-
-        klmCutiAmHari +
-
-        klmCutiAmJam;
-
-
-    // =================================================
-    // PAPAR JUMLAH ANGGOTA
-    // =================================================
-
     setText(
-
-        "summaryAnggota",
-
-        dataAnggota.length + " ORANG"
-
-    );
-
-
-    // =================================================
-    // PAPAR JUMLAH JAM
-    // =================================================
-
-    setText(
-
-        "summaryJam",
-
-        formatNombor(jam) + " JAM"
-
-    );
-
-
-    // =================================================
-    // PAPAR JUMLAH KLM
-    // =================================================
-
-    setText(
-
-        "summaryKlm",
-
-        formatNombor(klm) + " JAM"
-
-    );
-
-
-    // =================================================
-    // PAPAR JUMLAH PENDAPATAN
-    // =================================================
-
-    setText(
-
         "summaryPendapatan",
-
         formatRM(rm)
-
     );
 
 }
-
 
 // =====================================================
 // EVENT UTAMA

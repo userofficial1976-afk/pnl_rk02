@@ -1,6 +1,7 @@
 // =====================================================
 // DASHBOARD
-// FPB DUTY COMMAND CENTER
+// FPB DUTY SYSTEM
+// PAPAR POS SAHAJA
 // =====================================================
 
 
@@ -23,74 +24,21 @@ document.addEventListener(
     async function(){
 
         console.log(
-            "DASHBOARD SYSTEM READY"
+            "DASHBOARD BERJAYA DIMUAT"
         );
 
 
-        await mulaDashboard();
-
-    }
-);
-
-
-
-// =====================================================
-// MULA DASHBOARD
-// =====================================================
-
-async function mulaDashboard(){
-
-    try{
-
-        // ================================
-        // BACA PENGGUNA
-        // ================================
-
-        bacaPengguna();
-
-
-        if(!pengguna){
+        if(!bacaPengguna()){
 
             return;
 
         }
 
 
-        // ================================
-        // PAPAR PENGGUNA
-        // ================================
-
-        paparMaklumatPengguna();
-
-
-        // ================================
-        // LOAD ANGGOTA MENGIKUT POS
-        // ================================
-
-        await muatAnggotaPos();
-
-
-        console.log(
-            "DASHBOARD BERJAYA DIMUAT"
-        );
+        await muatDashboard();
 
     }
-
-    catch(error){
-
-        console.error(
-            "RALAT DASHBOARD:",
-            error
-        );
-
-
-        paparRalat(
-            "Sistem gagal memuatkan Dashboard."
-        );
-
-    }
-
-}
+);
 
 
 
@@ -101,24 +49,30 @@ async function mulaDashboard(){
 function bacaPengguna(){
 
     const data =
-        localStorage.getItem("pengguna")
+
+        localStorage.getItem(
+            "pengguna"
+        )
+
         ||
-        localStorage.getItem("currentUser");
+
+        localStorage.getItem(
+            "currentUser"
+        );
 
 
     if(!data){
 
-        console.warn(
-            "TIADA DATA PENGGUNA"
+        alert(
+            "Sila login terlebih dahulu"
         );
 
 
-        paparRalat(
-            "Tiada pengguna login."
-        );
+        window.location.href =
+            "index.html";
 
 
-        return;
+        return false;
 
     }
 
@@ -134,6 +88,9 @@ function bacaPengguna(){
             pengguna
         );
 
+
+        return true;
+
     }
 
     catch(error){
@@ -144,12 +101,20 @@ function bacaPengguna(){
         );
 
 
-        pengguna = null;
-
-
-        paparRalat(
-            "Data pengguna tidak sah."
+        localStorage.removeItem(
+            "pengguna"
         );
+
+        localStorage.removeItem(
+            "currentUser"
+        );
+
+
+        window.location.href =
+            "index.html";
+
+
+        return false;
 
     }
 
@@ -158,86 +123,22 @@ function bacaPengguna(){
 
 
 // =====================================================
-// PAPAR MAKLUMAT PENGGUNA
+// MUAT DASHBOARD
 // =====================================================
 
-function paparMaklumatPengguna(){
+async function muatDashboard(){
 
     const pos =
-        pengguna?.poskhidmat
-        ||
-        "-";
-
-
-    const unit =
-        pengguna?.unit
-        ||
-        "-";
-
-
-    const nama =
-        pengguna?.nama
-        ||
-        "-";
-
-
-    const jawatan =
-        pengguna?.jawatan
-        ||
-        "-";
-
-
-    setText(
-        "paparPos",
-        pos
-    );
-
-
-    setText(
-        "paparUnit",
-        unit
-    );
-
-
-    setText(
-        "namaPengguna",
-        nama
-    );
-
-
-    setText(
-        "jawatanPengguna",
-        jawatan
-    );
-
-}
-
-
-
-// =====================================================
-// LOAD ANGGOTA MENGIKUT POS SAHAJA
-// TABLE: Data_Anggota
-// =====================================================
-
-async function muatAnggotaPos(){
-
-    const pos =
-        pengguna?.poskhidmat
-        ||
-        "";
+        String(
+            pengguna?.poskhidmat || ""
+        ).trim();
 
 
     if(!pos){
 
-        console.warn(
-            "PENGGUNA TIADA POS"
+        alert(
+            "Pengguna tidak mempunyai Pos"
         );
-
-
-        paparRalat(
-            "Pengguna tidak mempunyai POS."
-        );
-
 
         return;
 
@@ -245,14 +146,33 @@ async function muatAnggotaPos(){
 
 
     console.log(
-        "LOAD ANGGOTA POS:",
+        "POS PENGGUNA:",
         pos
     );
 
 
+
+    // =================================================
+    // PAPAR POS
+    // =================================================
+
+    setText(
+        "paparPos",
+        pos
+    );
+
+
+
+    // =================================================
+    // LOAD ANGGOTA POS
+    // =================================================
+
     const {
+
         data,
+
         error
+
     } = await supabaseClient
 
         .from("Data_Anggota")
@@ -263,9 +183,7 @@ async function muatAnggotaPos(){
             nama,
             pangkat,
             jawatan,
-            status,
             poskhidmat,
-            unit,
             ketua_pos,
             ketua_unit
         `)
@@ -283,6 +201,7 @@ async function muatAnggotaPos(){
         );
 
 
+
     if(error){
 
         console.error(
@@ -291,8 +210,9 @@ async function muatAnggotaPos(){
         );
 
 
-        paparRalat(
-            "Gagal mendapatkan data anggota."
+        setText(
+            "jumlahAnggota",
+            "GAGAL MEMUATKAN DATA"
         );
 
 
@@ -301,26 +221,30 @@ async function muatAnggotaPos(){
     }
 
 
+
     dataAnggota =
         data || [];
 
 
+
     console.log(
-        "JUMLAH ANGGOTA:",
-        dataAnggota.length
+        "ANGGOTA POS:",
+        dataAnggota
     );
 
 
-    // =====================================
-    // AMBIL MAKLUMAT KETUA
-    // =====================================
 
-    paparKetua(dataAnggota);
+    // =================================================
+    // PAPAR KETUA
+    // =================================================
+
+    paparKetua();
 
 
-    // =====================================
-    // PAPAR TABLE
-    // =====================================
+
+    // =================================================
+    // PAPAR SENARAI
+    // =================================================
 
     paparSenaraiAnggota();
 
@@ -332,9 +256,9 @@ async function muatAnggotaPos(){
 // PAPAR KETUA UNIT / KETUA POS
 // =====================================================
 
-function paparKetua(data){
+function paparKetua(){
 
-    if(!data.length){
+    if(dataAnggota.length === 0){
 
         setText(
             "paparKetuaUnit",
@@ -344,7 +268,7 @@ function paparKetua(data){
 
         setText(
             "paparKetuaPos",
-            "-"
+            pengguna?.nama || "-"
         );
 
 
@@ -353,41 +277,73 @@ function paparKetua(data){
     }
 
 
-    // =====================================
+
+    // =================================================
     // KETUA UNIT
-    // =====================================
+    // =================================================
 
     const ketuaUnit =
-        data.find(
-            item =>
-                item.ketua_unit
-        )?.ketua_unit
-        ||
-        "-";
+        dataAnggota.find(
+
+            anggota =>
+
+                String(
+                    anggota.jawatan || ""
+                )
+                .toUpperCase()
+                .includes(
+                    "KETUA UNIT"
+                )
+
+        );
 
 
-    // =====================================
+
+    // =================================================
     // KETUA POS
-    // =====================================
+    // =================================================
 
     const ketuaPos =
-        data.find(
-            item =>
-                item.ketua_pos
-        )?.ketua_pos
-        ||
-        "-";
+        dataAnggota.find(
+
+            anggota =>
+
+                String(
+                    anggota.jawatan || ""
+                )
+                .toUpperCase()
+                .includes(
+                    "KETUA POS"
+                )
+
+        );
+
 
 
     setText(
+
         "paparKetuaUnit",
-        ketuaUnit
+
+        ketuaUnit?.nama || "-"
+
     );
 
 
+
     setText(
+
         "paparKetuaPos",
-        ketuaPos
+
+        ketuaPos?.nama
+
+        ||
+
+        pengguna?.nama
+
+        ||
+
+        "-"
+
     );
 
 }
@@ -402,7 +358,7 @@ function paparSenaraiAnggota(){
 
     const tbody =
         document.getElementById(
-            "anggotaTableBody"
+            "senaraiAnggota"
         );
 
 
@@ -416,20 +372,10 @@ function paparSenaraiAnggota(){
     tbody.innerHTML = "";
 
 
-    // =====================================
-    // JUMLAH
-    // =====================================
 
-    setText(
-        "jumlahAnggota",
-        dataAnggota.length +
-        " ORANG"
-    );
-
-
-    // =====================================
+    // =================================================
     // TIADA DATA
-    // =====================================
+    // =================================================
 
     if(dataAnggota.length === 0){
 
@@ -437,13 +383,9 @@ function paparSenaraiAnggota(){
 
             <tr>
 
-                <td
-                    colspan="7"
-                    class="empty-cell"
-                >
+                <td colspan="6">
 
-                    TIADA ANGGOTA
-                    BERDAFTAR DI POS INI
+                    TIADA ANGGOTA UNTUK POS INI
 
                 </td>
 
@@ -451,31 +393,54 @@ function paparSenaraiAnggota(){
 
         `;
 
+
+        setText(
+            "jumlahAnggota",
+            "0 ORANG"
+        );
+
+
         return;
 
     }
 
 
-    // =====================================
-    // PAPAR DATA
-    // =====================================
+
+    // =================================================
+    // JUMLAH
+    // =================================================
+
+    setText(
+
+        "jumlahAnggota",
+
+        dataAnggota.length +
+        " ORANG"
+
+    );
+
+
+
+    // =================================================
+    // BINA ROW
+    // =================================================
 
     dataAnggota.forEach(
+
         (anggota, index) => {
 
 
-            const row =
+            const tr =
                 document.createElement(
                     "tr"
                 );
 
 
-            row.innerHTML = `
+            tr.innerHTML = `
 
                 <td>
                     ${index + 1}
                 </td>
-
 
                 <td>
                     ${escapeHtml(
@@ -483,20 +448,17 @@ function paparSenaraiAnggota(){
                     )}
                 </td>
 
-
                 <td>
                     ${escapeHtml(
                         anggota.noanggota
                     )}
                 </td>
 
-
-                <td>
+                <td class="nama">
                     ${escapeHtml(
                         anggota.nama
                     )}
                 </td>
-
 
                 <td>
                     ${escapeHtml(
@@ -504,65 +466,22 @@ function paparSenaraiAnggota(){
                     )}
                 </td>
 
-
                 <td>
                     ${escapeHtml(
                         anggota.jawatan
                     )}
                 </td>
 
-
-                <td>
-                    ${escapeHtml(
-                        anggota.status
-                    )}
-                </td>
-
             `;
 
 
-            tbody.appendChild(
-                row
-            );
+            tbody.appendChild(tr);
 
         }
+
     );
 
 }
-
-
-
-// =====================================================
-// LOG KELUAR
-// =====================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
-
-        document
-            .getElementById("btnLogout")
-            ?.addEventListener(
-                "click",
-                function(){
-
-                    localStorage.removeItem(
-                        "pengguna"
-                    );
-
-                    localStorage.removeItem(
-                        "currentUser"
-                    );
-
-
-                    window.location.href =
-                        "index.html";
-
-                }
-            );
-
-    }
-);
 
 
 
@@ -576,17 +495,13 @@ function setText(
 ){
 
     const element =
-        document.getElementById(
-            id
-        );
+        document.getElementById(id);
 
 
     if(element){
 
         element.textContent =
-            nilai
-            ??
-            "-";
+            nilai ?? "-";
 
     }
 
@@ -598,10 +513,12 @@ function setText(
 // ESCAPE HTML
 // =====================================================
 
-function escapeHtml(teks){
+function escapeHtml(
+    nilai
+){
 
     return String(
-        teks ?? ""
+        nilai ?? ""
     )
 
     .replace(
@@ -634,40 +551,22 @@ function escapeHtml(teks){
 
 
 // =====================================================
-// PAPAR RALAT
+// LOGOUT
 // =====================================================
 
-function paparRalat(
-    mesej
-){
+function logout(){
 
-    const tbody =
-        document.getElementById(
-            "anggotaTableBody"
-        );
+    localStorage.removeItem(
+        "pengguna"
+    );
 
 
-    if(tbody){
+    localStorage.removeItem(
+        "currentUser"
+    );
 
-        tbody.innerHTML = `
 
-            <tr>
-
-                <td
-                    colspan="7"
-                    class="empty-cell"
-                >
-
-                    ${escapeHtml(
-                        mesej
-                    )}
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
+    window.location.href =
+        "index.html";
 
 }

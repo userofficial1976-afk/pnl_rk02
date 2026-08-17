@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard - FPB Duty Command Center</title>
+
+    <link
+        rel="stylesheet"
+        href="dashboard.css"
+    >
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- CONFIG SUPABASE AWAK -->
+    <script src="supabase-config.js"></script>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+     ===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <div class="logo-title">
+            FPB
+        </div>
+
+        <div class="logo-subtitle">
+            DUTY COMMAND CENTER
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="dashboard.html"
+            class="menu-item active"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="senarai-anggota.html"
+            class="menu-item"
+        >
+            Senarai Anggota
+        </a>
+
+
+        <a
+            href="jadual-duty.html"
+            class="menu-item"
+        >
+            Jadual Duty
+        </a>
+
+
+        <a
+            href="kod-duty.html"
+            class="menu-item"
+        >
+            Kod Duty
+        </a>
+
+
+        <a
+            href="rk02-pnl-data-entry.html"
+            class="menu-item"
+        >
+            RK02 & PNL
+        </a>
+
+
+        <a
+            href="laporan.html"
+            class="menu-item"
+        >
+            Laporan
+        </a>
+
+
+        <a
+            href="tetapan.html"
+            class="menu-item"
+        >
+            Tetapan
+        </a>
+
+    </nav>
+
+
+    <button
+        type="button"
+        id="btnLogout"
+        class="logout-button"
+    >
+        LOG KELUAR
+    </button>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<main class="main-content">
+
+
+    <!-- =================================================
+         TOPBAR
+         ================================================= -->
+
+    <header class="topbar">
+
+        <div>
+
+            <div class="page-title">
+                Dashboard
+            </div>
+
+            <div class="page-subtitle">
+                Maklumat Pos & Anggota
+            </div>
+
+        </div>
+
+
+        <div class="user-info">
+
+            <div
+                id="namaPengguna"
+                class="user-name"
+            >
+                -
+            </div>
+
+            <div
+                id="jawatanPengguna"
+                class="user-role"
+            >
+                -
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =================================================
+         CONTENT
+         ================================================= -->
+
+    <section class="dashboard-container">
+
+
+        <!-- =============================================
+             MAKLUMAT POS
+             ============================================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    Maklumat Pos
+                </div>
+
+            </div>
+
+
+            <div class="maklumat-grid">
+
+
+                <div class="maklumat-item">
+
+                    <div class="maklumat-label">
+                        POS
+                    </div>
+
+                    <div
+                        id="paparPos"
+                        class="maklumat-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="maklumat-item">
+
+                    <div class="maklumat-label">
+                        UNIT
+                    </div>
+
+                    <div
+                        id="paparUnit"
+                        class="maklumat-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="maklumat-item">
+
+                    <div class="maklumat-label">
+                        NAMA KETUA UNIT
+                    </div>
+
+                    <div
+                        id="paparKetuaUnit"
+                        class="maklumat-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="maklumat-item">
+
+                    <div class="maklumat-label">
+                        NAMA KETUA POS
+                    </div>
+
+                    <div
+                        id="paparKetuaPos"
+                        class="maklumat-value"
+                    >
+                        -
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================
+             SENARAI ANGGOTA
+             ============================================= -->
+
+        <div class="card">
+
+            <div class="card-header anggota-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Senarai Anggota Pos
+                    </div>
+
+                    <div class="card-description">
+
+                        Anggota yang berdaftar di pos
+                        pengguna yang sedang login.
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="jumlahAnggota"
+                    class="jumlah-badge"
+                >
+                    0 ORANG
+                </div>
+
+            </div>
+
+
+
+            <div class="table-wrapper">
+
+                <table class="anggota-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="col-bil">
+                                BIL
+                            </th>
+
+                            <th>
+                                NO. SKB
+                            </th>
+
+                            <th>
+                                NO. ANGGOTA
+                            </th>
+
+                            <th>
+                                NAMA
+                            </th>
+
+                            <th>
+                                PANGKAT
+                            </th>
+
+                            <th>
+                                JAWATAN
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="anggotaTableBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="loading-cell"
+                            >
+                                Memuatkan data...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<script src="dashboard.js"></script>
+
+</body>
+
+</html>

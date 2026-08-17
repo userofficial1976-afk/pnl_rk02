@@ -1180,19 +1180,29 @@ function pasangEventPosTampungan() {
 // KIRA SEMUA
 // =====================================================
 
-function kiraSemua() {
+function kiraSemua(){
+
 
     kiraJadualRK02();
 
+
     kiraJumlahPosTampungan();
+
 
     kiraRingkasan();
 
+
     kiraMaklumatBulanan();
 
+
+    // =================================================
+    // JUMLAH KLM DATA ENTRY ANGGOTA
+    // =================================================
+
+    kiraJumlahKLMDataEntryAnggota();
+
+
 }
-
-
 
 
 
@@ -3737,5 +3747,171 @@ async function muatPosTampunganDisimpan() {
     console.log(
         "DATA POS TAMPUNGAN BERJAYA DIPAPAR"
     );
+
+}
+
+
+// =====================================================
+// KIRA JUMLAH KLM DARIPADA DATA ENTRY ANGGOTA
+// KHAS UNTUK PAPARAN JUMLAH KLM
+// =====================================================
+
+function kiraJumlahKLMDataEntryAnggota(){
+
+    let jumlahKLMHariBiasa = 0;
+
+    let jumlahKLMOffdayHari = 0;
+    let jumlahKLMOffdayJam = 0;
+
+    let jumlahKLMCutiAmHari = 0;
+    let jumlahKLMCutiAmJam = 0;
+
+
+    // =================================================
+    // LOOP SEMUA ANGGOTA
+    // =================================================
+
+    dataAnggota.forEach(anggota => {
+
+        const noSkb =
+            anggota.noskb ||
+            anggota.noanggota ||
+            "";
+
+
+        // =================================================
+        // HARI BIASA
+        // Ambil terus daripada input Hari Biasa
+        // =================================================
+
+        jumlahKLMHariBiasa += nilaiInput(
+            "hariBiasa",
+            noSkb
+        );
+
+
+        // =================================================
+        // OFFDAY
+        // 4 - 8 JAM = HARI
+        // > 8 JAM = JAM
+        // =================================================
+
+        jumlahKLMOffdayHari += nilaiInput(
+            "off4",
+            noSkb
+        );
+
+
+        jumlahKLMOffdayJam += nilaiInput(
+            "off48",
+            noSkb
+        );
+
+
+        jumlahKLMOffdayJam += nilaiInput(
+            "off8",
+            noSkb
+        );
+
+
+        // =================================================
+        // CUTI AM
+        // < 8 JAM = HARI
+        // > 8 JAM = JAM
+        // =================================================
+
+        jumlahKLMCutiAmHari += nilaiInput(
+            "cuti8",
+            noSkb
+        );
+
+
+        jumlahKLMCutiAmHari += nilaiInput(
+            "cuti8P",
+            noSkb
+        );
+
+
+        jumlahKLMCutiAmJam += nilaiInput(
+            "cuti8L",
+            noSkb
+        );
+
+    });
+
+
+    // =================================================
+    // PAPAR JUMLAH
+    // =================================================
+
+    setText(
+        "totalKLMHariBiasa",
+        formatNombor(jumlahKLMHariBiasa)
+    );
+
+
+    setText(
+        "totalKLMOffdayHari",
+        formatNombor(jumlahKLMOffdayHari)
+    );
+
+
+    setText(
+        "totalKLMOffdayJam",
+        formatNombor(jumlahKLMOffdayJam)
+    );
+
+
+    setText(
+        "totalKLMCutiAmHari",
+        formatNombor(jumlahKLMCutiAmHari)
+    );
+
+
+    setText(
+        "totalKLMCutiAmJam",
+        formatNombor(jumlahKLMCutiAmJam)
+    );
+
+
+    // =================================================
+    // JUMLAH KESELURUHAN
+    // =================================================
+
+    const jumlahKeseluruhan =
+        jumlahKLMHariBiasa +
+        jumlahKLMOffdayHari +
+        jumlahKLMOffdayJam +
+        jumlahKLMCutiAmHari +
+        jumlahKLMCutiAmJam;
+
+
+    setText(
+        "totalKLMKeseluruhan",
+        formatNombor(jumlahKeseluruhan)
+    );
+
+
+    return {
+
+        hariBiasa:
+            jumlahKLMHariBiasa,
+
+        offdayHari:
+            jumlahKLMOffdayHari,
+
+        offdayJam:
+            jumlahKLMOffdayJam,
+
+        cutiAmHari:
+            jumlahKLMCutiAmHari,
+
+        cutiAmJam:
+            jumlahKLMCutiAmJam,
+
+        keseluruhan:
+            jumlahKeseluruhan
+
+    };
 
 }

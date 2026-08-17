@@ -2340,11 +2340,14 @@ await simpanRK02();
 
 
 // =====================================================
-// RESET DATA
-// RESET DATA ENTRY ANGGOTA + POS TAMPUNGAN
+// RESET DATA 4 + 5
+// RESET:
+// 4. DATA ENTRY ANGGOTA
+// 5. DATA ENTRY POS TAMPUNGAN
+// TERMASUK DATA POS YANG SUDAH DISIMPAN
 // =====================================================
 
-function resetData(){
+async function resetData(){
 
 
     if(
@@ -2358,8 +2361,22 @@ function resetData(){
     }
 
 
+    const bulan = Number(
+        document.getElementById("bulan")?.value
+    );
+
+
+    const tahun = Number(
+        document.getElementById("tahun")?.value
+    );
+
+
+    const poskhidmat =
+        pengguna?.poskhidmat || "";
+
+
     // =================================================
-    // 4. RESET DATA ENTRY ANGGOTA
+    // 1. RESET DATA ENTRY ANGGOTA DI PAPARAN
     // =================================================
 
     document
@@ -2378,7 +2395,7 @@ function resetData(){
 
 
     // =================================================
-    // 5. RESET DATA ENTRY POS TAMPUNGAN
+    // 2. RESET DATA POS TAMPUNGAN DI PAPARAN
     // =================================================
 
     document
@@ -2396,6 +2413,10 @@ function resetData(){
     );
 
 
+    // =================================================
+    // 3. RESET POS 1 - 6 DALAM JADUAL
+    // =================================================
+
     document
     .querySelectorAll(
         ".input-pos-tampungan"
@@ -2412,17 +2433,150 @@ function resetData(){
 
 
     // =================================================
-    // KIRA SEMULA
+    // 4. RESET HEADER POS 1 - 6
+    // =================================================
+
+    for(let i = 1; i <= 6; i++){
+
+        const select =
+            document.getElementById(
+                "headerPos" + i
+            );
+
+
+        if(select){
+
+            select.value = "";
+
+        }
+
+    }
+
+
+    // =================================================
+    // 5. PADAM DATA POS TAMPUNGAN DALAM SUPABASE
+    // =================================================
+
+    if(
+        bulan &&
+        tahun &&
+        poskhidmat
+    ){
+
+        const {
+            error
+        } = await supabaseClient
+
+        .from(
+            "rk02_pos_tampungan"
+        )
+
+        .delete()
+
+        .eq(
+            "bulan",
+            bulan
+        )
+
+        .eq(
+            "tahun",
+            tahun
+        )
+
+        .eq(
+            "poskhidmat",
+            poskhidmat
+        );
+
+
+        if(error){
+
+            console.error(
+                "RALAT RESET POS TAMPUNGAN:",
+                error
+            );
+
+
+            alert(
+                "Gagal reset data Pos Tampungan"
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    // =================================================
+    // 6. PADAM DATA RK02 DALAM SUPABASE
+    // =================================================
+
+    if(
+        bulan &&
+        tahun &&
+        poskhidmat
+    ){
+
+        const {
+            error
+        } = await supabaseClient
+
+        .from(
+            "rk02_data_entry"
+        )
+
+        .delete()
+
+        .eq(
+            "bulan",
+            bulan
+        )
+
+        .eq(
+            "tahun",
+            tahun
+        )
+
+        .eq(
+            "poskhidmat",
+            poskhidmat
+        );
+
+
+        if(error){
+
+            console.error(
+                "RALAT RESET RK02:",
+                error
+            );
+
+
+            alert(
+                "Gagal reset data RK02"
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    // =================================================
+    // 7. KIRA SEMULA
     // =================================================
 
     kiraSemua();
 
 
+    alert(
+        "Data 4 dan 5 berjaya di-reset."
+    );
+
 }
-
-
-
-
 
 
 

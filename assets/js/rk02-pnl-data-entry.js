@@ -3176,7 +3176,22 @@ function nilaiSimpan(nilai){
 }
 
 
+// =====================================================
+// NILAI PAPAR
+// NULL = KOSONG
+// =====================================================
 
+function nilaiPapar(nilai){
+
+    return (
+        nilai === null ||
+        nilai === undefined ||
+        nilai === ""
+    )
+        ? ""
+        : nilai;
+
+}
 
 
 
@@ -4010,16 +4025,16 @@ async function muatRK02(){
 
         input=>{
 
-            input.value=0;
+            input.value="";
 
         }
 
     );
 
 
-    // JIKA TIADA DATA,
-    // KEKALKAN NILAI 0
-
+// JIKA TIADA DATA,
+// KEKALKAN INPUT KOSONG
+    
     if(
         !data ||
         data.length===0
@@ -4152,13 +4167,16 @@ function setNilaiRK02(
     );
 
 
-    if(input){
+if(input){
 
-        input.value =
+    input.value =
+        nilai === null ||
+        nilai === undefined ||
+        nilai === ""
+            ? ""
+            : nilai;
 
-        Number(nilai) || 0;
-
-    }
+}
 
 
 }
@@ -4291,67 +4309,67 @@ async function muatPosTampunganDisimpan(){
 
 
         input[0].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos1
         );
 
 
         input[1].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos2
         );
 
 
         input[2].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos3
         );
 
 
         input[3].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos4
         );
 
 
         input[4].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos5
         );
 
 
         input[5].value =
-        nombor(
+        nilaiPapar(
             rekod.jam_pos6
         );
 
 
         input[6].value =
-        nombor(
+        nilaiPapar(
             rekod.eskot
         );
 
 
         input[7].value =
-        nombor(
+        nilaiPapar(
             rekod.cit
         );
 
 
         input[8].value =
-        nombor(
+        nilaiPapar(
             rekod.kawalan_tambahan
         );
 
 
         input[9].value =
-        nombor(
+        nilaiPapar(
             rekod.kawalan_wang
         );
 
 
         input[10].value =
-        nombor(
+        nilaiPapar(
             rekod.pemandu
         );
 

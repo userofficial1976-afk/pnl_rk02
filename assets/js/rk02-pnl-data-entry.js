@@ -2778,79 +2778,37 @@ poskhidmat,
 
 
 jam_pos1:
-
-Number(input[0]?.value)||0,
-
-
+nilaiSimpan(input[0]?.value),
 
 jam_pos2:
-
-Number(input[1]?.value)||0,
-
-
+nilaiSimpan(input[1]?.value),
 
 jam_pos3:
-
-Number(input[2]?.value)||0,
-
-
+nilaiSimpan(input[2]?.value),
 
 jam_pos4:
-
-Number(input[3]?.value)||0,
-
-
+nilaiSimpan(input[3]?.value),
 
 jam_pos5:
-
-Number(input[4]?.value)||0,
-
-
+nilaiSimpan(input[4]?.value),
 
 jam_pos6:
-
-Number(input[5]?.value)||0,
-
-
-
-
-
-
+nilaiSimpan(input[5]?.value),
 
 eskot:
-
-Number(input[6]?.value)||0,
-
-
-
+nilaiSimpan(input[6]?.value),
 
 cit:
-
-Number(input[7]?.value)||0,
-
-
-
-
+nilaiSimpan(input[7]?.value),
 
 kawalan_tambahan:
-
-Number(input[8]?.value)||0,
-
-
-
-
+nilaiSimpan(input[8]?.value),
 
 kawalan_wang:
-
-Number(input[9]?.value)||0,
-
-
-
-
+nilaiSimpan(input[9]?.value),
 
 pemandu:
-
-Number(input[10]?.value)||0
+nilaiSimpan(input[10]?.value)
 
 
 
@@ -3204,7 +3162,18 @@ hasil
 }
 
 
+// =====================================================
+// NILAI SIMPAN
+// KOSONG = NULL
+// =====================================================
 
+function nilaiSimpan(nilai){
+
+    return String(nilai ?? "").trim() === ""
+        ? null
+        : Number(nilai);
+
+}
 
 
 
@@ -3710,27 +3679,18 @@ async function simpanRK02(){
     }
 
 
-    const ambilNilai = (
+const ambilNilai = (
+    row,
+    jenis
+) => {
 
-        row,
+    return nilaiSimpan(
+        row.querySelector(
+            `.rk02-input[data-jenis="${jenis}"]`
+        )?.value
+    );
 
-        jenis
-
-    ) => {
-
-
-        return Number(
-
-            row.querySelector(
-
-                `.rk02-input[data-jenis="${jenis}"]`
-
-            )?.value
-
-        ) || 0;
-
-
-    };
+};
 
 
     const rows = [];

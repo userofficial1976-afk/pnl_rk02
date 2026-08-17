@@ -3754,6 +3754,20 @@ async function muatPosTampunganDisimpan() {
 // =====================================================
 // KIRA JUMLAH KLM DARIPADA DATA ENTRY ANGGOTA
 // KHAS UNTUK PAPARAN JUMLAH KLM
+//
+// HARI BIASA
+// = ambil terus input HARI BIASA
+//
+// OFFDAY
+// = 4-8 JAM  → HARI
+// = >8 JAM   → JAM
+//
+// CUTI AM
+// = <8 JAM   → HARI
+// = >8 JAM   → JAM
+//
+// SEMUA NILAI DIAMBIL TERUS DARIPADA INPUT
+// YANG DITAIP OLEH PENGGUNA
 // =====================================================
 
 function kiraJumlahKLMDataEntryAnggota() {
@@ -3781,118 +3795,173 @@ function kiraJumlahKLMDataEntryAnggota() {
 
         // =================================================
         // HARI BIASA
-        // Ambil terus daripada input "HARI BIASA"
+        //
+        // Ambil terus nilai yang ditaip
+        // pada input HARI BIASA
         //
         // Contoh:
-        // Hari Biasa = 20
-        // KLM Hari Biasa = 20
+        // 20 = 20
         // =================================================
 
-        jumlahKLMHariBiasa += nilaiInput(
+        const hariBiasa = nilaiInput(
             "hariBiasa",
             noSkb
         );
 
 
+        jumlahKLMHariBiasa += hariBiasa;
+
+
         // =================================================
         // OFFDAY
         //
-        // 4 - 8 JAM = HARI
-        // > 8 JAM  = JAM
+        // 4 - 8 JAM
+        // = HARI
         //
-        // off4  = 4-8 JAM
-        // off48 = >8 JAM (HARI)
-        // off8  = >8 JAM (JAM)
+        // > 8 JAM
+        // = JAM
         //
+        // Nilai diambil terus daripada input.
+        // TIDAK didarab / ditukar.
+        //
+        // Contoh:
+        // 3 Hari = 3
+        // 2 Jam  = 2
         // =================================================
 
-        jumlahKLMOffdayHari += nilaiInput(
+        const offdayHari = nilaiInput(
             "off4",
             noSkb
         );
 
 
-        jumlahKLMOffdayJam += nilaiInput(
-            "off8",
+        const offdayJam = nilaiInput(
+            "off48",
             noSkb
         );
+
+
+        jumlahKLMOffdayHari += offdayHari;
+
+        jumlahKLMOffdayJam += offdayJam;
 
 
         // =================================================
         // CUTI AM
         //
-        // < 8 JAM = HARI
-        // > 8 JAM = JAM
+        // < 8 JAM
+        // = HARI
         //
-        // cuti8  = <8 JAM
-        // cuti8P  = >8 JAM (HARI)
-        // cuti8L  = >8 JAM (JAM)
+        // > 8 JAM
+        // = JAM
         //
+        // Nilai diambil terus daripada input.
+        // TIDAK didarab / ditukar.
+        //
+        // Contoh:
+        // 1 Hari = 1
+        // 4 Jam  = 4
         // =================================================
 
-        jumlahKLMCutiAmHari += nilaiInput(
+        const cutiAmHari = nilaiInput(
             "cuti8",
             noSkb
         );
 
 
-        jumlahKLMCutiAmJam += nilaiInput(
-            "cuti8L",
+        const cutiAmJam = nilaiInput(
+            "cuti8P",
             noSkb
         );
+
+
+        jumlahKLMCutiAmHari += cutiAmHari;
+
+        jumlahKLMCutiAmJam += cutiAmJam;
 
     });
 
 
     // =================================================
-    // PAPAR JUMLAH KLM
+    // PAPAR JUMLAH KLM HARI BIASA
     // =================================================
 
     setText(
         "totalKLMHariBiasa",
-        formatNombor(jumlahKLMHariBiasa)
+        formatNombor(
+            jumlahKLMHariBiasa
+        )
     );
 
 
+    // =================================================
+    // PAPAR JUMLAH KLM OFFDAY
+    // =================================================
+
     setText(
         "totalKLMOffdayHari",
-        formatNombor(jumlahKLMOffdayHari)
+        formatNombor(
+            jumlahKLMOffdayHari
+        )
     );
 
 
     setText(
         "totalKLMOffdayJam",
-        formatNombor(jumlahKLMOffdayJam)
+        formatNombor(
+            jumlahKLMOffdayJam
+        )
     );
 
 
+    // =================================================
+    // PAPAR JUMLAH KLM CUTI AM
+    // =================================================
+
     setText(
         "totalKLMCutiAmHari",
-        formatNombor(jumlahKLMCutiAmHari)
+        formatNombor(
+            jumlahKLMCutiAmHari
+        )
     );
 
 
     setText(
         "totalKLMCutiAmJam",
-        formatNombor(jumlahKLMCutiAmJam)
+        formatNombor(
+            jumlahKLMCutiAmJam
+        )
     );
 
 
     // =================================================
-    // JUMLAH KESELURUHAN KLM
+    // JUMLAH KESELURUHAN
+    //
+    // HARI BIASA
+    // + OFFDAY HARI
+    // + OFFDAY JAM
+    // + CUTI AM HARI
+    // + CUTI AM JAM
     // =================================================
 
     const jumlahKeseluruhan =
+
         jumlahKLMHariBiasa +
+
         jumlahKLMOffdayHari +
+
         jumlahKLMOffdayJam +
+
         jumlahKLMCutiAmHari +
+
         jumlahKLMCutiAmJam;
 
 
     setText(
         "totalKLMKeseluruhan",
-        formatNombor(jumlahKeseluruhan)
+        formatNombor(
+            jumlahKeseluruhan
+        )
     );
 
 
@@ -3921,7 +3990,5 @@ function kiraJumlahKLMDataEntryAnggota() {
             jumlahKeseluruhan
 
     };
-
-}
 
 }

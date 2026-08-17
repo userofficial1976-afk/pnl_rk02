@@ -3756,7 +3756,7 @@ async function muatPosTampunganDisimpan() {
 // KHAS UNTUK PAPARAN JUMLAH KLM
 // =====================================================
 
-function kiraJumlahKLMDataEntryAnggota(){
+function kiraJumlahKLMDataEntryAnggota() {
 
     let jumlahKLMHariBiasa = 0;
 
@@ -3781,7 +3781,11 @@ function kiraJumlahKLMDataEntryAnggota(){
 
         // =================================================
         // HARI BIASA
-        // Ambil terus daripada input Hari Biasa
+        // Ambil terus daripada input "HARI BIASA"
+        //
+        // Contoh:
+        // Hari Biasa = 20
+        // KLM Hari Biasa = 20
         // =================================================
 
         jumlahKLMHariBiasa += nilaiInput(
@@ -3792,18 +3796,18 @@ function kiraJumlahKLMDataEntryAnggota(){
 
         // =================================================
         // OFFDAY
+        //
         // 4 - 8 JAM = HARI
-        // > 8 JAM = JAM
+        // > 8 JAM  = JAM
+        //
+        // off4  = 4-8 JAM
+        // off48 = >8 JAM (HARI)
+        // off8  = >8 JAM (JAM)
+        //
         // =================================================
 
         jumlahKLMOffdayHari += nilaiInput(
             "off4",
-            noSkb
-        );
-
-
-        jumlahKLMOffdayJam += nilaiInput(
-            "off48",
             noSkb
         );
 
@@ -3816,18 +3820,18 @@ function kiraJumlahKLMDataEntryAnggota(){
 
         // =================================================
         // CUTI AM
+        //
         // < 8 JAM = HARI
         // > 8 JAM = JAM
+        //
+        // cuti8  = <8 JAM
+        // cuti8P  = >8 JAM (HARI)
+        // cuti8L  = >8 JAM (JAM)
+        //
         // =================================================
 
         jumlahKLMCutiAmHari += nilaiInput(
             "cuti8",
-            noSkb
-        );
-
-
-        jumlahKLMCutiAmHari += nilaiInput(
-            "cuti8P",
             noSkb
         );
 
@@ -3841,7 +3845,7 @@ function kiraJumlahKLMDataEntryAnggota(){
 
 
     // =================================================
-    // PAPAR JUMLAH
+    // PAPAR JUMLAH KLM
     // =================================================
 
     setText(
@@ -3875,7 +3879,7 @@ function kiraJumlahKLMDataEntryAnggota(){
 
 
     // =================================================
-    // JUMLAH KESELURUHAN
+    // JUMLAH KESELURUHAN KLM
     // =================================================
 
     const jumlahKeseluruhan =
@@ -3891,6 +3895,10 @@ function kiraJumlahKLMDataEntryAnggota(){
         formatNombor(jumlahKeseluruhan)
     );
 
+
+    // =================================================
+    // RETURN DATA
+    // =================================================
 
     return {
 
@@ -3913,5 +3921,7 @@ function kiraJumlahKLMDataEntryAnggota(){
             jumlahKeseluruhan
 
     };
+
+}
 
 }

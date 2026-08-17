@@ -12,7 +12,7 @@
 let pengguna = null;
 
 let dataAnggota = [];
-let dataOrganisasi=[];
+let dataOrganisasi = [];
 let dataPosKawalan = [];
 let dataOperasiPos = null;
 
@@ -49,20 +49,17 @@ const SENARAI_BULAN = [
 
 document.addEventListener(
 
-"DOMContentLoaded",
+    "DOMContentLoaded",
 
-async()=>{
+    async () => {
 
+        console.log(
+            "RK02 & PNL SYSTEM READY"
+        );
 
-console.log(
-"RK02 & PNL SYSTEM READY"
-);
+        await mula();
 
-
-await mula();
-
-
-}
+    }
 
 );
 
@@ -74,69 +71,52 @@ await mula();
 // MULA SISTEM
 // =====================================================
 
-async function mula(){
+async function mula() {
 
+    try {
 
-try{
+        bacaPengguna();
 
+        tetapkanBulanSemasa();
 
-    bacaPengguna();
+        pasangEventUtama();
 
+        await muatPosKawalan();
 
-    tetapkanBulanSemasa();
+        isiDropdownHeaderPos();
 
+        await muatAnggota();
 
-    pasangEventUtama();
+        await muatDataOperasiPos();
 
+        paparJadualRK02();
 
+        await muatRK02();
 
-    await muatPosKawalan();
+        paparPosTampungan();
 
+        await muatPosTampunganDisimpan();
 
-    isiDropdownHeaderPos();
+        kiraSemua();
 
+        console.log(
+            "RK02 SYSTEM BERJAYA DIMULAKAN"
+        );
 
+    }
 
-    await muatAnggota();
+    catch (error) {
 
-    await muatDataOperasiPos();
+        console.error(
+            "RALAT SISTEM:",
+            error
+        );
 
-    paparJadualRK02();
+        alert(
+            "Sistem gagal dimulakan"
+        );
 
-    await muatRK02();
-
-    paparPosTampungan();
-
-    await muatPosTampunganDisimpan();
-
-    kiraSemua();
-
-
-
-    console.log(
-    "RK02 SYSTEM BERJAYA DIMULAKAN"
-    );
-
-
-}
-
-
-catch(error){
-
-
-    console.error(
-    "RALAT SISTEM:",
-    error
-    );
-
-
-    alert(
-    "Sistem gagal dimulakan"
-    );
-
-
-}
-
+    }
 
 }
 
@@ -148,94 +128,75 @@ catch(error){
 // BACA PENGGUNA LOGIN
 // =====================================================
 
-function bacaPengguna(){
+function bacaPengguna() {
+
+    const data =
+
+        localStorage.getItem("pengguna")
+        ||
+        localStorage.getItem("currentUser");
 
 
-const data =
+    if (!data) {
 
-localStorage.getItem("pengguna")
-||
-localStorage.getItem("currentUser");
+        console.warn(
+            "TIADA DATA PENGGUNA"
+        );
 
+        return;
 
-
-if(!data){
-
-console.warn(
-"TIADA DATA PENGGUNA"
-);
-
-return;
-
-}
+    }
 
 
+    try {
 
-try{
+        pengguna = JSON.parse(data);
 
+        console.log(
+            "DATA KETUA POS:",
+            pengguna
+        );
 
-pengguna = JSON.parse(data);
+    }
 
+    catch (error) {
 
+        console.error(
+            "DATA PENGGUNA ROSAK",
+            error
+        );
 
-console.log(
-"DATA KETUA POS:",
-pengguna
-);
+        pengguna = null;
 
-
-
-}
-
-catch(error){
-
-
-console.error(
-"DATA PENGGUNA ROSAK",
-error
-);
+    }
 
 
-pengguna=null;
+    // papar maklumat header
+
+    setText(
+        "namaPengguna",
+        pengguna?.nama || "-"
+    );
 
 
-}
+    setText(
+        "jawatanPengguna",
+        pengguna?.jawatan || "-"
+    );
 
 
+    setText(
+        "unitPengguna",
+        pengguna?.unit || "-"
+    );
 
 
-// papar maklumat header
-
-setText(
-"namaPengguna",
-pengguna.nama || "-"
-);
-
-
-
-setText(
-"jawatanPengguna",
-pengguna.jawatan || "-"
-);
-
-
-
-setText(
-"unitPengguna",
-pengguna.unit || "-"
-);
-
-
-
-setText(
-"kodNamaPos",
-pengguna.poskhidmat || "-"
-);
-
-
+    setText(
+        "kodNamaPos",
+        pengguna?.poskhidmat || "-"
+    );
 
 }
-
 
 
 
@@ -245,66 +206,45 @@ pengguna.poskhidmat || "-"
 // BULAN SEMASA
 // =====================================================
 
-function tetapkanBulanSemasa(){
+function tetapkanBulanSemasa() {
+
+    const sekarang = new Date();
+
+    const bulan =
+        sekarang.getMonth() + 1;
+
+    const tahun =
+        sekarang.getFullYear();
 
 
-
-const sekarang = new Date();
-
-
-const bulan =
-sekarang.getMonth()+1;
+    const elBulan =
+        document.getElementById(
+            "bulan"
+        );
 
 
-const tahun =
-sekarang.getFullYear();
+    const elTahun =
+        document.getElementById(
+            "tahun"
+        );
 
 
+    if (elBulan) {
+
+        elBulan.value =
+            String(bulan);
+
+    }
 
 
+    if (elTahun) {
 
-const elBulan =
-document.getElementById(
-"bulan"
-);
+        elTahun.value =
+            String(tahun);
 
-
-
-const elTahun =
-document.getElementById(
-"tahun"
-);
-
-
-
-
-if(elBulan){
-
-
-    elBulan.value =
-    String(bulan);
-
+    }
 
 }
-
-
-
-
-
-if(elTahun){
-
-
-    elTahun.value =
-    String(tahun);
-
-
-}
-
-
-
-}
-
-
 
 
 
@@ -316,86 +256,71 @@ if(elTahun){
 // FIELD : pos_kawalan
 // =====================================================
 
-async function muatPosKawalan(){
+async function muatPosKawalan() {
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+        .from("data_pos")
+
+        .select(`
+            pos_kawalan,
+            atur_tugas,
+            jam_sehari_pb,
+            jam_sehari_ppb,
+            kadar_rm_sehari_pb,
+            kadar_rm_sehari_ppb
+        `)
+
+        .order(
+            "pos_kawalan",
+            {
+                ascending: true
+            }
+        );
 
 
+    if (error) {
 
-const {
+        throw error;
 
-data,
-
-error
-
-}= await supabaseClient
-
-.from("data_pos")
-
-.select(`
-    pos_kawalan,
-    atur_tugas,
-    jam_sehari_pb,
-    jam_sehari_ppb,
-    kadar_rm_sehari_pb,
-    kadar_rm_sehari_ppb
-`)
-
-.order(
-"pos_kawalan",
-{
-ascending:true
-}
-);
+    }
 
 
+    dataPosKawalan =
+
+        [...new Set(
+
+            (data || [])
+
+                .map(
+
+                    x =>
+
+                        String(
+                            x.pos_kawalan || ""
+                        ).trim()
+
+                )
+
+                .filter(
+                    x => x != ""
+                )
+
+        )];
 
 
-if(error){
-
-throw error;
-
-}
-
-
-
-
-dataPosKawalan =
-
-
-[...new Set(
-
-(data||[])
-
-.map(
-
-x=>
-
-String(
-x.pos_kawalan||""
-)
-
-.trim()
-
-
-)
-
-.filter(
-x=>x!=""
-)
-
-)];
-
-
-
-
-console.log(
-"POS KAWALAN:",
-dataPosKawalan
-);
-
-
+    console.log(
+        "POS KAWALAN:",
+        dataPosKawalan
+    );
 
 }
-
 
 
 
@@ -408,195 +333,177 @@ dataPosKawalan
 // 2. POS KETUA POS
 // =====================================================
 
-async function muatAnggota(){
+async function muatAnggota() {
 
-console.log(
-"MULA LOAD ANGGOTA"
-);
+    console.log(
+        "MULA LOAD ANGGOTA"
+    );
 
 
-// ===============================
-// MAKLUMAT LOGIN
-// ===============================
+    // ===============================
+    // MAKLUMAT LOGIN
+    // ===============================
 
-const unit = pengguna?.unit || "";
+    const unit =
+        pengguna?.unit || "";
 
-const jawatan =
-String(
-pengguna?.jawatan || ""
-)
-.toUpperCase();
 
+    const jawatan =
+        String(
+            pengguna?.jawatan || ""
+        ).toUpperCase();
 
-const posKhidmat =
-pengguna?.poskhidmat || "";
 
+    const posKhidmat =
+        pengguna?.poskhidmat || "";
 
 
-console.log(
-"UNIT PENGGUNA:",
-unit
-);
+    console.log(
+        "UNIT PENGGUNA:",
+        unit
+    );
 
 
-console.log(
-"JAWATAN:",
-jawatan
-);
+    console.log(
+        "JAWATAN:",
+        jawatan
+    );
 
 
-console.log(
-"POS KETUA POS:",
-posKhidmat
-);
+    console.log(
+        "POS KETUA POS:",
+        posKhidmat
+    );
 
 
+    // ===============================
+    // LOAD ANGGOTA
+    // ===============================
 
-// ===============================
-// LOAD ANGGOTA
-// ===============================
+    let query = supabaseClient
 
+        .from("Data_Anggota")
 
-let query = supabaseClient
+        .select(`
+            *
+        `)
 
-.from("Data_Anggota")
+        .eq(
+            "unit",
+            unit
+        );
 
-.select(`
-*
-`)
 
-.eq(
-"unit",
-unit
-);
+    if (
+        jawatan.includes("KETUA POS")
+    ) {
 
+        query =
+            query.eq(
+                "poskhidmat",
+                posKhidmat
+            );
 
+    }
 
-if(
-jawatan.includes("KETUA POS")
-){
 
-query =
-query.eq(
-"poskhidmat",
-posKhidmat
-);
+    const {
 
-}
+        data,
 
+        error
 
+    } = await query
 
-const {
+        .order(
+            "nama",
+            {
+                ascending: true
+            }
+        );
 
-data,
 
-error
+    if (error) {
 
-}= await query
+        console.error(
+            "RALAT ANGGOTA",
+            error
+        );
 
-.order(
-"nama",
-{
-ascending:true
-}
-);
+        return;
 
+    }
 
 
-if(error){
+    dataAnggota =
+        data || [];
 
-console.error(
-"RALAT ANGGOTA",
-error
-);
 
-return;
+    console.log(
+        "JUMLAH ANGGOTA:",
+        dataAnggota.length
+    );
 
-}
 
+    console.log(
+        "DATA ANGGOTA:",
+        dataAnggota
+    );
 
 
-dataAnggota =
-data || [];
+    // ===============================
+    // LOAD ORGANISASI UNIT
+    // ===============================
 
+    const {
 
+        data: organisasi,
 
-console.log(
-"JUMLAH ANGGOTA:",
-dataAnggota.length
-);
+        error: errOrganisasi
 
+    } = await supabaseClient
 
-console.log(
-"DATA ANGGOTA:",
-dataAnggota
-);
+        .from("Data_Anggota")
 
+        .select(`
+            nama,
+            jawatan,
+            unit
+        `)
 
+        .eq(
+            "unit",
+            unit
+        );
 
 
-// ===============================
-// LOAD ORGANISASI UNIT
-// ===============================
+    if (errOrganisasi) {
 
+        console.error(
+            "RALAT ORGANISASI",
+            errOrganisasi
+        );
 
-const {
+    }
 
-data:organisasi,
 
-error:errOrganisasi
+    dataOrganisasi =
+        organisasi || [];
 
-}=await supabaseClient
 
-.from("Data_Anggota")
+    console.log(
+        "DATA ORGANISASI:",
+        dataOrganisasi
+    );
 
-.select(`
-nama,
-jawatan,
-unit
-`)
 
-.eq(
-"unit",
-unit
-);
+    // ===============================
+    // PAPAR MAKLUMAT
+    // ===============================
 
+    paparMaklumatKetua();
 
-
-if(errOrganisasi){
-
-console.error(
-"RALAT ORGANISASI",
-errOrganisasi
-);
-
-}
-
-
-
-dataOrganisasi =
-organisasi || [];
-
-
-
-console.log(
-"DATA ORGANISASI:",
-dataOrganisasi
-);
-
-
-
-
-// ===============================
-// PAPAR MAKLUMAT
-// ===============================
-
-
-paparMaklumatKetua();
-
-kemasKiniMaklumatOperasi();
-
-
+    kemasKiniMaklumatOperasi();
 
 }
 
@@ -608,84 +515,68 @@ kemasKiniMaklumatOperasi();
 // PAPAR KETUA POS / UNIT
 // =====================================================
 
+function paparMaklumatKetua() {
 
-function paparMaklumatKetua(){
+    const ketuaPos =
 
+        pengguna?.nama
 
+        ||
 
-const ketuaPos =
-
-pengguna?.nama
-
-||
-
-"-";
+        "-";
 
 
-
-setText(
-"namaKetuaPos",
-ketuaPos
-);
-
+    setText(
+        "namaKetuaPos",
+        ketuaPos
+    );
 
 
-setText(
-"ketuaPos",
-ketuaPos
-);
+    setText(
+        "ketuaPos",
+        ketuaPos
+    );
 
 
+    const ketuaUnit =
+
+        dataOrganisasi.find(
+
+            x =>
+
+                String(
+                    x.jawatan || ""
+                )
+
+                    .toUpperCase()
+
+                    .includes(
+                        "KETUA UNIT"
+                    )
+
+        )?.nama
+
+        ||
+
+        "-";
 
 
+    setText(
+        "namaKetuaUnit",
+        ketuaUnit
+    );
 
 
-const ketuaUnit =
-
-dataOrganisasi.find(
-
-x =>
-
-String(
-x.jawatan || ""
-)
-
-.toUpperCase()
-
-.includes(
-"KETUA UNIT"
-)
-
-)?.nama
-
-||
-
-"-";
+    setText(
+        "ketuaUnit",
+        ketuaUnit
+    );
 
 
-
-
-
-setText(
-"namaKetuaUnit",
-ketuaUnit
-);
-
-
-
-setText(
-"ketuaUnit",
-ketuaUnit
-);
-
-
-
-console.log(
-"KETUA UNIT:",
-ketuaUnit
-);
-
-
+    console.log(
+        "KETUA UNIT:",
+        ketuaUnit
+    );
 
 }
 
@@ -697,53 +588,53 @@ ketuaUnit
 // MAKLUMAT OPERASI
 // =====================================================
 
+function kemasKiniMaklumatOperasi() {
 
-function kemasKiniMaklumatOperasi(){
+    const pos =
 
+        pengguna?.poskhidmat
 
+        ||
 
-const pos =
-
-pengguna?.poskhidmat
-
-||
-
-"-";
+        "-";
 
 
-
-setText(
-"kodNamaPos",
-pos
-);
-
+    setText(
+        "kodNamaPos",
+        pos
+    );
 
 
-setText(
-"namaPos",
-pos
-);
+    setText(
+        "namaPos",
+        pos
+    );
 
 
+    setText(
+        "bilanganAnggota",
 
-setText(
-"bilanganAnggota",
+        dataAnggota.length +
+        " ORANG"
 
-dataAnggota.length +
-" ORANG"
-
-);
-
-
+    );
 
 }
 
-function binaInputJamPos(
-nomborPos,
-noSkb
-){
 
-return `
+
+
+
+// =====================================================
+// BINA INPUT JAM POS
+// =====================================================
+
+function binaInputJamPos(
+    nomborPos,
+    noSkb
+) {
+
+    return `
 
 <td>
 
@@ -752,8 +643,6 @@ return `
 type="number"
 
 min="0"
-
-
 
 value=""
 
@@ -768,160 +657,41 @@ data-skb="${noSkb}"
 </td>
 
 `;
-// =================================================
-// DATA OPERASI
-// =================================================
 
-
-const jamPB = nombor(
-    data.jam_sehari_pb
-);
-
-
-const jamPPB = nombor(
-    data.jam_sehari_ppb
-);
-
-
-const jamSehari = 
-jamPB + jamPPB;
-
-
-
-const rmPB = nombor(
-    data.kadar_rm_sehari_pb
-);
-
-
-const rmPPB = nombor(
-    data.kadar_rm_sehari_ppb
-);
-
-
-const jumlahRM =
-rmPB + rmPPB;
-
-
-
-// ===============================
-// JAM KHIDMAT SEHARI
-// ===============================
-
-setText(
-"jamKhidmatSehari",
-formatNombor(jamSehari) + " JAM"
-);
-
-
-
-// ===============================
-// JAM PB
-// ===============================
-
-setText(
-"jamKhidmatPB",
-formatNombor(jamPB) + " JAM"
-);
-
-
-
-// ===============================
-// JAM PPB
-// ===============================
-
-setText(
-"jamKhidmatPPB",
-formatNombor(jamPPB) + " JAM"
-);
-
-
-
-// ===============================
-// ATUR TUGAS
-// ===============================
-
-setText(
-"aturTugas",
-data.atur_tugas || "-"
-);
-
-
-
-// ===============================
-// JUMLAH JAM SEBULAN
-// ===============================
-
-kiraJamBulanan(
-jamSehari
-);
-
-
-
-// ===============================
-// PENDAPATAN
-// ===============================
-
-setText(
-"pendapatanPB",
-formatRM(rmPB)
-);
-
-
-
-setText(
-"pendapatanPPB",
-formatRM(rmPPB)
-);
-
-
-
-setText(
-"jumlahPendapatan",
-formatRM(jumlahRM)
-);
 }
+
+
+
+
 
 // =====================================================
 // PAPAR JADUAL RK02
 // =====================================================
 
-function paparJadualRK02(){
+function paparJadualRK02() {
+
+    const tbody =
+
+        document.getElementById(
+            "rk02TableBody"
+        );
 
 
+    if (!tbody) {
 
-const tbody =
+        return;
 
-document.getElementById(
-"rk02TableBody"
-);
-
+    }
 
 
+    tbody.innerHTML = "";
 
 
-if(!tbody){
+    if (dataAnggota.length === 0) {
 
-return;
+        tbody.innerHTML =
 
-}
-
-
-
-
-
-tbody.innerHTML="";
-
-
-
-
-
-if(dataAnggota.length===0){
-
-
-
-tbody.innerHTML=
-
-`
+            `
 
 <tr>
 
@@ -935,53 +705,41 @@ TIADA DATA ANGGOTA
 
 `;
 
-return;
+        return;
+
+    }
 
 
-}
+    dataAnggota.forEach(
+
+        (anggota, index) => {
+
+            const noSkb =
+
+                anggota.noskb
+
+                ||
+
+                anggota.noanggota
+
+                ||
+
+                "";
 
 
+            const row =
+
+                document.createElement(
+                    "tr"
+                );
 
 
+            row.innerHTML =
 
-dataAnggota.forEach(
-
-(anggota,index)=>{
-
-
-
-const noSkb =
-
-anggota.noskb
-
-||
-
-anggota.noanggota
-
-||
-
-"";
-
-
-
-
-
-
-const row =
-
-document.createElement(
-"tr"
-);
-
-
-
-
-row.innerHTML =
-
-`
+                `
 
 <td>
-${index+1}
+${index + 1}
 </td>
 
 
@@ -995,53 +753,41 @@ ${escapeHtml(anggota.nama)}
 </td>
 
 
-${binaInputRK02("hariBiasa",noSkb)}
+${binaInputRK02("hariBiasa", noSkb)}
 
-${binaInputRK02("off4",noSkb)}
+${binaInputRK02("off4", noSkb)}
 
-${binaInputRK02("off48",noSkb)}
+${binaInputRK02("off48", noSkb)}
 
-${binaInputRK02("off8",noSkb)}
+${binaInputRK02("off8", noSkb)}
 
-${binaInputRK02("cuti8",noSkb)}
+${binaInputRK02("cuti8", noSkb)}
 
-${binaInputRK02("cuti8P",noSkb)}
+${binaInputRK02("cuti8P", noSkb)}
 
-${binaInputRK02("jamEskot",noSkb)}
+${binaInputRK02("jamEskot", noSkb)}
 
-${binaInputRK02("klmEskot",noSkb)}
+${binaInputRK02("klmEskot", noSkb)}
 
-${binaInputRK02("medical",noSkb)}
+${binaInputRK02("medical", noSkb)}
 
-${binaInputRK02("travel",noSkb)}
+${binaInputRK02("travel", noSkb)}
 
-${binaInputRK02("cit",noSkb)}
-
-
-
-
-</td>
+${binaInputRK02("cit", noSkb)}
 
 `;
 
 
+            tbody.appendChild(row);
 
-tbody.appendChild(row);
+        }
 
-
-
-});
-
+    );
 
 
-
-
-pasangEventRK02();
-
-
+    pasangEventRK02();
 
 }
-
 
 
 
@@ -1053,14 +799,13 @@ pasangEventRK02();
 
 function binaInputRK02(
 
-jenis,
+    jenis,
 
-noSkb
+    noSkb
 
-){
+) {
 
-
-return`
+    return `
 
 <td>
 
@@ -1069,8 +814,6 @@ return`
 type="number"
 
 min="0"
-
-
 
 value=""
 
@@ -1089,6 +832,9 @@ data-no-skb="${escapeHtml(noSkb)}"
 }
 
 
+
+
+
 // =====================================================
 // PART 2/3
 // RK02 INPUT + POS TAMPUNGAN
@@ -1100,43 +846,35 @@ data-no-skb="${escapeHtml(noSkb)}"
 // EVENT INPUT RK02
 // =====================================================
 
-function pasangEventRK02(){
+function pasangEventRK02() {
 
+    document
 
-document
+        .querySelectorAll(
+            ".rk02-input"
+        )
 
-.querySelectorAll(
-".rk02-input"
-)
+        .forEach(
 
-.forEach(
+            input => {
 
-input=>{
+                input.addEventListener(
 
+                    "input",
 
-input.addEventListener(
+                    () => {
 
-"input",
+                        kiraSemua();
 
-()=>{
+                    }
 
+                );
 
-kiraSemua();
+            }
 
-
-}
-
-
-);
-
+        );
 
 }
-
-);
-
-
-}
-
 
 
 
@@ -1146,39 +884,35 @@ kiraSemua();
 // PAPAR POS TAMPUNGAN
 // =====================================================
 
-function paparPosTampungan(){
+function paparPosTampungan() {
+
+    const tbody =
+        document.getElementById(
+            "posTampunganTableBody"
+        );
 
 
-const tbody =
-document.getElementById(
-"posTampunganTableBody"
-);
+    if (!tbody) return;
 
 
-if(!tbody) return;
+    tbody.innerHTML = "";
 
 
-tbody.innerHTML="";
+    dataAnggota.forEach(
+        (anggota, index) => {
+
+            const noSkb =
+                anggota.noskb ||
+                anggota.noanggota ||
+                "";
 
 
-
-dataAnggota.forEach(
-(anggota,index)=>{
-
-
-const noSkb =
-anggota.noskb ||
-anggota.noanggota ||
-"";
-
-
-
-tbody.innerHTML += `
+            tbody.innerHTML += `
 
 <tr>
 
 <td>
-${index+1}
+${index + 1}
 </td>
 
 
@@ -1192,18 +926,17 @@ ${escapeHtml(anggota.nama)}
 </td>
 
 
+${binaInputJamPos(1, noSkb)}
 
-${binaInputJamPos(1,noSkb)}
+${binaInputJamPos(2, noSkb)}
 
-${binaInputJamPos(2,noSkb)}
+${binaInputJamPos(3, noSkb)}
 
-${binaInputJamPos(3,noSkb)}
+${binaInputJamPos(4, noSkb)}
 
-${binaInputJamPos(4,noSkb)}
+${binaInputJamPos(5, noSkb)}
 
-${binaInputJamPos(5,noSkb)}
-
-${binaInputJamPos(6,noSkb)}
+${binaInputJamPos(6, noSkb)}
 
 
 
@@ -1256,31 +989,29 @@ value="">
 
 `;
 
+        }
+
+    );
 
 
-}
-
-
-);
-
-
-
-pasangEventPosTampungan();
-
+    pasangEventPosTampungan();
 
 }
+
+
+
+
 
 // =====================================================
 // DROPDOWN POS 1 - 6
 // =====================================================
 
 function binaDropdownPos(
-nomborPos,
-noSkb
-){
+    nomborPos,
+    noSkb
+) {
 
-
-let html = `
+    let html = `
 
 <td>
 
@@ -1300,11 +1031,10 @@ data-skb="${noSkb}"
 `;
 
 
-dataPosKawalan.forEach(
-(pos)=>{
+    dataPosKawalan.forEach(
+        (pos) => {
 
-
-html += `
+            html += `
 
 <option value="${escapeHtml(pos)}">
 
@@ -1314,12 +1044,11 @@ ${escapeHtml(pos)}
 
 `;
 
+        }
+    );
 
 
-});
-
-
-html += `
+    html += `
 
 </select>
 
@@ -1328,10 +1057,10 @@ html += `
 `;
 
 
-return html;
-
+    return html;
 
 }
+
 
 
 
@@ -1342,17 +1071,13 @@ return html;
 
 function binaInputTampungan(
 
-jenis,
+    jenis,
 
-noSkb
+    noSkb
 
-){
+) {
 
-
-
-return
-
-`
+    return `
 
 <td>
 
@@ -1361,8 +1086,6 @@ return
 type="number"
 
 min="0"
-
-
 
 value=""
 
@@ -1378,12 +1101,7 @@ data-no-skb="${escapeHtml(noSkb)}"
 
 `;
 
-
-
 }
-
-
-
 
 
 
@@ -1393,85 +1111,66 @@ data-no-skb="${escapeHtml(noSkb)}"
 // EVENT POS TAMPUNGAN
 // =====================================================
 
-function pasangEventPosTampungan(){
+function pasangEventPosTampungan() {
+
+    document
+
+        .querySelectorAll(
+
+            ".input-pos-tampungan"
+
+        )
+
+        .forEach(
+
+            select => {
+
+                select.addEventListener(
+
+                    "change",
+
+                    () => {
+
+                        kiraSemua();
+
+                    }
+
+                );
+
+            }
+
+        );
 
 
+    document
 
-document
+        .querySelectorAll(
 
-.querySelectorAll(
+            ".input-tampungan"
 
-".input-pos-tampungan"
+        )
 
-)
+        .forEach(
 
-.forEach(
+            input => {
 
-select=>{
+                input.addEventListener(
 
+                    "input",
 
-select.addEventListener(
+                    () => {
 
-"change",
+                        kiraSemua();
 
-()=>{
+                    }
 
+                );
 
-kiraSemua();
+            }
 
-
-}
-
-);
-
-
-
-}
-
-);
-
-
-
-
-
-document
-
-.querySelectorAll(
-
-".input-tampungan"
-
-)
-
-.forEach(
-
-input=>{
-
-
-input.addEventListener(
-
-"input",
-
-()=>{
-
-
-kiraSemua();
-
+        );
 
 }
-
-);
-
-
-}
-
-);
-
-
-
-}
-
-
-
 
 
 
@@ -1481,28 +1180,17 @@ kiraSemua();
 // KIRA SEMUA
 // =====================================================
 
-function kiraSemua(){
+function kiraSemua() {
 
+    kiraJadualRK02();
 
+    kiraJumlahPosTampungan();
 
-kiraJadualRK02();
+    kiraRingkasan();
 
-
-kiraJumlahPosTampungan();
-
-
-kiraRingkasan();
-
-
-kiraMaklumatBulanan();
-
-
+    kiraMaklumatBulanan();
 
 }
-
-
-
-
 
 
 
@@ -1512,376 +1200,303 @@ kiraMaklumatBulanan();
 // KIRA JADUAL RK02
 // =====================================================
 
-function kiraJadualRK02(){
+function kiraJadualRK02() {
 
+    let jumlahJam = 0;
 
+    let jumlahRM = 0;
 
-let jumlahJam=0;
 
-let jumlahRM=0;
+    let jumlah = {
 
+        hariBiasa: 0,
 
+        jamKlmBiasa: 0,
 
-let jumlah = {
+        off4: 0,
 
+        off48: 0,
 
-hariBiasa:0,
+        off8: 0,
 
-jamKlmBiasa:0,
+        cuti8: 0,
 
-off4:0,
+        cuti8P: 0,
 
-off48:0,
+        cuti8L: 0,
 
-off8:0,
+        jamEskot: 0,
 
-cuti8:0,
+        klmEskot: 0
 
-cuti8P:0,
+    };
 
-cuti8L:0,
 
-jamEskot:0,
+    dataAnggota.forEach(
 
-klmEskot:0
+        anggota => {
 
-};
+            const noSkb =
 
+                anggota.noskb
 
+                ||
 
+                anggota.noanggota
 
+                ||
 
+                "";
 
 
-dataAnggota.forEach(
+            const hariBiasa = nilaiInput(
+                "hariBiasa",
+                noSkb
+            );
 
-anggota=>{
 
+            const jamKlmBiasa = nilaiInput(
+                "jamKlmBiasa",
+                noSkb
+            );
 
 
-const noSkb =
+            const off4 = nilaiInput(
+                "off4",
+                noSkb
+            );
 
-anggota.noskb
 
-||
+            const off48 = nilaiInput(
+                "off48",
+                noSkb
+            );
 
-anggota.noanggota
 
-||
+            const off8 = nilaiInput(
+                "off8",
+                noSkb
+            );
 
-"";
 
+            const cuti8 = nilaiInput(
+                "cuti8",
+                noSkb
+            );
 
 
+            const cuti8P = nilaiInput(
+                "cuti8P",
+                noSkb
+            );
 
 
+            const cuti8L = nilaiInput(
+                "cuti8L",
+                noSkb
+            );
 
-const hariBiasa = nilaiInput(
-"hariBiasa",
-noSkb
-);
 
+            const jamEskot = nilaiInput(
+                "jamEskot",
+                noSkb
+            );
 
 
-const jamKlmBiasa = nilaiInput(
-"jamKlmBiasa",
-noSkb
-);
+            const klmEskot = nilaiInput(
+                "klmEskot",
+                noSkb
+            );
 
 
+            const jamSemasa =
 
-const off4 = nilaiInput(
-"off4",
-noSkb
-);
+                (hariBiasa * 8)
 
+                +
 
+                jamKlmBiasa
 
-const off48 = nilaiInput(
-"off48",
-noSkb
-);
+                +
 
+                (off4 * 4)
 
+                +
 
-const off8 = nilaiInput(
-"off8",
-noSkb
-);
+                (off48 * 8)
 
+                +
 
+                (off8 * 12)
 
-const cuti8 = nilaiInput(
-"cuti8",
-noSkb
-);
+                +
 
+                (cuti8 * 8)
 
+                +
 
-const cuti8P = nilaiInput(
-"cuti8P",
-noSkb
-);
+                (cuti8P * 8)
 
+                +
 
+                (cuti8L * 12)
 
-const cuti8L = nilaiInput(
-"cuti8L",
-noSkb
-);
+                +
 
+                jamEskot
 
+                +
 
-const jamEskot = nilaiInput(
-"jamEskot",
-noSkb
-);
+                klmEskot;
 
 
+            const rm =
 
-const klmEskot = nilaiInput(
-"klmEskot",
-noSkb
-);
+                (jamKlmBiasa *
 
+                    nombor(
+                        anggota.rm_pehariklmbiasa
+                    ))
 
+                +
 
+                (off4 * 4 *
 
+                    nombor(
+                        anggota.rm_perjamoffday
+                    ))
 
+                +
 
+                (off48 *
 
-const jamSemasa =
+                    nombor(
+                        anggota.rm_perharioffday
+                    ))
 
+                +
 
-(hariBiasa*8)
+                (off8 *
 
-+
+                    nombor(
+                        anggota.rm_perharioffday
+                    ))
 
-jamKlmBiasa
+                +
 
-+
+                (cuti8 *
 
-(off4*4)
+                    nombor(
+                        anggota.rm_perharicutiam
+                    ))
 
-+
+                +
 
-(off48*8)
+                (cuti8P *
 
-+
+                    nombor(
+                        anggota.rm_perharicutiam
+                    ))
 
-(off8*12)
+                +
 
-+
+                (cuti8L *
 
-(cuti8*8)
+                    nombor(
+                        anggota.rm_perharicutiam
+                    ))
 
-+
+                +
 
-(cuti8P*8)
+                (jamEskot *
 
-+
+                    nombor(
+                        anggota.rm_pehariklmbiasa
+                    ))
 
-(cuti8L*12)
+                +
 
-+
+                (klmEskot *
 
-jamEskot
+                    nombor(
+                        anggota.rm_pehariklmbiasa
+                    ));
 
-+
 
-klmEskot;
+            setText(
 
+                `[data-total-jam="${noSkb}"]`,
 
+                formatNombor(jamSemasa),
 
+                true
 
+            );
 
 
+            setText(
 
+                `[data-total-rm="${noSkb}"]`,
 
-const rm =
+                formatRM(rm),
 
+                true
 
+            );
 
-(jamKlmBiasa *
 
-nombor(
-anggota.rm_pehariklmbiasa
-))
+            jumlahJam += jamSemasa;
 
+            jumlahRM += rm;
 
-+
 
-(off4*4*
+            Object.keys(jumlah)
 
-nombor(
-anggota.rm_perjamoffday
-))
+                .forEach(
 
+                    key => {
 
-+
+                        jumlah[key] += nilaiInput(
+                            key,
+                            noSkb
+                        );
 
-(off48*
+                    }
 
-nombor(
-anggota.rm_perharioffday
-))
+                );
 
+        }
 
-+
+    );
 
-(off8*
 
-nombor(
-anggota.rm_perharioffday
-))
+    setText(
+        "totalJamKeseluruhan",
+        formatNombor(jumlahJam)
+    );
 
 
-+
+    setText(
+        "totalRmKeseluruhan",
+        formatRM(jumlahRM)
+    );
 
-(cuti8*
 
-nombor(
-anggota.rm_perharicutiam
-))
+    for (let key in jumlah) {
 
+        setText(
 
-+
+            "total" +
+            key.charAt(0).toUpperCase() +
+            key.slice(1),
 
-(cuti8P*
+            formatNombor(jumlah[key])
 
-nombor(
-anggota.rm_perharicutiam
-))
+        );
 
-
-+
-
-(cuti8L*
-
-nombor(
-anggota.rm_perharicutiam
-))
-
-
-+
-
-(jamEskot*
-
-nombor(
-anggota.rm_pehariklmbiasa
-))
-
-
-+
-
-(klmEskot*
-
-nombor(
-anggota.rm_pehariklmbiasa
-));
-
-
-
-
-
-
-
-setText(
-
-`[data-total-jam="${noSkb}"]`,
-
-formatNombor(jamSemasa),
-
-true
-
-);
-
-
-
-
-
-
-setText(
-
-`[data-total-rm="${noSkb}"]`,
-
-formatRM(rm),
-
-true
-
-);
-
-
-
-
-
-jumlahJam += jamSemasa;
-
-
-jumlahRM += rm;
-
-
-
-
-Object.keys(jumlah)
-
-.forEach(
-
-key=>{
-
-jumlah[key]+=nilaiInput(
-key,
-noSkb
-);
-
+    }
 
 }
-
-);
-
-
-
-
-});
-
-
-
-
-
-setText(
-"totalJamKeseluruhan",
-formatNombor(jumlahJam)
-);
-
-
-setText(
-"totalRmKeseluruhan",
-formatRM(jumlahRM)
-);
-
-
-
-
-
-for(let key in jumlah){
-
-
-setText(
-
-"total"+key.charAt(0).toUpperCase()+key.slice(1),
-
-formatNombor(jumlah[key])
-
-);
-
-
-}
-
-
-
-}
-
-
 
 
 
@@ -1891,267 +1506,236 @@ formatNombor(jumlah[key])
 // KIRA JUMLAH POS TAMPUNGAN
 // =====================================================
 
-function kiraJumlahPosTampungan(){
+function kiraJumlahPosTampungan() {
+
+    let jumlahPos = {
+
+        1: 0,
+
+        2: 0,
+
+        3: 0,
+
+        4: 0,
+
+        5: 0,
+
+        6: 0
+
+    };
 
 
+    document
 
-let jumlahPos={
+        .querySelectorAll(
 
-1:0,
+            ".input-pos-tampungan"
 
-2:0,
+        )
 
-3:0,
+        .forEach(
 
-4:0,
+            select => {
 
-5:0,
+                if (select.value) {
 
-6:0
+                    jumlahPos[
+                        select.dataset.pos
+                    ]++;
 
-};
+                }
 
+            }
 
-
-
-
-
-document
-
-.querySelectorAll(
-
-".input-pos-tampungan"
-
-)
-
-.forEach(
-
-select=>{
+        );
 
 
+    for (let i = 1; i <= 6; i++) {
 
-if(select.value){
+        setText(
+
+            "totalPos" + i,
+
+            jumlahPos[i]
+
+        );
+
+    }
 
 
-jumlahPos[
-select.dataset.pos
-]++;
+    let nilai = {
 
+        eskot: 0,
+
+        cit: 0,
+
+        kawalanTambahan: 0,
+
+        kawalanWang: 0,
+
+        pemandu: 0
+
+    };
+
+
+    document
+
+        .querySelectorAll(
+
+            ".input-tampungan"
+
+        )
+
+        .forEach(
+
+            input => {
+
+                let jenis =
+                    input.dataset.jenis;
+
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        nilai,
+                        jenis
+                    )
+                ) {
+
+                    nilai[jenis] += nombor(
+                        input.value
+                    );
+
+                }
+
+            }
+
+        );
+
+
+    setText(
+        "totalEskotTampungan",
+        formatNombor(nilai.eskot)
+    );
+
+
+    setText(
+        "totalCit",
+        formatNombor(nilai.cit)
+    );
+
+
+    setText(
+        "totalKawalanTambahan",
+        formatNombor(nilai.kawalanTambahan)
+    );
+
+
+    setText(
+        "totalKawalanWang",
+        formatNombor(nilai.kawalanWang)
+    );
+
+
+    setText(
+        "totalPemandu",
+        formatNombor(nilai.pemandu)
+    );
 
 }
 
 
 
-}
 
-);
 
-
-
-
-
-for(let i=1;i<=6;i++){
-
-
-setText(
-
-"totalPos"+i,
-
-jumlahPos[i]
-
-);
-
-
-}
-
-
-
-
-
-
-
-let nilai={
-
-eskot:0,
-
-cit:0,
-
-kawalanTambahan:0,
-
-kawalanWang:0,
-
-pemandu:0
-
-};
-
-
-
-
-
-
-document
-
-.querySelectorAll(
-
-".input-tampungan"
-
-)
-
-.forEach(
-
-input=>{
-
-
-let jenis=input.dataset.jenis;
-
-
-nilai[jenis]+=nombor(
-input.value
-);
-
-
-
-}
-
-);
-
-
-
-
-
-
-
-setText(
-"totalEskotTampungan",
-formatNombor(nilai.eskot)
-);
-
-
-setText(
-"totalCit",
-formatNombor(nilai.cit)
-);
-
-
-setText(
-"totalKawalanTambahan",
-formatNombor(nilai.kawalanTambahan)
-);
-
-
-setText(
-"totalKawalanWang",
-formatNombor(nilai.kawalanWang)
-);
-
-
-setText(
-"totalPemandu",
-formatNombor(nilai.pemandu)
-);
-
-
-
-}
-
-//
 // =====================================================
 // PART 3/3
 // SIMPAN + HELPER FUNCTION
 // =====================================================
 
+
 // =====================================================
 // RINGKASAN DASHBOARD
 // =====================================================
 
-function kiraRingkasan(){
+function kiraRingkasan() {
+
+    const jam = nombor(
+
+        document.getElementById(
+            "totalJamKeseluruhan"
+        )?.textContent
+
+    );
 
 
-const jam = nombor(
+    const rm = nombor(
 
-document.getElementById(
-"totalJamKeseluruhan"
-)?.textContent
+        document.getElementById(
+            "totalRmKeseluruhan"
+        )?.textContent
 
-);
-
-
-
-const rm = nombor(
-
-document.getElementById(
-"totalRmKeseluruhan"
-)?.textContent
-
-);
+    );
 
 
+    const klm =
 
-const klm =
+        nombor(
 
-nombor(
+            document.getElementById(
+                "totalJamKlmBiasa"
+            )?.textContent
 
-document.getElementById(
-"totalJamKlmBiasa"
-)?.textContent
+        )
 
-)
+        +
 
-+
+        nombor(
 
-nombor(
+            document.getElementById(
+                "totalKlmEskotTable"
+            )?.textContent
 
-document.getElementById(
-"totalKlmEskotTable"
-)?.textContent
-
-);
-
+        );
 
 
+    setText(
+
+        "summaryAnggota",
+
+        dataAnggota.length + " ORANG"
+
+    );
 
 
-setText(
+    setText(
 
-"summaryAnggota",
+        "summaryJam",
 
-dataAnggota.length+" ORANG"
+        formatNombor(jam) + " JAM"
 
-);
-
-
-
-setText(
-
-"summaryJam",
-
-formatNombor(jam)+" JAM"
-
-);
+    );
 
 
+    setText(
 
-setText(
+        "summaryKlm",
 
-"summaryKlm",
+        formatNombor(klm) + " JAM"
 
-formatNombor(klm)+" JAM"
-
-);
-
+    );
 
 
-setText(
+    setText(
 
-"summaryPendapatan",
+        "summaryPendapatan",
 
-formatRM(rm)
+        formatRM(rm)
 
-);
-
-
+    );
 
 }
+
+
 
 
 
@@ -2159,181 +1743,134 @@ formatRM(rm)
 // EVENT UTAMA
 // =====================================================
 
-function pasangEventUtama(){
+function pasangEventUtama() {
+
+    document
+        .getElementById("bulan")
+        ?.addEventListener(
+
+            "change",
+
+            async () => {
+
+                kiraMaklumatBulanan();
 
 
+                if (dataOperasiPos) {
 
-document
-.getElementById("bulan")
-?.addEventListener(
+                    paparDataOperasiPos(
+                        dataOperasiPos
+                    );
 
-"change",
-
-async()=>{
-
-    kiraMaklumatBulanan();
+                }
 
 
-    if(dataOperasiPos){
+                await muatRK02();
 
-        paparDataOperasiPos(
-            dataOperasiPos
+                paparPosTampungan();
+
+                await muatPosTampunganDisimpan();
+
+            }
+
         );
 
-    }
+
+    document
+        .getElementById("tahun")
+        ?.addEventListener(
+
+            "change",
+
+            async () => {
+
+                kiraMaklumatBulanan();
 
 
-    await muatRK02();
-    paparPosTampungan();
-    await muatPosTampunganDisimpan();
+                if (dataOperasiPos) {
 
-}
+                    paparDataOperasiPos(
+                        dataOperasiPos
+                    );
 
-);
-
-
+                }
 
 
-document
-.getElementById("tahun")
-?.addEventListener(
+                await muatRK02();
 
-"change",
+                paparPosTampungan();
 
-async()=>{
+                await muatPosTampunganDisimpan();
 
-    kiraMaklumatBulanan();
+            }
 
-
-    if(dataOperasiPos){
-
-        paparDataOperasiPos(
-            dataOperasiPos
         );
 
-    }
+
+    document
+        .getElementById("btnReset")
+        ?.addEventListener(
+
+            "click",
+
+            resetData
+
+        );
 
 
-    await muatRK02();
-    paparPosTampungan();
+    document
+        .getElementById("btnAutoKira")
+        ?.addEventListener(
+
+            "click",
+
+            () => {
+
+                kiraSemua();
+
+                alert(
+                    "Pengiraan dikemas kini"
+                );
+
+            }
+
+        );
 
 
-    await muatPosTampunganDisimpan();
+    document
+        .getElementById("btnCetak")
+        ?.addEventListener(
 
-}
+            "click",
 
-);
+            () => {
 
+                kiraSemua();
 
+                window.print();
 
+            }
 
-
-
-
-document
-
-.getElementById("btnReset")
-
-?.addEventListener(
-
-"click",
-
-resetData
-
-);
+        );
 
 
+    document
+        .getElementById("btnSimpan")
+        ?.addEventListener(
 
+            "click",
 
+            async () => {
 
+                await simpanPosTampungan();
 
+                await simpanRK02();
 
-document
+            }
 
-.getElementById("btnAutoKira")
-
-?.addEventListener(
-
-"click",
-
-()=>{
-
-
-kiraSemua();
-
-
-alert(
-"Pengiraan dikemas kini"
-);
-
-
-
-}
-
-);
-
-
-
-
-
-
-
-
-document
-
-.getElementById("btnCetak")
-
-?.addEventListener(
-
-"click",
-
-()=>{
-
-
-kiraSemua();
-
-
-window.print();
-
-
+        );
 
 }
-
-);
-
-
-
-
-
-
-
-
-document
-
-.getElementById("btnSimpan")
-
-?.addEventListener(
-
-"click",
-
-async()=>{
-
-
-await simpanPosTampungan();
-await simpanRK02();
-
-}
-
-);
-
-
-
-}
-
-
-
-
-
 
 
 
@@ -2347,14 +1884,13 @@ await simpanRK02();
 // TERMASUK DATA POS YANG SUDAH DISIMPAN
 // =====================================================
 
-async function resetData(){
+async function resetData() {
 
-
-    if(
+    if (
         !confirm(
             "Reset semua Data Entry Anggota dan Data Entry Pos Tampungan?"
         )
-    ){
+    ) {
 
         return;
 
@@ -2380,18 +1916,18 @@ async function resetData(){
     // =================================================
 
     document
-    .querySelectorAll(
-        ".rk02-input"
-    )
-    .forEach(
+        .querySelectorAll(
+            ".rk02-input"
+        )
+        .forEach(
 
-        input=>{
+            input => {
 
-            input.value = "";
+                input.value = "";
 
-        }
+            }
 
-    );
+        );
 
 
     // =================================================
@@ -2399,18 +1935,18 @@ async function resetData(){
     // =================================================
 
     document
-    .querySelectorAll(
-        ".input-tampungan"
-    )
-    .forEach(
+        .querySelectorAll(
+            ".input-tampungan"
+        )
+        .forEach(
 
-        input=>{
+            input => {
 
-            input.value = 0;
+                input.value = 0;
 
-        }
+            }
 
-    );
+        );
 
 
     // =================================================
@@ -2418,25 +1954,25 @@ async function resetData(){
     // =================================================
 
     document
-    .querySelectorAll(
-        ".input-pos-tampungan"
-    )
-    .forEach(
+        .querySelectorAll(
+            ".input-pos-tampungan"
+        )
+        .forEach(
 
-        select=>{
+            select => {
 
-            select.value = "";
+                select.value = "";
 
-        }
+            }
 
-    );
+        );
 
 
     // =================================================
     // 4. RESET HEADER POS 1 - 6
     // =================================================
 
-    for(let i = 1; i <= 6; i++){
+    for (let i = 1; i <= 6; i++) {
 
         const select =
             document.getElementById(
@@ -2444,7 +1980,7 @@ async function resetData(){
             );
 
 
-        if(select){
+        if (select) {
 
             select.value = "";
 
@@ -2457,39 +1993,39 @@ async function resetData(){
     // 5. PADAM DATA POS TAMPUNGAN DALAM SUPABASE
     // =================================================
 
-    if(
+    if (
         bulan &&
         tahun &&
         poskhidmat
-    ){
+    ) {
 
         const {
             error
         } = await supabaseClient
 
-        .from(
-            "rk02_pos_tampungan"
-        )
+            .from(
+                "rk02_pos_tampungan"
+            )
 
-        .delete()
+            .delete()
 
-        .eq(
-            "bulan",
-            bulan
-        )
+            .eq(
+                "bulan",
+                bulan
+            )
 
-        .eq(
-            "tahun",
-            tahun
-        )
+            .eq(
+                "tahun",
+                tahun
+            )
 
-        .eq(
-            "poskhidmat",
-            poskhidmat
-        );
+            .eq(
+                "poskhidmat",
+                poskhidmat
+            );
 
 
-        if(error){
+        if (error) {
 
             console.error(
                 "RALAT RESET POS TAMPUNGAN:",
@@ -2513,39 +2049,39 @@ async function resetData(){
     // 6. PADAM DATA RK02 DALAM SUPABASE
     // =================================================
 
-    if(
+    if (
         bulan &&
         tahun &&
         poskhidmat
-    ){
+    ) {
 
         const {
             error
         } = await supabaseClient
 
-        .from(
-            "rk02_data_entry"
-        )
+            .from(
+                "rk02_data_entry"
+            )
 
-        .delete()
+            .delete()
 
-        .eq(
-            "bulan",
-            bulan
-        )
+            .eq(
+                "bulan",
+                bulan
+            )
 
-        .eq(
-            "tahun",
-            tahun
-        )
+            .eq(
+                "tahun",
+                tahun
+            )
 
-        .eq(
-            "poskhidmat",
-            poskhidmat
-        );
+            .eq(
+                "poskhidmat",
+                poskhidmat
+            );
 
 
-        if(error){
+        if (error) {
 
             console.error(
                 "RALAT RESET RK02:",
@@ -2588,348 +2124,227 @@ async function resetData(){
 // rk02_pos_tampungan
 // =====================================================
 
-async function simpanPosTampungan(){
+async function simpanPosTampungan() {
 
+    const poskhidmat =
 
+        document.getElementById(
 
+            "kodNamaPos"
 
+        )?.innerText || "";
 
-const poskhidmat =
 
+    const headerPos = {
 
-document.getElementById(
+        pos1:
+            document.getElementById(
+                "headerPos1"
+            )?.value || "",
 
-"kodNamaPos"
 
-)
+        pos2:
+            document.getElementById(
+                "headerPos2"
+            )?.value || "",
 
-?.innerText || "";
 
+        pos3:
+            document.getElementById(
+                "headerPos3"
+            )?.value || "",
 
 
+        pos4:
+            document.getElementById(
+                "headerPos4"
+            )?.value || "",
 
 
+        pos5:
+            document.getElementById(
+                "headerPos5"
+            )?.value || "",
 
 
-const headerPos = {
+        pos6:
+            document.getElementById(
+                "headerPos6"
+            )?.value || ""
 
+    };
 
 
-pos1:
-document.getElementById(
-"headerPos1"
-)?.value || "",
+    let rows = [];
 
 
+    document
 
-pos2:
-document.getElementById(
-"headerPos2"
-)?.value || "",
+        .querySelectorAll(
 
+            "#posTampunganTableBody tr"
 
+        )
 
-pos3:
-document.getElementById(
-"headerPos3"
-)?.value || "",
+        .forEach(
 
+            row => {
 
+                const input =
 
-pos4:
-document.getElementById(
-"headerPos4"
-)?.value || "",
+                    row.querySelectorAll(
+                        "input"
+                    );
 
 
+                rows.push({
 
-pos5:
-document.getElementById(
-"headerPos5"
-)?.value || "",
+                    bulan:
 
+                        Number(
 
+                            document.getElementById(
+                                "bulan"
+                            ).value
 
-pos6:
-document.getElementById(
-"headerPos6"
-)?.value || ""
+                        ),
 
 
+                    tahun:
 
-};
+                        Number(
 
+                            document.getElementById(
+                                "tahun"
+                            ).value
 
+                        ),
 
 
+                    ...headerPos,
 
 
+                    no_skb:
 
+                        row.children[1].innerText,
 
 
+                    nama:
 
-let rows=[];
+                        row.children[2].innerText,
 
 
+                    poskhidmat,
 
 
+                    jam_pos1:
+                        nilaiSimpan(input[0]?.value),
 
+                    jam_pos2:
+                        nilaiSimpan(input[1]?.value),
 
+                    jam_pos3:
+                        nilaiSimpan(input[2]?.value),
 
+                    jam_pos4:
+                        nilaiSimpan(input[3]?.value),
 
-document
+                    jam_pos5:
+                        nilaiSimpan(input[4]?.value),
 
-.querySelectorAll(
+                    jam_pos6:
+                        nilaiSimpan(input[5]?.value),
 
-"#posTampunganTableBody tr"
+                    eskot:
+                        nilaiSimpan(input[6]?.value),
 
-)
+                    cit:
+                        nilaiSimpan(input[7]?.value),
 
-.forEach(
+                    kawalan_tambahan:
+                        nilaiSimpan(input[8]?.value),
 
-row=>{
+                    kawalan_wang:
+                        nilaiSimpan(input[9]?.value),
 
+                    pemandu:
+                        nilaiSimpan(input[10]?.value)
 
+                });
 
+            }
 
+        );
 
-const input =
 
-row.querySelectorAll(
+    if (rows.length === 0) {
 
-"input"
+        alert(
+            "Tiada data untuk disimpan"
+        );
 
-);
+        return;
 
+    }
 
 
+    const {
 
+        error
 
+    } = await supabaseClient
 
+        .from(
+            "rk02_pos_tampungan"
+        )
 
-rows.push({
+        .upsert(
 
+            rows,
 
+            {
 
-bulan:
+                onConflict:
+                    "bulan,tahun,poskhidmat,no_skb"
 
-Number(
+            }
 
-document.getElementById(
-"bulan"
-).value
+        );
 
-),
 
+    if (error) {
 
+        console.error(
+            "RALAT SIMPAN POS TAMPUNGAN:",
+            error
+        );
 
 
+        alert(
+            "Gagal simpan data"
+        );
 
-tahun:
 
-Number(
+        return;
 
-document.getElementById(
-"tahun"
-).value
+    }
 
-),
 
+    // MUAT SEMULA DATA SELEPAS SIMPAN
 
+    await muatPosTampunganDisimpan();
 
 
+    alert(
+        "Data Pos Tampungan berjaya dikemaskini"
+    );
 
 
-...headerPos,
-
-
-
-
-
-
-
-no_skb:
-
-row.children[1].innerText,
-
-
-
-
-
-
-nama:
-
-row.children[2].innerText,
-
-
-
-
-
-
-
-poskhidmat,
-
-
-
-
-
-
-
-
-
-jam_pos1:
-nilaiSimpan(input[0]?.value),
-
-jam_pos2:
-nilaiSimpan(input[1]?.value),
-
-jam_pos3:
-nilaiSimpan(input[2]?.value),
-
-jam_pos4:
-nilaiSimpan(input[3]?.value),
-
-jam_pos5:
-nilaiSimpan(input[4]?.value),
-
-jam_pos6:
-nilaiSimpan(input[5]?.value),
-
-eskot:
-nilaiSimpan(input[6]?.value),
-
-cit:
-nilaiSimpan(input[7]?.value),
-
-kawalan_tambahan:
-nilaiSimpan(input[8]?.value),
-
-kawalan_wang:
-nilaiSimpan(input[9]?.value),
-
-pemandu:
-nilaiSimpan(input[10]?.value)
-
-
-
-
-});
-
-
-
-
-
+    alert(
+        "Data Pos Tampungan berjaya disimpan"
+    );
 
 }
-
-);
-
-
-
-
-
-
-
-
-
-if(rows.length===0){
-
-
-alert(
-"Tiada data untuk disimpan"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-const {
-
-error
-
-}=await supabaseClient
-
-.from(
-"rk02_pos_tampungan"
-)
-
-.upsert(
-
-rows,
-
-{
-
-onConflict:
-"bulan,tahun,poskhidmat,no_skb"
-
-}
-
-);
-
-
-
-
-
-
-if(error){
-
-console.error(
-"RALAT SIMPAN POS TAMPUNGAN:",
-error
-);
-
-
-alert(
-"Gagal simpan data"
-);
-
-
-return;
-
-}
-
-
-// MUAT SEMULA DATA SELEPAS SIMPAN
-
-await muatPosTampunganDisimpan();
-
-
-alert(
-"Data Pos Tampungan berjaya dikemaskini"
-);
-
-
-
-
-
-
-
-alert(
-
-"Data Pos Tampungan berjaya disimpan"
-
-);
-
-
-
-
-
-}
-
-
-
-
-
-
-
 
 
 
@@ -2939,23 +2354,27 @@ alert(
 // KIRA MAKLUMAT BULAN
 // =====================================================
 
-function kiraMaklumatBulanan(){
+function kiraMaklumatBulanan() {
 
     const bulan = nombor(
+
         document.getElementById(
             "bulan"
         )?.value
+
     );
 
 
     const tahun = nombor(
+
         document.getElementById(
             "tahun"
         )?.value
+
     );
 
 
-    if(!bulan || !tahun){
+    if (!bulan || !tahun) {
 
         return;
 
@@ -2986,25 +2405,27 @@ function kiraMaklumatBulanan(){
 
 }
 
+
+
+
+
 // =====================================================
 // NILAI INPUT
 // =====================================================
 
 function nilaiInput(
 
-jenis,
+    jenis,
 
-noSkb
+    noSkb
 
-){
+) {
 
+    const input =
 
+        document.querySelector(
 
-const input =
-
-document.querySelector(
-
-`
+            `
 
 input.rk02-input
 
@@ -3014,26 +2435,14 @@ input.rk02-input
 
 `
 
-);
+        );
 
 
-
-
-
-
-return nombor(
-
-input?.value
-
-);
-
-
+    return nombor(
+        input?.value
+    );
 
 }
-
-
-
-
 
 
 
@@ -3043,47 +2452,39 @@ input?.value
 // FORMAT RM
 // =====================================================
 
-function formatRM(nilai){
+function formatRM(nilai) {
 
+    return new Intl.NumberFormat(
 
+        "ms-MY",
 
-return new Intl.NumberFormat(
+        {
 
-"ms-MY",
+            style: "currency",
 
-{
+            currency: "MYR",
 
-style:"currency",
+            minimumFractionDigits: 2
 
-currency:"MYR",
+        }
 
-minimumFractionDigits:2
+    )
 
-}
+        .format(
 
-)
+            nombor(nilai)
 
-.format(
+        )
 
-nombor(nilai)
+        .replace(
 
-)
+            "MYR",
 
-.replace(
+            "RM"
 
-"MYR",
-
-"RM"
-
-);
-
-
+        );
 
 }
-
-
-
-
 
 
 
@@ -3093,29 +2494,21 @@ nombor(nilai)
 // FORMAT NOMBOR
 // =====================================================
 
-function formatNombor(nilai){
+function formatNombor(nilai) {
 
+    return new Intl.NumberFormat(
 
+        "ms-MY"
 
-return new Intl.NumberFormat(
+    )
 
-"ms-MY"
+        .format(
 
-)
+            nombor(nilai)
 
-.format(
-
-nombor(nilai)
-
-);
-
-
+        );
 
 }
-
-
-
-
 
 
 
@@ -3125,41 +2518,37 @@ nombor(nilai)
 // NOMBOR
 // =====================================================
 
-function nombor(nilai){
+function nombor(nilai) {
+
+    const hasil = Number(
+
+        String(nilai || 0)
+
+            .replace(
+
+                /[^0-9.-]/g,
+
+                ""
+
+            )
+
+    );
 
 
+    return Number.isFinite(hasil)
 
-const hasil = Number(
+        ?
 
-String(nilai || 0)
+        hasil
 
-.replace(
+        :
 
-/[^0-9.-]/g,
-
-""
-
-)
-
-);
-
-
-
-
-
-return Number.isFinite(hasil)
-
-?
-
-hasil
-
-:
-
-0;
-
-
+        0;
 
 }
+
+
+
 
 
 // =====================================================
@@ -3167,13 +2556,22 @@ hasil
 // KOSONG = NULL
 // =====================================================
 
-function nilaiSimpan(nilai){
+function nilaiSimpan(nilai) {
 
     return String(nilai ?? "").trim() === ""
-        ? null
-        : Number(nilai);
+
+        ?
+
+        null
+
+        :
+
+        Number(nilai);
 
 }
+
+
+
 
 
 // =====================================================
@@ -3181,17 +2579,29 @@ function nilaiSimpan(nilai){
 // NULL = KOSONG
 // =====================================================
 
-function nilaiPapar(nilai){
+function nilaiPapar(nilai) {
 
     return (
+
         nilai === null ||
+
         nilai === undefined ||
+
         nilai === ""
+
     )
-        ? ""
-        : nilai;
+
+        ?
+
+        ""
+
+        :
+
+        nilai;
 
 }
+
+
 
 
 
@@ -3201,45 +2611,32 @@ function nilaiPapar(nilai){
 
 function setText(
 
-id,
+    id,
 
-nilai,
+    nilai,
 
-selector=false
+    selector = false
 
-){
+) {
 
+    const elemen = selector
 
+        ?
 
-const elemen = selector
+        document.querySelector(id)
 
-?
+        :
 
-document.querySelector(id)
-
-:
-
-document.getElementById(id);
+        document.getElementById(id);
 
 
+    if (elemen) {
 
+        elemen.textContent = nilai;
 
-
-if(elemen){
-
-
-elemen.textContent = nilai;
-
+    }
 
 }
-
-
-
-}
-
-
-
-
 
 
 
@@ -3249,29 +2646,21 @@ elemen.textContent = nilai;
 // ESCAPE HTML
 // =====================================================
 
-function escapeHtml(teks){
+function escapeHtml(teks) {
 
+    return String(teks || "")
 
+        .replace(/&/g, "&amp;")
 
-return String(teks || "")
+        .replace(/</g, "&lt;")
 
-.replace(/&/g,"&amp;")
+        .replace(/>/g, "&gt;")
 
-.replace(/</g,"&lt;")
+        .replace(/"/g, "&quot;")
 
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
-
-
+        .replace(/'/g, "&#039;");
 
 }
-
-
-
-
 
 
 
@@ -3281,40 +2670,29 @@ return String(teks || "")
 // DROPDOWN HEADER POS 1-6
 // =====================================================
 
-function isiDropdownHeaderPos(){
+function isiDropdownHeaderPos() {
+
+    for (let i = 1; i <= 6; i++) {
+
+        const select =
+
+            document.getElementById(
+
+                "headerPos" + i
+
+            );
 
 
+        if (!select) {
 
-for(let i=1;i<=6;i++){
+            continue;
 
-
-
-const select =
-
-document.getElementById(
-
-"headerPos"+i
-
-);
+        }
 
 
+        select.innerHTML =
 
-
-
-if(!select){
-
-continue;
-
-}
-
-
-
-
-
-
-select.innerHTML =
-
-`
+            `
 
 <option value="">
 
@@ -3325,338 +2703,307 @@ select.innerHTML =
 `;
 
 
+        dataPosKawalan.forEach(
+
+            pos => {
+
+                const option =
+
+                    document.createElement(
+                        "option"
+                    );
 
 
+                option.value = pos;
+
+                option.textContent = pos;
 
 
+                select.appendChild(option);
 
+            }
 
-dataPosKawalan.forEach(
+        );
 
-pos=>{
-
-
-
-
-
-const option =
-
-document.createElement(
-
-"option"
-
-);
-
-
-
-
-
-option.value = pos;
-
-
-option.textContent = pos;
-
-
-
-
-
-select.appendChild(option);
-
-
-
-
-
-}
-
-);
-
-
-
+    }
 
 }
 
 
 
-}
+
+
 // =================================================
 // KIRA JAM SEBULAN
 // =================================================
 
-function kiraJamBulanan(jamSehari){
+function kiraJamBulanan(jamSehari) {
+
+    const bulan = nombor(
+        document.getElementById("bulan")?.value
+    );
 
 
-const bulan = nombor(
-document.getElementById("bulan")?.value
-);
+    const tahun = nombor(
+        document.getElementById("tahun")?.value
+    );
 
 
-const tahun = nombor(
-document.getElementById("tahun")?.value
-);
+    if (!bulan || !tahun) {
+
+        return;
+
+    }
 
 
-
-if(!bulan || !tahun){
-
-return;
-
-}
-
+    const jumlahHari = new Date(
+        tahun,
+        bulan,
+        0
+    ).getDate();
 
 
-const jumlahHari = new Date(
-tahun,
-bulan,
-0
-).getDate();
+    const jumlahJam =
+        jamSehari * jumlahHari;
 
 
-
-const jumlahJam = 
-jamSehari * jumlahHari;
-
-
-
-setText(
-"jumlahJamSebulan",
-formatNombor(jumlahJam)+" JAM"
-);
-
-
-}
-async function muatDataOperasiPos(){
-
-const pos = pengguna?.poskhidmat;
-
-if(!pos){
-    return;
-}
-
-
-const {
-
-data,
-
-error
-
-}= await supabaseClient
-
-.from("data_pos")
-
-.select(`
-pos_kawalan,
-atur_tugas,
-jam_sehari_pb,
-jam_sehari_ppb,
-kadar_rm_sehari_pb,
-kadar_rm_sehari_ppb
-`)
-
-.eq(
-"pos_kawalan",
-pos
-)
-
-.single();
-
-
-
-if(error){
-
-console.error(
-"RALAT DATA POS:",
-error
-);
-
-return;
+    setText(
+        "jumlahJamSebulan",
+        formatNombor(jumlahJam) + " JAM"
+    );
 
 }
 
 
 
-dataOperasiPos=data;
 
 
+// =====================================================
+// LOAD DATA OPERASI POS
+// =====================================================
 
-paparDataOperasiPos(
-data
-);
+async function muatDataOperasiPos() {
+
+    const pos =
+        pengguna?.poskhidmat;
 
 
+    if (!pos) {
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+        .from("data_pos")
+
+        .select(`
+            pos_kawalan,
+            atur_tugas,
+            jam_sehari_pb,
+            jam_sehari_ppb,
+            kadar_rm_sehari_pb,
+            kadar_rm_sehari_ppb
+        `)
+
+        .eq(
+            "pos_kawalan",
+            pos
+        )
+
+        .single();
+
+
+    if (error) {
+
+        console.error(
+            "RALAT DATA POS:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    dataOperasiPos = data;
+
+
+    paparDataOperasiPos(
+        data
+    );
 
 }
 
-function paparDataOperasiPos(data){
 
 
-const bulan = nombor(
-document.getElementById("bulan")?.value
-);
 
 
-const tahun = nombor(
-document.getElementById("tahun")?.value
-);
+// =====================================================
+// PAPAR DATA OPERASI POS
+// =====================================================
 
+function paparDataOperasiPos(data) {
 
+    const bulan = nombor(
 
-const jumlahHari = new Date(
-tahun,
-bulan,
-0
-).getDate();
+        document.getElementById(
+            "bulan"
+        )?.value
 
+    );
 
 
+    const tahun = nombor(
 
-// ===============================
-// JAM KHIDMAT
-// ===============================
+        document.getElementById(
+            "tahun"
+        )?.value
 
-const jamPBSehari = nombor(
-    data.jam_sehari_pb
-);
+    );
 
 
-const jamPPBSehari = nombor(
-    data.jam_sehari_ppb
-);
+    const jumlahHari = new Date(
+        tahun,
+        bulan,
+        0
+    ).getDate();
 
 
-const jamSehari =
-jamPBSehari + jamPPBSehari;
+    // ===============================
+    // JAM KHIDMAT
+    // ===============================
 
+    const jamPBSehari = nombor(
+        data.jam_sehari_pb
+    );
 
 
-const jumlahJamPB =
-jamPBSehari * jumlahHari;
+    const jamPPBSehari = nombor(
+        data.jam_sehari_ppb
+    );
 
 
-const jumlahJamPPB =
-jamPPBSehari * jumlahHari;
+    const jamSehari =
+        jamPBSehari + jamPPBSehari;
 
 
+    const jumlahJamPB =
+        jamPBSehari * jumlahHari;
 
-// ===============================
-// PENDAPATAN
-// ===============================
 
-const rmPBSehari = nombor(
-    data.kadar_rm_sehari_pb
-);
+    const jumlahJamPPB =
+        jamPPBSehari * jumlahHari;
 
 
-const rmPPBSehari = nombor(
-    data.kadar_rm_sehari_ppb
-);
+    // ===============================
+    // PENDAPATAN
+    // ===============================
 
+    const rmPBSehari = nombor(
+        data.kadar_rm_sehari_pb
+    );
 
 
-const pendapatanPB =
-rmPBSehari * jumlahJamPB;
+    const rmPPBSehari = nombor(
+        data.kadar_rm_sehari_ppb
+    );
 
 
+    const pendapatanPB =
+        rmPBSehari * jumlahJamPB;
 
-const pendapatanPPB =
-rmPPBSehari * jumlahJamPPB;
 
+    const pendapatanPPB =
+        rmPPBSehari * jumlahJamPPB;
 
 
-const jumlahPendapatan =
-pendapatanPB + pendapatanPPB;
+    const jumlahPendapatan =
+        pendapatanPB + pendapatanPPB;
 
 
+    // ===============================
+    // PAPAR JAM
+    // ===============================
 
+    setText(
+        "jamKhidmatPB",
+        formatNombor(jumlahJamPB) + " JAM"
+    );
 
 
-// ===============================
-// PAPAR JAM
-// ===============================
+    setText(
+        "jamKhidmatPPB",
+        formatNombor(jumlahJamPPB) + " JAM"
+    );
 
 
-setText(
-"jamKhidmatPB",
-formatNombor(jumlahJamPB)+" JAM"
-);
+    setText(
+        "jamKhidmatSehari",
+        formatNombor(jamSehari) + " JAM"
+    );
 
 
+    // ===============================
+    // ATUR TUGAS
+    // ===============================
 
-setText(
-"jamKhidmatPPB",
-formatNombor(jumlahJamPPB)+" JAM"
-);
+    setText(
+        "aturTugas",
+        data.atur_tugas || "-"
+    );
 
 
+    // ===============================
+    // PAPAR PENDAPATAN
+    // ===============================
 
-setText(
-"jamKhidmatSehari",
-formatNombor(jamSehari)+" JAM"
-);
+    setText(
+        "pendapatanPB",
+        formatRM(pendapatanPB)
+    );
 
 
+    setText(
+        "pendapatanPPB",
+        formatRM(pendapatanPPB)
+    );
 
 
+    setText(
+        "jumlahPendapatan",
+        formatRM(jumlahPendapatan)
+    );
 
-// ===============================
-// ATUR TUGAS
-// ===============================
 
+    // ===============================
+    // JUMLAH JAM SEBULAN
+    // ===============================
 
-setText(
-"aturTugas",
-data.atur_tugas || "-"
-);
-
-
-
-
-
-// ===============================
-// PAPAR PENDAPATAN
-// ===============================
-
-
-setText(
-"pendapatanPB",
-formatRM(pendapatanPB)
-);
-
-
-
-setText(
-"pendapatanPPB",
-formatRM(pendapatanPPB)
-);
-
-
-
-setText(
-"jumlahPendapatan",
-formatRM(jumlahPendapatan)
-);
-
-
-
-
-
-// ===============================
-// JUMLAH JAM SEBULAN
-// ===============================
-
-kiraJamBulanan(
-jamSehari
-);
-
-
+    kiraJamBulanan(
+        jamSehari
+    );
 
 }
+
+
+
+
 
 // =====================================================
 // SIMPAN RK02 DATA ENTRY
 // TABLE : rk02_data_entry
 // =====================================================
 
-async function simpanRK02(){
+async function simpanRK02() {
 
     const bulan = Number(
         document.getElementById(
@@ -3674,16 +3021,16 @@ async function simpanRK02(){
 
     const poskhidmat =
 
-    document.getElementById(
-        "kodNamaPos"
-    )?.innerText || "";
+        document.getElementById(
+            "kodNamaPos"
+        )?.innerText || "";
 
 
-    if(
+    if (
         !bulan ||
         !tahun ||
         !poskhidmat
-    ){
+    ) {
 
         alert(
             "Sila pilih bulan, tahun dan pos"
@@ -3694,18 +3041,18 @@ async function simpanRK02(){
     }
 
 
-const ambilNilai = (
-    row,
-    jenis
-) => {
+    const ambilNilai = (
+        row,
+        jenis
+    ) => {
 
-    return nilaiSimpan(
-        row.querySelector(
-            `.rk02-input[data-jenis="${jenis}"]`
-        )?.value
-    );
+        return nilaiSimpan(
+            row.querySelector(
+                `.rk02-input[data-jenis="${jenis}"]`
+            )?.value
+        );
 
-};
+    };
 
 
     const rows = [];
@@ -3713,166 +3060,158 @@ const ambilNilai = (
 
     document
 
-    .querySelectorAll(
+        .querySelectorAll(
 
-        "#rk02TableBody tr"
+            "#rk02TableBody tr"
 
-    )
+        )
 
-    .forEach(
+        .forEach(
 
-        row=>{
+            row => {
 
+                const no_skb =
 
-            const no_skb =
+                    row.children[1]
 
-            row.children[1]
+                        ?.innerText
 
-            ?.innerText
-
-            .trim();
-
-
-            const nama =
-
-            row.children[2]
-
-            ?.innerText
-
-            .trim();
+                        .trim();
 
 
-            if(
-                !no_skb
-            ){
+                const nama =
 
-                return;
+                    row.children[2]
+
+                        ?.innerText
+
+                        .trim();
+
+
+                if (
+                    !no_skb
+                ) {
+
+                    return;
+
+                }
+
+
+                rows.push({
+
+                    bulan,
+
+                    tahun,
+
+                    poskhidmat,
+
+                    no_skb,
+
+                    nama,
+
+
+                    hari_biasa:
+
+                        ambilNilai(
+                            row,
+                            "hariBiasa"
+                        ),
+
+
+                    off4:
+
+                        ambilNilai(
+                            row,
+                            "off4"
+                        ),
+
+
+                    off48:
+
+                        ambilNilai(
+                            row,
+                            "off48"
+                        ),
+
+
+                    off8:
+
+                        ambilNilai(
+                            row,
+                            "off8"
+                        ),
+
+
+                    cuti8:
+
+                        ambilNilai(
+                            row,
+                            "cuti8"
+                        ),
+
+
+                    cuti8p:
+
+                        ambilNilai(
+                            row,
+                            "cuti8P"
+                        ),
+
+
+                    jam_eskot:
+
+                        ambilNilai(
+                            row,
+                            "jamEskot"
+                        ),
+
+
+                    km_eskot:
+
+                        ambilNilai(
+                            row,
+                            "klmEskot"
+                        ),
+
+
+                    medical:
+
+                        ambilNilai(
+                            row,
+                            "medical"
+                        ),
+
+
+                    travel:
+
+                        ambilNilai(
+                            row,
+                            "travel"
+                        ),
+
+
+                    cit:
+
+                        ambilNilai(
+                            row,
+                            "cit"
+                        ),
+
+
+                    dikemaskini_oleh:
+
+                        pengguna?.nama || "-"
+
+                });
 
             }
 
-
-            rows.push({
-
-
-                bulan,
+        );
 
 
-                tahun,
-
-
-                poskhidmat,
-
-
-                no_skb,
-
-
-                nama,
-
-
-                hari_biasa:
-
-                ambilNilai(
-                    row,
-                    "hariBiasa"
-                ),
-
-
-                off4:
-
-                ambilNilai(
-                    row,
-                    "off4"
-                ),
-
-
-                off48:
-
-                ambilNilai(
-                    row,
-                    "off48"
-                ),
-
-
-                off8:
-
-                ambilNilai(
-                    row,
-                    "off8"
-                ),
-
-
-                cuti8:
-
-                ambilNilai(
-                    row,
-                    "cuti8"
-                ),
-
-
-                cuti8p:
-
-                ambilNilai(
-                    row,
-                    "cuti8P"
-                ),
-
-
-                jam_eskot:
-
-                ambilNilai(
-                    row,
-                    "jamEskot"
-                ),
-
-
-                km_eskot:
-
-                ambilNilai(
-                    row,
-                    "klmEskot"
-                ),
-
-
-                medical:
-
-                ambilNilai(
-                    row,
-                    "medical"
-                ),
-
-
-                travel:
-
-                ambilNilai(
-                    row,
-                    "travel"
-                ),
-
-
-                cit:
-
-                ambilNilai(
-                    row,
-                    "cit"
-                ),
-
-
-                dikemaskini_oleh:
-
-                pengguna?.nama || "-"
-
-
-            });
-
-
-        }
-
-    );
-
-
-    if(
-        rows.length===0
-    ){
+    if (
+        rows.length === 0
+    ) {
 
         alert(
             "Tiada data RK02 untuk disimpan"
@@ -3889,26 +3228,26 @@ const ambilNilai = (
 
     } = await supabaseClient
 
-    .from(
-        "rk02_data_entry"
-    )
+        .from(
+            "rk02_data_entry"
+        )
 
-    .upsert(
+        .upsert(
 
-        rows,
+            rows,
 
-        {
+            {
 
-            onConflict:
+                onConflict:
 
-            "bulan,tahun,poskhidmat,no_skb"
+                    "bulan,tahun,poskhidmat,no_skb"
 
-        }
+            }
 
-    );
+        );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "RALAT SIMPAN RK02:",
@@ -3930,14 +3269,17 @@ const ambilNilai = (
         "RK02 berjaya disimpan"
     );
 
-
 }
+
+
+
+
 
 // =====================================================
 // MUAT SEMULA DATA RK02 MENGIKUT BULAN / TAHUN / POS
 // =====================================================
 
-async function muatRK02(){
+async function muatRK02() {
 
     const bulan = Number(
         document.getElementById(
@@ -3955,16 +3297,16 @@ async function muatRK02(){
 
     const poskhidmat =
 
-    document.getElementById(
-        "kodNamaPos"
-    )?.innerText || "";
+        document.getElementById(
+            "kodNamaPos"
+        )?.innerText || "";
 
 
-    if(
+    if (
         !bulan ||
         !tahun ||
         !poskhidmat
-    ){
+    ) {
 
         return;
 
@@ -3979,29 +3321,29 @@ async function muatRK02(){
 
     } = await supabaseClient
 
-    .from(
-        "rk02_data_entry"
-    )
+        .from(
+            "rk02_data_entry"
+        )
 
-    .select("*")
+        .select("*")
 
-    .eq(
-        "bulan",
-        bulan
-    )
+        .eq(
+            "bulan",
+            bulan
+        )
 
-    .eq(
-        "tahun",
-        tahun
-    )
+        .eq(
+            "tahun",
+            tahun
+        )
 
-    .eq(
-        "poskhidmat",
-        poskhidmat
-    );
+        .eq(
+            "poskhidmat",
+            poskhidmat
+        );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "RALAT MUAT RK02:",
@@ -4017,28 +3359,28 @@ async function muatRK02(){
 
     document
 
-    .querySelectorAll(
-        ".rk02-input"
-    )
+        .querySelectorAll(
+            ".rk02-input"
+        )
 
-    .forEach(
+        .forEach(
 
-        input=>{
+            input => {
 
-            input.value="";
+                input.value = "";
 
-        }
+            }
 
-    );
+        );
 
 
-// JIKA TIADA DATA,
-// KEKALKAN INPUT KOSONG
-    
-    if(
+    // JIKA TIADA DATA,
+    // KEKALKAN INPUT KOSONG
+
+    if (
         !data ||
-        data.length===0
-    ){
+        data.length === 0
+    ) {
 
         kiraSemua();
 
@@ -4051,8 +3393,7 @@ async function muatRK02(){
 
     data.forEach(
 
-        rekod=>{
-
+        rekod => {
 
             setNilaiRK02(
                 "hariBiasa",
@@ -4130,7 +3471,6 @@ async function muatRK02(){
                 rekod.cit
             );
 
-
         }
 
     );
@@ -4138,8 +3478,9 @@ async function muatRK02(){
 
     kiraSemua();
 
-
 }
+
+
 
 
 
@@ -4155,55 +3496,66 @@ function setNilaiRK02(
 
     nilai
 
-){
-
+) {
 
     const input =
 
-    document.querySelector(
+        document.querySelector(
 
-        `.rk02-input[data-jenis="${jenis}"][data-no-skb="${noSkb}"]`
+            `.rk02-input[data-jenis="${jenis}"][data-no-skb="${noSkb}"]`
 
-    );
+        );
 
 
-if(input){
+    if (input) {
 
-    input.value =
-        nilai === null ||
-        nilai === undefined ||
-        nilai === ""
-            ? ""
-            : nilai;
+        input.value =
+
+            nilai === null ||
+                nilai === undefined ||
+                nilai === ""
+
+                ?
+
+                ""
+
+                :
+
+                nilai;
+
+    }
 
 }
 
 
-}
+
+
 
 // =====================================================
 // MUAT SEMULA DATA POS TAMPUNGAN
 // =====================================================
 
-async function muatPosTampunganDisimpan(){
+async function muatPosTampunganDisimpan() {
 
     const bulan = Number(
         document.getElementById("bulan")?.value
     );
 
+
     const tahun = Number(
         document.getElementById("tahun")?.value
     );
 
+
     const poskhidmat =
-    pengguna?.poskhidmat || "";
+        pengguna?.poskhidmat || "";
 
 
-    if(
+    if (
         !bulan ||
         !tahun ||
         !poskhidmat
-    ){
+    ) {
 
         return;
 
@@ -4218,29 +3570,29 @@ async function muatPosTampunganDisimpan(){
 
     } = await supabaseClient
 
-    .from(
-        "rk02_pos_tampungan"
-    )
+        .from(
+            "rk02_pos_tampungan"
+        )
 
-    .select("*")
+        .select("*")
 
-    .eq(
-        "bulan",
-        bulan
-    )
+        .eq(
+            "bulan",
+            bulan
+        )
 
-    .eq(
-        "tahun",
-        tahun
-    )
+        .eq(
+            "tahun",
+            tahun
+        )
 
-    .eq(
-        "poskhidmat",
-        poskhidmat
-    );
+        .eq(
+            "poskhidmat",
+            poskhidmat
+        );
 
 
-    if(error){
+    if (error) {
 
         console.error(
             "RALAT MUAT POS TAMPUNGAN:",
@@ -4252,10 +3604,10 @@ async function muatPosTampunganDisimpan(){
     }
 
 
-    if(
+    if (
         !data ||
         data.length === 0
-    ){
+    ) {
 
         console.log(
             "TIADA DATA POS TAMPUNGAN DISIMPAN"
@@ -4267,114 +3619,116 @@ async function muatPosTampunganDisimpan(){
 
 
     data.forEach(
-    rekod=>{
+        rekod => {
+
+            const noSkb =
+                String(
+                    rekod.no_skb || ""
+                ).trim();
 
 
-        const noSkb =
-        String(
-            rekod.no_skb || ""
-        ).trim();
+            const row =
+
+                [...document.querySelectorAll(
+                    "#posTampunganTableBody tr"
+                )]
+
+                    .find(
+
+                        tr =>
+
+                            String(
+                                tr.children[1]
+                                    ?.textContent || ""
+                            )
+
+                                .trim() === noSkb
+
+                    );
 
 
-        const row =
+            if (!row) {
 
-        [...document.querySelectorAll(
-            "#posTampunganTableBody tr"
-        )]
+                return;
 
-        .find(
-            tr =>
-
-            String(
-                tr.children[1]
-                ?.textContent || ""
-            )
-
-            .trim() === noSkb
-        );
+            }
 
 
-        if(!row){
+            const input =
 
-            return;
+                row.querySelectorAll(
+                    "input"
+                );
+
+
+            input[0].value =
+                nilaiPapar(
+                    rekod.jam_pos1
+                );
+
+
+            input[1].value =
+                nilaiPapar(
+                    rekod.jam_pos2
+                );
+
+
+            input[2].value =
+                nilaiPapar(
+                    rekod.jam_pos3
+                );
+
+
+            input[3].value =
+                nilaiPapar(
+                    rekod.jam_pos4
+                );
+
+
+            input[4].value =
+                nilaiPapar(
+                    rekod.jam_pos5
+                );
+
+
+            input[5].value =
+                nilaiPapar(
+                    rekod.jam_pos6
+                );
+
+
+            input[6].value =
+                nilaiPapar(
+                    rekod.eskot
+                );
+
+
+            input[7].value =
+                nilaiPapar(
+                    rekod.cit
+                );
+
+
+            input[8].value =
+                nilaiPapar(
+                    rekod.kawalan_tambahan
+                );
+
+
+            input[9].value =
+                nilaiPapar(
+                    rekod.kawalan_wang
+                );
+
+
+            input[10].value =
+                nilaiPapar(
+                    rekod.pemandu
+                );
 
         }
 
-
-        const input =
-
-        row.querySelectorAll(
-            "input"
-        );
-
-
-        input[0].value =
-        nilaiPapar(
-            rekod.jam_pos1
-        );
-
-
-        input[1].value =
-        nilaiPapar(
-            rekod.jam_pos2
-        );
-
-
-        input[2].value =
-        nilaiPapar(
-            rekod.jam_pos3
-        );
-
-
-        input[3].value =
-        nilaiPapar(
-            rekod.jam_pos4
-        );
-
-
-        input[4].value =
-        nilaiPapar(
-            rekod.jam_pos5
-        );
-
-
-        input[5].value =
-        nilaiPapar(
-            rekod.jam_pos6
-        );
-
-
-        input[6].value =
-        nilaiPapar(
-            rekod.eskot
-        );
-
-
-        input[7].value =
-        nilaiPapar(
-            rekod.cit
-        );
-
-
-        input[8].value =
-        nilaiPapar(
-            rekod.kawalan_tambahan
-        );
-
-
-        input[9].value =
-        nilaiPapar(
-            rekod.kawalan_wang
-        );
-
-
-        input[10].value =
-        nilaiPapar(
-            rekod.pemandu
-        );
-
-
-    });
+    );
 
 
     kiraSemua();
@@ -4383,6 +3737,5 @@ async function muatPosTampunganDisimpan(){
     console.log(
         "DATA POS TAMPUNGAN BERJAYA DIPAPAR"
     );
-
 
 }

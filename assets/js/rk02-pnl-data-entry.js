@@ -2341,78 +2341,81 @@ await simpanRK02();
 
 // =====================================================
 // RESET DATA
+// RESET DATA ENTRY ANGGOTA + POS TAMPUNGAN
 // =====================================================
 
 function resetData(){
 
 
+    if(
+        !confirm(
+            "Reset semua Data Entry Anggota dan Data Entry Pos Tampungan?"
+        )
+    ){
 
-if(
+        return;
 
-!confirm(
-"Reset semua input?"
-)
-
-){
-
-return;
-
-}
+    }
 
 
+    // =================================================
+    // 4. RESET DATA ENTRY ANGGOTA
+    // =================================================
+
+    document
+    .querySelectorAll(
+        ".rk02-input"
+    )
+    .forEach(
+
+        input=>{
+
+            input.value = 0;
+
+        }
+
+    );
 
 
+    // =================================================
+    // 5. RESET DATA ENTRY POS TAMPUNGAN
+    // =================================================
+
+    document
+    .querySelectorAll(
+        ".input-tampungan"
+    )
+    .forEach(
+
+        input=>{
+
+            input.value = 0;
+
+        }
+
+    );
 
 
-document
+    document
+    .querySelectorAll(
+        ".input-pos-tampungan"
+    )
+    .forEach(
 
-.querySelectorAll(
+        select=>{
 
-".rk02-input,.input-tampungan"
+            select.value = "";
 
-)
+        }
 
-.forEach(
-
-x=>{
-
-x.value=0;
-
-}
-
-);
+    );
 
 
+    // =================================================
+    // KIRA SEMULA
+    // =================================================
 
-
-
-
-
-document
-
-.querySelectorAll(
-
-".input-pos-tampungan"
-
-)
-
-.forEach(
-
-x=>{
-
-x.value="";
-
-}
-
-);
-
-
-
-
-
-
-kiraSemua();
-
+    kiraSemua();
 
 
 }

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+RK02 - Tampungan Pos
+</title>
+
+
+<link
+    rel="stylesheet"
+    href="rk02-tampungan.css"
+>
+
+
+</head>
+
+
+<body>
+
+
+<div class="rk02-tampungan-page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <div class="page-header">
+
+        <h2>
+            FGV SECURITY SERVICES SDN BHD
+        </h2>
+
+        <h3>
+            MAKLUMAT OPERASI POS
+        </h3>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FILTER
+    ========================================= -->
+
+    <div class="filter-card">
+
+        <div class="filter-item">
+
+            <label>
+                BULAN
+            </label>
+
+            <select id="bulan">
+
+                <option value="">
+                    Pilih Bulan
+                </option>
+
+                <option value="1">
+                    JANUARI
+                </option>
+
+                <option value="2">
+                    FEBRUARI
+                </option>
+
+                <option value="3">
+                    MAC
+                </option>
+
+                <option value="4">
+                    APRIL
+                </option>
+
+                <option value="5">
+                    MEI
+                </option>
+
+                <option value="6">
+                    JUN
+                </option>
+
+                <option value="7">
+                    JULAI
+                </option>
+
+                <option value="8">
+                    OGOS
+                </option>
+
+                <option value="9">
+                    SEPTEMBER
+                </option>
+
+                <option value="10">
+                    OKTOBER
+                </option>
+
+                <option value="11">
+                    NOVEMBER
+                </option>
+
+                <option value="12">
+                    DISEMBER
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-item">
+
+            <label>
+                TAHUN
+            </label>
+
+            <select id="tahun">
+
+                <option value="2026">
+                    2026
+                </option>
+
+                <option value="2027">
+                    2027
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-item">
+
+            <label>
+                POS KHIDMAT
+            </label>
+
+            <input
+                type="text"
+                id="poskhidmat"
+                readonly
+            >
+
+        </div>
+
+
+
+        <div class="filter-button">
+
+            <button
+                type="button"
+                id="btnPapar"
+            >
+                PAPAR
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         MAKLUMAT PILIHAN
+    ========================================= -->
+
+    <div class="maklumat-card">
+
+        <div>
+
+            <span>
+                BULAN
+            </span>
+
+            <strong id="paparBulan">
+                -
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                TAHUN
+            </span>
+
+            <strong id="paparTahun">
+                -
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            <span>
+                POS KHIDMAT
+            </span>
+
+            <strong id="paparPos">
+                -
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         SENARAI CARD ANGGOTA
+    ========================================= -->
+
+    <div class="section-title">
+
+        SENARAI TAMPUNGAN ANGGOTA
+
+    </div>
+
+
+    <div
+        id="senaraiTampungan"
+        class="senarai-tampungan"
+    >
+
+        <div class="tiada-data">
+
+            Sila pilih bulan dan tekan PAPAR.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         JUMLAH KESELURUHAN
+    ========================================= -->
+
+    <div class="jumlah-section">
+
+        <div class="jumlah-title">
+
+            JUMLAH SELURUH TAMPUNGAN
+
+        </div>
+
+
+        <div
+            id="jumlahSetiapPos"
+            class="jumlah-setiap-pos"
+        >
+        </div>
+
+
+        <div class="jumlah-total">
+
+            <div>
+
+                <span>
+                    JUMLAH JAM TAMPUNGAN
+                </span>
+
+                <strong id="jumlahJam">
+                    0.00 JAM
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    JUMLAH RM TAMPUNGAN
+                </span>
+
+                <strong id="jumlahRM">
+                    RM 0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         BUTTON
+    ========================================= -->
+
+    <div class="button-area">
+
+        <button
+            type="button"
+            id="btnSimpan"
+        >
+            SIMPAN RM TAMPUNGAN
+        </button>
+
+
+        <button
+            type="button"
+            onclick="window.print()"
+        >
+            CETAK / SIMPAN PDF
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
+
+
+<script src="supabase-config.js">
+</script>
+
+
+<script src="rk02-tampungan.js">
+</script>
+
+
+</body>
+
+</html>

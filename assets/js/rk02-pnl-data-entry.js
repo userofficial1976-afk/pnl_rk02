@@ -1669,6 +1669,10 @@ function kiraJumlahPosTampungan() {
 
 function kiraRingkasan() {
 
+    // =================================================
+    // JUMLAH JAM
+    // =================================================
+
     const jam = nombor(
 
         document.getElementById(
@@ -1677,6 +1681,10 @@ function kiraRingkasan() {
 
     );
 
+
+    // =================================================
+    // JUMLAH RM
+    // =================================================
 
     const rm = nombor(
 
@@ -1687,26 +1695,78 @@ function kiraRingkasan() {
     );
 
 
+    // =================================================
+    // JUMLAH KLM
+    //
+    // AMBIL TERUS DARIPADA
+    // KIRAAN DATA ENTRY ANGGOTA
+    // =================================================
+
+    const klmHariBiasa = nombor(
+
+        document.getElementById(
+            "totalKLMHariBiasa"
+        )?.textContent
+
+    );
+
+
+    const klmOffdayHari = nombor(
+
+        document.getElementById(
+            "totalKLMOffdayHari"
+        )?.textContent
+
+    );
+
+
+    const klmOffdayJam = nombor(
+
+        document.getElementById(
+            "totalKLMOffdayJam"
+        )?.textContent
+
+    );
+
+
+    const klmCutiAmHari = nombor(
+
+        document.getElementById(
+            "totalKLMCutiAmHari"
+        )?.textContent
+
+    );
+
+
+    const klmCutiAmJam = nombor(
+
+        document.getElementById(
+            "totalKLMCutiAmJam"
+        )?.textContent
+
+    );
+
+
+    // =================================================
+    // JUMLAH KLM KESELURUHAN
+    // =================================================
+
     const klm =
 
-        nombor(
+        klmHariBiasa +
 
-            document.getElementById(
-                "totalJamKlmBiasa"
-            )?.textContent
+        klmOffdayHari +
 
-        )
+        klmOffdayJam +
 
-        +
+        klmCutiAmHari +
 
-        nombor(
+        klmCutiAmJam;
 
-            document.getElementById(
-                "totalKlmEskotTable"
-            )?.textContent
 
-        );
-
+    // =================================================
+    // PAPAR JUMLAH ANGGOTA
+    // =================================================
 
     setText(
 
@@ -1717,6 +1777,10 @@ function kiraRingkasan() {
     );
 
 
+    // =================================================
+    // PAPAR JUMLAH JAM
+    // =================================================
+
     setText(
 
         "summaryJam",
@@ -1725,6 +1789,10 @@ function kiraRingkasan() {
 
     );
 
+
+    // =================================================
+    // PAPAR JUMLAH KLM
+    // =================================================
 
     setText(
 
@@ -1735,6 +1803,10 @@ function kiraRingkasan() {
     );
 
 
+    // =================================================
+    // PAPAR JUMLAH PENDAPATAN
+    // =================================================
+
     setText(
 
         "summaryPendapatan",
@@ -1744,9 +1816,6 @@ function kiraRingkasan() {
     );
 
 }
-
-
-
 
 
 // =====================================================

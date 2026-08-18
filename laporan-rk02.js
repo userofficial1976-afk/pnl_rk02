@@ -19,7 +19,7 @@ let dataRK02Entry = [];
 let dataTampungan = [];
 
 let laporanRK02 = [];
-
+let jumlahJamHariBiasa = 0;
 let bulanLaporan = "";
 let tahunLaporan = "";
 let posLaporan = "";
@@ -1303,7 +1303,8 @@ data.jumlahRM;
 
 });
 
-
+jumlahJamHariBiasa =
+    jumlah.hariBiasa;
 
 // ================================
 // PAPAR FOOTER TABLE RK02
@@ -1693,15 +1694,20 @@ function binaRumusanKLM(){
     );
 
 
-    // ===================================
+// ===================================
 // JUMLAH KLM
-// AMBIL TERUS DARI TABLE RK02 ATAS
-// JUMLAH JAM HARI BIASA
+// AMBIL TERUS DARIPADA
+// JUMLAH JAM HARI BIASA TABLE ATAS
 // ===================================
 
 setText(
     "jumlahKLM",
-    document.getElementById("jumlahJamBiasa")?.textContent || "0"
+    laporanRK02.reduce(
+        (total, data) => {
+            return total + Number(data.hariBiasa || 0);
+        },
+        0
+    )
 );
 
 

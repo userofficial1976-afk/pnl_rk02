@@ -1709,40 +1709,6 @@ const jumlahKLM =
     jumlah.tambahan;
 
 
-// ===================================
-// RM KLM TUGAS KAWALAN
-//
-// JUMLAH RM TABLE ATAS
-// - PENTADBIRAN
-// - PEMANDU
-// - TAMPUNGAN
-// - ESKOT
-// - CIT
-// - KAWALAN WANG
-// - TAMBAHAN
-// ===================================
-
-const jumlahRmKeseluruhan =
-    Number(
-        document
-            .getElementById("jumlahRmKeseluruhan")
-            ?.textContent
-            .replace(/,/g, "")
-            .trim()
-    ) || 0;
-
-
-const rmKawalan =
-    jumlahRmKeseluruhan
-    - (
-        Number(jumlah.rmPemandu || 0) +
-        Number(jumlah.rmTampungan || 0) +
-        Number(jumlah.rmEskot || 0) +
-        Number(jumlah.rmCit || 0) +
-        Number(jumlah.rmWang || 0) +
-        Number(jumlah.rmTambahan || 0)
-    );
-
 
 // ===================================
 // PAPAR SEMUA DATA KLM

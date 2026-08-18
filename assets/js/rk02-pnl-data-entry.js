@@ -4521,3 +4521,221 @@ function loadDataPenggantiCuti() {
     );
 
 }
+
+
+// =====================================================
+// EVENT INPUT CUTI
+// =====================================================
+
+function pasangEventCuti() {
+
+    document
+        .querySelectorAll(".input-cuti")
+        .forEach(input => {
+
+            input.addEventListener(
+                "input",
+                () => {
+
+                    kiraJumlahCuti();
+
+                    // Kemas kini kiraan keseluruhan sistem
+                    if (typeof kiraSemua === "function") {
+                        kiraSemua();
+                    }
+
+                }
+            );
+
+        });
+
+
+    console.log(
+        "EVENT INPUT CUTI BERJAYA DIPASANG:",
+        document.querySelectorAll(".input-cuti").length,
+        "INPUT"
+    );
+
+}
+
+
+
+
+
+// =====================================================
+// KIRA JUMLAH CUTI
+// =====================================================
+
+function kiraJumlahCuti() {
+
+    const jumlah = {
+
+        cuti_tahun: 0,
+
+        kursus: 0,
+
+        cuti_sakit: 0,
+
+        cuti_ehsan: 0,
+
+        cuti_ganti: 0,
+
+        lain1: 0,
+
+        lain2: 0
+
+    };
+
+
+    // =================================================
+    // AMBIL SEMUA INPUT CUTI
+    // =================================================
+
+    document
+        .querySelectorAll(".input-cuti")
+        .forEach(input => {
+
+            const field =
+                input.dataset.field;
+
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    jumlah,
+                    field
+                )
+            ) {
+
+                jumlah[field] += nombor(
+                    input.value
+                );
+
+            }
+
+        });
+
+
+    // =================================================
+    // JUMLAH KESELURUHAN
+    // =================================================
+
+    const keseluruhan =
+
+        jumlah.cuti_tahun +
+
+        jumlah.kursus +
+
+        jumlah.cuti_sakit +
+
+        jumlah.cuti_ehsan +
+
+        jumlah.cuti_ganti +
+
+        jumlah.lain1 +
+
+        jumlah.lain2;
+
+
+    // =================================================
+    // PAPAR JUMLAH
+    //
+    // Jika ID ini wujud dalam HTML,
+    // ia akan dikemaskini.
+    // =================================================
+
+    setText(
+        "totalCutiTahun",
+        formatNombor(
+            jumlah.cuti_tahun
+        )
+    );
+
+
+    setText(
+        "totalKursus",
+        formatNombor(
+            jumlah.kursus
+        )
+    );
+
+
+    setText(
+        "totalCutiSakit",
+        formatNombor(
+            jumlah.cuti_sakit
+        )
+    );
+
+
+    setText(
+        "totalCutiEhsan",
+        formatNombor(
+            jumlah.cuti_ehsan
+        )
+    );
+
+
+    setText(
+        "totalCutiGanti",
+        formatNombor(
+            jumlah.cuti_ganti
+        )
+    );
+
+
+    setText(
+        "totalLain1",
+        formatNombor(
+            jumlah.lain1
+        )
+    );
+
+
+    setText(
+        "totalLain2",
+        formatNombor(
+            jumlah.lain2
+        )
+    );
+
+
+    setText(
+        "totalJumlahCuti",
+        formatNombor(
+            keseluruhan
+        )
+    );
+
+
+    // =================================================
+    // RETURN DATA
+    // =================================================
+
+    return {
+
+        cuti_tahun:
+            jumlah.cuti_tahun,
+
+        kursus:
+            jumlah.kursus,
+
+        cuti_sakit:
+            jumlah.cuti_sakit,
+
+        cuti_ehsan:
+            jumlah.cuti_ehsan,
+
+        cuti_ganti:
+            jumlah.cuti_ganti,
+
+        lain1:
+            jumlah.lain1,
+
+        lain2:
+            jumlah.lain2,
+
+        keseluruhan
+
+    };
+
+}

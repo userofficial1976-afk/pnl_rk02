@@ -4220,60 +4220,252 @@ function kawalMenuPTW(){
 
 // =====================================================
 // DATA PENGGANTI CUTI
+// GUNA SENARAI ANGGOTA SECTION 4
 // =====================================================
 
-const dataPenggantiCuti = [
+let dataPenggantiCuti = [];
 
-    {
-        bil: 1,
-        skb: "2503643",
-        nama: "Mohd Shaiful Azlan Bin Md Amran"
-    },
 
-    {
-        bil: 2,
-        skb: "2503826",
-        nama: "Ahmad Hazwan Bin Khalid"
-    },
+// =====================================================
+// LOAD DATA PENGGANTI CUTI
+// DARIPADA dataAnggota
+// =====================================================
 
-    {
-        bil: 3,
-        skb: "2502356",
-        nama: "Nazri Bin Embong"
-    },
+function loadDataPenggantiCuti() {
 
-    {
-        bil: 4,
-        skb: "2504129",
-        nama: "Mohd Ridzuan Bin Muhamad"
-    },
+    const tbody =
+        document.getElementById(
+            "dataPenggantiCutiBody"
+        );
 
-    {
-        bil: 5,
-        skb: "2504555",
-        nama: "Wan 'Aaishah Binti Wan Daud"
-    },
 
-    {
-        bil: 6,
-        skb: "",
-        nama: ""
-    },
+    if (!tbody) {
 
-    {
-        bil: 7,
-        skb: "",
-        nama: ""
-    },
+        console.warn(
+            "dataPenggantiCutiBody tidak dijumpai."
+        );
 
-    {
-        bil: 8,
-        skb: "",
-        nama: ""
+        return;
+
     }
 
-];
 
+    tbody.innerHTML = "";
+
+
+    // =================================================
+    // GUNA DATA ANGGOTA YANG SAMA DENGAN SECTION 4
+    // =================================================
+
+    dataPenggantiCuti =
+        dataAnggota.map(
+            (anggota, index) => {
+
+                const noSkb =
+                    anggota.noskb
+                    ||
+                    anggota.noanggota
+                    ||
+                    "";
+
+
+                return {
+
+                    bil:
+                        index + 1,
+
+                    skb:
+                        noSkb,
+
+                    nama:
+                        anggota.nama || ""
+
+                };
+
+            }
+        );
+
+
+    // =================================================
+    // PAPAR SENARAI
+    // =================================================
+
+    dataPenggantiCuti.forEach(
+        anggota => {
+
+            const tr =
+                document.createElement("tr");
+
+
+            tr.innerHTML = `
+
+                <td>
+                    ${anggota.bil}
+                </td>
+
+
+                <td class="skb-cell">
+
+                    ${escapeHtml(
+                        anggota.skb
+                    )}
+
+                </td>
+
+
+                <td class="name-cell">
+
+                    ${escapeHtml(
+                        anggota.nama
+                    )}
+
+                </td>
+
+
+                <!-- CUTI TAHUN -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="cuti_tahun"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- KURSUS -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="kursus"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- CUTI SAKIT -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="cuti_sakit"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- CUTI EHSAN -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="cuti_ehsan"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- CUTI GANTI -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="cuti_ganti"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- LAIN-LAIN 1 -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="lain1"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+
+                <!-- LAIN-LAIN 2 -->
+
+                <td>
+
+                    <input
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        class="input-cuti"
+                        data-field="lain2"
+                        data-bil="${anggota.bil}"
+                        data-no-skb="${escapeHtml(anggota.skb)}"
+                        value=""
+                    >
+
+                </td>
+
+            `;
+
+
+            tbody.appendChild(tr);
+
+        }
+    );
+
+
+    // PASANG EVENT INPUT
+
+    pasangEventCuti();
+
+
+    // KIRA JUMLAH
+
+    kiraJumlahCuti();
+
+}
 
 // =====================================================
 // LOAD DATA PENGGANTI CUTI

@@ -1345,4 +1345,19 @@ button{
 .rk02-table td:nth-child(2){
     text-align:left !important;
     padding-left:6px !important;
+
+
+   /* =========================================
+   RUMUSAN KLM - SEMUA RM RATA KANAN
+========================================= */
+
+.rk02-bottom-table .rm-klm,
+.rk02-bottom-table .jumlah-rm,
+.rk02-bottom-table .jumlahRmKeseluruhan {
+
+    text-align: right !important;
+
+    padding-right: 6px !important;
+
+}
 }

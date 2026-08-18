@@ -1498,9 +1498,6 @@ function binaJadual(){
                 </td>
 
 
-                <td>
-                    ${formatJam(item.klm)}
-                </td>
 
 
                 <td class="money-cell">

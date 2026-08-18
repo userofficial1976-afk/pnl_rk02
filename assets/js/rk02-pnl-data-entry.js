@@ -4642,12 +4642,7 @@ function setNilaiCuti(
             : nilai;
 
 }
-    // =================================================
-    // KOSONGKAN PAPARAN LAMA
-    // =================================================
-
-    tbody.innerHTML = "";
-
+  
 
     // =================================================
     // BINA DATA DARIPADA dataAnggota
@@ -5797,19 +5792,15 @@ async function simpanCutiPengganti() {
 
 async function muatCutiPengganti() {
 
-    const bulan = Number(
-        document.getElementById(
-            "bulan"
-        )?.value
-    );
+    const bulan =
+        Number(
+            document.getElementById("bulan")?.value
+        );
 
-
-    const tahun = Number(
-        document.getElementById(
-            "tahun"
-        )?.value
-    );
-
+    const tahun =
+        Number(
+            document.getElementById("tahun")?.value
+        );
 
     const poskhidmat =
         pengguna?.poskhidmat || "";
@@ -5827,33 +5818,14 @@ async function muatCutiPengganti() {
 
 
     const {
-
         data,
-
         error
-
     } = await supabaseClient
-
-        .from(
-            "cuti_pengganti"
-        )
-
+        .from("cuti_pengganti")
         .select("*")
-
-        .eq(
-            "bulan",
-            bulan
-        )
-
-        .eq(
-            "tahun",
-            tahun
-        )
-
-        .eq(
-            "poskhidmat",
-            poskhidmat
-        );
+        .eq("bulan", bulan)
+        .eq("tahun", tahun)
+        .eq("poskhidmat", poskhidmat);
 
 
     if (error) {
@@ -5866,6 +5838,105 @@ async function muatCutiPengganti() {
         return;
 
     }
+
+
+    console.log(
+        "DATA CUTI PENGGANTI DISIMPAN:",
+        data
+    );
+
+
+    document
+        .querySelectorAll(
+            "#dataPenggantiCutiBody .input-cuti"
+        )
+        .forEach(input => {
+
+            input.value = "";
+
+        });
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        kiraJumlahCuti();
+
+        return;
+
+    }
+
+
+    data.forEach(rekod => {
+
+        const noSkb =
+            String(
+                rekod.no_skb || ""
+            ).trim();
+
+
+        setNilaiCuti(
+            "cuti_tahun",
+            noSkb,
+            rekod.jam_cuti_tahun
+        );
+
+
+        setNilaiCuti(
+            "kursus",
+            noSkb,
+            rekod.jam_kursus
+        );
+
+
+        setNilaiCuti(
+            "cuti_sakit",
+            noSkb,
+            rekod.jam_cuti_sakit
+        );
+
+
+        setNilaiCuti(
+            "cuti_ehsan",
+            noSkb,
+            rekod.jam_cuti_ehsan
+        );
+
+
+        setNilaiCuti(
+            "cuti_ganti",
+            noSkb,
+            rekod.jam_cuti_ganti
+        );
+
+
+        setNilaiCuti(
+            "lain1",
+            noSkb,
+            rekod.jam_lain1
+        );
+
+
+        setNilaiCuti(
+            "lain2",
+            noSkb,
+            rekod.jam_lain2
+        );
+
+    });
+
+
+    kiraJumlahCuti();
+
+
+    console.log(
+        "DATA CUTI PENGGANTI BERJAYA DIMUAT:",
+        data.length
+    );
+
+}
 
 
     // =================================================

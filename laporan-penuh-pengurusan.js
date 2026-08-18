@@ -1776,10 +1776,10 @@ function formatJam(value){
     return Number(
         value || 0
     ).toLocaleString(
-        "ms-MY",
+        "ms",
         {
-            minimumFractionDigits:2,
-            maximumFractionDigits:2
+            minimumFractionDigits:0,
+            maximumFractionDigits:0
         }
     );
 

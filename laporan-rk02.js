@@ -232,13 +232,6 @@ pengguna.poskhidmat ||
 
 
 
-setText(
-"kawasan",
-pengguna.unit ||
-"-"
-);
-
-
 
 }
 
@@ -2145,17 +2138,62 @@ function paparKetuaPengesahan() {
     }
 
 
-    // =================================================
-    // NAMA POS
-    // AMBIL TERUS DARI DATA_POS
-    // =================================================
+   // =================================================
+// NAMA POS
+// AMBIL TERUS DARI DATA_POS
+// =================================================
 
-    setText(
-        "namaPos",
-        rekodPos.pos_kawalan || "-"
-    );
+setText(
+    "namaPos",
+    rekodPos.pos_kawalan || "-"
+);
 
 
+// =================================================
+// KAWASAN / WILAYAH
+// AMBIL TERUS DARI DATA_POS
+// =================================================
+
+const kawasan =
+    String(
+        rekodPos.kawasan || ""
+    ).trim();
+
+const wilayah =
+    String(
+        rekodPos.wilayah || ""
+    ).trim();
+
+
+let paparanKawasan = "-";
+
+
+if(kawasan && wilayah){
+
+    paparanKawasan =
+        kawasan +
+        " / " +
+        wilayah;
+
+}
+else if(kawasan){
+
+    paparanKawasan =
+        kawasan;
+
+}
+else if(wilayah){
+
+    paparanKawasan =
+        wilayah;
+
+}
+
+
+setText(
+    "kawasan",
+    paparanKawasan
+);
     // =================================================
     // KETUA POS
     // NAMA + NO ANGGOTA SAHAJA

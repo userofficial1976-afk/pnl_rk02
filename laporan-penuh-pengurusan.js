@@ -1522,6 +1522,9 @@ function binaJadual(){
 
 // =====================================================
 // FOOTER
+// JUMLAH TUNTUTAN = RM SAHAJA
+// OFF4 ABAIKAN
+// KLM TIDAK DIPAPARKAN DI COLUMN TUNTUTAN
 // =====================================================
 
 function binaFooter(){
@@ -1530,150 +1533,224 @@ function binaFooter(){
         kiraJumlahLaporan();
 
 
-    document.getElementById(
-        "totalHariBiasa"
-    ).textContent =
-        formatJam(
-            total.hariBiasa
+    // ---------------------------------------------
+    // HARI BIASA
+    // ---------------------------------------------
+
+    const totalHariBiasa =
+        document.getElementById(
+            "totalHariBiasa"
         );
 
+    if(totalHariBiasa){
 
-    document.getElementById(
-        "totalRMHariBiasa"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.rmHariBiasa
+        totalHariBiasa.textContent =
+            formatJam(
+                total.hariBiasa
+            );
+
+    }
+
+
+    const totalRMHariBiasa =
+        document.getElementById(
+            "totalRMHariBiasa"
         );
 
+    if(totalRMHariBiasa){
 
-    document.getElementById(
-        "totalOff4Hari"
-    ).textContent =
-        formatNombor(
-            total.off4Hari
+        totalRMHariBiasa.textContent =
+            "RM " +
+            formatRM(
+                total.rmHariBiasa
+            );
+
+    }
+
+
+    // ---------------------------------------------
+    // OFF 4 - 8 JAM
+    // ---------------------------------------------
+
+    const totalOff48Hari =
+        document.getElementById(
+            "totalOff48Hari"
         );
 
+    if(totalOff48Hari){
 
-    document.getElementById(
-        "totalOff4RM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.off4RM
+        totalOff48Hari.textContent =
+            formatNombor(
+                total.off48Hari
+            );
+
+    }
+
+
+    const totalOff48RM =
+        document.getElementById(
+            "totalOff48RM"
         );
 
+    if(totalOff48RM){
 
-    document.getElementById(
-        "totalOff48Hari"
-    ).textContent =
-        formatNombor(
-            total.off48Hari
+        totalOff48RM.textContent =
+            "RM " +
+            formatRM(
+                total.off48RM
+            );
+
+    }
+
+
+    // ---------------------------------------------
+    // OFF > 8 JAM
+    // ---------------------------------------------
+
+    const totalOff8Jam =
+        document.getElementById(
+            "totalOff8Jam"
         );
 
+    if(totalOff8Jam){
 
-    document.getElementById(
-        "totalOff48RM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.off48RM
+        totalOff8Jam.textContent =
+            formatJam(
+                total.off8Jam
+            );
+
+    }
+
+
+    const totalOff8RM =
+        document.getElementById(
+            "totalOff8RM"
         );
 
+    if(totalOff8RM){
 
-    document.getElementById(
-        "totalOff8Jam"
-    ).textContent =
-        formatJam(
-            total.off8Jam
+        totalOff8RM.textContent =
+            "RM " +
+            formatRM(
+                total.off8RM
+            );
+
+    }
+
+
+    // ---------------------------------------------
+    // CUTI AM < 8 JAM
+    // ---------------------------------------------
+
+    const totalCuti8Hari =
+        document.getElementById(
+            "totalCuti8Hari"
         );
 
+    if(totalCuti8Hari){
 
-    document.getElementById(
-        "totalOff8RM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.off8RM
+        totalCuti8Hari.textContent =
+            formatNombor(
+                total.cuti8Hari
+            );
+
+    }
+
+
+    const totalCuti8RM =
+        document.getElementById(
+            "totalCuti8RM"
         );
 
+    if(totalCuti8RM){
 
-    document.getElementById(
-        "totalCuti8Hari"
-    ).textContent =
-        formatNombor(
-            total.cuti8Hari
+        totalCuti8RM.textContent =
+            "RM " +
+            formatRM(
+                total.cuti8RM
+            );
+
+    }
+
+
+    // ---------------------------------------------
+    // CUTI AM > 8 JAM
+    // ---------------------------------------------
+
+    const totalCuti8PJam =
+        document.getElementById(
+            "totalCuti8PJam"
         );
 
+    if(totalCuti8PJam){
 
-    document.getElementById(
-        "totalCuti8RM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.cuti8RM
+        totalCuti8PJam.textContent =
+            formatJam(
+                total.cuti8PJam
+            );
+
+    }
+
+
+    const totalCuti8PRM =
+        document.getElementById(
+            "totalCuti8PRM"
         );
 
+    if(totalCuti8PRM){
 
-    document.getElementById(
-        "totalCuti8PJam"
-    ).textContent =
-        formatJam(
-            total.cuti8PJam
+        totalCuti8PRM.textContent =
+            "RM " +
+            formatRM(
+                total.cuti8PRM
+            );
+
+    }
+
+
+    // ---------------------------------------------
+    // JUMLAH TUNTUTAN
+    // RM SAHAJA
+    // ---------------------------------------------
+
+    const totalRM =
+        document.getElementById(
+            "totalRM"
         );
 
+    if(totalRM){
 
-    document.getElementById(
-        "totalCuti8PRM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.cuti8PRM
-        );
+        totalRM.textContent =
+            "RM " +
+            formatRM(
+                total.rm
+            );
 
-
-    document.getElementById(
-        "totalKLM"
-    ).textContent =
-        formatJam(
-            total.klm
-        );
-
-
-    document.getElementById(
-        "totalRM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.rm
-        );
+    }
 
 }
-
-
 // =====================================================
 // FOOTER KOSONG
 // =====================================================
 
 function binaFooterKosong(){
 
-    const ids = [
+    const kosongNombor = [
 
         "totalHariBiasa",
+
+        "totalOff48Hari",
+
         "totalOff8Jam",
-        "totalKLM"
+
+        "totalCuti8Hari",
+
+        "totalCuti8PJam"
 
     ];
 
 
-    ids.forEach(
+    kosongNombor.forEach(
         id => {
 
             const el =
@@ -1681,27 +1758,35 @@ function binaFooterKosong(){
                     id
                 );
 
-            if(el)
+
+            if(el){
+
                 el.textContent = "0";
+
+            }
 
         }
     );
 
 
-    const rmIds = [
+    const kosongRM = [
 
         "totalRMHariBiasa",
-        "totalOff4RM",
+
         "totalOff48RM",
+
         "totalOff8RM",
+
         "totalCuti8RM",
+
         "totalCuti8PRM",
+
         "totalRM"
 
     ];
 
 
-    rmIds.forEach(
+    kosongRM.forEach(
         id => {
 
             const el =
@@ -1709,16 +1794,18 @@ function binaFooterKosong(){
                     id
                 );
 
-            if(el)
+
+            if(el){
+
                 el.textContent =
                     "RM 0.00";
+
+            }
 
         }
     );
 
 }
-
-
 // =====================================================
 // JUMLAH
 // =====================================================

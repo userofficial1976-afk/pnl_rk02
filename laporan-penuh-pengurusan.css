@@ -948,4 +948,102 @@ body{
     }
 
 }
-```
+
+/* =====================================================
+   LEBAR KOLUM JADUAL PENGURUSAN
+===================================================== */
+
+.management-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+
+/* BIL */
+
+.management-table .col-bil {
+    width: 45px;
+}
+
+
+/* NAMA POS */
+
+.management-table .col-pos {
+    width: 260px;
+}
+
+
+/* JAM */
+
+.management-table .col-jam {
+    width: 65px;
+}
+
+
+/* RM */
+
+.management-table .col-rm {
+    width: 95px;
+}
+
+
+/* HARI */
+
+.management-table .col-kecil {
+    width: 60px;
+}
+
+
+/* JUMLAH KLM */
+
+.management-table .col-jam-total {
+    width: 75px;
+}
+
+
+/* JUMLAH RM */
+
+.management-table .col-rm-total {
+    width: 105px;
+}
+
+
+/* SEMUA SEL DALAM JADUAL */
+
+.management-table th,
+.management-table td {
+    padding: 8px 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+/* NAMA POS SAHAJA */
+
+.management-table th.pos-name-header,
+.management-table td:nth-child(3) {
+    text-align: left;
+}
+
+
+/* JAM DAN NOMBOR */
+
+.management-table td {
+    white-space: nowrap;
+}
+
+
+/* HEADER */
+
+.management-table th {
+    white-space: normal;
+    line-height: 1.15;
+}
+
+
+/* RM */
+
+.management-table td.money-cell {
+    white-space: nowrap;
+}

@@ -1728,27 +1728,48 @@ setText(
     );
 
 }
+// ===================================
+// RM KLM TUGAS KAWALAN
+//
+// JUMLAH RM TABLE ATAS
+// - PENTADBIRAN
+// - PEMANDU
+// - TAMPUNGAN
+// - ESKOT
+// - CIT
+// - KAWALAN WANG
+// - TAMBAHAN
+// ===================================
+
 const jumlahRmKeseluruhan =
     Number(
-        document.getElementById("jumlahRmKeseluruhan")?.textContent
+        document
+            .getElementById("jumlahRmKeseluruhan")
+            ?.textContent
             .replace(/,/g, "")
             .trim()
     ) || 0;
 
+
 const rmKawalan =
     jumlahRmKeseluruhan
     - (
-        Number(rumusan.rmPentadbiran || 0) +
-        Number(rumusan.rmPemandu || 0) +
-        Number(rumusan.rmTampungan || 0) +
-        Number(rumusan.rmEskot || 0) +
-        Number(rumusan.rmCit || 0) +
-        Number(rumusan.rmWang || 0) +
-        Number(rumusan.rmTambahan || 0)
+        Number(jumlah.rmPemandu || 0) +
+        Number(jumlah.rmTampungan || 0) +
+        Number(jumlah.rmEskot || 0) +
+        Number(jumlah.rmCit || 0) +
+        Number(jumlah.rmWang || 0) +
+        Number(jumlah.rmTambahan || 0)
     );
 
-document.getElementById("klm01").textContent =
-    rmKawalan.toFixed(2);
+
+// PAPAR RM KAWALAN
+setText(
+    "klm01",
+    formatRM(rmKawalan)
+);
+
+
 // =====================================================
 // REFRESH LAPORAN
 // =====================================================

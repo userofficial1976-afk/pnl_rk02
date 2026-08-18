@@ -4258,15 +4258,22 @@ function loadDataPenggantiCuti() {
 // FILTER : BULAN + TAHUN + POS
 // =====================================================
 
+// =====================================================
+// MUAT DATA CUTI PENGGANTI
+// TABLE : cuti_pengganti
+// =====================================================
+
 async function muatCutiPengganti() {
 
     const bulan = Number(
         document.getElementById("bulan")?.value
     );
 
+
     const tahun = Number(
         document.getElementById("tahun")?.value
     );
+
 
     const poskhidmat =
         pengguna?.poskhidmat || "";
@@ -4277,6 +4284,10 @@ async function muatCutiPengganti() {
         !tahun ||
         !poskhidmat
     ) {
+
+        console.warn(
+            "BULAN / TAHUN / POSKHIDMAT TIDAK LENGKAP"
+        );
 
         return;
 
@@ -4290,6 +4301,10 @@ async function muatCutiPengganti() {
         poskhidmat
     );
 
+
+    // =================================================
+    // AMBIL DATA SUPABASE
+    // =================================================
 
     const {
         data,
@@ -4333,6 +4348,134 @@ async function muatCutiPengganti() {
         data
     );
 
+
+    // =================================================
+    // RESET INPUT SECTION 5
+    // =================================================
+
+    document
+        .querySelectorAll(
+            "#dataPenggantiCutiBody .input-cuti"
+        )
+        .forEach(
+            input => {
+
+                input.value = "";
+
+            }
+        );
+
+
+    // =================================================
+    // JIKA TIADA DATA
+    // =================================================
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        console.log(
+            "TIADA DATA CUTI PENGGANTI UNTUK BULAN INI"
+        );
+
+
+        kiraJumlahCuti();
+
+
+        return;
+
+    }
+
+
+    // =================================================
+    // PAPAR DATA KE INPUT SECTION 5
+    // =================================================
+
+    data.forEach(
+        rekod => {
+
+            const noSkb =
+                String(
+                    rekod.no_skb || ""
+                ).trim();
+
+
+            setNilaiCuti(
+                "cuti_tahun",
+                noSkb,
+                rekod.jam_cuti_tahun
+            );
+
+
+            setNilaiCuti(
+                "kursus",
+                noSkb,
+                rekod.jam_kursus
+            );
+
+
+            setNilaiCuti(
+                "cuti_sakit",
+                noSkb,
+                rekod.jam_cuti_sakit
+            );
+
+
+            setNilaiCuti(
+                "cuti_ehsan",
+                noSkb,
+                rekod.jam_cuti_ehsan
+            );
+
+
+            setNilaiCuti(
+                "cuti_ganti",
+                noSkb,
+                rekod.jam_cuti_ganti
+            );
+
+
+            setNilaiCuti(
+                "lain1",
+                noSkb,
+                rekod.jam_lain1
+            );
+
+
+            setNilaiCuti(
+                "lain2",
+                noSkb,
+                rekod.jam_lain2
+            );
+
+        }
+    );
+
+
+    // =================================================
+    // KIRA SEMULA
+    // =================================================
+
+    kiraJumlahCuti();
+
+
+    if (
+        typeof kiraRMCutiPengganti === "function"
+    ) {
+
+        kiraRMCutiPengganti();
+
+    }
+
+
+    console.log(
+        "DATA CUTI PENGGANTI BERJAYA DIMUAT:",
+        data.length,
+        "REKOD"
+    );
+
+}
 
     // =================================================
     // RESET SEMUA INPUT

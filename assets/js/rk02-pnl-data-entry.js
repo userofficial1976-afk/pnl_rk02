@@ -88,7 +88,7 @@ async function mula() {
         isiDropdownHeaderPos();
 
         await muatAnggota();
-
+        loadDataPenggantiCuti();
         await muatDataOperasiPos();
 
         paparJadualRK02();

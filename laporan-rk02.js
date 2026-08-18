@@ -1441,216 +1441,270 @@ return jumlah;
 
 function binaRumusanKLM(){
 
-let jumlah = {
+    let jumlah = {
 
-jamBiasa:0,
-kawalan:0,
-pentadbiran:0,
+        jamBiasa: 0,
 
-pemandu:0,
-rmPemandu:0,
+        kawalan: 0,
+        pentadbiran: 0,
 
-tampungan:0,
-rmTampungan:0,
+        pemandu: 0,
+        rmPemandu: 0,
 
-eskot:0,
-rmEskot:0,
+        tampungan: 0,
+        rmTampungan: 0,
 
-cit:0,
-rmCit:0,
+        eskot: 0,
+        rmEskot: 0,
 
-wang:0,
-rmWang:0,
+        cit: 0,
+        rmCit: 0,
 
-tambahan:0,
-rmTambahan:0
+        wang: 0,
+        rmWang: 0,
 
-};
+        tambahan: 0,
+        rmTambahan: 0
 
+    };
 
-// ===================================
-// JUMLAH JAM HARI BIASA ANGGOTA
-// ===================================
 
-laporanRK02.forEach((data)=>{
+    // ===================================
+    // JUMLAH JAM HARI BIASA ANGGOTA
+    // ===================================
 
-jumlah.jamBiasa +=
-Number(data.hari_biasa || 0);
+    laporanRK02.forEach((data) => {
 
-});
+        jumlah.jamBiasa +=
+            Number(data.hariBiasa || 0);
 
+    });
 
 
-// ===================================
-// DATA TAMPUNGAN POS
-// ===================================
+    // ===================================
+    // DATA TAMPUNGAN
+    // ===================================
 
-dataTampungan.forEach((data)=>{
+    dataTampungan.forEach((data) => {
 
 
-// ===================================
-// 03 KLM TUGAS PEMANDU
-// ===================================
+        // ===================================
+        // 03 KLM TUGAS PEMANDU
+        // ===================================
 
-jumlah.pemandu +=
-    Number(data.pemandu || 0);
+        jumlah.pemandu +=
+            Number(data.pemandu || 0);
 
-jumlah.rmPemandu +=
-    Number(data.rm_pemandu || 0);
+        jumlah.rmPemandu +=
+            Number(data.rm_pemandu || 0);
 
 
-// ===================================
-// 04 KLM TUGAS TAMPUNGAN POS
-// ===================================
+        // ===================================
+        // 04 KLM TUGAS TAMPUNGAN POS
+        // ===================================
 
-jumlah.tampungan +=
-    Number(data.jam_pos1 || 0) +
-    Number(data.jam_pos2 || 0) +
-    Number(data.jam_pos3 || 0) +
-    Number(data.jam_pos4 || 0) +
-    Number(data.jam_pos5 || 0) +
-    Number(data.jam_pos6 || 0);
+        jumlah.tampungan +=
 
-jumlah.rmTampungan +=
-    Number(data.rm_pos1 || 0) +
-    Number(data.rm_pos2 || 0) +
-    Number(data.rm_pos3 || 0) +
-    Number(data.rm_pos4 || 0) +
-    Number(data.rm_pos5 || 0) +
-    Number(data.rm_pos6 || 0);
+            Number(data.jam_pos1 || 0) +
+            Number(data.jam_pos2 || 0) +
+            Number(data.jam_pos3 || 0) +
+            Number(data.jam_pos4 || 0) +
+            Number(data.jam_pos5 || 0) +
+            Number(data.jam_pos6 || 0);
 
 
-// ===================================
-// 05 KLM TUGAS ESKOT
-// ===================================
+        // ===================================
+        // RM TAMPUNGAN POS
+        // ===================================
 
-jumlah.eskot +=
-    Number(data.eskot || 0);
+        jumlah.rmTampungan +=
 
-jumlah.rmEskot +=
-    Number(data.rm_eskot || 0);
+            Number(data.rm_pos1 || 0) +
+            Number(data.rm_pos2 || 0) +
+            Number(data.rm_pos3 || 0) +
+            Number(data.rm_pos4 || 0) +
+            Number(data.rm_pos5 || 0) +
+            Number(data.rm_pos6 || 0);
 
 
-// ===================================
-// 06 KLM TUGAS CIT
-// ===================================
+        // ===================================
+        // 05 KLM TUGAS ESKOT
+        // ===================================
 
-jumlah.cit +=
-    Number(data.cit || 0);
+        jumlah.eskot +=
+            Number(data.eskot || 0);
 
-jumlah.rmCit +=
-    Number(data.rm_cit || 0);
+        jumlah.rmEskot +=
+            Number(data.rm_eskot || 0);
 
 
-// ===================================
-// 07 KLM KAWALAN WANG
-// ===================================
+        // ===================================
+        // 06 KLM TUGAS CIT
+        // ===================================
 
-jumlah.wang +=
-    Number(data.kawalan_wang || 0);
+        jumlah.cit +=
+            Number(data.cit || 0);
 
-jumlah.rmWang +=
-    Number(data.rm_kawalan_wang || 0);
+        jumlah.rmCit +=
+            Number(data.rm_cit || 0);
 
 
-// ===================================
-// 08 KLM TAMBAHAN
-// ===================================
+        // ===================================
+        // 07 KLM KAWALAN WANG
+        // ===================================
 
-jumlah.tambahan +=
-    Number(data.kawalan_tambahan || 0);
+        jumlah.wang +=
+            Number(data.kawalan_wang || 0);
 
-jumlah.rmTambahan +=
-    Number(data.rm_kawalan_tambahan || 0);
+        jumlah.rmWang +=
+            Number(data.rm_kawalan_wang || 0);
 
 
-// ===================================
-// 02 KLM PENTADBIRAN PEJABAT
-// ===================================
+        // ===================================
+        // 08 KLM TAMBAHAN
+        // ===================================
 
-jumlah.pentadbiran = 0;
+        jumlah.tambahan +=
+            Number(data.kawalan_tambahan || 0);
 
+        jumlah.rmTambahan +=
+            Number(data.rm_kawalan_tambahan || 0);
 
+    });
 
-// ===================================
-// 01 KLM TUGAS KAWALAN
-// ===================================
 
-jumlah.kawalan =
+    // ===================================
+    // 02 KLM PENTADBIRAN PEJABAT
+    // ===================================
 
-jumlah.jamBiasa
+    jumlah.pentadbiran = 0;
 
--
-jumlah.pemandu
 
--
-jumlah.tampungan
+    // ===================================
+    // 01 KLM TUGAS KAWALAN
+    // ===================================
 
--
-jumlah.eskot
+    jumlah.kawalan =
 
--
-jumlah.cit
+        jumlah.jamBiasa
 
--
-jumlah.wang
+        - jumlah.pemandu
+        - jumlah.tampungan
+        - jumlah.eskot
+        - jumlah.cit
+        - jumlah.wang
+        - jumlah.tambahan;
 
--
-jumlah.tambahan;
 
+    // ===================================
+    // JUMLAH KESELURUHAN KLM
+    // ===================================
 
+    let jumlahKLM =
 
-// ===================================
-// JUMLAH KESELURUHAN KLM
-// ===================================
+        jumlah.kawalan +
+        jumlah.pentadbiran +
+        jumlah.pemandu +
+        jumlah.tampungan +
+        jumlah.eskot +
+        jumlah.cit +
+        jumlah.wang +
+        jumlah.tambahan;
 
-let jumlahKLM =
 
-jumlah.kawalan +
-jumlah.pentadbiran +
-jumlah.pemandu +
-jumlah.tampungan +
-jumlah.eskot +
-jumlah.cit +
-jumlah.wang +
-jumlah.tambahan;
+    // ===================================
+    // PAPAR KLM
+    // ===================================
 
+    setText(
+        "klm01",
+        jumlah.pentadbiran
+    );
 
+    setText(
+        "klm02",
+        jumlah.pemandu
+    );
 
-// ===================================
-// PAPAR
-// ===================================
+    setText(
+        "rmKlm02",
+        formatRM(jumlah.rmPemandu)
+    );
 
-setText("klm01", jumlah.pentadbiran);
-setText("klm02", jumlah.pemandu);
-setText("rmKlm02", formatRM(jumlah.rmPemandu));
 
-setText("klm03", jumlah.tampungan);
-setText("rmKlm03", formatRM(jumlah.rmTampungan));
+    setText(
+        "klm03",
+        jumlah.tampungan
+    );
 
-setText("klm04", jumlah.eskot);
-setText("rmKlm04", formatRM(jumlah.rmEskot));
+    setText(
+        "rmKlm03",
+        formatRM(jumlah.rmTampungan)
+    );
 
-setText("klm05", jumlah.cit);
-setText("rmKlm05", formatRM(jumlah.rmCit));
 
-setText("klm06", jumlah.wang);
-setText("rmKlm06", formatRM(jumlah.rmWang));
+    setText(
+        "klm04",
+        jumlah.eskot
+    );
 
-setText("klm07", jumlah.tambahan);
-setText("rmKlm07", formatRM(jumlah.rmTambahan));
-setText("jumlahKLM", jumlah.jamBiasa);
+    setText(
+        "rmKlm04",
+        formatRM(jumlah.rmEskot)
+    );
 
 
+    setText(
+        "klm05",
+        jumlah.cit
+    );
 
-console.log(
-"RUMUSAN KLM",
-jumlah
-);
+    setText(
+        "rmKlm05",
+        formatRM(jumlah.rmCit)
+    );
 
+
+    setText(
+        "klm06",
+        jumlah.wang
+    );
+
+    setText(
+        "rmKlm06",
+        formatRM(jumlah.rmWang)
+    );
+
+
+    setText(
+        "klm07",
+        jumlah.tambahan
+    );
+
+    setText(
+        "rmKlm07",
+        formatRM(jumlah.rmTambahan)
+    );
+
+
+    setText(
+        "klm08",
+        jumlah.kawalan
+    );
+
+
+    setText(
+        "jumlahKLM",
+        jumlah.jamBiasa
+    );
+
+
+    console.log(
+        "RUMUSAN KLM",
+        jumlah
+    );
 
 }
-
 
 // =====================================================
 // REFRESH LAPORAN

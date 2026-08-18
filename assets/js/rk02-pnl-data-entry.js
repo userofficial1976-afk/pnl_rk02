@@ -77,6 +77,8 @@ async function mula() {
 
         bacaPengguna();
 
+        kawalMenuPTW();
+        
         tetapkanBulanSemasa();
 
         pasangEventUtama();
@@ -4129,5 +4131,88 @@ function kiraJumlahPaparanRK02() {
         "totalCit",
         formatNombor(cit)
     );
+
+}
+
+// =====================================================
+// MENU LAPORAN PENUH PENGURUSAN
+// AKSES PTW SAHAJA
+// =====================================================
+
+function kawalMenuPTW(){
+
+    const menu =
+        document.getElementById(
+            "menuLaporanPenuhPengurusan"
+        );
+
+    if(!menu)
+        return;
+
+
+    let pengguna = null;
+
+
+    try{
+
+        pengguna =
+            JSON.parse(
+                localStorage.getItem(
+                    "pengguna"
+                )
+            );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "GAGAL BACA DATA PENGGUNA",
+            error
+        );
+
+        return;
+
+    }
+
+
+    if(!pengguna)
+        return;
+
+
+    /*
+     * Semak peranan pengguna.
+     *
+     * Sistem membenarkan:
+     * PTW
+     * PENGURUS PTW
+     * PENGURUSAN PTW
+     */
+
+    const peranan = String(
+        pengguna.peranan ||
+        pengguna.role ||
+        pengguna.jawatan ||
+        ""
+    )
+    .trim()
+    .toUpperCase();
+
+
+    if(
+        peranan === "PTW" ||
+        peranan === "PENGURUS PTW" ||
+        peranan === "PENGURUSAN PTW"
+    ){
+
+        menu.style.display = "flex";
+
+    }
+
+    else{
+
+        menu.style.display = "none";
+
+    }
 
 }

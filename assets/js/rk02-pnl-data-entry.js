@@ -5249,7 +5249,8 @@ function loadDataPenggantiCuti() {
 
 
 // =====================================================
-// BINA CELL JAM + RM
+// BINA CELL INPUT JAM SAHAJA
+// RM TIDAK DIPAPARKAN
 // =====================================================
 
 function binaCellCuti(
@@ -5277,23 +5278,9 @@ function binaCellCuti(
 
         </td>
 
-
-        <td>
-
-            <span
-                class="rm-cuti"
-                data-rm-field="${jenis}"
-                data-no-skb="${skb}"
-            >
-                RM 0.00
-            </span>
-
-        </td>
-
     `;
 
 }
-
 
 // =====================================================
 // EVENT INPUT SECTION 5

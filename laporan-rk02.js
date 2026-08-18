@@ -1488,7 +1488,9 @@ Number(data.hari_biasa || 0);
 dataTampungan.forEach((data)=>{
 
 
+// ===================================
 // 03 KLM TUGAS PEMANDU
+// ===================================
 
 jumlah.pemandu +=
     Number(data.pemandu || 0);
@@ -1497,59 +1499,69 @@ jumlah.rmPemandu +=
     Number(data.rm_pemandu || 0);
 
 
-
+// ===================================
 // 04 KLM TUGAS TAMPUNGAN POS
+// ===================================
 
 jumlah.tampungan +=
-
-Number(data.jam_pos1 || 0) +
-Number(data.jam_pos2 || 0) +
-Number(data.jam_pos3 || 0) +
-Number(data.jam_pos4 || 0) +
-Number(data.jam_pos5 || 0) +
-Number(data.jam_pos6 || 0);
-
-// ===================================
-// RM TUGAS TAMPUNGAN POS
-// ===================================
+    Number(data.jam_pos1 || 0) +
+    Number(data.jam_pos2 || 0) +
+    Number(data.jam_pos3 || 0) +
+    Number(data.jam_pos4 || 0) +
+    Number(data.jam_pos5 || 0) +
+    Number(data.jam_pos6 || 0);
 
 jumlah.rmTampungan +=
+    Number(data.rm_pos1 || 0) +
+    Number(data.rm_pos2 || 0) +
+    Number(data.rm_pos3 || 0) +
+    Number(data.rm_pos4 || 0) +
+    Number(data.rm_pos5 || 0) +
+    Number(data.rm_pos6 || 0);
 
-Number(data.rm_pos1 || 0) +
-Number(data.rm_pos2 || 0) +
-Number(data.rm_pos3 || 0) +
-Number(data.rm_pos4 || 0) +
-Number(data.rm_pos5 || 0) +
-Number(data.rm_pos6 || 0);
 
+// ===================================
 // 05 KLM TUGAS ESKOT
+// ===================================
 
 jumlah.eskot +=
-Number(data.eskot || 0);
+    Number(data.eskot || 0);
+
+jumlah.rmEskot +=
+    Number(data.rm_eskot || 0);
 
 
-
+// ===================================
 // 06 KLM TUGAS CIT
+// ===================================
 
 jumlah.cit +=
-Number(data.cit || 0);
+    Number(data.cit || 0);
+
+jumlah.rmCit +=
+    Number(data.rm_cit || 0);
 
 
-
+// ===================================
 // 07 KLM KAWALAN WANG
+// ===================================
 
 jumlah.wang +=
-Number(data.kawalan_wang || 0);
+    Number(data.kawalan_wang || 0);
+
+jumlah.rmWang +=
+    Number(data.rm_kawalan_wang || 0);
 
 
-
+// ===================================
 // 08 KLM TAMBAHAN
+// ===================================
 
 jumlah.tambahan +=
-Number(data.kawalan_tambahan || 0);
+    Number(data.kawalan_tambahan || 0);
 
-
-});
+jumlah.rmTambahan +=
+    Number(data.rm_kawalan_tambahan || 0);
 
 
 // ===================================
@@ -1611,21 +1623,22 @@ jumlah.tambahan;
 
 setText("klm01", jumlah.pentadbiran);
 setText("klm02", jumlah.pemandu);
-    setText(
-    "rmKlm02",
-    formatRM(jumlah.rmPemandu)
-);
-setText("klm03", jumlah.tampungan);
-    setText(
-    "rmKlm03",
-    formatRM(jumlah.rmTampungan)
-);
-setText("klm04", jumlah.eskot);
-setText("klm05", jumlah.cit);
-setText("klm06", jumlah.wang);
-setText("klm07", jumlah.tambahan);
-setText("klm08", jumlah.kawalan);
+setText("rmKlm02", formatRM(jumlah.rmPemandu));
 
+setText("klm03", jumlah.tampungan);
+setText("rmKlm03", formatRM(jumlah.rmTampungan));
+
+setText("klm04", jumlah.eskot);
+setText("rmKlm04", formatRM(jumlah.rmEskot));
+
+setText("klm05", jumlah.cit);
+setText("rmKlm05", formatRM(jumlah.rmCit));
+
+setText("klm06", jumlah.wang);
+setText("rmKlm06", formatRM(jumlah.rmWang));
+
+setText("klm07", jumlah.tambahan);
+setText("rmKlm07", formatRM(jumlah.rmTambahan));
 setText("jumlahKLM", jumlah.jamBiasa);
 
 

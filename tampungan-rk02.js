@@ -10,6 +10,25 @@
 
 let pengguna = null;
 
+// =====================================================
+// LOGIN GUARD
+// =====================================================
+
+const penggunaLogin =
+    localStorage.getItem("pengguna");
+
+
+if(!penggunaLogin){
+
+    alert(
+        "Sila login terlebih dahulu."
+    );
+
+    window.location.href =
+        "index.html";
+
+}
+
 let dataTampungan = [];
 
 let dataAnggota = [];

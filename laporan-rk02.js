@@ -342,7 +342,7 @@ await db
 .select(`
 
 noskb,
-no_anggota,
+noanggota,
 nama,
 pangkat,
 poskhidmat,
@@ -749,7 +749,7 @@ noskb:
 item.no_skb,
 
 noAnggota:
-anggota.no_anggota || "", 
+anggota.noanggota || "", 
 
 
 

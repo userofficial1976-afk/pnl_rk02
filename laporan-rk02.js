@@ -956,7 +956,23 @@ data
 
 });
 
+// =====================================================
+// SUSUN IKUT NO. SKB
+// =====================================================
 
+laporanRK02.sort((a, b) => {
+
+    return String(a.noskb || "")
+        .localeCompare(
+            String(b.noskb || ""),
+            undefined,
+            {
+                numeric: true,
+                sensitivity: "base"
+            }
+        );
+
+});
 
 
 

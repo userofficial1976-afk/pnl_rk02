@@ -1548,59 +1548,6 @@ Number(data.kawalan_tambahan || 0);
 
 });
 
-// ===================================
-// KLM PEMANDU
-// ===================================
-
-jumlah.pemandu +=
-    Number(data.pemandu || 0);
-
-jumlah.rmPemandu +=
-    Number(data.rm_pemandu || 0);
-
-
-// ===================================
-// KLM ESKOT
-// ===================================
-
-jumlah.eskot +=
-    Number(data.eskot || 0);
-
-jumlah.rmEskot +=
-    Number(data.rm_eskot || 0);
-
-
-// ===================================
-// KLM CIT
-// ===================================
-
-jumlah.cit +=
-    Number(data.cit || 0);
-
-jumlah.rmCit +=
-    Number(data.rm_cit || 0);
-
-
-// ===================================
-// KLM KAWALAN WANG
-// ===================================
-
-jumlah.wang +=
-    Number(data.kawalan_wang || 0);
-
-jumlah.rmWang +=
-    Number(data.rm_kawalan_wang || 0);
-
-
-// ===================================
-// KLM KAWALAN TAMBAHAN
-// ===================================
-
-jumlah.tambahan +=
-    Number(data.kawalan_tambahan || 0);
-
-jumlah.rmTambahan +=
-    Number(data.rm_kawalan_tambahan || 0);
 
 // ===================================
 // 02 KLM PENTADBIRAN PEJABAT

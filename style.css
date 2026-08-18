@@ -1361,3 +1361,7 @@ button{
 
 }
 }
+.jumlah-rm{
+    text-align:right !important;
+    padding-right:6px !important;
+}

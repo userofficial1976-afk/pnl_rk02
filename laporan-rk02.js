@@ -1668,23 +1668,257 @@ window.print();
 
 
 // =====================================================
-// TEST MUAT CUTI AWAM
+// MUAT CUTI AWAM
 // =====================================================
 
 async function muatCutiAwam() {
 
     console.log("=================================");
-    console.log("TEST CUTI AWAM");
+    console.log("MUAT CUTI AWAM");
     console.log("=================================");
+
+
+    const bulanSelect =
+        document.getElementById("bulan");
+
+
+    if (!bulanSelect) {
+
+        console.error(
+            "SELECT BULAN TIDAK DIJUMPAI"
+        );
+
+        return;
+    }
+
+
+    const bulan =
+        Number(bulanSelect.value);
+
+
+    const namaBulan =
+        SENARAI_BULAN[bulan];
+
+
+    const tahun =
+        new Date().getFullYear();
+
+
+    console.log(
+        "BULAN VALUE :",
+        bulan
+    );
+
+    console.log(
+        "NAMA BULAN  :",
+        namaBulan
+    );
+
+    console.log(
+        "TAHUN       :",
+        tahun
+    );
+
+
+    // =============================================
+    // QUERY SUPABASE
+    // =============================================
 
     const {
         data,
         error
     } = await db
         .from("cuti_awam")
-        .select("*");
+        .select(
+            "id, tarikh, bulan, tahun, nama_cuti, negeri, status"
+        )
+        .eq(
+            "bulan",
+            namaBulan
+        )
+        .eq(
+            "tahun",
+            tahun
+        )
+        .eq(
+            "status",
+            "AKTIF"
+        )
+        .order(
+            "tarikh",
+            {
+                ascending: true
+            }
+        );
 
-    console.log("DATA CUTI AWAM TEST:", data);
-    console.log("ERROR CUTI AWAM TEST:", error);
+
+    console.log(
+        "DATA CUTI AWAM:",
+        data
+    );
+
+    console.log(
+        "ERROR CUTI AWAM:",
+        error
+    );
+
+
+    if (error) {
+
+        console.error(
+            "RALAT SUPABASE CUTI AWAM:",
+            error
+        );
+
+        return;
+    }
+
+
+    // =============================================
+    // KOSONGKAN PAPARAN DAHULU
+    // =============================================
+
+    for (
+        let i = 1;
+        i <= 5;
+        i++
+    ) {
+
+        const row =
+            document.getElementById(
+                "cutiAwam" + i
+            );
+
+
+        if (row) {
+
+            row.textContent =
+                "-";
+
+        }
+
+    }
+
+
+    // =============================================
+    // TIADA DATA
+    // =============================================
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        console.log(
+            "TIADA CUTI AWAM UNTUK:",
+            namaBulan,
+            tahun
+        );
+
+        return;
+    }
+
+
+    // =============================================
+    // PAPAR MAKSIMUM 5 CUTI
+    // =============================================
+
+    data
+        .slice(0, 5)
+        .forEach(
+            (cuti, index) => {
+
+
+                const row =
+                    document.getElementById(
+                        "cutiAwam" +
+                        (index + 1)
+                    );
+
+
+                if (!row)
+                    return;
+
+
+                // =================================
+                // TARIKH
+                // =================================
+
+                let paparanTarikh =
+                    "-";
+
+
+                if (cuti.tarikh) {
+
+                    const tarikh =
+                        new Date(
+                            cuti.tarikh +
+                            "T00:00:00"
+                        );
+
+
+                    const hari =
+                        String(
+                            tarikh.getDate()
+                        ).padStart(
+                            2,
+                            "0"
+                        );
+
+
+                    const bulanTarikh =
+                        String(
+                            tarikh.getMonth() + 1
+                        ).padStart(
+                            2,
+                            "0"
+                        );
+
+
+                    const tahunTarikh =
+                        tarikh.getFullYear();
+
+
+                    paparanTarikh =
+                        `${hari}/${bulanTarikh}/${tahunTarikh}`;
+
+                }
+
+
+                // =================================
+                // NAMA CUTI
+                // =================================
+
+                let paparan =
+                    paparanTarikh;
+
+
+                if (
+                    cuti.nama_cuti
+                ) {
+
+                    paparan +=
+                        " - " +
+                        cuti.nama_cuti;
+
+                }
+
+
+                row.textContent =
+                    paparan;
+
+            }
+        );
+
+
+    console.log(
+        "JUMLAH CUTI AWAM:",
+        data.length
+    );
+
+
+    console.log(
+        "CUTI AWAM SELESAI"
+    );
 
 }

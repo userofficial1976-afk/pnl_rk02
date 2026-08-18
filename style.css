@@ -1332,3 +1332,12 @@ button{
     }
 
 }
+
+/* =========================================
+   NAMA ANGGOTA RK02 - RATA KIRI
+========================================= */
+
+.rk02-table td:nth-child(3){
+    text-align:left !important;
+    padding-left:6px !important;
+}

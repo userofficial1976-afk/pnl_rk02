@@ -1,4 +1,4 @@
-```javascript
+
 // =====================================================
 // LAPORAN PENUH PENGURUSAN
 // FPB DUTY COMMAND CENTER V2

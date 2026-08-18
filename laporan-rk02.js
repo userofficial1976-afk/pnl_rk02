@@ -1699,7 +1699,6 @@ function binaRumusanKLM(){
         formatRM(jumlah.rmTambahan)
     );
 
-
     setText(
         "klm08",
         jumlah.kawalan
@@ -1709,7 +1708,6 @@ function binaRumusanKLM(){
     // ===================================
     // JUMLAH KLM
     // ===================================
-
     setText(
         "jumlahKLM",
         jumlah.kawalan +

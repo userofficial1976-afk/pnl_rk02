@@ -89,6 +89,7 @@ async function mula() {
 
         await muatAnggota();
         loadDataPenggantiCuti();
+        await muatCutiPengganti();
         await muatDataOperasiPos();
 
         paparJadualRK02();
@@ -1902,7 +1903,7 @@ function pasangEventUtama() {
                 await simpanPosTampungan();
 
                 await simpanRK02();
-
+                await simpanCutiPengganti();
             }
 
         );
@@ -4522,7 +4523,339 @@ function loadDataPenggantiCuti() {
 
 }
 
+// =====================================================
+// KIRA RM CUTI PENGGANTI
+//
+// FORMULA:
+//
+// JAM × Data_Anggota.rm_pehariklmbiasa
+//
+// Contoh:
+//
+// jam_cuti_tahun = 8
+// rm_pehariklmbiasa = 10
+//
+// RM = 8 × 10
+//    = RM80
+// =====================================================
 
+function kiraRMKelengkapanCuti() {
+
+    const jumlah = {
+
+        rm_cuti_tahun: 0,
+
+        rm_kursus: 0,
+
+        rm_cuti_sakit: 0,
+
+        rm_cuti_ehsan: 0,
+
+        rm_cuti_ganti: 0,
+
+        rm_lain1: 0,
+
+        rm_lain2: 0
+
+    };
+
+
+    // =================================================
+    // LOOP SEMUA ANGGOTA
+    // =================================================
+
+    dataAnggota.forEach(anggota => {
+
+        const noSkb =
+
+            anggota.noskb ||
+
+            anggota.no_skb ||
+
+            anggota.noanggota ||
+
+            "";
+
+
+        // =================================================
+        // KADAR RM PER HARI KLM BIASA
+        // DATA DARIPADA Data_Anggota
+        // =================================================
+
+        const kadarRM = nombor(
+
+            anggota.rm_pehariklmbiasa
+
+        );
+
+
+        // =================================================
+        // AMBIL JAM SETIAP CUTI
+        // =================================================
+
+        const jamCutiTahun = nilaiCutiInput(
+            "cuti_tahun",
+            noSkb
+        );
+
+
+        const jamKursus = nilaiCutiInput(
+            "kursus",
+            noSkb
+        );
+
+
+        const jamCutiSakit = nilaiCutiInput(
+            "cuti_sakit",
+            noSkb
+        );
+
+
+        const jamCutiEhsan = nilaiCutiInput(
+            "cuti_ehsan",
+            noSkb
+        );
+
+
+        const jamCutiGanti = nilaiCutiInput(
+            "cuti_ganti",
+            noSkb
+        );
+
+
+        const jamLain1 = nilaiCutiInput(
+            "lain1",
+            noSkb
+        );
+
+
+        const jamLain2 = nilaiCutiInput(
+            "lain2",
+            noSkb
+        );
+
+
+        // =================================================
+        // KIRA RM
+        // =================================================
+
+        const rmCutiTahun =
+            jamCutiTahun * kadarRM;
+
+
+        const rmKursus =
+            jamKursus * kadarRM;
+
+
+        const rmCutiSakit =
+            jamCutiSakit * kadarRM;
+
+
+        const rmCutiEhsan =
+            jamCutiEhsan * kadarRM;
+
+
+        const rmCutiGanti =
+            jamCutiGanti * kadarRM;
+
+
+        const rmLain1 =
+            jamLain1 * kadarRM;
+
+
+        const rmLain2 =
+            jamLain2 * kadarRM;
+
+
+        // =================================================
+        // JUMLAH KESELURUHAN
+        // =================================================
+
+        jumlah.rm_cuti_tahun += rmCutiTahun;
+
+        jumlah.rm_kursus += rmKursus;
+
+        jumlah.rm_cuti_sakit += rmCutiSakit;
+
+        jumlah.rm_cuti_ehsan += rmCutiEhsan;
+
+        jumlah.rm_cuti_ganti += rmCutiGanti;
+
+        jumlah.rm_lain1 += rmLain1;
+
+        jumlah.rm_lain2 += rmLain2;
+
+
+        // =================================================
+        // PAPAR RM PER ANGGOTA
+        // JIKA HTML ADA DATA-RM-CUTI
+        // =================================================
+
+        setText(
+
+            `[data-rm-cuti-tahun="${noSkb}"]`,
+
+            formatRM(rmCutiTahun),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-kursus="${noSkb}"]`,
+
+            formatRM(rmKursus),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-cuti-sakit="${noSkb}"]`,
+
+            formatRM(rmCutiSakit),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-cuti-ehsan="${noSkb}"]`,
+
+            formatRM(rmCutiEhsan),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-cuti-ganti="${noSkb}"]`,
+
+            formatRM(rmCutiGanti),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-lain1="${noSkb}"]`,
+
+            formatRM(rmLain1),
+
+            true
+
+        );
+
+
+        setText(
+
+            `[data-rm-lain2="${noSkb}"]`,
+
+            formatRM(rmLain2),
+
+            true
+
+        );
+
+    });
+
+
+    // =================================================
+    // PAPAR JUMLAH RM
+    // =================================================
+
+    setText(
+        "totalRMCutiTahun",
+        formatRM(jumlah.rm_cuti_tahun)
+    );
+
+
+    setText(
+        "totalRMKursus",
+        formatRM(jumlah.rm_kursus)
+    );
+
+
+    setText(
+        "totalRMCutiSakit",
+        formatRM(jumlah.rm_cuti_sakit)
+    );
+
+
+    setText(
+        "totalRMCutiEhsan",
+        formatRM(jumlah.rm_cuti_ehsan)
+    );
+
+
+    setText(
+        "totalRMCutiGanti",
+        formatRM(jumlah.rm_cuti_ganti)
+    );
+
+
+    setText(
+        "totalRMLain1",
+        formatRM(jumlah.rm_lain1)
+    );
+
+
+    setText(
+        "totalRMLain2",
+        formatRM(jumlah.rm_lain2)
+    );
+
+
+    // =================================================
+    // JUMLAH RM SEMUA CUTI
+    // =================================================
+
+    const jumlahRM =
+
+        jumlah.rm_cuti_tahun +
+
+        jumlah.rm_kursus +
+
+        jumlah.rm_cuti_sakit +
+
+        jumlah.rm_cuti_ehsan +
+
+        jumlah.rm_cuti_ganti +
+
+        jumlah.rm_lain1 +
+
+        jumlah.rm_lain2;
+
+
+    setText(
+        "totalRMCuti",
+        formatRM(jumlahRM)
+    );
+
+
+    // =================================================
+    // RETURN
+    // =================================================
+
+    return {
+
+        ...jumlah,
+
+        jumlahRM
+
+    };
+
+}
 // =====================================================
 // EVENT INPUT CUTI
 // =====================================================
@@ -4537,11 +4870,20 @@ function pasangEventCuti() {
                 "input",
                 () => {
 
+                    // Kira jumlah JAM Section 5
                     kiraJumlahCuti();
 
-                    // Kemas kini kiraan keseluruhan sistem
-                    if (typeof kiraSemua === "function") {
+                    // Kira RM berdasarkan
+                    // Data_Anggota.rm_pehariklmbiasa
+                    kiraRMKelengkapanCuti();
+
+                    // Kemas kini kiraan keseluruhan
+                    if (
+                        typeof kiraSemua === "function"
+                    ) {
+
                         kiraSemua();
+
                     }
 
                 }
@@ -4557,9 +4899,6 @@ function pasangEventCuti() {
     );
 
 }
-
-
-
 
 
 // =====================================================
@@ -4634,7 +4973,29 @@ function kiraJumlahCuti() {
         jumlah.lain1 +
 
         jumlah.lain2;
+// =====================================================
+// NILAI INPUT CUTI
+// =====================================================
 
+function nilaiCutiInput(
+    jenis,
+    noSkb
+) {
+
+    const input =
+
+        document.querySelector(
+
+            `.input-cuti[data-field="${jenis}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
+
+        );
+
+
+    return nombor(
+        input?.value
+    );
+
+}
 
     // =================================================
     // PAPAR JUMLAH
@@ -4706,7 +5067,569 @@ function kiraJumlahCuti() {
         )
     );
 
+// =====================================================
+// SIMPAN DATA CUTI PENGGANTI
+// TABLE:
+// cuti_pengganti
+//
+// FORMULA RM:
+//
+// JAM × Data_Anggota.rm_pehariklmbiasa
+// =====================================================
 
+async function simpanCutiPengganti() {
+
+    const bulan = Number(
+        document.getElementById(
+            "bulan"
+        )?.value
+    );
+
+
+    const tahun = Number(
+        document.getElementById(
+            "tahun"
+        )?.value
+    );
+
+
+    const poskhidmat =
+
+        pengguna?.poskhidmat ||
+
+        document.getElementById(
+            "kodNamaPos"
+        )?.innerText ||
+
+        "";
+
+
+    // =================================================
+    // SEMAK MAKLUMAT UTAMA
+    // =================================================
+
+    if (
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ) {
+
+        alert(
+            "Sila pastikan bulan, tahun dan poskhidmat lengkap."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // ARRAY DATA
+    // =================================================
+
+    const rows = [];
+
+
+    // =================================================
+    // LOOP SEMUA ANGGOTA
+    // =================================================
+
+    dataAnggota.forEach(anggota => {
+
+        const noSkb =
+
+            anggota.noskb ||
+
+            anggota.no_skb ||
+
+            anggota.noanggota ||
+
+            "";
+
+
+        if (!noSkb) {
+
+            return;
+
+        }
+
+
+        const nama =
+            anggota.nama || "";
+
+
+        // =================================================
+        // KADAR RM
+        // Data_Anggota.rm_pehariklmbiasa
+        // =================================================
+
+        const kadarRM = nombor(
+            anggota.rm_pehariklmbiasa
+        );
+
+
+        // =================================================
+        // AMBIL JAM
+        // =================================================
+
+        const jamCutiTahun =
+            nilaiCutiInput(
+                "cuti_tahun",
+                noSkb
+            );
+
+
+        const jamKursus =
+            nilaiCutiInput(
+                "kursus",
+                noSkb
+            );
+
+
+        const jamCutiSakit =
+            nilaiCutiInput(
+                "cuti_sakit",
+                noSkb
+            );
+
+
+        const jamCutiEhsan =
+            nilaiCutiInput(
+                "cuti_ehsan",
+                noSkb
+            );
+
+
+        const jamCutiGanti =
+            nilaiCutiInput(
+                "cuti_ganti",
+                noSkb
+            );
+
+
+        const jamLain1 =
+            nilaiCutiInput(
+                "lain1",
+                noSkb
+            );
+
+
+        const jamLain2 =
+            nilaiCutiInput(
+                "lain2",
+                noSkb
+            );
+
+
+        // =================================================
+        // KIRA RM
+        // =================================================
+
+        const rmCutiTahun =
+            jamCutiTahun * kadarRM;
+
+
+        const rmKursus =
+            jamKursus * kadarRM;
+
+
+        const rmCutiSakit =
+            jamCutiSakit * kadarRM;
+
+
+        const rmCutiEhsan =
+            jamCutiEhsan * kadarRM;
+
+
+        const rmCutiGanti =
+            jamCutiGanti * kadarRM;
+
+
+        const rmLain1 =
+            jamLain1 * kadarRM;
+
+
+        const rmLain2 =
+            jamLain2 * kadarRM;
+
+
+        // =================================================
+        // BINA ROW
+        // =================================================
+
+        rows.push({
+
+            bulan,
+
+            tahun,
+
+            poskhidmat,
+
+            no_skb: noSkb,
+
+            nama,
+
+
+            // ===============================
+            // JAM
+            // ===============================
+
+            jam_cuti_tahun:
+                jamCutiTahun,
+
+            jam_kursus:
+                jamKursus,
+
+            jam_cuti_sakit:
+                jamCutiSakit,
+
+            jam_cuti_ehsan:
+                jamCutiEhsan,
+
+            jam_cuti_ganti:
+                jamCutiGanti,
+
+            jam_lain1:
+                jamLain1,
+
+            jam_lain2:
+                jamLain2,
+
+
+            // ===============================
+            // RM
+            // ===============================
+
+            rm_cuti_tahun:
+                rmCutiTahun,
+
+            rm_kursus:
+                rmKursus,
+
+            rm_cuti_sakit:
+                rmCutiSakit,
+
+            rm_cuti_ehsan:
+                rmCutiEhsan,
+
+            rm_cuti_ganti:
+                rmCutiGanti,
+
+            rm_lain1:
+                rmLain1,
+
+            rm_lain2:
+                rmLain2,
+
+
+            // ===============================
+            // USER
+            // ===============================
+
+            dikemaskini_oleh:
+                pengguna?.nama || "-"
+
+        });
+
+    });
+
+
+    // =================================================
+    // SEMAK ROW
+    // =================================================
+
+    if (
+        rows.length === 0
+    ) {
+
+        alert(
+            "Tiada data Cuti Pengganti untuk disimpan."
+        );
+
+        return;
+
+    }
+
+
+    console.log(
+        "DATA CUTI PENGGANTI UNTUK SIMPAN:",
+        rows
+    );
+
+
+    // =================================================
+    // UPSERT SUPABASE
+    // =================================================
+
+    const {
+        error
+    } = await supabaseClient
+
+        .from(
+            "cuti_pengganti"
+        )
+
+        .upsert(
+
+            rows,
+
+            {
+
+                onConflict:
+                    "bulan,tahun,poskhidmat,no_skb"
+
+            }
+
+        );
+
+
+    if (error) {
+
+        console.error(
+            "RALAT SIMPAN CUTI PENGGANTI:",
+            error
+        );
+
+
+        alert(
+            "Gagal simpan Cuti Pengganti:\n" +
+            error.message
+        );
+
+
+        return;
+
+    }
+
+// =====================================================
+// LOAD DATA CUTI PENGGANTI
+// MENGIKUT:
+// BULAN + TAHUN + POS
+// =====================================================
+
+async function muatCutiPengganti() {
+
+    const bulan = Number(
+        document.getElementById(
+            "bulan"
+        )?.value
+    );
+
+
+    const tahun = Number(
+        document.getElementById(
+            "tahun"
+        )?.value
+    );
+
+
+    const poskhidmat =
+        pengguna?.poskhidmat || "";
+
+
+    if (
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ) {
+
+        return;
+
+    }
+
+
+    const {
+
+        data,
+
+        error
+
+    } = await supabaseClient
+
+        .from(
+            "cuti_pengganti"
+        )
+
+        .select("*")
+
+        .eq(
+            "bulan",
+            bulan
+        )
+
+        .eq(
+            "tahun",
+            tahun
+        )
+
+        .eq(
+            "poskhidmat",
+            poskhidmat
+        );
+
+
+    if (error) {
+
+        console.error(
+            "RALAT LOAD CUTI PENGGANTI:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // RESET SEMUA INPUT
+    // =================================================
+
+    document
+        .querySelectorAll(
+            ".input-cuti"
+        )
+        .forEach(input => {
+
+            input.value = "";
+
+        });
+
+
+    // =================================================
+    // TIADA DATA
+    // =================================================
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        kiraJumlahCuti();
+
+        kiraRMKelengkapanCuti();
+
+        return;
+
+    }
+
+
+    // =================================================
+    // MASUKKAN DATA
+    // =================================================
+
+    data.forEach(rekod => {
+
+        setNilaiCuti(
+            "cuti_tahun",
+            rekod.no_skb,
+            rekod.jam_cuti_tahun
+        );
+
+
+        setNilaiCuti(
+            "kursus",
+            rekod.no_skb,
+            rekod.jam_kursus
+        );
+
+
+        setNilaiCuti(
+            "cuti_sakit",
+            rekod.no_skb,
+            rekod.jam_cuti_sakit
+        );
+
+
+        setNilaiCuti(
+            "cuti_ehsan",
+            rekod.no_skb,
+            rekod.jam_cuti_ehsan
+        );
+
+
+        setNilaiCuti(
+            "cuti_ganti",
+            rekod.no_skb,
+            rekod.jam_cuti_ganti
+        );
+
+
+        setNilaiCuti(
+            "lain1",
+            rekod.no_skb,
+            rekod.jam_lain1
+        );
+
+
+        setNilaiCuti(
+            "lain2",
+            rekod.no_skb,
+            rekod.jam_lain2
+        );
+
+    });
+
+// =====================================================
+// SET NILAI INPUT CUTI
+// =====================================================
+
+function setNilaiCuti(
+    jenis,
+    noSkb,
+    nilai
+) {
+
+    const input =
+
+        document.querySelector(
+
+            `.input-cuti[data-field="${jenis}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
+
+        );
+
+
+    if (!input) {
+
+        return;
+
+    }
+
+
+    input.value =
+
+        nilai === null ||
+        nilai === undefined ||
+        nilai === ""
+
+            ? ""
+
+            : nilai;
+
+}
+    // =================================================
+    // KIRA SEMULA
+    // =================================================
+
+    kiraJumlahCuti();
+
+    kiraRMKelengkapanCuti();
+
+
+    console.log(
+        "DATA CUTI PENGGANTI BERJAYA DIMUAT:",
+        data
+    );
+
+}
+    // =================================================
+    // BERJAYA
+    // =================================================
+
+    alert(
+        "Data Cuti Pengganti berjaya disimpan."
+    );
+
+}
     // =================================================
     // RETURN DATA
     // =================================================

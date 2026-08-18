@@ -1341,3 +1341,8 @@ button{
     text-align:left !important;
     padding-left:6px !important;
 }
+
+.rk02-table td:nth-child(2){
+    text-align:left !important;
+    padding-left:6px !important;
+}

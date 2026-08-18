@@ -89,7 +89,7 @@ async function mula() {
 
         await muatAnggota();
         loadDataPenggantiCuti();
-        await muatCutiPengganti();
+     
         await muatDataOperasiPos();
 
         paparJadualRK02();
@@ -4603,115 +4603,7 @@ function loadDataPenggantiCuti() {
 
 
 
-// =====================================================
-// ISI NILAI INPUT CUTI
-// =====================================================
 
-function setNilaiCuti(
-    field,
-    noSkb,
-    nilai
-) {
-
-    const input =
-        document.querySelector(
-            `.input-cuti[data-field="${field}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
-        );
-
-
-    if (!input) {
-
-        console.warn(
-            "INPUT CUTI TIDAK DIJUMPAI:",
-            field,
-            noSkb
-        );
-
-        return;
-
-    }
-
-
-    input.value =
-        (
-            nilai === null ||
-            nilai === undefined ||
-            nilai === ""
-        )
-            ? ""
-            : nilai;
-
-}
-  
-
-    // =================================================
-    // BINA DATA DARIPADA dataAnggota
-    // =================================================
-
-    dataPenggantiCuti =
-        (dataAnggota || []).map(
-            (anggota, index) => {
-
-                const noSkb =
-                    anggota.noskb ||
-                    anggota.no_skb ||
-                    anggota.noanggota ||
-                    "";
-
-
-                return {
-
-                    bil:
-                        index + 1,
-
-                    skb:
-                        String(noSkb),
-
-                    nama:
-                        anggota.nama || ""
-
-                };
-
-            }
-        );
-
-
-    console.log(
-        "DATA PENGGANTI CUTI:",
-        dataPenggantiCuti
-    );
-
-
-    // =================================================
-    // JIKA TIADA ANGGOTA
-    // =================================================
-
-    if (
-        dataPenggantiCuti.length === 0
-    ) {
-
-        tbody.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="10"
-                    class="text-center text-muted"
-                >
-
-                    Tiada data anggota
-
-                </td>
-
-            </tr>
-
-        `;
-
-        kiraJumlahCuti();
-
-        return;
-
-    }
 
 
     // =================================================

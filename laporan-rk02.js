@@ -1446,12 +1446,24 @@ let jumlah = {
 jamBiasa:0,
 kawalan:0,
 pentadbiran:0,
+
 pemandu:0,
+rmPemandu:0,
+
 tampungan:0,
+rmTampungan:0,
+
 eskot:0,
+rmEskot:0,
+
 cit:0,
+rmCit:0,
+
 wang:0,
-tambahan:0
+rmWang:0,
+
+tambahan:0,
+rmTambahan:0
 
 };
 
@@ -1494,7 +1506,18 @@ Number(data.jam_pos4 || 0) +
 Number(data.jam_pos5 || 0) +
 Number(data.jam_pos6 || 0);
 
+// ===================================
+// RM TUGAS TAMPUNGAN POS
+// ===================================
 
+jumlah.rmTampungan +=
+
+Number(data.rm_pos1 || 0) +
+Number(data.rm_pos2 || 0) +
+Number(data.rm_pos3 || 0) +
+Number(data.rm_pos4 || 0) +
+Number(data.rm_pos5 || 0) +
+Number(data.rm_pos6 || 0);
 
 // 05 KLM TUGAS ESKOT
 
@@ -1587,6 +1610,10 @@ jumlah.tambahan;
 setText("klm01", jumlah.pentadbiran);
 setText("klm02", jumlah.pemandu);
 setText("klm03", jumlah.tampungan);
+    setText(
+    "rmKlm03",
+    formatRM(jumlah.rmTampungan)
+);
 setText("klm04", jumlah.eskot);
 setText("klm05", jumlah.cit);
 setText("klm06", jumlah.wang);

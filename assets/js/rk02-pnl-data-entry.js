@@ -5069,35 +5069,4 @@ function setNilaiCuti(
     );
 
 }
-    // =================================================
-    // RETURN DATA
-    // =================================================
-
-    return {
-
-        cuti_tahun:
-            jumlah.cuti_tahun,
-
-        kursus:
-            jumlah.kursus,
-
-        cuti_sakit:
-            jumlah.cuti_sakit,
-
-        cuti_ehsan:
-            jumlah.cuti_ehsan,
-
-        cuti_ganti:
-            jumlah.cuti_ganti,
-
-        lain1:
-            jumlah.lain1,
-
-        lain2:
-            jumlah.lain2,
-
-        keseluruhan
-
-    };
-
-}
+   

@@ -658,13 +658,14 @@ function binaLaporanPos(){
     // =================================================
     // RK02 DATA ENTRY
     // KIRA SETIAP ANGGOTA SECARA INDIVIDU
+    // TAMPUNGAN TIDAK DIAMBIL KIRA
     // =================================================
 
     dataRK02.forEach(
         row => {
 
             // -----------------------------------------
-            // CARI ANGGOTA BERDASARKAN NO SKB
+            // CARI ANGGOTA
             // -----------------------------------------
 
             const anggota =
@@ -733,7 +734,8 @@ function binaLaporanPos(){
 
 
             // =================================================
-            // AMBIL KADAR ANGGOTA INI
+            // KADAR ANGGOTA
+            // SETIAP ANGGOTA GUNA KADAR SENDIRI
             // =================================================
 
             const kadarHariBiasa =
@@ -802,12 +804,11 @@ function binaLaporanPos(){
             // ABAIKAN
             // =================================================
 
-            // row.off4 tidak dikira
+            // row.off4 TIDAK DIKIRA
 
 
             // =================================================
             // OFF 4 - 8 JAM
-            // KADAR IKUT ANGGOTA
             // =================================================
 
             const off48 =
@@ -839,7 +840,6 @@ function binaLaporanPos(){
 
             // =================================================
             // OFF > 8 JAM
-            // KADAR IKUT ANGGOTA
             // =================================================
 
             const off8 =
@@ -871,7 +871,6 @@ function binaLaporanPos(){
 
             // =================================================
             // CUTI AM < 8 JAM
-            // KADAR IKUT ANGGOTA
             // =================================================
 
             const cuti8 =
@@ -903,7 +902,6 @@ function binaLaporanPos(){
 
             // =================================================
             // CUTI AM > 8 JAM
-            // KADAR IKUT ANGGOTA
             // =================================================
 
             const cuti8P =
@@ -936,220 +934,17 @@ function binaLaporanPos(){
     );
 
 
-   // =====================================================
-// TAMPUNGAN
-// TIDAK MASUK JUMLAH TUNTUTAN
-// =====================================================
-
-dataTampungan.forEach(
-    row => {
-
-        const anggota =
-            cariAnggota(
-                row.no_skb
-            );
-
-
-        if(!anggota){
-
-            console.warn(
-                "ANGGOTA TAMPUNGAN TIDAK DIJUMPAI:",
-                row.no_skb
-            );
-
-            return;
-
-        }
-
-
-        const pos =
-            String(
-                row.poskhidmat
-                ||
-                anggota.poskhidmat
-                ||
-                ""
-            ).trim();
-
-
-        if(!pos)
-            return;
-
-
-        if(!senaraiPos.has(pos)){
-
-            senaraiPos.set(
-                pos,
-                kosongPos(pos)
-            );
-
-        }
-
-
-        const item =
-            senaraiPos.get(pos);
-
-
-        if(row.no_skb){
-
-            item.anggota.add(
-                String(
-                    row.no_skb
-                )
-            );
-
-        }
-
-
-        // ---------------------------------------------
-        // TAMPUNGAN TIDAK DIAMBIL KIRA DALAM RM
-        // JUMLAH TUNTUTAN
-        // ---------------------------------------------
-
-        // Jangan tambah:
-        // item.rm
-        // item.klm
-        //
-        // Data tampungan tidak masuk
-        // dalam JUMLAH TUNTUTAN.
-    }
-);
-
-            // -----------------------------------------
-            // TAMPUNGAN GUNA KADAR ANGGOTA SENDIRI
-            // -----------------------------------------
-
-            const kadar =
-                nombor(
-                    anggota.rm_pehariklmbiasa
-                );
-
-
-            for(
-                let i = 1;
-                i <= 6;
-                i++
-            ){
-
-                const jam =
-                    nombor(
-                        row[
-                            `jam_pos${i}`
-                        ]
-                    );
-
-
-                const rm =
-                    jam *
-                    kadar;
-
-
-                item.klm +=
-                    jam;
-
-
-                item.rm +=
-                    rm;
-
-            }
-
-
-            // -----------------------------------------
-            // ESKOT
-            // -----------------------------------------
-
-            const eskot =
-                nombor(
-                    row.eskot
-                );
-
-
-            item.klm +=
-                eskot;
-
-
-            item.rm +=
-                eskot *
-                kadar;
-
-
-            // -----------------------------------------
-            // CIT
-            // -----------------------------------------
-
-            const cit =
-                nombor(
-                    row.cit
-                );
-
-
-            item.klm +=
-                cit;
-
-
-            item.rm +=
-                cit *
-                kadar;
-
-
-            // -----------------------------------------
-            // KAWALAN TAMBAHAN
-            // -----------------------------------------
-
-            const kawalan =
-                nombor(
-                    row.kawalan_tambahan
-                );
-
-
-            item.klm +=
-                kawalan;
-
-
-            item.rm +=
-                kawalan *
-                kadar;
-
-
-            // -----------------------------------------
-            // KAWALAN WANG
-            // -----------------------------------------
-
-            const kawalanWang =
-                nombor(
-                    row.kawalan_wang
-                );
-
-
-            item.klm +=
-                kawalanWang;
-
-
-            item.rm +=
-                kawalanWang *
-                kadar;
-
-
-            // -----------------------------------------
-            // PEMANDU
-            // -----------------------------------------
-
-            const pemandu =
-                nombor(
-                    row.pemandu
-                );
-
-
-            item.klm +=
-                pemandu;
-
-
-            item.rm +=
-                pemandu *
-                kadar;
-
-        }
-    );
+    // =================================================
+    // TAMPUNGAN
+    // =================================================
+    // TIDAK DIKIRA
+    // TIDAK MASUK KLM
+    // TIDAK MASUK RM
+    // TIDAK MASUK JUMLAH TUNTUTAN
+    //
+    // Data rk02_pos_tampungan sengaja diabaikan
+    // untuk laporan ini.
+    // =================================================
 
 
     // =================================================
@@ -1183,7 +978,6 @@ dataTampungan.forEach(
     );
 
 }
-
 
 // =====================================================
 // POS KOSONG

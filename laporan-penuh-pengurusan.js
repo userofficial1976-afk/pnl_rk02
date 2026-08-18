@@ -439,19 +439,17 @@ function resetLaporan(){
 
 async function muatSemuaData(){
 
-    await Promise.all([
+await Promise.all([
 
-        muatAnggota(),
+    muatAnggota(),
 
-        muatDuty(),
+    muatRK02(),
 
-        muatRK02(),
+    muatTampungan(),
 
-        muatTampungan(),
+    muatPos()
 
-        muatPos()
-
-    ]);
+]);
 
 }
 
@@ -489,49 +487,7 @@ async function muatAnggota(){
 }
 
 
-// =====================================================
-// JADUAL DUTY
-// =====================================================
 
-async function muatDuty(){
-
-    const {
-
-        data,
-        error
-
-    } =
-    await db
-        .from("jadual_duty")
-        .select("*")
-        .eq(
-            "bulan",
-            String(
-                bulanSemasa
-            )
-        )
-        .eq(
-            "tahun",
-            String(
-                tahunSemasa
-            )
-        );
-
-
-    if(error)
-        throw error;
-
-
-    dataDuty =
-        data || [];
-
-
-    console.log(
-        "DATA DUTY:",
-        dataDuty.length
-    );
-
-}
 
 
 // =====================================================
@@ -717,76 +673,6 @@ function binaLaporanPos(){
     );
 
 
-    // ---------------------------------------------
-    // JADUAL DUTY
-    // ---------------------------------------------
-
-    dataDuty.forEach(
-        row => {
-
-            const pos =
-                String(
-                    row.poskhidmat
-                    ||
-                    row.pos
-                    ||
-                    ""
-                ).trim();
-
-
-            if(!pos)
-                return;
-
-
-            if(!senaraiPos.has(pos)){
-
-                senaraiPos.set(
-                    pos,
-                    kosongPos(pos)
-                );
-
-            }
-
-
-            const item =
-                senaraiPos.get(pos);
-
-
-            if(row.no_skb){
-
-                item.anggota.add(
-                    String(
-                        row.no_skb
-                    )
-                );
-
-            }
-
-
-            const jam =
-                nombor(
-                    row.jam_kerja
-                    ||
-                    row.jam_klm
-                );
-
-
-            const rm =
-                kiraRMRow(
-                    row
-                );
-
-
-            item.hariBiasa += jam;
-
-            item.rmHariBiasa += rm;
-
-            item.klm += jam;
-
-            item.rm += rm;
-
-        }
-    );
 
 
     // ---------------------------------------------

@@ -2086,3 +2086,66 @@ async function muatCutiAwam() {
     );
 
 }
+
+
+function paparKetuaPengesahan(dataAnggota) {
+
+    if (!dataAnggota || !dataAnggota.length) {
+        return;
+    }
+
+    // ================================
+    // KETUA POS
+    // ================================
+
+    const ketuaPos = dataAnggota.find(
+        anggota =>
+            anggota.ketua_pos &&
+            String(anggota.ketua_pos).trim() !== ""
+    );
+
+    if (ketuaPos) {
+
+        const nama = String(ketuaPos.ketua_pos).trim();
+        const pangkat = String(ketuaPos.pangkat || "").trim();
+        const noAnggota = String(ketuaPos.noanggota || "").trim();
+
+        const paparan =
+            "(" + nama + ") " +
+            pangkat +
+            (noAnggota ? " / " + noAnggota : "");
+
+        setText(
+            "namaKetuaPos",
+            paparan
+        );
+    }
+
+
+    // ================================
+    // KETUA UNIT
+    // ================================
+
+    const ketuaUnit = dataAnggota.find(
+        anggota =>
+            anggota.ketua_unit &&
+            String(anggota.ketua_unit).trim() !== ""
+    );
+
+    if (ketuaUnit) {
+
+        const nama = String(ketuaUnit.ketua_unit).trim();
+        const pangkat = String(ketuaUnit.pangkat || "").trim();
+        const noAnggota = String(ketuaUnit.noanggota || "").trim();
+
+        const paparan =
+            "(" + nama + ") " +
+            pangkat +
+            (noAnggota ? " / " + noAnggota : "");
+
+        setText(
+            "namaKetuaUnit",
+            paparan
+        );
+    }
+}

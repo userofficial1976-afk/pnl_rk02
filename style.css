@@ -1435,3 +1435,34 @@ button{
     }
 
 }
+
+
+/* =========================================
+   HILANGKAN BAYANG / BORDER LUAR SEMASA PDF
+========================================= */
+
+@media print {
+
+    .rk02-report {
+
+        box-shadow: none !important;
+
+        border: none !important;
+
+        outline: none !important;
+
+        border-radius: 0 !important;
+
+        background: #fff !important;
+
+    }
+
+    body {
+
+        background: #fff !important;
+
+        box-shadow: none !important;
+
+    }
+
+}

@@ -139,7 +139,7 @@ await muatPengguna();
 
 
 await muatAnggota();
-
+paparKetuaPengesahan(dataAnggota);
 isiDropdownBulan();
 
 pasangEvent();
@@ -347,6 +347,9 @@ nama,
 pangkat,
 poskhidmat,
 unit,
+jawatan,
+ketua_pos,
+ketua_unit,
 gaji_pokok,
 
 rm_pehariklmbiasa,
@@ -2091,61 +2094,154 @@ async function muatCutiAwam() {
 function paparKetuaPengesahan(dataAnggota) {
 
     if (!dataAnggota || !dataAnggota.length) {
+        console.warn("DATA ANGGOTA TIADA");
         return;
     }
 
-    // ================================
+
+    // =========================================
     // KETUA POS
-    // ================================
+    // =========================================
 
     const ketuaPos = dataAnggota.find(
         anggota =>
+
             anggota.ketua_pos &&
-            String(anggota.ketua_pos).trim() !== ""
+
+            String(anggota.ketua_pos).trim() !== "" &&
+
+            (
+                !pengguna?.poskhidmat ||
+                String(anggota.poskhidmat || "").trim() ===
+                String(pengguna.poskhidmat || "").trim()
+            )
     );
+
 
     if (ketuaPos) {
 
-        const nama = String(ketuaPos.ketua_pos).trim();
-        const pangkat = String(ketuaPos.pangkat || "").trim();
-        const noAnggota = String(ketuaPos.noanggota || "").trim();
+        const nama =
+            String(
+                ketuaPos.ketua_pos || ""
+            ).trim();
 
-        const paparan =
-            "(" + nama + ") " +
-            pangkat +
-            (noAnggota ? " / " + noAnggota : "");
+
+        const pangkat =
+            String(
+                ketuaPos.pangkat || ""
+            ).trim();
+
+
+        const noAnggota =
+            String(
+                ketuaPos.noanggota || ""
+            ).trim();
+
+
+        let paparan =
+            "(" + nama + ")";
+
+
+        if (pangkat) {
+
+            paparan +=
+                " " + pangkat;
+
+        }
+
+
+        if (noAnggota) {
+
+            paparan +=
+                " / " + noAnggota;
+
+        }
+
 
         setText(
             "namaKetuaPos",
             paparan
         );
+
+
+        console.log(
+            "KETUA POS:",
+            paparan
+        );
+
     }
 
 
-    // ================================
+    // =========================================
     // KETUA UNIT
-    // ================================
+    // =========================================
 
     const ketuaUnit = dataAnggota.find(
         anggota =>
+
             anggota.ketua_unit &&
-            String(anggota.ketua_unit).trim() !== ""
+
+            String(anggota.ketua_unit).trim() !== "" &&
+
+            (
+                !pengguna?.unit ||
+                String(anggota.unit || "").trim() ===
+                String(pengguna.unit || "").trim()
+            )
     );
+
 
     if (ketuaUnit) {
 
-        const nama = String(ketuaUnit.ketua_unit).trim();
-        const pangkat = String(ketuaUnit.pangkat || "").trim();
-        const noAnggota = String(ketuaUnit.noanggota || "").trim();
+        const nama =
+            String(
+                ketuaUnit.ketua_unit || ""
+            ).trim();
 
-        const paparan =
-            "(" + nama + ") " +
-            pangkat +
-            (noAnggota ? " / " + noAnggota : "");
+
+        const pangkat =
+            String(
+                ketuaUnit.pangkat || ""
+            ).trim();
+
+
+        const noAnggota =
+            String(
+                ketuaUnit.noanggota || ""
+            ).trim();
+
+
+        let paparan =
+            "(" + nama + ")";
+
+
+        if (pangkat) {
+
+            paparan +=
+                " " + pangkat;
+
+        }
+
+
+        if (noAnggota) {
+
+            paparan +=
+                " / " + noAnggota;
+
+        }
+
 
         setText(
             "namaKetuaUnit",
             paparan
         );
+
+
+        console.log(
+            "KETUA UNIT:",
+            paparan
+        );
+
     }
+
 }

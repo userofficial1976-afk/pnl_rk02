@@ -1491,7 +1491,10 @@ dataTampungan.forEach((data)=>{
 // 03 KLM TUGAS PEMANDU
 
 jumlah.pemandu +=
-Number(data.pemandu || 0);
+    Number(data.pemandu || 0);
+
+jumlah.rmPemandu +=
+    Number(data.rm_pemandu || 0);
 
 
 
@@ -1608,6 +1611,10 @@ jumlah.tambahan;
 
 setText("klm01", jumlah.pentadbiran);
 setText("klm02", jumlah.pemandu);
+    setText(
+    "rmKlm02",
+    formatRM(jumlah.rmPemandu)
+);
 setText("klm03", jumlah.tampungan);
     setText(
     "rmKlm03",

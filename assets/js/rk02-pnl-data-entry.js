@@ -4444,3 +4444,112 @@ function loadDataPenggantiCuti(){
     kiraJumlahCuti();
 
 }
+
+
+// =====================================================
+// EVENT INPUT CUTI
+// =====================================================
+
+function pasangEventCuti(){
+
+    const inputs =
+        document.querySelectorAll(
+            ".input-cuti"
+        );
+
+
+    inputs.forEach(input => {
+
+        input.addEventListener(
+            "input",
+            kiraJumlahCuti
+        );
+
+    });
+
+}
+
+
+
+// =====================================================
+// KIRA JUMLAH CUTI
+// =====================================================
+
+function kiraJumlahCuti(){
+
+    const fields = [
+
+        {
+            field: "cuti_tahun",
+            total: "totalCutiTahun"
+        },
+
+        {
+            field: "kursus",
+            total: "totalKursus"
+        },
+
+        {
+            field: "cuti_sakit",
+            total: "totalCutiSakit"
+        },
+
+        {
+            field: "cuti_ehsan",
+            total: "totalCutiEhsan"
+        },
+
+        {
+            field: "cuti_ganti",
+            total: "totalCutiGanti"
+        },
+
+        {
+            field: "lain1",
+            total: "totalLain1"
+        },
+
+        {
+            field: "lain2",
+            total: "totalLain2"
+        }
+
+    ];
+
+
+    fields.forEach(item => {
+
+        let jumlah = 0;
+
+
+        document
+            .querySelectorAll(
+                `.input-cuti[data-field="${item.field}"]`
+            )
+            .forEach(input => {
+
+                const nilai =
+                    parseFloat(input.value) || 0;
+
+                jumlah += nilai;
+
+            });
+
+
+        const element =
+            document.getElementById(
+                item.total
+            );
+
+
+        if(element){
+
+            element.textContent =
+                jumlah.toFixed(2)
+                    .replace(/\.00$/, "");
+
+        }
+
+    });
+
+}

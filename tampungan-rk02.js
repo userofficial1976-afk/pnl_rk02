@@ -118,6 +118,43 @@ function muatPengguna(){
 
         }
 
+                // =================================================
+        // NAMA PENGGUNA
+        // =================================================
+
+        const namaPengguna =
+            document.getElementById(
+                "namaPengguna"
+            );
+
+
+        if(namaPengguna){
+
+            namaPengguna.textContent =
+                pengguna.nama || "-";
+
+        }
+
+
+        // =================================================
+        // JAWATAN PENGGUNA
+        // =================================================
+
+        const jawatanPengguna =
+            document.getElementById(
+                "jawatanPengguna"
+            );
+
+
+        if(jawatanPengguna){
+
+            jawatanPengguna.textContent =
+                pengguna.jawatan || "-";
+
+        }
+
+
+        
 
         document.getElementById(
             "namaPos"

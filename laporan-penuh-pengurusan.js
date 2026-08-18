@@ -420,7 +420,7 @@ function resetLaporan(){
         <tr>
 
             <td
-                colspan="17"
+                colspan="15"
                 class="empty-row"
             >
                 Sedang memuatkan data...

@@ -439,17 +439,15 @@ function resetLaporan(){
 
 async function muatSemuaData(){
 
-await Promise.all([
+    await Promise.all([
 
-    muatAnggota(),
+        muatAnggota(),
 
-    muatRK02(),
+        muatRK02(),
 
-    muatTampungan(),
+        muatPos()
 
-    muatPos()
-
-]);
+    ]);
 
 }
 

@@ -1699,10 +1699,15 @@ function binaRumusanKLM(){
         formatRM(jumlah.rmTambahan)
     );
 
-    setText(
-        "klm08",
-        jumlah.kawalan
-    );
+setText(
+    "klm08",
+    jumlah.kawalan
+);
+
+setText(
+    "rmKlm01",
+    formatRM(jumlah.rmKawalan)
+);
 
 
     // ===================================

@@ -4220,7 +4220,7 @@ function kawalMenuPTW(){
 
 // =====================================================
 // DATA PENGGANTI CUTI
-// GUNA SENARAI ANGGOTA SECTION 4
+// GUNA DATA ANGGOTA SECTION 4
 // =====================================================
 
 let dataPenggantiCuti = [];
@@ -4228,7 +4228,6 @@ let dataPenggantiCuti = [];
 
 // =====================================================
 // LOAD DATA PENGGANTI CUTI
-// DARIPADA dataAnggota
 // =====================================================
 
 function loadDataPenggantiCuti() {
@@ -4238,6 +4237,10 @@ function loadDataPenggantiCuti() {
             "dataPenggantiCutiBody"
         );
 
+
+    // =================================================
+    // SEMAK TABLE BODY
+    // =================================================
 
     if (!tbody) {
 
@@ -4250,22 +4253,25 @@ function loadDataPenggantiCuti() {
     }
 
 
+    // =================================================
+    // KOSONGKAN PAPARAN LAMA
+    // =================================================
+
     tbody.innerHTML = "";
 
 
     // =================================================
-    // GUNA DATA ANGGOTA YANG SAMA DENGAN SECTION 4
+    // BINA DATA DARIPADA dataAnggota
     // =================================================
 
     dataPenggantiCuti =
-        dataAnggota.map(
+        (dataAnggota || []).map(
             (anggota, index) => {
 
                 const noSkb =
-                    anggota.noskb
-                    ||
-                    anggota.noanggota
-                    ||
+                    anggota.noskb ||
+                    anggota.no_skb ||
+                    anggota.noanggota ||
                     "";
 
 
@@ -4275,7 +4281,7 @@ function loadDataPenggantiCuti() {
                         index + 1,
 
                     skb:
-                        noSkb,
+                        String(noSkb),
 
                     nama:
                         anggota.nama || ""
@@ -4286,8 +4292,46 @@ function loadDataPenggantiCuti() {
         );
 
 
+    console.log(
+        "DATA PENGGANTI CUTI:",
+        dataPenggantiCuti
+    );
+
+
     // =================================================
-    // PAPAR SENARAI
+    // JIKA TIADA ANGGOTA
+    // =================================================
+
+    if (
+        dataPenggantiCuti.length === 0
+    ) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="10"
+                    class="text-center text-muted"
+                >
+
+                    Tiada data anggota
+
+                </td>
+
+            </tr>
+
+        `;
+
+        kiraJumlahCuti();
+
+        return;
+
+    }
+
+
+    // =================================================
+    // PAPAR SETIAP ANGGOTA
     // =================================================
 
     dataPenggantiCuti.forEach(
@@ -4456,292 +4500,24 @@ function loadDataPenggantiCuti() {
     );
 
 
+    // =================================================
     // PASANG EVENT INPUT
+    // =================================================
 
     pasangEventCuti();
 
 
+    // =================================================
     // KIRA JUMLAH
+    // =================================================
 
     kiraJumlahCuti();
 
-}
 
-// =====================================================
-// LOAD DATA PENGGANTI CUTI
-// =====================================================
-
-function loadDataPenggantiCuti(){
-
-    const tbody =
-        document.getElementById(
-            "dataPenggantiCutiBody"
-        );
-
-    if(!tbody){
-
-        console.warn(
-            "dataPenggantiCutiBody tidak dijumpai."
-        );
-
-        return;
-
-    }
-
-
-    tbody.innerHTML = "";
-
-
-    dataPenggantiCuti.forEach((anggota) => {
-
-        const tr =
-            document.createElement("tr");
-
-
-        tr.innerHTML = `
-
-            <td>
-                ${anggota.bil}
-            </td>
-
-
-            <td class="skb-cell">
-
-                ${anggota.skb || "-"}
-
-            </td>
-
-
-            <td class="name-cell">
-
-                ${anggota.nama || "-"}
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="cuti_tahun"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="kursus"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="cuti_sakit"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="cuti_ehsan"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="cuti_ganti"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="lain1"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-
-            <td>
-
-                <input
-                    type="number"
-                    min="0"
-                    step="0.5"
-                    class="input-cuti"
-                    data-field="lain2"
-                    data-bil="${anggota.bil}"
-                    value=""
-                >
-
-            </td>
-
-        `;
-
-
-        tbody.appendChild(tr);
-
-    });
-
-
-    pasangEventCuti();
-
-    kiraJumlahCuti();
-
-}
-
-
-// =====================================================
-// EVENT INPUT CUTI
-// =====================================================
-
-function pasangEventCuti(){
-
-    const inputs =
-        document.querySelectorAll(
-            ".input-cuti"
-        );
-
-
-    inputs.forEach(input => {
-
-        input.addEventListener(
-            "input",
-            kiraJumlahCuti
-        );
-
-    });
-
-}
-
-
-
-// =====================================================
-// KIRA JUMLAH CUTI
-// =====================================================
-
-function kiraJumlahCuti(){
-
-    const fields = [
-
-        {
-            field: "cuti_tahun",
-            total: "totalCutiTahun"
-        },
-
-        {
-            field: "kursus",
-            total: "totalKursus"
-        },
-
-        {
-            field: "cuti_sakit",
-            total: "totalCutiSakit"
-        },
-
-        {
-            field: "cuti_ehsan",
-            total: "totalCutiEhsan"
-        },
-
-        {
-            field: "cuti_ganti",
-            total: "totalCutiGanti"
-        },
-
-        {
-            field: "lain1",
-            total: "totalLain1"
-        },
-
-        {
-            field: "lain2",
-            total: "totalLain2"
-        }
-
-    ];
-
-
-    fields.forEach(item => {
-
-        let jumlah = 0;
-
-
-        document
-            .querySelectorAll(
-                `.input-cuti[data-field="${item.field}"]`
-            )
-            .forEach(input => {
-
-                const nilai =
-                    parseFloat(input.value) || 0;
-
-                jumlah += nilai;
-
-            });
-
-
-        const element =
-            document.getElementById(
-                item.total
-            );
-
-
-        if(element){
-
-            element.textContent =
-                jumlah.toFixed(2)
-                    .replace(/\.00$/, "");
-
-        }
-
-    });
+    console.log(
+        "DATA SECTION 5 BERJAYA DIPAPAR:",
+        dataPenggantiCuti.length,
+        "ANGGOTA"
+    );
 
 }

@@ -1668,195 +1668,23 @@ window.print();
 
 
 // =====================================================
-// MUAT CUTI AWAM
+// TEST MUAT CUTI AWAM
 // =====================================================
 
 async function muatCutiAwam() {
 
     console.log("=================================");
-    console.log("MUAT CUTI AWAM");
+    console.log("TEST CUTI AWAM");
     console.log("=================================");
-
-
-    // =========================================
-    // BULAN
-    // =========================================
-
-    const bulanValue =
-        Number(
-            document.getElementById("bulan")?.value
-        );
-
-
-    const namaBulan =
-        SENARAI_BULAN[bulanValue];
-
-
-    console.log(
-        "BULAN VALUE :",
-        bulanValue
-    );
-
-
-    console.log(
-        "NAMA BULAN  :",
-        namaBulan
-    );
-
-
-    // =========================================
-    // KOSONGKAN PAPARAN
-    // =========================================
-
-    for (let i = 1; i <= 5; i++) {
-
-        const row =
-            document.getElementById(
-                "cutiAwam" + i
-            );
-
-        if (row) {
-            row.textContent = "-";
-        }
-
-    }
-
-
-    // =========================================
-    // QUERY SUPABASE
-    // =========================================
 
     const {
         data,
         error
     } = await db
         .from("cuti_awam")
-        .select("*")
-        .eq("bulan", namaBulan)
-        .eq("tahun", 2026)
-        .eq("negeri", "Terengganu")
-        .eq("status", "AKTIF")
-        .order("tarikh", {
-            ascending: true
-        });
+        .select("*");
 
-
-    // =========================================
-    // PAPAR ERROR
-    // =========================================
-
-    if (error) {
-
-        console.error(
-            "RALAT CUTI AWAM:",
-            error
-        );
-
-        return;
-    }
-
-
-    // =========================================
-    // DEBUG
-    // =========================================
-
-    console.log(
-        "DATA CUTI AWAM:",
-        data
-    );
-
-
-    console.log(
-        "JUMLAH CUTI:",
-        data?.length || 0
-    );
-
-
-    // =========================================
-    // PAPAR CUTI
-    // =========================================
-
-    (data || [])
-        .slice(0, 5)
-        .forEach(
-            (cuti, index) => {
-
-                const row =
-                    document.getElementById(
-                        "cutiAwam" +
-                        (index + 1)
-                    );
-
-
-                if (!row) {
-                    return;
-                }
-
-
-                let paparan =
-                    "";
-
-
-                // =============================
-                // TARIKH
-                // =============================
-
-                if (cuti.tarikh) {
-
-                    const tarikh =
-                        new Date(
-                            cuti.tarikh +
-                            "T00:00:00"
-                        );
-
-
-                    const hari =
-                        String(
-                            tarikh.getDate()
-                        ).padStart(2, "0");
-
-
-                    const bulan =
-                        String(
-                            tarikh.getMonth() + 1
-                        ).padStart(2, "0");
-
-
-                    const tahun =
-                        tarikh.getFullYear();
-
-
-                    paparan =
-                        `${hari}/${bulan}/${tahun}`;
-
-                }
-
-
-                // =============================
-                // NAMA CUTI
-                // =============================
-
-                if (cuti.nama_cuti) {
-
-                    if (paparan) {
-                        paparan += " - ";
-                    }
-
-                    paparan +=
-                        cuti.nama_cuti;
-
-                }
-
-
-                row.textContent =
-                    paparan || "-";
-
-            }
-        );
-
-
-    console.log(
-        "CUTI AWAM SELESAI"
-    );
+    console.log("DATA CUTI AWAM TEST:", data);
+    console.log("ERROR CUTI AWAM TEST:", error);
 
 }

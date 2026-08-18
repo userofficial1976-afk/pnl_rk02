@@ -1323,9 +1323,7 @@ function binaJadual(){
                 </td>
 
 
-                <td>
-                    ${escapeHTML(item.pos)}
-                </td>
+
 
 
                 <td>

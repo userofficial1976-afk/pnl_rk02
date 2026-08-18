@@ -625,9 +625,9 @@ function binaLaporanPos(){
         new Map();
 
 
-    // ---------------------------------------------
+    // =================================================
     // DATA ANGGOTA
-    // ---------------------------------------------
+    // =================================================
 
     dataAnggota.forEach(
         anggota => {
@@ -646,25 +646,7 @@ function binaLaporanPos(){
 
                 senaraiPos.set(
                     pos,
-                    {
-                        pos:pos,
-                        namaPos:cariNamaPos(pos),
-                        anggota:new Set(),
-                        hariBiasa:0,
-                        rmHariBiasa:0,
-                        off4Hari:0,
-                        off4RM:0,
-                        off48Hari:0,
-                        off48RM:0,
-                        off8Jam:0,
-                        off8RM:0,
-                        cuti8Hari:0,
-                        cuti8RM:0,
-                        cuti8PJam:0,
-                        cuti8PRM:0,
-                        klm:0,
-                        rm:0
-                    }
+                    kosongPos(pos)
                 );
 
             }
@@ -673,14 +655,17 @@ function binaLaporanPos(){
     );
 
 
-
-
-    // ---------------------------------------------
+    // =================================================
     // RK02 DATA ENTRY
-    // ---------------------------------------------
+    // KIRA SETIAP ANGGOTA SECARA INDIVIDU
+    // =================================================
 
     dataRK02.forEach(
         row => {
+
+            // -----------------------------------------
+            // CARI ANGGOTA BERDASARKAN NO SKB
+            // -----------------------------------------
 
             const anggota =
                 cariAnggota(
@@ -688,11 +673,27 @@ function binaLaporanPos(){
                 );
 
 
+            if(!anggota){
+
+                console.warn(
+                    "ANGGOTA TIDAK DIJUMPAI:",
+                    row.no_skb
+                );
+
+                return;
+
+            }
+
+
+            // -----------------------------------------
+            // POS
+            // -----------------------------------------
+
             const pos =
                 String(
                     row.poskhidmat
                     ||
-                    anggota?.poskhidmat
+                    anggota.poskhidmat
                     ||
                     ""
                 ).trim();
@@ -716,6 +717,10 @@ function binaLaporanPos(){
                 senaraiPos.get(pos);
 
 
+            // -----------------------------------------
+            // SIMPAN ANGGOTA
+            // -----------------------------------------
+
             if(row.no_skb){
 
                 item.anggota.add(
@@ -727,7 +732,43 @@ function binaLaporanPos(){
             }
 
 
-            // Hari biasa
+            // =================================================
+            // AMBIL KADAR ANGGOTA INI
+            // =================================================
+
+            const kadarHariBiasa =
+                nombor(
+                    anggota.rm_pehariklmbiasa
+                );
+
+
+            const kadarHariOff =
+                nombor(
+                    anggota.rm_perharioffday
+                );
+
+
+            const kadarJamOff =
+                nombor(
+                    anggota.rm_perjamoffday
+                );
+
+
+            const kadarHariCuti =
+                nombor(
+                    anggota.rm_perharicutiam
+                );
+
+
+            const kadarJamCuti =
+                nombor(
+                    anggota.rm_perjamcutiam
+                );
+
+
+            // =================================================
+            // HARI BIASA
+            // =================================================
 
             const hariBiasa =
                 nombor(
@@ -735,14 +776,9 @@ function binaLaporanPos(){
                 );
 
 
-            const kadar =
-                kadarRM(
-                    anggota
-                );
-
-
             const rmHariBiasa =
-                hariBiasa * kadar;
+                hariBiasa *
+                kadarHariBiasa;
 
 
             item.hariBiasa +=
@@ -761,31 +797,18 @@ function binaLaporanPos(){
                 rmHariBiasa;
 
 
-            // OFF 4
+            // =================================================
+            // OFF4
+            // ABAIKAN
+            // =================================================
 
-            const off4 =
-                nombor(
-                    row.off4
-                );
-
-
-            item.off4Hari +=
-                off4;
+            // row.off4 tidak dikira
 
 
-            item.off4RM +=
-                off4 * kadar;
-
-
-            item.klm +=
-                off4;
-
-
-            item.rm +=
-                off4 * kadar;
-
-
-            // OFF 4-8
+            // =================================================
+            // OFF 4 - 8 JAM
+            // KADAR IKUT ANGGOTA
+            // =================================================
 
             const off48 =
                 nombor(
@@ -793,12 +816,17 @@ function binaLaporanPos(){
                 );
 
 
+            const rmOff48 =
+                off48 *
+                kadarHariOff;
+
+
             item.off48Hari +=
                 off48;
 
 
             item.off48RM +=
-                off48 * kadar;
+                rmOff48;
 
 
             item.klm +=
@@ -806,10 +834,13 @@ function binaLaporanPos(){
 
 
             item.rm +=
-                off48 * kadar;
+                rmOff48;
 
 
-            // OFF > 8
+            // =================================================
+            // OFF > 8 JAM
+            // KADAR IKUT ANGGOTA
+            // =================================================
 
             const off8 =
                 nombor(
@@ -817,12 +848,17 @@ function binaLaporanPos(){
                 );
 
 
+            const rmOff8 =
+                off8 *
+                kadarJamOff;
+
+
             item.off8Jam +=
                 off8;
 
 
             item.off8RM +=
-                off8 * kadar;
+                rmOff8;
 
 
             item.klm +=
@@ -830,10 +866,13 @@ function binaLaporanPos(){
 
 
             item.rm +=
-                off8 * kadar;
+                rmOff8;
 
 
-            // CUTI < 8
+            // =================================================
+            // CUTI AM < 8 JAM
+            // KADAR IKUT ANGGOTA
+            // =================================================
 
             const cuti8 =
                 nombor(
@@ -841,12 +880,17 @@ function binaLaporanPos(){
                 );
 
 
+            const rmCuti8 =
+                cuti8 *
+                kadarHariCuti;
+
+
             item.cuti8Hari +=
                 cuti8;
 
 
             item.cuti8RM +=
-                cuti8 * kadar;
+                rmCuti8;
 
 
             item.klm +=
@@ -854,10 +898,13 @@ function binaLaporanPos(){
 
 
             item.rm +=
-                cuti8 * kadar;
+                rmCuti8;
 
 
-            // CUTI > 8
+            // =================================================
+            // CUTI AM > 8 JAM
+            // KADAR IKUT ANGGOTA
+            // =================================================
 
             const cuti8P =
                 nombor(
@@ -865,12 +912,17 @@ function binaLaporanPos(){
                 );
 
 
+            const rmCuti8P =
+                cuti8P *
+                kadarJamCuti;
+
+
             item.cuti8PJam +=
                 cuti8P;
 
 
             item.cuti8PRM +=
-                cuti8P * kadar;
+                rmCuti8P;
 
 
             item.klm +=
@@ -878,15 +930,16 @@ function binaLaporanPos(){
 
 
             item.rm +=
-                cuti8P * kadar;
+                rmCuti8P;
 
         }
     );
 
 
-    // ---------------------------------------------
+    // =================================================
     // TAMPUNGAN
-    // ---------------------------------------------
+    // KIRA MENGIKUT ANGGOTA
+    // =================================================
 
     dataTampungan.forEach(
         row => {
@@ -897,11 +950,23 @@ function binaLaporanPos(){
                 );
 
 
+            if(!anggota){
+
+                console.warn(
+                    "ANGGOTA TAMPUNGAN TIDAK DIJUMPAI:",
+                    row.no_skb
+                );
+
+                return;
+
+            }
+
+
             const pos =
                 String(
                     row.poskhidmat
                     ||
-                    anggota?.poskhidmat
+                    anggota.poskhidmat
                     ||
                     ""
                 ).trim();
@@ -936,15 +1001,19 @@ function binaLaporanPos(){
             }
 
 
+            // -----------------------------------------
+            // TAMPUNGAN GUNA KADAR ANGGOTA SENDIRI
+            // -----------------------------------------
+
             const kadar =
-                kadarRM(
-                    anggota
+                nombor(
+                    anggota.rm_pehariklmbiasa
                 );
 
 
             for(
-                let i=1;
-                i<=6;
+                let i = 1;
+                i <= 6;
                 i++
             ){
 
@@ -957,15 +1026,23 @@ function binaLaporanPos(){
 
 
                 const rm =
-                    jam * kadar;
+                    jam *
+                    kadar;
 
 
-                item.klm += jam;
+                item.klm +=
+                    jam;
 
-                item.rm += rm;
+
+                item.rm +=
+                    rm;
 
             }
 
+
+            // -----------------------------------------
+            // ESKOT
+            // -----------------------------------------
 
             const eskot =
                 nombor(
@@ -976,9 +1053,15 @@ function binaLaporanPos(){
             item.klm +=
                 eskot;
 
-            item.rm +=
-                eskot * kadar;
 
+            item.rm +=
+                eskot *
+                kadar;
+
+
+            // -----------------------------------------
+            // CIT
+            // -----------------------------------------
 
             const cit =
                 nombor(
@@ -989,9 +1072,15 @@ function binaLaporanPos(){
             item.klm +=
                 cit;
 
-            item.rm +=
-                cit * kadar;
 
+            item.rm +=
+                cit *
+                kadar;
+
+
+            // -----------------------------------------
+            // KAWALAN TAMBAHAN
+            // -----------------------------------------
 
             const kawalan =
                 nombor(
@@ -1002,9 +1091,15 @@ function binaLaporanPos(){
             item.klm +=
                 kawalan;
 
-            item.rm +=
-                kawalan * kadar;
 
+            item.rm +=
+                kawalan *
+                kadar;
+
+
+            // -----------------------------------------
+            // KAWALAN WANG
+            // -----------------------------------------
 
             const kawalanWang =
                 nombor(
@@ -1015,9 +1110,15 @@ function binaLaporanPos(){
             item.klm +=
                 kawalanWang;
 
-            item.rm +=
-                kawalanWang * kadar;
 
+            item.rm +=
+                kawalanWang *
+                kadar;
+
+
+            // -----------------------------------------
+            // PEMANDU
+            // -----------------------------------------
 
             const pemandu =
                 nombor(
@@ -1028,12 +1129,18 @@ function binaLaporanPos(){
             item.klm +=
                 pemandu;
 
+
             item.rm +=
-                pemandu * kadar;
+                pemandu *
+                kadar;
 
         }
     );
 
+
+    // =================================================
+    // HASIL AKHIR
+    // =================================================
 
     laporanPos =
         Array.from(

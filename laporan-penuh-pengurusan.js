@@ -936,70 +936,84 @@ function binaLaporanPos(){
     );
 
 
-    // =================================================
-    // TAMPUNGAN
-    // KIRA MENGIKUT ANGGOTA
-    // =================================================
+   // =====================================================
+// TAMPUNGAN
+// TIDAK MASUK JUMLAH TUNTUTAN
+// =====================================================
 
-    dataTampungan.forEach(
-        row => {
+dataTampungan.forEach(
+    row => {
 
-            const anggota =
-                cariAnggota(
-                    row.no_skb
-                );
-
-
-            if(!anggota){
-
-                console.warn(
-                    "ANGGOTA TAMPUNGAN TIDAK DIJUMPAI:",
-                    row.no_skb
-                );
-
-                return;
-
-            }
+        const anggota =
+            cariAnggota(
+                row.no_skb
+            );
 
 
-            const pos =
+        if(!anggota){
+
+            console.warn(
+                "ANGGOTA TAMPUNGAN TIDAK DIJUMPAI:",
+                row.no_skb
+            );
+
+            return;
+
+        }
+
+
+        const pos =
+            String(
+                row.poskhidmat
+                ||
+                anggota.poskhidmat
+                ||
+                ""
+            ).trim();
+
+
+        if(!pos)
+            return;
+
+
+        if(!senaraiPos.has(pos)){
+
+            senaraiPos.set(
+                pos,
+                kosongPos(pos)
+            );
+
+        }
+
+
+        const item =
+            senaraiPos.get(pos);
+
+
+        if(row.no_skb){
+
+            item.anggota.add(
                 String(
-                    row.poskhidmat
-                    ||
-                    anggota.poskhidmat
-                    ||
-                    ""
-                ).trim();
+                    row.no_skb
+                )
+            );
+
+        }
 
 
-            if(!pos)
-                return;
+        // ---------------------------------------------
+        // TAMPUNGAN TIDAK DIAMBIL KIRA DALAM RM
+        // JUMLAH TUNTUTAN
+        // ---------------------------------------------
 
-
-            if(!senaraiPos.has(pos)){
-
-                senaraiPos.set(
-                    pos,
-                    kosongPos(pos)
-                );
-
-            }
-
-
-            const item =
-                senaraiPos.get(pos);
-
-
-            if(row.no_skb){
-
-                item.anggota.add(
-                    String(
-                        row.no_skb
-                    )
-                );
-
-            }
-
+        // Jangan tambah:
+        // item.rm
+        // item.klm
+        //
+        // Data tampungan tidak masuk
+        // dalam JUMLAH TUNTUTAN.
+    }
+);
 
             // -----------------------------------------
             // TAMPUNGAN GUNA KADAR ANGGOTA SENDIRI

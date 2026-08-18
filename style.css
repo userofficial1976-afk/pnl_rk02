@@ -1351,17 +1351,16 @@ button{
    RUMUSAN KLM - SEMUA RM RATA KANAN
 ========================================= */
 
-.rk02-bottom-table .rm-klm,
-.rk02-bottom-table .jumlah-rm,
-.rk02-bottom-table .jumlahRmKeseluruhan {
 
-    text-align: right !important;
+/* =========================================
+   RM RUMUSAN KLM - RATA KANAN
+   ========================================= */
 
-    padding-right: 6px !important;
-
-}
-}
-.jumlah-rm{
-    text-align:right !important;
-    padding-right:6px !important;
+.rk02-bottom-table td.rm-klm,
+.rk02-bottom-table td.jumlah-rm,
+.rk02-bottom-table td[id^="rmKlm"],
+.rk02-bottom-table td[id="jumlahRmKLM"],
+.rk02-bottom-table td[id="rmKlm01"] {
+    text-align: right;
+    padding-right: 8px;
 }

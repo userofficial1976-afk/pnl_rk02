@@ -584,154 +584,139 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
             
             <thead>
 
-                <tr>
+    <!-- BARIS 1 -->
+    <tr>
 
-                    <th rowspan="3">
-                        BIL
-                    </th>
+        <th rowspan="3">
+            BIL
+        </th>
 
+        <th rowspan="3"
+            class="pos-name-header"
+        >
+            NAMA POS KAWALAN
+        </th>
 
+        <th colspan="2">
+            HARI BIASA
+        </th>
 
-                    <th rowspan="3"
-                        class="pos-name-header"
-                    >
-                        NAMA POS KAWALAN
-                    </th>
+        <th colspan="2">
+            HARI CUTI OFF
+        </th>
 
+        <th colspan="2">
+            HARI CUTI OFF
+        </th>
 
-                    <th colspan="2">
-                        HARI BIASA
-                    </th>
+        <th colspan="2">
+            HARI CUTI OFF
+        </th>
 
+        <th colspan="2">
+            HARI CUTI AM
+        </th>
 
-                    <th colspan="2">
-                        HARI CUTI OFF
-                    </th>
+        <th colspan="2">
+            HARI CUTI AM
+        </th>
 
+        <th rowspan="3">
+            JUMLAH TUNTUTAN
+        </th>
 
-                    <th colspan="2">
-                        HARI CUTI OFF
-                    </th>
-
-
-                    <th colspan="2">
-                        HARI CUTI OFF
-                    </th>
-
-
-                    <th colspan="2">
-                        HARI CUTI AM
-                    </th>
-
-
-                    <th colspan="2">
-                        HARI CUTI AM
-                    </th>
-
-
-                    <th colspan="2">
-                        JUMLAH TUNTUTAN
-                    </th>
-
-                </tr>
+    </tr>
 
 
-                <tr>
+    <!-- BARIS 2 -->
+    <tr>
 
-                    <th rowspan="2">
-                        JAM
-                    </th>
+        <th rowspan="2">
+            JAM
+        </th>
 
-                    <th rowspan="2">
-                        RM
-                    </th>
-
-
-                    <th colspan="2">
-                        KURANG 4 JAM
-                    </th>
+        <th rowspan="2">
+            RM
+        </th>
 
 
-                    <th colspan="2">
-                        4 JAM HINGGA 8 JAM
-                    </th>
+        <th colspan="2">
+            KURANG 4 JAM
+        </th>
 
 
-                    <th colspan="2">
-                        LEBIH 8 JAM
-                    </th>
+        <th colspan="2">
+            4 JAM HINGGA 8 JAM
+        </th>
 
 
-                    <th colspan="2">
-                        KURANG 8 JAM
-                    </th>
+        <th colspan="2">
+            LEBIH 8 JAM
+        </th>
 
 
-                    <th colspan="2">
-                        LEBIH 8 JAM
-                    </th>
+        <th colspan="2">
+            KURANG 8 JAM
+        </th>
 
 
-                    <th rowspan="2">
-                        KLM
-                    </th>
+        <th colspan="2">
+            LEBIH 8 JAM
+        </th>
 
-                    <th rowspan="2">
-                        RM
-                    </th>
-
-                </tr>
+    </tr>
 
 
-                <tr>
+    <!-- BARIS 3 -->
+    <tr>
 
-                    <th>
-                        HARI
-                    </th>
+        <th>
+            HARI
+        </th>
 
-                    <th>
-                        RM
-                    </th>
-
-
-                    <th>
-                        HARI
-                    </th>
-
-                    <th>
-                        RM
-                    </th>
+        <th>
+            RM
+        </th>
 
 
-                    <th>
-                        JAM
-                    </th>
+        <th>
+            HARI
+        </th>
 
-                    <th>
-                        RM
-                    </th>
-
-
-                    <th>
-                        HARI
-                    </th>
-
-                    <th>
-                        RM
-                    </th>
+        <th>
+            RM
+        </th>
 
 
-                    <th>
-                        JAM
-                    </th>
+        <th>
+            JAM
+        </th>
 
-                    <th>
-                        RM
-                    </th>
+        <th>
+            RM
+        </th>
 
-                </tr>
 
-            </thead>
+        <th>
+            HARI
+        </th>
+
+        <th>
+            RM
+        </th>
+
+
+        <th>
+            JAM
+        </th>
+
+        <th>
+            RM
+        </th>
+
+    </tr>
+
+</thead>
 
 
             <tbody id="laporanTableBody">
@@ -754,7 +739,6 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
 
     <tr>
 
-        <!-- BIL + NAMA POS -->
         <td
             colspan="2"
             class="total-label"
@@ -764,6 +748,7 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
 
 
         <!-- HARI BIASA -->
+
         <td id="totalHariBiasa">
             0
         </td>
@@ -773,7 +758,8 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
         </td>
 
 
-        <!-- OFF < 4 JAM -->
+        <!-- OFF KURANG 4 JAM -->
+
         <td id="totalOff4Hari">
             0
         </td>
@@ -784,6 +770,7 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
 
 
         <!-- OFF 4 - 8 JAM -->
+
         <td id="totalOff48Hari">
             0
         </td>
@@ -793,7 +780,8 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
         </td>
 
 
-        <!-- OFF > 8 JAM -->
+        <!-- OFF LEBIH 8 JAM -->
+
         <td id="totalOff8Jam">
             0
         </td>
@@ -803,7 +791,8 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
         </td>
 
 
-        <!-- CUTI AM < 8 JAM -->
+        <!-- CUTI AM KURANG 8 JAM -->
+
         <td id="totalCuti8Hari">
             0
         </td>
@@ -813,7 +802,8 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
         </td>
 
 
-        <!-- CUTI AM > 8 JAM -->
+        <!-- CUTI AM LEBIH 8 JAM -->
+
         <td id="totalCuti8PJam">
             0
         </td>
@@ -823,21 +813,18 @@ Laporan Penuh Pengurusan — FPB Duty Command Center V2
         </td>
 
 
-        <!-- JUMLAH KLM -->
-        <td id="totalKLM">
-            0
-        </td>
+        <!-- JUMLAH TUNTUTAN -->
 
-
-        <!-- JUMLAH RM -->
-        <td id="totalRM">
+        <td
+            id="totalRM"
+            class="money-cell"
+        >
             RM 0.00
         </td>
 
     </tr>
 
 </tfoot>
-
         </table>
 
     </div>

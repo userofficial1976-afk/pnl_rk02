@@ -136,10 +136,11 @@ return;
 
 
 await muatPengguna();
-
-
+await muatPos();
 await muatAnggota();
-paparKetuaPengesahan(dataAnggota);
+
+paparKetuaPengesahan();
+
 isiDropdownBulan();
 
 pasangEvent();
@@ -2091,189 +2092,163 @@ async function muatCutiAwam() {
 }
 
 
-function paparKetuaPengesahan(dataAnggota) {
+function paparKetuaPengesahan() {
 
-    if (!dataAnggota || !dataAnggota.length) {
-        console.warn("DATA ANGGOTA TIADA");
+    // =================================================
+    // SEMAK DATA POS
+    // =================================================
+
+    if (!dataPos || !dataPos.length) {
+        console.warn("DATA POS TIADA");
         return;
     }
 
 
     // =================================================
-    // KETUA POS
+    // CARI POS PENGGUNA
     // =================================================
 
-    const rekodKetuaPos = dataAnggota.find(
-        anggota => {
-
-            const namaKetua =
-                String(anggota.ketua_pos || "").trim();
-
-            const namaAnggota =
-                String(anggota.nama || "").trim();
-
-            const pos =
-                String(anggota.poskhidmat || "").trim();
-
-            const posPengguna =
-                String(pengguna?.poskhidmat || "").trim();
+    const posPengguna =
+        String(
+            pengguna?.poskhidmat || ""
+        ).trim();
 
 
-            return (
-                namaKetua !== "" &&
-                namaAnggota !== "" &&
-
-                namaAnggota.toLowerCase() ===
-                namaKetua.toLowerCase() &&
-
-                (
-                    !posPengguna ||
-                    pos === posPengguna
-                )
-            );
-
-        }
+    const rekodPos = dataPos.find(
+        pos =>
+            String(
+                pos.pos_kawalan || ""
+            ).trim().toLowerCase()
+            ===
+            posPengguna.toLowerCase()
     );
 
 
-    if (rekodKetuaPos) {
+    if (!rekodPos) {
 
-        const nama =
-            String(
-                rekodKetuaPos.nama || ""
-            ).trim();
-
-        const pangkat =
-            String(
-                rekodKetuaPos.pangkat || ""
-            ).trim();
-
-        const noAnggota =
-            String(
-                rekodKetuaPos.noanggota || ""
-            ).trim();
-
-
-        let paparan =
-            "(" + nama + ")";
-
-
-        if (pangkat) {
-
-            paparan +=
-                " " + pangkat;
-
-        }
-
-
-        if (noAnggota) {
-
-            paparan +=
-                " / " + noAnggota;
-
-        }
-
+        console.warn(
+            "POS TIDAK DIJUMPAI DALAM DATA_POS:",
+            posPengguna
+        );
 
         setText(
             "namaKetuaPos",
-            paparan
+            "-"
         );
 
-
-        console.log(
-            "KETUA POS:",
-            rekodKetuaPos
+        setText(
+            "namaKetuaUnit",
+            "-"
         );
+
+        return;
+    }
+
+
+    // =================================================
+    // NAMA POS
+    // AMBIL TERUS DARI DATA_POS
+    // =================================================
+
+    setText(
+        "namaPos",
+        rekodPos.pos_kawalan || "-"
+    );
+
+
+    // =================================================
+    // KETUA POS
+    // NAMA + NO ANGGOTA SAHAJA
+    // =================================================
+
+    const namaKetuaPos =
+        String(
+            rekodPos.ketua_pos || ""
+        ).trim();
+
+    const noAnggotaKP =
+        String(
+            rekodPos.no_anggotakp || ""
+        ).trim();
+
+
+    let paparanKetuaPos = "-";
+
+
+    if (namaKetuaPos) {
+
+        paparanKetuaPos =
+            "(" +
+            namaKetuaPos +
+            ")";
+
+        if (noAnggotaKP) {
+
+            paparanKetuaPos +=
+                " / " +
+                noAnggotaKP;
+
+        }
 
     }
+
+
+    setText(
+        "namaKetuaPos",
+        paparanKetuaPos
+    );
 
 
     // =================================================
     // KETUA UNIT
+    // NAMA + NO ANGGOTA SAHAJA
     // =================================================
 
-    const rekodKetuaUnit = dataAnggota.find(
-        anggota => {
+    const namaKetuaUnit =
+        String(
+            rekodPos.ketua_unit || ""
+        ).trim();
 
-            const namaKetua =
-                String(anggota.ketua_unit || "").trim();
-
-            const namaAnggota =
-                String(anggota.nama || "").trim();
-
-            const unit =
-                String(anggota.unit || "").trim();
-
-            const unitPengguna =
-                String(pengguna?.unit || "").trim();
+    const noAnggotaKU =
+        String(
+            rekodPos.no_anggotaku || ""
+        ).trim();
 
 
-            return (
-                namaKetua !== "" &&
-                namaAnggota !== "" &&
+    let paparanKetuaUnit = "-";
 
-                namaAnggota.toLowerCase() ===
-                namaKetua.toLowerCase() &&
 
-                (
-                    !unitPengguna ||
-                    unit === unitPengguna
-                )
-            );
+    if (namaKetuaUnit) {
+
+        paparanKetuaUnit =
+            "(" +
+            namaKetuaUnit +
+            ")";
+
+        if (noAnggotaKU) {
+
+            paparanKetuaUnit +=
+                " / " +
+                noAnggotaKU;
 
         }
+
+    }
+
+
+    setText(
+        "namaKetuaUnit",
+        paparanKetuaUnit
     );
 
 
-    if (rekodKetuaUnit) {
+    // =================================================
+    // DEBUG
+    // =================================================
 
-        const nama =
-            String(
-                rekodKetuaUnit.nama || ""
-            ).trim();
-
-        const pangkat =
-            String(
-                rekodKetuaUnit.pangkat || ""
-            ).trim();
-
-        const noAnggota =
-            String(
-                rekodKetuaUnit.noanggota || ""
-            ).trim();
-
-
-        let paparan =
-            "(" + nama + ")";
-
-
-        if (pangkat) {
-
-            paparan +=
-                " " + pangkat;
-
-        }
-
-
-        if (noAnggota) {
-
-            paparan +=
-                " / " + noAnggota;
-
-        }
-
-
-        setText(
-            "namaKetuaUnit",
-            paparan
-        );
-
-
-        console.log(
-            "KETUA UNIT:",
-            rekodKetuaUnit
-        );
-
-    }
+    console.log(
+        "DATA POS UNTUK PENGESAHAN:",
+        rekodPos
+    );
 
 }

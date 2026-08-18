@@ -1710,7 +1710,17 @@ setText(
     jumlah.wang +
     jumlah.tambahan
 );
-
+setText(
+    "jumlahRmKLM",
+    formatRM(
+        jumlah.rmPemandu +
+        jumlah.rmTampungan +
+        jumlah.rmEskot +
+        jumlah.rmCit +
+        jumlah.rmWang +
+        jumlah.rmTambahan
+    )
+);
 
     console.log(
         "RUMUSAN KLM",

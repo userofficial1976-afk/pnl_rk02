@@ -1693,10 +1693,16 @@ function binaRumusanKLM(){
     );
 
 
-    setText(
-        "jumlahKLM",
-        jumlah.jamBiasa
-    );
+    // ===================================
+// JUMLAH KLM
+// AMBIL TERUS DARI TABLE RK02 ATAS
+// JUMLAH JAM HARI BIASA
+// ===================================
+
+setText(
+    "jumlahKLM",
+    document.getElementById("jumlahJamBiasa")?.textContent || "0"
+);
 
 
     console.log(

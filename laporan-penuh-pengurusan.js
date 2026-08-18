@@ -1720,7 +1720,7 @@ function binaSummary(){
         "summaryJam"
     ).textContent =
         formatJam(
-            total.klm
+            total.hariBiasa
         );
 
 
@@ -1744,7 +1744,7 @@ function binaSummary(){
         "finalKLM"
     ).textContent =
         formatJam(
-            total.klm
+            total.hariBiasa
         )
         +
         " JAM";

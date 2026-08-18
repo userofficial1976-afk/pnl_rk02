@@ -1702,12 +1702,13 @@ function binaRumusanKLM(){
 
 setText(
     "jumlahKLM",
-    laporanRK02.reduce(
-        (total, data) => {
-            return total + Number(data.hariBiasa || 0);
-        },
-        0
-    )
+    jumlah.kawalan +
+    jumlah.pemandu +
+    jumlah.tampungan +
+    jumlah.eskot +
+    jumlah.cit +
+    jumlah.wang +
+    jumlah.tambahan
 );
 
 

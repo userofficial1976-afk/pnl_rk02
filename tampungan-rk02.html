@@ -5,17 +5,208 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-<title>RK02 - Tampungan Pos</title>
+<title>
+RK02 - Tampungan Pos — FPB Duty Command Center V2
+</title>
 
-<link rel="stylesheet" href="tampungan-rk02.css">
+<link
+rel="icon"
+type="image/png"
+href="logo.png"
+>
+
+<link
+rel="apple-touch-icon"
+href="logo.png"
+>
+
+<link
+rel="manifest"
+href="manifest.json"
+>
+
+<!-- MASTER COMMAND THEME -->
+<link
+rel="stylesheet"
+href="assets/css/command-theme.css"
+>
+
+<!-- PAGE CSS -->
+<link
+rel="stylesheet"
+href="tampungan-rk02.css"
+>
 
 </head>
 
 
 <body>
 
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img
+        src="logo.png"
+        alt="FPB Logo"
+        >
+
+        <div>
+
+            <strong>
+            FPB DUTY
+            </strong>
+
+            <span>
+            COMMAND CENTER V2
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+
+        <a
+        href="rk02-pnl-data-entry.html"
+        >
+
+            <span>
+            🏠
+            </span>
+
+            Pengisian Data RK02
+
+        </a>
+
+
+        <a
+        href="tampungan-rk02.html"
+        class="active"
+        >
+
+            <span>
+            📝
+            </span>
+
+            Tampungan Pos
+
+        </a>
+
+
+        <a
+        href="laporan-rk02.html"
+        >
+
+            <span>
+            📊
+            </span>
+
+            Cetak RK-02
+
+        </a>
+
+
+        <a
+        href="tetapan.html"
+        >
+
+            <span>
+            ⚙️
+            </span>
+
+            Tetapan
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <small>
+        FPB Duty System
+        </small>
+
+        <strong>
+        Wilayah Terengganu
+        </strong>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main class="main-content">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="topbar">
+
+    <div>
+
+        <h2>
+        RK02 - Tampungan Pos
+        </h2>
+
+        <p>
+        Pengurusan jam dan RM tampungan anggota
+        </p>
+
+    </div>
+
+
+    <div class="topbar-user">
+
+        <div>
+
+            <strong id="namaPengguna">
+            NAMA PENGGUNA
+            </strong>
+
+            <span id="jawatanPengguna">
+            KETUA POS
+            </span>
+
+        </div>
+
+
+        <div class="user-avatar">
+
+            KP
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     PAGE CONTAINER
+===================================================== -->
 
 <div class="page-container">
 
@@ -29,11 +220,16 @@
         <div>
 
             <div class="header-title">
+
                 RK02 - TAMPUNGAN POS
+
             </div>
 
+
             <div class="header-subtitle">
+
                 PAPARAN JAM DAN RM TAMPUNGAN ANGGOTA
+
             </div>
 
         </div>
@@ -42,13 +238,24 @@
         <div class="header-info">
 
             <div>
+
                 POS :
-                <strong id="namaPos">-</strong>
+
+                <strong id="namaPos">
+                    -
+                </strong>
+
             </div>
 
+
             <div>
+
                 BULAN :
-                <strong id="bulanTahun">-</strong>
+
+                <strong id="bulanTahun">
+                    -
+                </strong>
+
             </div>
 
         </div>
@@ -70,20 +277,56 @@
                 BULAN
             </label>
 
+
             <select id="bulan">
 
-                <option value="1">JANUARI</option>
-                <option value="2">FEBRUARI</option>
-                <option value="3">MAC</option>
-                <option value="4">APRIL</option>
-                <option value="5">MEI</option>
-                <option value="6">JUN</option>
-                <option value="7">JULAI</option>
-                <option value="8">OGOS</option>
-                <option value="9">SEPTEMBER</option>
-                <option value="10">OKTOBER</option>
-                <option value="11">NOVEMBER</option>
-                <option value="12">DISEMBER</option>
+                <option value="1">
+                    JANUARI
+                </option>
+
+                <option value="2">
+                    FEBRUARI
+                </option>
+
+                <option value="3">
+                    MAC
+                </option>
+
+                <option value="4">
+                    APRIL
+                </option>
+
+                <option value="5">
+                    MEI
+                </option>
+
+                <option value="6">
+                    JUN
+                </option>
+
+                <option value="7">
+                    JULAI
+                </option>
+
+                <option value="8">
+                    OGOS
+                </option>
+
+                <option value="9">
+                    SEPTEMBER
+                </option>
+
+                <option value="10">
+                    OKTOBER
+                </option>
+
+                <option value="11">
+                    NOVEMBER
+                </option>
+
+                <option value="12">
+                    DISEMBER
+                </option>
 
             </select>
 
@@ -97,10 +340,20 @@
                 TAHUN
             </label>
 
+
             <select id="tahun">
 
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
+                <option value="2026">
+                    2026
+                </option>
+
+                <option value="2027">
+                    2027
+                </option>
+
+                <option value="2028">
+                    2028
+                </option>
 
             </select>
 
@@ -113,7 +366,9 @@
             id="btnPapar"
             class="btn-primary"
         >
+
             PAPAR
+
         </button>
 
 
@@ -122,7 +377,9 @@
             id="btnUpdate"
             class="btn-success"
         >
+
             KEMAS KINI RM KE SUPABASE
+
         </button>
 
 
@@ -138,7 +395,9 @@
         id="status"
         class="status-box"
     >
+
         Sila pilih bulan dan tahun kemudian tekan PAPAR.
+
     </div>
 
 
@@ -156,11 +415,15 @@
                 JUMLAH ANGGOTA
             </span>
 
+
             <strong id="jumlahAnggota">
+
                 0
+
             </strong>
 
         </div>
+
 
 
         <div class="summary-item">
@@ -169,11 +432,15 @@
                 JUMLAH JAM TAMPUNGAN
             </span>
 
+
             <strong id="jumlahJam">
+
                 0.00 JAM
+
             </strong>
 
         </div>
+
 
 
         <div class="summary-item">
@@ -182,8 +449,11 @@
                 JUMLAH RM TAMPUNGAN
             </span>
 
+
             <strong id="jumlahRM">
+
                 RM 0.00
+
             </strong>
 
         </div>
@@ -205,18 +475,105 @@
     </div>
 
 
-
 </div>
 
 
+</main>
 
-<!-- SUPABASE -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase-config.js"></script>
+<!-- =====================================================
+     MOBILE BOTTOM NAV
+===================================================== -->
 
-<script src="tampungan-rk02.js"></script>
+<nav class="mobile-bottom-nav">
+
+
+    <a href="dashboard.html">
+
+        🏠
+
+        <span>
+        Dashboard
+        </span>
+
+    </a>
+
+
+
+    <a href="jadual-duty.html">
+
+        📅
+
+        <span>
+        Duty
+        </span>
+
+    </a>
+
+
+
+    <a
+    href="rk02-pnl-data-entry.html"
+    >
+
+        📝
+
+        <span>
+        RK02
+        </span>
+
+    </a>
+
+
+
+    <a
+    href="tampungan-rk02.html"
+    class="active"
+    >
+
+        📦
+
+        <span>
+        Tampungan
+        </span>
+
+    </a>
+
+
+
+    <a href="laporan-rk02.html">
+
+        📊
+
+        <span>
+        Laporan
+        </span>
+
+    </a>
+
+
+</nav>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<script
+src="supabase-config.js"
+></script>
+
+
+<script
+src="tampungan-rk02.js"
+></script>
 
 
 </body>

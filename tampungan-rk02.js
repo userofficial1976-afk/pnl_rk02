@@ -920,7 +920,10 @@ function kemasKiniJumlah(
 
 
 // =====================================================
-// UPDATE SEMUA RM
+// UPDATE SEMUA RM KE SUPABASE
+// =====================================================
+// SEMUA JAM X rm_pehariklmbiasa
+// rm_tampungan TIDAK DISENTUH
 // =====================================================
 
 async function updateSemuaRM(){
@@ -940,7 +943,7 @@ async function updateSemuaRM(){
 
     const sahkan =
         confirm(
-            "Kemas kini semua RM tampungan ke Supabase?"
+            "Kemas kini semua RM ke Supabase?"
         );
 
 
@@ -949,16 +952,23 @@ async function updateSemuaRM(){
 
 
     setStatus(
-        "Sedang mengemaskini RM ke Supabase..."
+        "Sedang mengira dan mengemaskini RM ke Supabase..."
     );
 
 
     try{
 
+        let berjaya = 0;
+
+
         for(
             const row
             of dataTampungan
         ){
+
+            // -----------------------------------------
+            // CARI DATA ANGGOTA
+            // -----------------------------------------
 
             const anggota =
                 cariAnggota(
@@ -969,7 +979,7 @@ async function updateSemuaRM(){
             if(!anggota){
 
                 console.warn(
-                    "ANGGOTA TIDAK DIJUMPAI",
+                    "ANGGOTA TIDAK DIJUMPAI:",
                     row.no_skb
                 );
 
@@ -978,12 +988,26 @@ async function updateSemuaRM(){
             }
 
 
-            const updateData = {};
+            // -----------------------------------------
+            // KADAR RM
+            // -----------------------------------------
+
+            const kadar =
+                kadarRM(
+                    anggota
+                );
+
+
+            // -----------------------------------------
+            // KIRA RM POS 1 - 6
+            // -----------------------------------------
+
+            const rmPos = {};
 
 
             for(
-                let i=1;
-                i<=6;
+                let i = 1;
+                i <= 6;
                 i++
             ){
 
@@ -995,20 +1019,132 @@ async function updateSemuaRM(){
                     );
 
 
-                const rm =
-                    kiraRM(
-                        jam,
-                        anggota
-                    );
-
-
-                updateData[
+                rmPos[
                     `rm_pos${i}`
                 ] =
-                    rm;
+                    jam * kadar;
 
             }
 
+
+            // -----------------------------------------
+            // KIRA RM ESKOT
+            // -----------------------------------------
+
+            const jamEskot =
+                Number(
+                    row.eskot || 0
+                );
+
+
+            const rmEskot =
+                jamEskot * kadar;
+
+
+            // -----------------------------------------
+            // KIRA RM CIT
+            // -----------------------------------------
+
+            const jamCit =
+                Number(
+                    row.cit || 0
+                );
+
+
+            const rmCit =
+                jamCit * kadar;
+
+
+            // -----------------------------------------
+            // KIRA RM KAWALAN TAMBAHAN
+            // -----------------------------------------
+
+            const jamKawalanTambahan =
+                Number(
+                    row.kawalan_tambahan || 0
+                );
+
+
+            const rmKawalanTambahan =
+                jamKawalanTambahan * kadar;
+
+
+            // -----------------------------------------
+            // KIRA RM KAWALAN WANG
+            // -----------------------------------------
+
+            const jamKawalanWang =
+                Number(
+                    row.kawalan_wang || 0
+                );
+
+
+            const rmKawalanWang =
+                jamKawalanWang * kadar;
+
+
+            // -----------------------------------------
+            // KIRA RM PEMANDU
+            // -----------------------------------------
+
+            const jamPemandu =
+                Number(
+                    row.pemandu || 0
+                );
+
+
+            const rmPemandu =
+                jamPemandu * kadar;
+
+
+            // -----------------------------------------
+            // DATA UNTUK SUPABASE
+            // -----------------------------------------
+            // NOTA:
+            // rm_tampungan TIDAK DIMASUKKAN
+            // -----------------------------------------
+
+            const updateData = {
+
+                rm_pos1:
+                    rmPos.rm_pos1,
+
+                rm_pos2:
+                    rmPos.rm_pos2,
+
+                rm_pos3:
+                    rmPos.rm_pos3,
+
+                rm_pos4:
+                    rmPos.rm_pos4,
+
+                rm_pos5:
+                    rmPos.rm_pos5,
+
+                rm_pos6:
+                    rmPos.rm_pos6,
+
+                rm_eskot:
+                    rmEskot,
+
+                rm_cit:
+                    rmCit,
+
+                rm_kawalan_tambahan:
+                    rmKawalanTambahan,
+
+                rm_kawalan_wang:
+                    rmKawalanWang,
+
+                rm_pemandu:
+                    rmPemandu
+
+            };
+
+
+            // -----------------------------------------
+            // UPDATE SUPABASE
+            // -----------------------------------------
 
             const {
                 error
@@ -1030,25 +1166,33 @@ async function updateSemuaRM(){
                 throw error;
 
 
+            // -----------------------------------------
+            // KEMAS KINI DATA TEMPATAN
+            // -----------------------------------------
+
             Object.assign(
                 row,
                 updateData
             );
 
+
+            berjaya++;
+
         }
 
 
+        // -----------------------------------------
+        // SELESAI
+        // -----------------------------------------
+
         setStatus(
-            "RM tampungan berjaya dikemaskini ke Supabase."
+            `${berjaya} rekod RM berjaya dikemaskini ke Supabase.`
         );
 
 
         alert(
-            "RM tampungan berjaya dikemaskini."
+            `${berjaya} rekod RM berjaya dikemaskini.`
         );
-
-
-        binaPaparan();
 
 
     }
@@ -1056,7 +1200,7 @@ async function updateSemuaRM(){
     catch(error){
 
         console.error(
-            "UPDATE RM ERROR",
+            "UPDATE RM ERROR:",
             error
         );
 
@@ -1067,13 +1211,14 @@ async function updateSemuaRM(){
 
 
         alert(
-            "Gagal mengemaskini RM."
+            "Gagal mengemaskini RM ke Supabase.\n\n"
+            +
+            error.message
         );
 
     }
 
 }
-
 
 // =====================================================
 // STATUS

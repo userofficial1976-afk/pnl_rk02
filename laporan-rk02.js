@@ -634,12 +634,12 @@ tahunLaporan
 
 
 
-
+await muatCutiAwam();
 await muatRK02Entry();
 
 await muatTampungan();
 
-await muatCutiAwam();
+
 
 prosesRK02();
 
@@ -1667,49 +1667,32 @@ window.print();
 
 
 
+// =====================================================
+// LOAD CUTI AWAM
+// BULAN SAHAJA
+// =====================================================
+
 async function muatCutiAwam() {
 
-    const bulan =
-        document.getElementById("bulan").value;
+    const bulanElement =
+        document.getElementById("bulan");
 
-    if (!bulan) {
+    if (!bulanElement) {
+        console.error("DROPDOWN BULAN TIDAK DIJUMPAI");
         return;
     }
+
+    const bulan =
+        bulanElement.value;
 
     const namaBulan =
         SENARAI_BULAN[Number(bulan)];
 
-    console.log(
-        "CARI CUTI AWAM BULAN:",
-        namaBulan
-    );
-
-    const {
-        data,
-        error
-    } = await db
-        .from("cuti_awam")
-        .select("*")
-        .eq("bulan", namaBulan)
-        .order("tarikh", {
-            ascending: true
-        });
-
-    if (error) {
-
-        console.error(
-            "RALAT MUAT CUTI AWAM:",
-            error
-        );
-
-        return;
-    }
-
-
-    console.log(
-        "DATA CUTI AWAM:",
-        data
-    );
+    console.log("=================================");
+    console.log("MUAT CUTI AWAM");
+    console.log("BULAN VALUE :", bulan);
+    console.log("NAMA BULAN  :", namaBulan);
+    console.log("=================================");
 
 
     // =========================================
@@ -1731,10 +1714,55 @@ async function muatCutiAwam() {
 
 
     // =========================================
-    // PAPAR MAKSIMUM 5 CUTI
+    // AMBIL DATA CUTI AWAM
+    // BULAN SAHAJA
     // =========================================
 
-    (data || [])
+    const {
+        data,
+        error
+    } = await db
+        .from("cuti_awam")
+        .select("*")
+        .eq("bulan", namaBulan)
+        .order("tarikh", {
+            ascending: true
+        });
+
+
+    if (error) {
+
+        console.error(
+            "RALAT CUTI AWAM :",
+            error
+        );
+
+        return;
+    }
+
+
+    console.log(
+        "DATA CUTI AWAM DITERIMA :",
+        data
+    );
+
+
+    // =========================================
+    // PAPAR 5 ROW
+    // =========================================
+
+    if (!data || data.length === 0) {
+
+        console.warn(
+            "TIADA DATA CUTI AWAM UNTUK :",
+            namaBulan
+        );
+
+        return;
+    }
+
+
+    data
         .slice(0, 5)
         .forEach((cuti, index) => {
 
@@ -1743,12 +1771,13 @@ async function muatCutiAwam() {
                     "cutiAwam" + (index + 1)
                 );
 
+
             if (!row) {
                 return;
             }
 
 
-            let paparan = "";
+            let tarikhText = "";
 
 
             // =================================
@@ -1776,7 +1805,7 @@ async function muatCutiAwam() {
                     tarikh.getFullYear();
 
 
-                paparan =
+                tarikhText =
                     `${hari}/${bulanTarikh}/${tahunTarikh}`;
 
             }
@@ -1786,17 +1815,46 @@ async function muatCutiAwam() {
             // NAMA CUTI
             // =================================
 
-            if (cuti.nama_cuti) {
+            const namaCuti =
+                cuti.nama_cuti || "";
 
-                paparan +=
+
+            // =================================
+            // PAPAR
+            // =================================
+
+            if (
+                tarikhText &&
+                namaCuti
+            ) {
+
+                row.textContent =
+                    tarikhText +
                     " - " +
-                    cuti.nama_cuti;
+                    namaCuti;
 
             }
 
+            else if (tarikhText) {
 
-            row.textContent =
-                paparan || "-";
+                row.textContent =
+                    tarikhText;
+
+            }
+
+            else if (namaCuti) {
+
+                row.textContent =
+                    namaCuti;
+
+            }
+
+            else {
+
+                row.textContent =
+                    "-";
+
+            }
 
         });
 

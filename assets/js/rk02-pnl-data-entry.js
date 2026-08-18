@@ -4218,144 +4218,229 @@ function kawalMenuPTW(){
 }
 
 
-/* =====================================================
-   DATA PENGGANTI CUTI
-===================================================== */
-
-.rk02-cuti-table{
-
-    min-width:1500px;
-
-}
-
-
-.rk02-cuti-table thead th{
-
-    vertical-align:middle;
-
-    line-height:1.35;
-
-}
-
-
-.rk02-cuti-table thead th small{
-
-    display:block;
-
-    margin-top:4px;
-
-    font-size:9px;
-
-    font-weight:600;
-
-    opacity:.85;
-
-}
-
-
-.rk02-cuti-table tbody td{
-
-    vertical-align:middle;
-
-}
-
-
-/* NAMA ANGGOTA */
-
-.rk02-cuti-table .name-cell{
-
-    min-width:280px;
-
-    text-align:left;
-
-    padding-left:16px;
-
-    font-weight:700;
-
-}
-
-
-/* INPUT JAM */
-
-.rk02-cuti-table input{
-
-    width:75px;
-
-    height:37px;
-
-    padding:0 7px;
-
-    border:
-
-    1px solid
-
-    #d5e1e2;
-
-    border-radius:9px;
-
-    outline:none;
-
-    color:#24474b;
-
-    background:#ffffff;
-
-    font-family:inherit;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    text-align:center;
-
-}
-
-
-.rk02-cuti-table input:focus{
-
-    border-color:#247b83;
-
-    box-shadow:
-
-    0 0 0 3px
-
-    rgba(
-        36,
-        123,
-        131,
-        .10
-    );
-
-}
-
-
-/* NO SKB */
-
-.rk02-cuti-table .skb-cell{
-
-    color:#247b83;
-
-    font-weight:800;
-
-}
-
-
-/* BARIS JUMLAH */
-
-.rk02-cuti-table tfoot td{
-
-    font-weight:900;
-
-}
-
-
-/* MOBILE */
-
-@media(max-width:800px){
-
-    .rk02-cuti-table{
-
-        min-width:1500px;
+// =====================================================
+// DATA PENGGANTI CUTI
+// =====================================================
+
+const dataPenggantiCuti = [
+
+    {
+        bil: 1,
+        skb: "2503643",
+        nama: "Mohd Shaiful Azlan Bin Md Amran"
+    },
+
+    {
+        bil: 2,
+        skb: "2503826",
+        nama: "Ahmad Hazwan Bin Khalid"
+    },
+
+    {
+        bil: 3,
+        skb: "2502356",
+        nama: "Nazri Bin Embong"
+    },
+
+    {
+        bil: 4,
+        skb: "2504129",
+        nama: "Mohd Ridzuan Bin Muhamad"
+    },
+
+    {
+        bil: 5,
+        skb: "2504555",
+        nama: "Wan 'Aaishah Binti Wan Daud"
+    },
+
+    {
+        bil: 6,
+        skb: "",
+        nama: ""
+    },
+
+    {
+        bil: 7,
+        skb: "",
+        nama: ""
+    },
+
+    {
+        bil: 8,
+        skb: "",
+        nama: ""
+    }
+
+];
+
+
+// =====================================================
+// LOAD DATA PENGGANTI CUTI
+// =====================================================
+
+function loadDataPenggantiCuti(){
+
+    const tbody =
+        document.getElementById(
+            "dataPenggantiCutiBody"
+        );
+
+    if(!tbody){
+
+        console.warn(
+            "dataPenggantiCutiBody tidak dijumpai."
+        );
+
+        return;
 
     }
+
+
+    tbody.innerHTML = "";
+
+
+    dataPenggantiCuti.forEach((anggota) => {
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+
+            <td>
+                ${anggota.bil}
+            </td>
+
+
+            <td class="skb-cell">
+
+                ${anggota.skb || "-"}
+
+            </td>
+
+
+            <td class="name-cell">
+
+                ${anggota.nama || "-"}
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="cuti_tahun"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="kursus"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="cuti_sakit"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="cuti_ehsan"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="cuti_ganti"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="lain1"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+
+            <td>
+
+                <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input-cuti"
+                    data-field="lain2"
+                    data-bil="${anggota.bil}"
+                    value=""
+                >
+
+            </td>
+
+        `;
+
+
+        tbody.appendChild(tr);
+
+    });
+
+
+    pasangEventCuti();
+
+    kiraJumlahCuti();
 
 }

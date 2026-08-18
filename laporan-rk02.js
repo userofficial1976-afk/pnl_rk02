@@ -2099,42 +2099,58 @@ function paparKetuaPengesahan(dataAnggota) {
     }
 
 
-    // =========================================
+    // =================================================
     // KETUA POS
-    // =========================================
+    // =================================================
 
-    const ketuaPos = dataAnggota.find(
-        anggota =>
+    const rekodKetuaPos = dataAnggota.find(
+        anggota => {
 
-            anggota.ketua_pos &&
+            const namaKetua =
+                String(anggota.ketua_pos || "").trim();
 
-            String(anggota.ketua_pos).trim() !== "" &&
+            const namaAnggota =
+                String(anggota.nama || "").trim();
 
-            (
-                !pengguna?.poskhidmat ||
-                String(anggota.poskhidmat || "").trim() ===
-                String(pengguna.poskhidmat || "").trim()
-            )
+            const pos =
+                String(anggota.poskhidmat || "").trim();
+
+            const posPengguna =
+                String(pengguna?.poskhidmat || "").trim();
+
+
+            return (
+                namaKetua !== "" &&
+                namaAnggota !== "" &&
+
+                namaAnggota.toLowerCase() ===
+                namaKetua.toLowerCase() &&
+
+                (
+                    !posPengguna ||
+                    pos === posPengguna
+                )
+            );
+
+        }
     );
 
 
-    if (ketuaPos) {
+    if (rekodKetuaPos) {
 
         const nama =
             String(
-                ketuaPos.ketua_pos || ""
+                rekodKetuaPos.nama || ""
             ).trim();
-
 
         const pangkat =
             String(
-                ketuaPos.pangkat || ""
+                rekodKetuaPos.pangkat || ""
             ).trim();
-
 
         const noAnggota =
             String(
-                ketuaPos.noanggota || ""
+                rekodKetuaPos.noanggota || ""
             ).trim();
 
 
@@ -2166,48 +2182,64 @@ function paparKetuaPengesahan(dataAnggota) {
 
         console.log(
             "KETUA POS:",
-            paparan
+            rekodKetuaPos
         );
 
     }
 
 
-    // =========================================
+    // =================================================
     // KETUA UNIT
-    // =========================================
+    // =================================================
 
-    const ketuaUnit = dataAnggota.find(
-        anggota =>
+    const rekodKetuaUnit = dataAnggota.find(
+        anggota => {
 
-            anggota.ketua_unit &&
+            const namaKetua =
+                String(anggota.ketua_unit || "").trim();
 
-            String(anggota.ketua_unit).trim() !== "" &&
+            const namaAnggota =
+                String(anggota.nama || "").trim();
 
-            (
-                !pengguna?.unit ||
-                String(anggota.unit || "").trim() ===
-                String(pengguna.unit || "").trim()
-            )
+            const unit =
+                String(anggota.unit || "").trim();
+
+            const unitPengguna =
+                String(pengguna?.unit || "").trim();
+
+
+            return (
+                namaKetua !== "" &&
+                namaAnggota !== "" &&
+
+                namaAnggota.toLowerCase() ===
+                namaKetua.toLowerCase() &&
+
+                (
+                    !unitPengguna ||
+                    unit === unitPengguna
+                )
+            );
+
+        }
     );
 
 
-    if (ketuaUnit) {
+    if (rekodKetuaUnit) {
 
         const nama =
             String(
-                ketuaUnit.ketua_unit || ""
+                rekodKetuaUnit.nama || ""
             ).trim();
-
 
         const pangkat =
             String(
-                ketuaUnit.pangkat || ""
+                rekodKetuaUnit.pangkat || ""
             ).trim();
-
 
         const noAnggota =
             String(
-                ketuaUnit.noanggota || ""
+                rekodKetuaUnit.noanggota || ""
             ).trim();
 
 
@@ -2239,7 +2271,7 @@ function paparKetuaPengesahan(dataAnggota) {
 
         console.log(
             "KETUA UNIT:",
-            paparan
+            rekodKetuaUnit
         );
 
     }

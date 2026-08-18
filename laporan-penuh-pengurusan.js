@@ -1,951 +1,2009 @@
-```css
-/* =====================================================
-   LAPORAN PENUH PENGURUSAN
-   FPB DUTY COMMAND CENTER V2
-===================================================== */
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    background:#f3f7f7;
-}
+```javascript
+// =====================================================
+// LAPORAN PENUH PENGURUSAN
+// FPB DUTY COMMAND CENTER V2
+// =====================================================
 
 
-/* =====================================================
-   PAGE
-===================================================== */
+// =====================================================
+// GLOBAL
+// =====================================================
 
-.laporan-page{
-    width:100%;
-    max-width:1800px;
-    margin:auto;
-    padding:28px;
-}
+let pengguna = null;
+
+let dataAnggota = [];
+
+let dataDuty = [];
+
+let dataRK02 = [];
+
+let dataTampungan = [];
+
+let dataPos = [];
+
+let laporanPos = [];
+
+let bulanSemasa = 0;
+
+let tahunSemasa = 0;
 
 
-/* =====================================================
-   HERO
-===================================================== */
+// =====================================================
+// SUPABASE
+// =====================================================
 
-.laporan-hero{
-    position:relative;
-    overflow:hidden;
+const db = window.supabaseClient;
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
 
-    gap:25px;
+// =====================================================
+// BULAN
+// =====================================================
 
-    margin-bottom:20px;
-    padding:28px;
+const SENARAI_BULAN = [
 
-    color:#fff;
+    "",
 
-    border-radius:23px;
+    "JANUARI",
+    "FEBRUARI",
+    "MAC",
+    "APRIL",
+    "MEI",
+    "JUN",
+    "JULAI",
+    "OGOS",
+    "SEPTEMBER",
+    "OKTOBER",
+    "NOVEMBER",
+    "DISEMBER"
 
-    background:
-        linear-gradient(
-            135deg,
-            #1d626a,
-            #247b83,
-            #4d9699
+];
+
+
+// =====================================================
+// INIT
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function(){
+
+        console.log(
+            "LAPORAN PENUH PENGURUSAN START"
         );
 
-    box-shadow:
-        0 18px 45px
-        rgba(36,123,131,.20);
-}
 
-.laporan-hero::after{
-    content:"";
+        if(!db){
 
-    position:absolute;
+            setStatus(
+                "Supabase client tidak dijumpai."
+            );
 
-    width:280px;
-    height:280px;
+            return;
 
-    right:-90px;
-    top:-160px;
+        }
 
-    border-radius:50%;
 
-    background:
-        rgba(255,255,255,.10);
-}
+        muatPengguna();
 
-.hero-left{
-    position:relative;
-    z-index:2;
+        tetapkanBulanSemasa();
 
-    display:flex;
-    align-items:center;
+        pasangEvent();
 
-    gap:18px;
-}
 
-.hero-icon{
-    width:68px;
-    height:68px;
-    min-width:68px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:19px;
-
-    font-size:31px;
-
-    background:
-        rgba(255,255,255,.15);
-
-    border:
-        1px solid
-        rgba(255,255,255,.20);
-}
-
-.laporan-hero h1{
-    margin:0;
-
-    font-size:27px;
-    font-weight:900;
-
-    letter-spacing:.4px;
-}
-
-.laporan-hero p{
-    margin:7px 0 0;
-
-    font-size:13px;
-
-    opacity:.86;
-}
-
-.hero-period{
-    position:relative;
-    z-index:2;
-
-    min-width:180px;
-
-    padding:14px 18px;
-
-    text-align:center;
-
-    border-radius:15px;
-
-    background:
-        rgba(255,255,255,.13);
-
-    border:
-        1px solid
-        rgba(255,255,255,.18);
-}
-
-.hero-period span{
-    display:block;
-
-    margin-bottom:5px;
-
-    font-size:10px;
-    font-weight:800;
-
-    opacity:.72;
-}
-
-.hero-period strong{
-    font-size:15px;
-}
-
-
-/* =====================================================
-   CARD
-===================================================== */
-
-.laporan-card{
-    margin-bottom:18px;
-
-    padding:20px;
-
-    background:#fff;
-
-    border:
-        1px solid
-        rgba(36,123,131,.10);
-
-    border-radius:18px;
-
-    box-shadow:
-        0 5px 18px
-        rgba(25,70,75,.06);
-}
-
-
-/* =====================================================
-   SECTION HEADING
-===================================================== */
-
-.section-heading{
-    margin-bottom:20px;
-    padding-bottom:16px;
-
-    border-bottom:
-        1px solid
-        #e6eeee;
-}
-
-.section-heading-left{
-    display:flex;
-    align-items:center;
-
-    gap:12px;
-}
-
-.section-icon{
-    width:38px;
-    height:38px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-
-    font-size:14px;
-    font-weight:900;
-
-    border-radius:12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #247b83,
-            #5b9da0
-        );
-}
-
-.section-heading h2{
-    margin:0;
-
-    color:#173f43;
-
-    font-size:18px;
-}
-
-.section-heading p{
-    margin:4px 0 0;
-
-    color:#728589;
-
-    font-size:12px;
-}
-
-
-/* =====================================================
-   FILTER
-===================================================== */
-
-.filter-grid{
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        1fr
-        1.2fr
-        2fr;
-
-    gap:15px;
-
-    align-items:end;
-}
-
-.filter-field{
-    display:flex;
-    flex-direction:column;
-
-    gap:7px;
-}
-
-.filter-field label{
-    color:#476266;
-
-    font-size:11px;
-    font-weight:900;
-
-    letter-spacing:.5px;
-}
-
-.filter-field select,
-.filter-field input{
-    width:100%;
-    height:46px;
-
-    padding:0 13px;
-
-    color:#24474b;
-
-    font-family:inherit;
-    font-size:13px;
-    font-weight:700;
-
-    background:#fff;
-
-    border:
-        1px solid
-        #d7e3e4;
-
-    border-radius:11px;
-
-    outline:none;
-}
-
-.filter-field select:focus{
-    border-color:#247b83;
-
-    box-shadow:
-        0 0 0 4px
-        rgba(36,123,131,.09);
-}
-
-.filter-field input[readonly]{
-    background:#f1f6f6;
-}
-
-.filter-actions{
-    display:flex;
-
-    gap:10px;
-}
-
-.btn{
-    height:46px;
-
-    padding:0 18px;
-
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    gap:8px;
-
-    border:none;
-    border-radius:11px;
-
-    cursor:pointer;
-
-    font-family:inherit;
-    font-size:12px;
-    font-weight:900;
-
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
-}
-
-.btn-primary{
-    flex:1;
-
-    color:#fff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #247b83,
-            #4d989b
+        console.log(
+            "LAPORAN PENUH PENGURUSAN READY"
         );
 
-    box-shadow:
-        0 8px 18px
-        rgba(36,123,131,.18);
-}
-
-.btn-print{
-    color:#31575b;
-
-    background:#edf4f4;
-
-    border:
-        1px solid
-        #cddede;
-}
+    }
+);
 
 
-/* =====================================================
-   STATUS
-===================================================== */
+// =====================================================
+// PENGGUNA
+// =====================================================
 
-.status-box{
-    margin-bottom:18px;
+function muatPengguna(){
 
-    padding:13px 16px;
+    try{
 
-    color:#315d61;
-
-    font-size:12px;
-    font-weight:600;
-
-    background:#eef7f7;
-
-    border-left:
-        4px solid
-        #247b83;
-
-    border-radius:11px;
-}
+        const simpanan =
+            localStorage.getItem(
+                "pengguna"
+            );
 
 
-/* =====================================================
-   SUMMARY
-===================================================== */
+        if(!simpanan){
 
-.summary-grid{
-    display:grid;
+            console.warn(
+                "PENGGUNA TIDAK DIJUMPAI"
+            );
 
-    grid-template-columns:
-        repeat(4,1fr);
+            return;
 
-    gap:15px;
-
-    margin-bottom:18px;
-}
-
-.summary-card{
-    display:flex;
-    align-items:center;
-
-    gap:15px;
-
-    min-height:120px;
-
-    padding:19px;
-
-    background:#fff;
-
-    border:
-        1px solid
-        #e1ebeb;
-
-    border-radius:17px;
-
-    box-shadow:
-        0 5px 16px
-        rgba(25,70,75,.05);
-}
-
-.summary-icon{
-    width:52px;
-    height:52px;
-    min-width:52px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:15px;
-
-    font-size:23px;
-
-    background:#e8f4f4;
-}
-
-.summary-card span{
-    display:block;
-
-    margin-bottom:4px;
-
-    color:#718589;
-
-    font-size:10px;
-    font-weight:900;
-
-    letter-spacing:.4px;
-}
-
-.summary-card strong{
-    display:block;
-
-    color:#174e54;
-
-    font-size:25px;
-    font-weight:900;
-}
-
-.summary-card small{
-    color:#84979a;
-
-    font-size:10px;
-    font-weight:700;
-}
-
-.summary-rm{
-    border-top:
-        4px solid
-        #247b83;
-}
+        }
 
 
-/* =====================================================
-   REPORT HEADER
-===================================================== */
+        pengguna =
+            JSON.parse(
+                simpanan
+            );
 
-.report-card{
-    padding:0;
 
-    overflow:hidden;
-}
+        const nama =
+            document.getElementById(
+                "namaPengguna"
+            );
 
-.report-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
 
-    padding:20px 22px;
+        if(nama){
 
-    background:
-        linear-gradient(
-            135deg,
-            #f8fbfb,
-            #eef6f6
+            nama.textContent =
+                pengguna.nama || "-";
+
+        }
+
+
+        const jawatan =
+            document.getElementById(
+                "jawatanPengguna"
+            );
+
+
+        if(jawatan){
+
+            jawatan.textContent =
+                pengguna.jawatan || "-";
+
+        }
+
+
+        const avatar =
+            document.getElementById(
+                "avatarPengguna"
+            );
+
+
+        if(avatar){
+
+            const namaPenuh =
+                String(
+                    pengguna.nama || "PT"
+                )
+                .trim();
+
+
+            avatar.textContent =
+                namaPenuh
+                    .split(/\s+/)
+                    .map(
+                        perkataan =>
+                            perkataan.charAt(0)
+                    )
+                    .join("")
+                    .substring(0,2)
+                    .toUpperCase();
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(
+            "MUAT PENGGUNA ERROR:",
+            error
         );
 
-    border-bottom:
-        1px solid
-        #dce8e8;
-}
+    }
 
-.report-title{
-    color:#173f43;
-
-    font-size:16px;
-    font-weight:900;
-}
-
-.report-subtitle{
-    margin-top:5px;
-
-    color:#718589;
-
-    font-size:11px;
-    font-weight:700;
-}
-
-.report-badge{
-    padding:8px 13px;
-
-    color:#247b83;
-
-    font-size:10px;
-    font-weight:900;
-
-    background:#e4f2f2;
-
-    border-radius:20px;
 }
 
 
-/* =====================================================
-   TABLE
-===================================================== */
+// =====================================================
+// BULAN SEMASA
+// =====================================================
 
-.table-container{
-    width:100%;
+function tetapkanBulanSemasa(){
 
-    overflow:auto;
-}
-
-.management-table{
-    width:100%;
-
-    min-width:1550px;
-
-    border-collapse:collapse;
-
-    background:#fff;
-}
-
-.management-table th{
-    position:sticky;
-    top:0;
-
-    z-index:4;
-
-    padding:10px 8px;
-
-    color:#fff;
-
-    font-size:10px;
-    font-weight:900;
-
-    text-align:center;
-
-    white-space:nowrap;
-
-    background:#247b83;
-
-    border-right:
-        1px solid
-        rgba(255,255,255,.15);
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.15);
-}
-
-.management-table thead tr:first-child th{
-    background:#1f6870;
-}
-
-.management-table thead tr:nth-child(2) th{
-    background:#247b83;
-}
-
-.management-table thead tr:nth-child(3) th{
-    background:#2d8087;
-}
-
-.management-table th.pos-name-header{
-    min-width:270px;
-}
-
-.management-table td{
-    padding:9px 7px;
-
-    color:#294c50;
-
-    font-size:11px;
-
-    text-align:center;
-
-    white-space:nowrap;
-
-    border-right:
-        1px solid
-        #e2ebeb;
-
-    border-bottom:
-        1px solid
-        #e2ebeb;
-}
-
-.management-table tbody tr:hover{
-    background:#f4fafa;
-}
-
-.management-table tbody td:nth-child(3){
-    min-width:270px;
-
-    text-align:left;
-
-    white-space:normal;
-
-    font-weight:700;
-}
-
-.management-table tbody td:nth-child(2){
-    color:#247b83;
-
-    font-weight:900;
-}
-
-.money-cell{
-    font-weight:800;
-}
-
-.empty-row{
-    height:90px;
-
-    color:#829497 !important;
-
-    text-align:center !important;
-}
-
-.management-table tfoot td{
-    padding:12px 7px;
-
-    color:#fff;
-
-    font-size:11px;
-    font-weight:900;
-
-    background:#214f54;
-
-    border-right:
-        1px solid
-        rgba(255,255,255,.10);
-}
-
-.management-table tfoot .total-label{
-    text-align:center;
-}
-
-
-/* =====================================================
-   FINAL SUMMARY
-===================================================== */
-
-.final-summary{
-    display:grid;
-
-    grid-template-columns:
-        repeat(4,1fr);
-
-    gap:15px;
-
-    margin-top:18px;
-    margin-bottom:25px;
-}
-
-.final-summary > div{
-    padding:18px;
-
-    background:#fff;
-
-    border:
-        1px solid
-        #e0eaea;
-
-    border-radius:16px;
-}
-
-.final-summary span{
-    display:block;
-
-    margin-bottom:7px;
-
-    color:#788b8e;
-
-    font-size:10px;
-    font-weight:900;
-
-    letter-spacing:.4px;
-}
-
-.final-summary strong{
-    color:#1b555b;
-
-    font-size:18px;
-    font-weight:900;
-}
-
-.final-summary .final-rm{
-    background:
-        linear-gradient(
-            135deg,
-            #245d63,
-            #2e7e84
+    const bulan =
+        document.getElementById(
+            "bulan"
         );
-}
-
-.final-summary .final-rm span{
-    color:rgba(255,255,255,.70);
-}
-
-.final-summary .final-rm strong{
-    color:#fff;
-
-    font-size:22px;
-}
 
 
-/* =====================================================
-   MOBILE
-===================================================== */
+    const tahun =
+        document.getElementById(
+            "tahun"
+        );
 
-@media(max-width:1200px){
 
-    .filter-grid{
-        grid-template-columns:
-            repeat(2,1fr);
+    const sekarang =
+        new Date();
+
+
+    if(bulan){
+
+        bulan.value =
+            sekarang.getMonth() + 1;
+
     }
 
-    .filter-actions{
-        grid-column:1 / -1;
-    }
 
-    .summary-grid{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
+    if(tahun){
 
-    .final-summary{
-        grid-template-columns:
-            repeat(2,1fr);
+        tahun.value =
+            String(
+                sekarang.getFullYear()
+            );
+
     }
 
 }
 
 
-@media(max-width:800px){
+// =====================================================
+// EVENT
+// =====================================================
 
-    .laporan-page{
-        padding:15px;
-        padding-bottom:95px;
+function pasangEvent(){
+
+    document
+        .getElementById("btnPapar")
+        ?.addEventListener(
+            "click",
+            paparLaporan
+        );
+
+
+    document
+        .getElementById("btnCetak")
+        ?.addEventListener(
+            "click",
+            function(){
+
+                window.print();
+
+            }
+        );
+
+}
+
+
+// =====================================================
+// PAPAR LAPORAN
+// =====================================================
+
+async function paparLaporan(){
+
+    bulanSemasa =
+        Number(
+            document.getElementById(
+                "bulan"
+            ).value
+        );
+
+
+    tahunSemasa =
+        Number(
+            document.getElementById(
+                "tahun"
+            ).value
+        );
+
+
+    if(
+        !bulanSemasa ||
+        !tahunSemasa
+    ){
+
+        alert(
+            "Sila pilih bulan dan tahun."
+        );
+
+        return;
+
     }
 
-    .laporan-hero{
-        align-items:flex-start;
 
-        flex-direction:column;
+    kemasKiniHeader();
 
-        padding:21px;
 
-        border-radius:19px;
+    setStatus(
+        "Sedang mengambil data daripada Supabase..."
+    );
+
+
+    resetLaporan();
+
+
+    try{
+
+        await muatSemuaData();
+
+        binaLaporanPos();
+
+        binaJadual();
+
+        binaSummary();
+
+        setStatus(
+            `${laporanPos.length} Pos berjaya dipaparkan untuk ${SENARAI_BULAN[bulanSemasa]} ${tahunSemasa}.`
+        );
+
     }
 
-    .hero-left{
-        align-items:flex-start;
-    }
+    catch(error){
 
-    .hero-icon{
-        width:56px;
-        height:56px;
-        min-width:56px;
+        console.error(
+            "LAPORAN ERROR:",
+            error
+        );
 
-        font-size:25px;
-    }
 
-    .laporan-hero h1{
-        font-size:20px;
-    }
+        setStatus(
+            "Gagal memuatkan laporan. Sila semak console."
+        );
 
-    .hero-period{
-        width:100%;
-    }
 
-    .filter-grid{
-        grid-template-columns:1fr;
-    }
+        alert(
+            "Gagal memuatkan laporan.\n\n"
+            +
+            error.message
+        );
 
-    .filter-actions{
-        display:grid;
-
-        grid-template-columns:1fr 1fr;
-    }
-
-    .summary-grid{
-        grid-template-columns:1fr;
-    }
-
-    .final-summary{
-        grid-template-columns:1fr;
-    }
-
-    .laporan-card{
-        border-radius:16px;
-    }
-
-    .report-header{
-        align-items:flex-start;
-
-        flex-direction:column;
-
-        gap:10px;
     }
 
 }
 
 
-/* =====================================================
-   PRINT
-===================================================== */
+// =====================================================
+// HEADER
+// =====================================================
 
-@media print{
+function kemasKiniHeader(){
 
-    @page{
-        size:A3 landscape;
-        margin:8mm;
+    const tempoh =
+        SENARAI_BULAN[
+            bulanSemasa
+        ]
+        +
+        " "
+        +
+        tahunSemasa;
+
+
+    document.getElementById(
+        "heroBulanTahun"
+    ).textContent =
+        tempoh;
+
+
+    document.getElementById(
+        "reportSubtitle"
+    ).textContent =
+        tempoh
+        +
+        " — WILAYAH TERENGGANU";
+
+
+    document.getElementById(
+        "finalBulan"
+    ).textContent =
+        tempoh;
+
+}
+
+
+// =====================================================
+// RESET
+// =====================================================
+
+function resetLaporan(){
+
+    dataAnggota = [];
+
+    dataDuty = [];
+
+    dataRK02 = [];
+
+    dataTampungan = [];
+
+    dataPos = [];
+
+    laporanPos = [];
+
+
+    document.getElementById(
+        "laporanTableBody"
+    ).innerHTML = `
+
+        <tr>
+
+            <td
+                colspan="17"
+                class="empty-row"
+            >
+                Sedang memuatkan data...
+            </td>
+
+        </tr>
+
+    `;
+
+}
+
+
+// =====================================================
+// MUAT SEMUA DATA
+// =====================================================
+
+async function muatSemuaData(){
+
+    await Promise.all([
+
+        muatAnggota(),
+
+        muatDuty(),
+
+        muatRK02(),
+
+        muatTampungan(),
+
+        muatPos()
+
+    ]);
+
+}
+
+
+// =====================================================
+// DATA ANGGOTA
+// =====================================================
+
+async function muatAnggota(){
+
+    const {
+
+        data,
+        error
+
+    } =
+    await db
+        .from("Data_Anggota")
+        .select("*");
+
+
+    if(error)
+        throw error;
+
+
+    dataAnggota =
+        data || [];
+
+
+    console.log(
+        "DATA ANGGOTA:",
+        dataAnggota.length
+    );
+
+}
+
+
+// =====================================================
+// JADUAL DUTY
+// =====================================================
+
+async function muatDuty(){
+
+    const {
+
+        data,
+        error
+
+    } =
+    await db
+        .from("jadual_duty")
+        .select("*")
+        .eq(
+            "bulan",
+            String(
+                bulanSemasa
+            )
+        )
+        .eq(
+            "tahun",
+            String(
+                tahunSemasa
+            )
+        );
+
+
+    if(error)
+        throw error;
+
+
+    dataDuty =
+        data || [];
+
+
+    console.log(
+        "DATA DUTY:",
+        dataDuty.length
+    );
+
+}
+
+
+// =====================================================
+// RK02
+// =====================================================
+
+async function muatRK02(){
+
+    const {
+
+        data,
+        error
+
+    } =
+    await db
+        .from("rk02_data_entry")
+        .select("*")
+        .eq(
+            "bulan",
+            bulanSemasa
+        )
+        .eq(
+            "tahun",
+            tahunSemasa
+        );
+
+
+    if(error)
+        throw error;
+
+
+    dataRK02 =
+        data || [];
+
+
+    console.log(
+        "DATA RK02:",
+        dataRK02.length
+    );
+
+}
+
+
+// =====================================================
+// TAMPUNGAN
+// =====================================================
+
+async function muatTampungan(){
+
+    const {
+
+        data,
+        error
+
+    } =
+    await db
+        .from("rk02_pos_tampungan")
+        .select("*")
+        .eq(
+            "bulan",
+            bulanSemasa
+        )
+        .eq(
+            "tahun",
+            tahunSemasa
+        );
+
+
+    if(error)
+        throw error;
+
+
+    dataTampungan =
+        data || [];
+
+
+    console.log(
+        "DATA TAMPUNGAN:",
+        dataTampungan.length
+    );
+
+}
+
+
+// =====================================================
+// DATA POS
+// =====================================================
+
+async function muatPos(){
+
+    const {
+
+        data,
+        error
+
+    } =
+    await db
+        .from("data_pos")
+        .select("*");
+
+
+    if(error){
+
+        console.warn(
+            "DATA POS TIDAK BOLEH DIMUAT:",
+            error
+        );
+
+        dataPos = [];
+
+        return;
+
     }
 
-    body{
-        background:#fff !important;
+
+    dataPos =
+        data || [];
+
+
+    console.log(
+        "DATA POS:",
+        dataPos.length
+    );
+
+}
+
+
+// =====================================================
+// BINA LAPORAN POS
+// =====================================================
+
+function binaLaporanPos(){
+
+    const senaraiPos =
+        new Map();
+
+
+    // ---------------------------------------------
+    // DATA ANGGOTA
+    // ---------------------------------------------
+
+    dataAnggota.forEach(
+        anggota => {
+
+            const pos =
+                String(
+                    anggota.poskhidmat || ""
+                ).trim();
+
+
+            if(!pos)
+                return;
+
+
+            if(!senaraiPos.has(pos)){
+
+                senaraiPos.set(
+                    pos,
+                    {
+                        pos:pos,
+                        namaPos:cariNamaPos(pos),
+                        anggota:new Set(),
+                        hariBiasa:0,
+                        rmHariBiasa:0,
+                        off4Hari:0,
+                        off4RM:0,
+                        off48Hari:0,
+                        off48RM:0,
+                        off8Jam:0,
+                        off8RM:0,
+                        cuti8Hari:0,
+                        cuti8RM:0,
+                        cuti8PJam:0,
+                        cuti8PRM:0,
+                        klm:0,
+                        rm:0
+                    }
+                );
+
+            }
+
+        }
+    );
+
+
+    // ---------------------------------------------
+    // JADUAL DUTY
+    // ---------------------------------------------
+
+    dataDuty.forEach(
+        row => {
+
+            const pos =
+                String(
+                    row.poskhidmat
+                    ||
+                    row.pos
+                    ||
+                    ""
+                ).trim();
+
+
+            if(!pos)
+                return;
+
+
+            if(!senaraiPos.has(pos)){
+
+                senaraiPos.set(
+                    pos,
+                    kosongPos(pos)
+                );
+
+            }
+
+
+            const item =
+                senaraiPos.get(pos);
+
+
+            if(row.no_skb){
+
+                item.anggota.add(
+                    String(
+                        row.no_skb
+                    )
+                );
+
+            }
+
+
+            const jam =
+                nombor(
+                    row.jam_kerja
+                    ||
+                    row.jam_klm
+                );
+
+
+            const rm =
+                kiraRMRow(
+                    row
+                );
+
+
+            item.hariBiasa += jam;
+
+            item.rmHariBiasa += rm;
+
+            item.klm += jam;
+
+            item.rm += rm;
+
+        }
+    );
+
+
+    // ---------------------------------------------
+    // RK02 DATA ENTRY
+    // ---------------------------------------------
+
+    dataRK02.forEach(
+        row => {
+
+            const anggota =
+                cariAnggota(
+                    row.no_skb
+                );
+
+
+            const pos =
+                String(
+                    row.poskhidmat
+                    ||
+                    anggota?.poskhidmat
+                    ||
+                    ""
+                ).trim();
+
+
+            if(!pos)
+                return;
+
+
+            if(!senaraiPos.has(pos)){
+
+                senaraiPos.set(
+                    pos,
+                    kosongPos(pos)
+                );
+
+            }
+
+
+            const item =
+                senaraiPos.get(pos);
+
+
+            if(row.no_skb){
+
+                item.anggota.add(
+                    String(
+                        row.no_skb
+                    )
+                );
+
+            }
+
+
+            // Hari biasa
+
+            const hariBiasa =
+                nombor(
+                    row.hari_biasa
+                );
+
+
+            const kadar =
+                kadarRM(
+                    anggota
+                );
+
+
+            const rmHariBiasa =
+                hariBiasa * kadar;
+
+
+            item.hariBiasa +=
+                hariBiasa;
+
+
+            item.rmHariBiasa +=
+                rmHariBiasa;
+
+
+            item.klm +=
+                hariBiasa;
+
+
+            item.rm +=
+                rmHariBiasa;
+
+
+            // OFF 4
+
+            const off4 =
+                nombor(
+                    row.off4
+                );
+
+
+            item.off4Hari +=
+                off4;
+
+
+            item.off4RM +=
+                off4 * kadar;
+
+
+            item.klm +=
+                off4;
+
+
+            item.rm +=
+                off4 * kadar;
+
+
+            // OFF 4-8
+
+            const off48 =
+                nombor(
+                    row.off48
+                );
+
+
+            item.off48Hari +=
+                off48;
+
+
+            item.off48RM +=
+                off48 * kadar;
+
+
+            item.klm +=
+                off48;
+
+
+            item.rm +=
+                off48 * kadar;
+
+
+            // OFF > 8
+
+            const off8 =
+                nombor(
+                    row.off8
+                );
+
+
+            item.off8Jam +=
+                off8;
+
+
+            item.off8RM +=
+                off8 * kadar;
+
+
+            item.klm +=
+                off8;
+
+
+            item.rm +=
+                off8 * kadar;
+
+
+            // CUTI < 8
+
+            const cuti8 =
+                nombor(
+                    row.cuti8
+                );
+
+
+            item.cuti8Hari +=
+                cuti8;
+
+
+            item.cuti8RM +=
+                cuti8 * kadar;
+
+
+            item.klm +=
+                cuti8;
+
+
+            item.rm +=
+                cuti8 * kadar;
+
+
+            // CUTI > 8
+
+            const cuti8P =
+                nombor(
+                    row.cuti8p
+                );
+
+
+            item.cuti8PJam +=
+                cuti8P;
+
+
+            item.cuti8PRM +=
+                cuti8P * kadar;
+
+
+            item.klm +=
+                cuti8P;
+
+
+            item.rm +=
+                cuti8P * kadar;
+
+        }
+    );
+
+
+    // ---------------------------------------------
+    // TAMPUNGAN
+    // ---------------------------------------------
+
+    dataTampungan.forEach(
+        row => {
+
+            const anggota =
+                cariAnggota(
+                    row.no_skb
+                );
+
+
+            const pos =
+                String(
+                    row.poskhidmat
+                    ||
+                    anggota?.poskhidmat
+                    ||
+                    ""
+                ).trim();
+
+
+            if(!pos)
+                return;
+
+
+            if(!senaraiPos.has(pos)){
+
+                senaraiPos.set(
+                    pos,
+                    kosongPos(pos)
+                );
+
+            }
+
+
+            const item =
+                senaraiPos.get(pos);
+
+
+            if(row.no_skb){
+
+                item.anggota.add(
+                    String(
+                        row.no_skb
+                    )
+                );
+
+            }
+
+
+            const kadar =
+                kadarRM(
+                    anggota
+                );
+
+
+            for(
+                let i=1;
+                i<=6;
+                i++
+            ){
+
+                const jam =
+                    nombor(
+                        row[
+                            `jam_pos${i}`
+                        ]
+                    );
+
+
+                const rm =
+                    jam * kadar;
+
+
+                item.klm += jam;
+
+                item.rm += rm;
+
+            }
+
+
+            const eskot =
+                nombor(
+                    row.eskot
+                );
+
+
+            item.klm +=
+                eskot;
+
+            item.rm +=
+                eskot * kadar;
+
+
+            const cit =
+                nombor(
+                    row.cit
+                );
+
+
+            item.klm +=
+                cit;
+
+            item.rm +=
+                cit * kadar;
+
+
+            const kawalan =
+                nombor(
+                    row.kawalan_tambahan
+                );
+
+
+            item.klm +=
+                kawalan;
+
+            item.rm +=
+                kawalan * kadar;
+
+
+            const kawalanWang =
+                nombor(
+                    row.kawalan_wang
+                );
+
+
+            item.klm +=
+                kawalanWang;
+
+            item.rm +=
+                kawalanWang * kadar;
+
+
+            const pemandu =
+                nombor(
+                    row.pemandu
+                );
+
+
+            item.klm +=
+                pemandu;
+
+            item.rm +=
+                pemandu * kadar;
+
+        }
+    );
+
+
+    laporanPos =
+        Array.from(
+            senaraiPos.values()
+        )
+        .filter(
+            item =>
+                item.anggota.size > 0
+                ||
+                item.klm > 0
+                ||
+                item.rm > 0
+        )
+        .sort(
+            (a,b) =>
+                a.pos.localeCompare(
+                    b.pos,
+                    "ms"
+                )
+        );
+
+
+    console.log(
+        "LAPORAN POS:",
+        laporanPos
+    );
+
+}
+
+
+// =====================================================
+// POS KOSONG
+// =====================================================
+
+function kosongPos(pos){
+
+    return {
+
+        pos:pos,
+
+        namaPos:
+            cariNamaPos(pos),
+
+        anggota:new Set(),
+
+        hariBiasa:0,
+
+        rmHariBiasa:0,
+
+        off4Hari:0,
+
+        off4RM:0,
+
+        off48Hari:0,
+
+        off48RM:0,
+
+        off8Jam:0,
+
+        off8RM:0,
+
+        cuti8Hari:0,
+
+        cuti8RM:0,
+
+        cuti8PJam:0,
+
+        cuti8PRM:0,
+
+        klm:0,
+
+        rm:0
+
+    };
+
+}
+
+
+// =====================================================
+// CARI NAMA POS
+// =====================================================
+
+function cariNamaPos(pos){
+
+    const cari =
+        dataPos.find(
+            row => {
+
+                const kod =
+                    String(
+                        row.no_pos
+                        ||
+                        row.kod_pos
+                        ||
+                        row.poskhidmat
+                        ||
+                        row.kod
+                        ||
+                        ""
+                    ).trim();
+
+
+                return (
+                    kod.toUpperCase()
+                    ===
+                    String(pos)
+                        .trim()
+                        .toUpperCase()
+                );
+
+            }
+        );
+
+
+    return (
+        cari?.nama_pos
+        ||
+        cari?.nama
+        ||
+        cari?.nama_pos_kawalan
+        ||
+        pos
+    );
+
+}
+
+
+// =====================================================
+// CARI ANGGOTA
+// =====================================================
+
+function cariAnggota(noSKB){
+
+    if(
+        noSKB === null ||
+        noSKB === undefined
+    )
+        return null;
+
+
+    return dataAnggota.find(
+        anggota =>
+            String(
+                anggota.noskb
+                ||
+                anggota.no_skb
+                ||
+                ""
+            )
+            ===
+            String(
+                noSKB
+            )
+    );
+
+}
+
+
+// =====================================================
+// KADAR RM
+// =====================================================
+
+function kadarRM(anggota){
+
+    if(!anggota)
+        return 0;
+
+
+    return nombor(
+        anggota.rm_pehariklmbiasa
+    );
+
+}
+
+
+// =====================================================
+// KIRA RM ROW
+// =====================================================
+
+function kiraRMRow(row){
+
+    const anggota =
+        cariAnggota(
+            row.no_skb
+        );
+
+
+    const kadar =
+        kadarRM(
+            anggota
+        );
+
+
+    const jam =
+        nombor(
+            row.jam_klm
+            ||
+            row.jam_kerja
+        );
+
+
+    return jam * kadar;
+
+}
+
+
+// =====================================================
+// NOMBOR
+// =====================================================
+
+function nombor(value){
+
+    if(
+        value === null ||
+        value === undefined ||
+        value === ""
+    )
+        return 0;
+
+
+    return Number(
+        String(value)
+            .replace(/,/g,"")
+            .replace(/RM/gi,"")
+            .trim()
+    ) || 0;
+
+}
+
+
+// =====================================================
+// BINA JADUAL
+// =====================================================
+
+function binaJadual(){
+
+    const tbody =
+        document.getElementById(
+            "laporanTableBody"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    if(!laporanPos.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="17"
+                    class="empty-row"
+                >
+                    Tiada rekod bagi bulan
+                    yang dipilih.
+                </td>
+
+            </tr>
+
+        `;
+
+        binaFooterKosong();
+
+        return;
+
     }
 
-    .sidebar,
-    .topbar,
-    .mobile-bottom-nav,
-    .filter-card,
-    .status-box,
-    .btn,
-    .hero-period{
-        display:none !important;
+
+    laporanPos.forEach(
+        (
+            item,
+            index
+        ) => {
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            tr.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(item.pos)}
+                </td>
+
+
+                <td>
+                    ${escapeHTML(item.namaPos)}
+                </td>
+
+
+                <td>
+                    ${formatJam(item.hariBiasa)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.rmHariBiasa)}
+                </td>
+
+
+                <td>
+                    ${formatNombor(item.off4Hari)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.off4RM)}
+                </td>
+
+
+                <td>
+                    ${formatNombor(item.off48Hari)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.off48RM)}
+                </td>
+
+
+                <td>
+                    ${formatJam(item.off8Jam)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.off8RM)}
+                </td>
+
+
+                <td>
+                    ${formatNombor(item.cuti8Hari)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.cuti8RM)}
+                </td>
+
+
+                <td>
+                    ${formatJam(item.cuti8PJam)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.cuti8PRM)}
+                </td>
+
+
+                <td>
+                    ${formatJam(item.klm)}
+                </td>
+
+
+                <td class="money-cell">
+                    RM ${formatRM(item.rm)}
+                </td>
+
+            `;
+
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+    );
+
+
+    binaFooter();
+
+}
+
+
+// =====================================================
+// FOOTER
+// =====================================================
+
+function binaFooter(){
+
+    const total =
+        kiraJumlahLaporan();
+
+
+    document.getElementById(
+        "totalHariBiasa"
+    ).textContent =
+        formatJam(
+            total.hariBiasa
+        );
+
+
+    document.getElementById(
+        "totalRMHariBiasa"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.rmHariBiasa
+        );
+
+
+    document.getElementById(
+        "totalOff4Hari"
+    ).textContent =
+        formatNombor(
+            total.off4Hari
+        );
+
+
+    document.getElementById(
+        "totalOff4RM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.off4RM
+        );
+
+
+    document.getElementById(
+        "totalOff48Hari"
+    ).textContent =
+        formatNombor(
+            total.off48Hari
+        );
+
+
+    document.getElementById(
+        "totalOff48RM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.off48RM
+        );
+
+
+    document.getElementById(
+        "totalOff8Jam"
+    ).textContent =
+        formatJam(
+            total.off8Jam
+        );
+
+
+    document.getElementById(
+        "totalOff8RM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.off8RM
+        );
+
+
+    document.getElementById(
+        "totalCuti8Hari"
+    ).textContent =
+        formatNombor(
+            total.cuti8Hari
+        );
+
+
+    document.getElementById(
+        "totalCuti8RM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.cuti8RM
+        );
+
+
+    document.getElementById(
+        "totalCuti8PJam"
+    ).textContent =
+        formatJam(
+            total.cuti8PJam
+        );
+
+
+    document.getElementById(
+        "totalCuti8PRM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.cuti8PRM
+        );
+
+
+    document.getElementById(
+        "totalKLM"
+    ).textContent =
+        formatJam(
+            total.klm
+        );
+
+
+    document.getElementById(
+        "totalRM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.rm
+        );
+
+}
+
+
+// =====================================================
+// FOOTER KOSONG
+// =====================================================
+
+function binaFooterKosong(){
+
+    const ids = [
+
+        "totalHariBiasa",
+        "totalOff8Jam",
+        "totalKLM"
+
+    ];
+
+
+    ids.forEach(
+        id => {
+
+            const el =
+                document.getElementById(
+                    id
+                );
+
+            if(el)
+                el.textContent = "0";
+
+        }
+    );
+
+
+    const rmIds = [
+
+        "totalRMHariBiasa",
+        "totalOff4RM",
+        "totalOff48RM",
+        "totalOff8RM",
+        "totalCuti8RM",
+        "totalCuti8PRM",
+        "totalRM"
+
+    ];
+
+
+    rmIds.forEach(
+        id => {
+
+            const el =
+                document.getElementById(
+                    id
+                );
+
+            if(el)
+                el.textContent =
+                    "RM 0.00";
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// JUMLAH
+// =====================================================
+
+function kiraJumlahLaporan(){
+
+    const jumlah =
+        kosongPos("TOTAL");
+
+
+    laporanPos.forEach(
+        item => {
+
+            jumlah.hariBiasa +=
+                item.hariBiasa;
+
+            jumlah.rmHariBiasa +=
+                item.rmHariBiasa;
+
+            jumlah.off4Hari +=
+                item.off4Hari;
+
+            jumlah.off4RM +=
+                item.off4RM;
+
+            jumlah.off48Hari +=
+                item.off48Hari;
+
+            jumlah.off48RM +=
+                item.off48RM;
+
+            jumlah.off8Jam +=
+                item.off8Jam;
+
+            jumlah.off8RM +=
+                item.off8RM;
+
+            jumlah.cuti8Hari +=
+                item.cuti8Hari;
+
+            jumlah.cuti8RM +=
+                item.cuti8RM;
+
+            jumlah.cuti8PJam +=
+                item.cuti8PJam;
+
+            jumlah.cuti8PRM +=
+                item.cuti8PRM;
+
+            jumlah.klm +=
+                item.klm;
+
+            jumlah.rm +=
+                item.rm;
+
+        }
+    );
+
+
+    return jumlah;
+
+}
+
+
+// =====================================================
+// SUMMARY
+// =====================================================
+
+function binaSummary(){
+
+    const total =
+        kiraJumlahLaporan();
+
+
+    const jumlahAnggota =
+        new Set();
+
+
+    laporanPos.forEach(
+        item => {
+
+            item.anggota.forEach(
+                noSKB =>
+                    jumlahAnggota.add(
+                        noSKB
+                    )
+            );
+
+        }
+    );
+
+
+    document.getElementById(
+        "summaryPos"
+    ).textContent =
+        laporanPos.length;
+
+
+    document.getElementById(
+        "summaryAnggota"
+    ).textContent =
+        jumlahAnggota.size;
+
+
+    document.getElementById(
+        "summaryJam"
+    ).textContent =
+        formatJam(
+            total.klm
+        );
+
+
+    document.getElementById(
+        "summaryRM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.rm
+        );
+
+
+    document.getElementById(
+        "finalPos"
+    ).textContent =
+        laporanPos.length;
+
+
+    document.getElementById(
+        "finalKLM"
+    ).textContent =
+        formatJam(
+            total.klm
+        )
+        +
+        " JAM";
+
+
+    document.getElementById(
+        "finalRM"
+    ).textContent =
+        "RM "
+        +
+        formatRM(
+            total.rm
+        );
+
+}
+
+
+// =====================================================
+// FORMAT JAM
+// =====================================================
+
+function formatJam(value){
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "ms-MY",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+// =====================================================
+// FORMAT RM
+// =====================================================
+
+function formatRM(value){
+
+    return Number(
+        value || 0
+    ).toLocaleString(
+        "ms-MY",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+// =====================================================
+// FORMAT NOMBOR
+// =====================================================
+
+function formatNombor(value){
+
+    const number =
+        Number(
+            value || 0
+        );
+
+
+    if(
+        Number.isInteger(number)
+    ){
+
+        return number.toLocaleString(
+            "ms-MY"
+        );
+
     }
 
-    .main-content{
-        margin:0 !important;
-        padding:0 !important;
+
+    return number.toLocaleString(
+        "ms-MY",
+        {
+            minimumFractionDigits:2,
+            maximumFractionDigits:2
+        }
+    );
+
+}
+
+
+// =====================================================
+// STATUS
+// =====================================================
+
+function setStatus(message){
+
+    const el =
+        document.getElementById(
+            "status"
+        );
+
+
+    if(el){
+
+        el.textContent =
+            message;
+
     }
 
-    .laporan-page{
-        max-width:none;
+}
 
-        padding:0;
-    }
 
-    .laporan-hero{
-        margin-bottom:10px;
+// =====================================================
+// ESCAPE HTML
+// =====================================================
 
-        padding:15px;
+function escapeHTML(value){
 
-        box-shadow:none;
-
-        border-radius:0;
-    }
-
-    .summary-grid{
-        grid-template-columns:
-            repeat(4,1fr);
-
-        margin-bottom:10px;
-    }
-
-    .summary-card{
-        min-height:75px;
-
-        padding:10px;
-
-        box-shadow:none;
-    }
-
-    .summary-icon{
-        width:38px;
-        height:38px;
-        min-width:38px;
-    }
-
-    .summary-card strong{
-        font-size:17px;
-    }
-
-    .report-card{
-        box-shadow:none;
-
-        border:1px solid #ccc;
-    }
-
-    .management-table{
-        min-width:100%;
-    }
-
-    .management-table th,
-    .management-table td{
-        padding:5px 4px;
-
-        font-size:8px;
-    }
-
-    .final-summary{
-        margin-top:10px;
-    }
-
-    .final-summary > div{
-        padding:8px;
-
-        box-shadow:none;
-    }
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 
 }
 ```

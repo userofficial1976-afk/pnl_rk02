@@ -513,12 +513,12 @@ const anggotaMap =
     .forEach(
         a => {
 
-            const key =
-                String(
-                    a.noskb ||
-                    ""
-                )
-                    .trim();
+const key =
+    String(
+        a.noskb ||
+        ""
+    )
+        .trim();
 
 
             if (key) {

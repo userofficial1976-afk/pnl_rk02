@@ -1988,6 +1988,44 @@ async function resetData() {
 
         );
 
+        // =================================================
+    // 2. RESET SECTION 5
+    // DATA PENGGANTI CUTI
+    // =================================================
+
+    document
+        .querySelectorAll(
+            "#dataPenggantiCutiBody .input-cuti"
+        )
+        .forEach(
+            input => {
+
+                input.value = "";
+
+            }
+        );
+
+
+    // =================================================
+    // 3. KIRA SEMULA SECTION 5
+    // =================================================
+
+    if (
+        typeof kiraJumlahCuti === "function"
+    ) {
+
+        kiraJumlahCuti();
+
+    }
+
+
+    if (
+        typeof kiraRMKelengkapanCuti === "function"
+    ) {
+
+        kiraRMKelengkapanCuti();
+
+    }
 
     // =================================================
     // 3. RESET POS 1 - 6 DALAM JADUAL

@@ -378,15 +378,7 @@ async function binaLaporan(
             );
 
 
-    if (poskhidmat) {
-
-        queryAnggota =
-            queryAnggota.eq(
-                "poskhidmat",
-                poskhidmat
-            );
-
-    }
+    
 
 
     const {
@@ -427,15 +419,7 @@ async function binaLaporan(
             );
 
 
-    if (poskhidmat) {
-
-        queryTampungan =
-            queryTampungan.eq(
-                "poskhidmat",
-                poskhidmat
-            );
-
-    }
+  
 
 
     const {
@@ -476,15 +460,7 @@ async function binaLaporan(
             );
 
 
-    if (poskhidmat) {
-
-        queryCuti =
-            queryCuti.eq(
-                "poskhidmat",
-                poskhidmat
-            );
-
-    }
+   
 
 
     const {

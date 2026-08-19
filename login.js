@@ -106,7 +106,7 @@ async function login(){
     ){
 
         window.location.href =
-            "rk02-laporan-ptw.html";
+            "rk02-pnl-data-entry.html";
 
         return;
 
@@ -122,7 +122,7 @@ async function login(){
     ){
 
         window.location.href =
-            "rk02-laporan-ptw.html";
+            "rk02-pnl-data-entry.html";
 
         return;
 
@@ -138,7 +138,7 @@ async function login(){
     ){
 
         window.location.href =
-            "rk02-laporan-ptw.html";
+            "rk02-pnl-data-entry.html";
 
         return;
 

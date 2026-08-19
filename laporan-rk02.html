@@ -14,6 +14,7 @@ Laporan RK02 Bulanan
 <link rel="stylesheet" href="style.css">
 
 
+<style>
 
 /* =====================================================
    SIDEBAR - PAPARAN HTML SAHAJA
@@ -25,18 +26,14 @@ Laporan RK02 Bulanan
     top: 0;
     width: 260px;
     height: 100vh;
-
     background: linear-gradient(
         180deg,
         #173f43,
         #247b83
     );
-
     color: #ffffff;
     padding: 22px 16px;
-
     z-index: 1000;
-
     display: flex;
     flex-direction: column;
 }
@@ -45,9 +42,7 @@ Laporan RK02 Bulanan
     display: flex;
     align-items: center;
     gap: 12px;
-
     padding: 5px 8px 25px;
-
     border-bottom: 1px solid rgba(255,255,255,.15);
 }
 
@@ -73,7 +68,6 @@ Laporan RK02 Bulanan
     display: flex;
     flex-direction: column;
     gap: 6px;
-
     margin-top: 22px;
 }
 
@@ -81,17 +75,12 @@ Laporan RK02 Bulanan
     display: flex;
     align-items: center;
     gap: 12px;
-
     padding: 13px 14px;
-
     border-radius: 10px;
-
     color: #ffffff;
     text-decoration: none;
-
     font-size: 12px;
     font-weight: 700;
-
     transition: .2s;
 }
 
@@ -107,9 +96,7 @@ Laporan RK02 Bulanan
 
 .sidebar-footer {
     margin-top: auto;
-
     padding: 15px 8px 5px;
-
     border-top: 1px solid rgba(255,255,255,.15);
 }
 
@@ -125,12 +112,14 @@ Laporan RK02 Bulanan
     font-size: 11px;
 }
 
-/* RUANG UNTUK SIDEBAR DALAM PAPARAN HTML */
 body {
     padding-left: 260px;
 }
 
-/* CETAK / PDF - SIDEBAR TIADA */
+/* =====================================================
+   PRINT / PDF
+===================================================== */
+
 @media print {
 
     .sidebar {
@@ -141,8 +130,13 @@ body {
         padding-left: 0 !important;
     }
 
-}    
+}
 
+</style>
+
+
+
+   
     
 
 
@@ -1299,7 +1293,7 @@ RM
     </tr>
 
 </table>
-```
+
 
 
 

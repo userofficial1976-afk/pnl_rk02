@@ -13,12 +13,211 @@ Laporan RK02 Bulanan
 
 <link rel="stylesheet" href="style.css">
 
+
+
+/* =====================================================
+   SIDEBAR - PAPARAN HTML SAHAJA
+===================================================== */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+
+    background: linear-gradient(
+        180deg,
+        #173f43,
+        #247b83
+    );
+
+    color: #ffffff;
+    padding: 22px 16px;
+
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 5px 8px 25px;
+
+    border-bottom: 1px solid rgba(255,255,255,.15);
+}
+
+.sidebar-brand img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.sidebar-brand strong {
+    display: block;
+    font-size: 16px;
+}
+
+.sidebar-brand span {
+    display: block;
+    margin-top: 3px;
+    font-size: 9px;
+    opacity: .75;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    margin-top: 22px;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 13px 14px;
+
+    border-radius: 10px;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: .2s;
+}
+
+.sidebar-menu a span {
+    width: 22px;
+    text-align: center;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+    background: rgba(255,255,255,.15);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+
+    padding: 15px 8px 5px;
+
+    border-top: 1px solid rgba(255,255,255,.15);
+}
+
+.sidebar-footer small {
+    display: block;
+    font-size: 9px;
+    opacity: .7;
+}
+
+.sidebar-footer strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+}
+
+/* RUANG UNTUK SIDEBAR DALAM PAPARAN HTML */
+body {
+    padding-left: 260px;
+}
+
+/* CETAK / PDF - SIDEBAR TIADA */
+@media print {
+
+    .sidebar {
+        display: none !important;
+    }
+
+    body {
+        padding-left: 0 !important;
+    }
+
+}    
+
+    
+
+
+    
 </head>
 
 
 <body>
 
 
+
+
+
+    
+<!-- SIDEBAR - PAPARAN HTML SAHAJA -->
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img src="logo.png" alt="FPB Logo">
+
+        <div>
+            <strong>FPB DUTY</strong>
+            <span>COMMAND CENTER V2</span>
+        </div>
+
+    </div>
+
+    <nav class="sidebar-menu">
+
+        <a href="rk02-pnl-data-entry.html">
+            <span>🏠</span>
+            Pengisian Data RK02
+        </a>
+
+        <a href="tampungan-rk02.html">
+            <span>📝</span>
+            Tampungan Pos
+        </a>
+
+        <a href="laporan-rk02.html" class="active">
+            <span>📊</span>
+            Cetak RK-02
+        </a>
+
+        <a href="laporan-penuh-pengurusan.html"
+           id="menuLaporanPenuhPengurusan"
+           style="display:none;">
+            <span>📋</span>
+            Laporan Penuh Pengurusan
+        </a>
+
+        <a href="tetapan.html">
+            <span>⚙️</span>
+            Tetapan
+        </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+        <small>FPB Duty System</small>
+
+        <strong>Wilayah Terengganu</strong>
+
+    </div>
+
+</aside>
+
+
+
+
+
+
+    
 <div class="rk02-report">
 
 

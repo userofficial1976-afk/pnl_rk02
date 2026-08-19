@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Laporan RK02 PTW / POW / PPOW
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="rk02-laporan-ptw.css"
+    >
+
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="topbar">
+
+        <div>
+
+            <h1>
+                LAPORAN RK02
+            </h1>
+
+            <div class="subtitle">
+                PTW / POW / PPOW
+            </div>
+
+        </div>
+
+        <div class="user-info">
+
+            <div id="namaPengguna">
+                -
+            </div>
+
+            <div id="jawatanPengguna">
+                -
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
+
+    <section class="filter-card">
+
+        <div class="filter-title">
+            PARAMETER LAPORAN
+        </div>
+
+
+        <div class="filter-grid">
+
+            <div class="field">
+
+                <label for="bulan">
+                    Bulan
+                </label>
+
+                <select id="bulan">
+
+                    <option value="1">
+                        Januari
+                    </option>
+
+                    <option value="2">
+                        Februari
+                    </option>
+
+                    <option value="3">
+                        Mac
+                    </option>
+
+                    <option value="4">
+                        April
+                    </option>
+
+                    <option value="5">
+                        Mei
+                    </option>
+
+                    <option value="6">
+                        Jun
+                    </option>
+
+                    <option value="7">
+                        Julai
+                    </option>
+
+                    <option value="8">
+                        Ogos
+                    </option>
+
+                    <option value="9">
+                        September
+                    </option>
+
+                    <option value="10">
+                        Oktober
+                    </option>
+
+                    <option value="11">
+                        November
+                    </option>
+
+                    <option value="12">
+                        Disember
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="tahun">
+                    Tahun
+                </label>
+
+                <input
+                    type="number"
+                    id="tahun"
+                    min="2020"
+                    max="2100"
+                >
+
+            </div>
+
+
+            <div class="button-area">
+
+                <button
+                    type="button"
+                    id="btnPapar"
+                    class="btn primary"
+                >
+                    PAPAR LAPORAN
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnSimpan"
+                    class="btn success"
+                >
+                    SIMPAN DATABASE
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnExcel"
+                    class="btn excel"
+                >
+                    EXPORT EXCEL
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnReset"
+                    class="btn secondary"
+                >
+                    RESET
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         STATUS
+    ====================================================== -->
+
+    <section
+        id="statusBox"
+        class="status-box"
+    >
+        Sila pilih bulan dan tahun.
+    </section>
+
+
+    <!-- =====================================================
+         REPORT
+    ====================================================== -->
+
+    <section class="report-card">
+
+        <div class="report-header">
+
+            <div>
+
+                <div class="report-title">
+                    LAPORAN RK02 PTW / POW / PPOW
+                </div>
+
+                <div
+                    id="tajukBulan"
+                    class="report-period"
+                >
+                    -
+                </div>
+
+            </div>
+
+            <div
+                id="jumlahRekod"
+                class="record-count"
+            >
+                0 REKOD
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="table-wrapper">
+
+            <table
+                id="laporanTable"
+                class="laporan-table"
+            >
+
+                <thead>
+
+                    <tr>
+
+                        <th rowspan="2">
+                            BIL
+                        </th>
+
+                        <th rowspan="2">
+                            SKB
+                        </th>
+
+                        <th rowspan="2">
+                            NAMA ANGGOTA
+                        </th>
+
+                        <th rowspan="2">
+                            BASIC GAJI
+                        </th>
+
+
+                        <th colspan="2">
+                            KHIDMAT TETAP
+                        </th>
+
+
+                        <th colspan="2">
+                            TAMPUNG LUAR
+                        </th>
+
+
+                        <th colspan="3">
+                            OFFDAY
+                        </th>
+
+
+                        <th colspan="3">
+                            CUTI AM
+                        </th>
+
+
+                        <th rowspan="2">
+                            JUMLAH RM<br>
+                            KESELURUHAN
+                        </th>
+
+
+                        <th colspan="2">
+                            LDB
+                        </th>
+
+
+                        <th colspan="2">
+                            CUTI TAHUN
+                        </th>
+
+
+                        <th colspan="2">
+                            KLM WAJIB
+                        </th>
+
+
+                        <th colspan="2">
+                            CUTI GANTI
+                        </th>
+
+
+                        <th colspan="2">
+                            ESKOT
+                        </th>
+
+
+                        <th colspan="2">
+                            CIT
+                        </th>
+
+
+                        <th colspan="2">
+                            KURSUS
+                        </th>
+
+
+                        <th colspan="2">
+                            MC
+                        </th>
+
+
+                        <th colspan="2">
+                            CUTI EHSAN
+                        </th>
+
+
+                        <th colspan="2">
+                            TADBIR
+                        </th>
+
+
+                        <th colspan="2">
+                            KAWALAN TAMBAHAN
+                        </th>
+
+
+                        <th rowspan="2">
+                            JAM ESKOT<br>
+                            RK02
+                        </th>
+
+                        <th rowspan="2">
+                            KM ESKOT
+                        </th>
+
+                        <th rowspan="2">
+                            MEDICAL
+                        </th>
+
+                        <th rowspan="2">
+                            TRAVEL
+                        </th>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>
+                            JUMLAH KLM
+                        </th>
+
+                        <th>
+                            RM / BLN
+                        </th>
+
+
+                        <th>
+                            JUMLAH KLM
+                        </th>
+
+                        <th>
+                            RM / BLN
+                        </th>
+
+
+                        <th>
+                            HARI
+                        </th>
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            HARI
+                        </th>
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+
+                        <th>
+                            JAM
+                        </th>
+
+                        <th>
+                            RM
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="laporanBody">
+
+                    <tr>
+
+                        <td
+                            colspan="41"
+                            class="empty"
+                        >
+                            Tiada data.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+
+                <tfoot id="laporanFoot">
+
+                </tfoot>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =====================================================
+     LIBRARY
+====================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<!-- XLSX -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+></script>
+
+
+<!-- AUTH -->
+
+<script src="auth-guard.js"></script>
+
+<!-- PAGE -->
+
+<script src="rk02-laporan-ptw.js"></script>
+
+</body>
+
+</html>

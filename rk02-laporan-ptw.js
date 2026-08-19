@@ -66,16 +66,7 @@ document.addEventListener(
             "RK02 LAPORAN PTW SYSTEM START"
         );
 
-
         await tungguPengguna();
-
-
-        if (!semakAkses()) {
-
-            return;
-
-        }
-
 
         paparMaklumatPengguna();
 
@@ -135,55 +126,6 @@ async function tungguPengguna() {
 }
 
 
-// =====================================================
-// SEMAK AKSES
-//
-// HANYA PTW / POW / PPOW
-// =====================================================
-
-function semakAkses() {
-
-    const jawatan = String(
-        pengguna?.jawatan ||
-        pengguna?.role ||
-        ""
-    )
-        .trim()
-        .toUpperCase();
-
-
-    const dibenarkan = [
-
-        "PTW",
-        "POW",
-        "PPOW"
-
-    ];
-
-
-    if (
-        !dibenarkan.includes(
-            jawatan
-        )
-    ) {
-
-        alert(
-            "Akses hanya untuk pengguna PTW / POW / PPOW."
-        );
-
-
-        window.location.href =
-            "dashboard.html";
-
-
-        return false;
-
-    }
-
-
-    return true;
-
-}
 
 
 // =====================================================
@@ -389,9 +331,6 @@ async function binaLaporan(
     tahun
 ) {
 
-    const poskhidmat =
-        pengguna?.poskhidmat ||
-        null;
 
 
     // =================================================
@@ -418,15 +357,7 @@ async function binaLaporan(
             );
 
 
-    if (poskhidmat) {
 
-        queryRK02 =
-            queryRK02.eq(
-                "poskhidmat",
-                poskhidmat
-            );
-
-    }
 
 
     const {

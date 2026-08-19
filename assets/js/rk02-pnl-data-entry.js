@@ -6146,7 +6146,36 @@ rm_lain2:
 }
 
 
+// =====================================================
+// NILAI JAM POS TAMPUNGAN UNTUK SIMPAN DATABASE
+//
+// KOSONG  → null
+// ADA NILAI → nombor
+// =====================================================
 
+function nilaiJamPosTampunganSimpan(input) {
+
+    const value =
+        input?.value?.trim();
+
+    if (
+        value === "" ||
+        value === null ||
+        value === undefined
+    ) {
+
+        return null;
+
+    }
+
+    const nilai =
+        Number(value);
+
+    return Number.isFinite(nilai)
+        ? nilai
+        : null;
+
+}
 
 
 
@@ -6298,61 +6327,60 @@ async function simpanRMPosTampungan() {
                 );
 
 
-            const jamPos1 =
-                nombor(
-                    input[0]?.value
-                );
+const jamPos1 =
+    nilaiJamPosTampunganSimpan(
+        input[0]
+    );
 
-            const jamPos2 =
-                nombor(
-                    input[1]?.value
-                );
+const jamPos2 =
+    nilaiJamPosTampunganSimpan(
+        input[1]
+    );
 
-            const jamPos3 =
-                nombor(
-                    input[2]?.value
-                );
+const jamPos3 =
+    nilaiJamPosTampunganSimpan(
+        input[2]
+    );
 
-            const jamPos4 =
-                nombor(
-                    input[3]?.value
-                );
+const jamPos4 =
+    nilaiJamPosTampunganSimpan(
+        input[3]
+    );
 
-            const jamPos5 =
-                nombor(
-                    input[4]?.value
-                );
+const jamPos5 =
+    nilaiJamPosTampunganSimpan(
+        input[4]
+    );
 
-            const jamPos6 =
-                nombor(
-                    input[5]?.value
-                );
+const jamPos6 =
+    nilaiJamPosTampunganSimpan(
+        input[5]
+    );
 
-            const jamEskot =
-                nombor(
-                    input[6]?.value
-                );
+const jamEskot =
+    nilaiJamPosTampunganSimpan(
+        input[6]
+    );
 
-            const jamCit =
-                nombor(
-                    input[7]?.value
-                );
+const jamCit =
+    nilaiJamPosTampunganSimpan(
+        input[7]
+    );
 
-            const jamKawalanTambahan =
-                nombor(
-                    input[8]?.value
-                );
+const jamKawalanTambahan =
+    nilaiJamPosTampunganSimpan(
+        input[8]
+    );
 
-            const jamKawalanWang =
-                nombor(
-                    input[9]?.value
-                );
+const jamKawalanWang =
+    nilaiJamPosTampunganSimpan(
+        input[9]
+    );
 
-            const jamPemandu =
-                nombor(
-                    input[10]?.value
-                );
-
+const jamPemandu =
+    nilaiJamPosTampunganSimpan(
+        input[10]
+    );
 
             // =================================================
             // KIRA RM
@@ -6361,58 +6389,102 @@ async function simpanRMPosTampungan() {
             // JAM × rm_pehariklmbiasa
             // =================================================
 
-            const rmPos1 =
-                jamPos1 * kadarRM;
+const rmPos1 =
+    jamPos1 === null
+        ? null
+        : jamPos1 * kadarRM;
 
-            const rmPos2 =
-                jamPos2 * kadarRM;
+const rmPos2 =
+    jamPos2 === null
+        ? null
+        : jamPos2 * kadarRM;
 
-            const rmPos3 =
-                jamPos3 * kadarRM;
+const rmPos3 =
+    jamPos3 === null
+        ? null
+        : jamPos3 * kadarRM;
 
-            const rmPos4 =
-                jamPos4 * kadarRM;
+const rmPos4 =
+    jamPos4 === null
+        ? null
+        : jamPos4 * kadarRM;
 
-            const rmPos5 =
-                jamPos5 * kadarRM;
+const rmPos5 =
+    jamPos5 === null
+        ? null
+        : jamPos5 * kadarRM;
 
-            const rmPos6 =
-                jamPos6 * kadarRM;
+const rmPos6 =
+    jamPos6 === null
+        ? null
+        : jamPos6 * kadarRM;
 
-            const rmEskot =
-                jamEskot * kadarRM;
+const rmEskot =
+    jamEskot === null
+        ? null
+        : jamEskot * kadarRM;
 
-            const rmCit =
-                jamCit * kadarRM;
+const rmCit =
+    jamCit === null
+        ? null
+        : jamCit * kadarRM;
 
-            const rmKawalanTambahan =
-                jamKawalanTambahan * kadarRM;
+const rmKawalanTambahan =
+    jamKawalanTambahan === null
+        ? null
+        : jamKawalanTambahan * kadarRM;
 
-            const rmKawalanWang =
-                jamKawalanWang * kadarRM;
+const rmKawalanWang =
+    jamKawalanWang === null
+        ? null
+        : jamKawalanWang * kadarRM;
 
-            const rmPemandu =
-                jamPemandu * kadarRM;
-
+const rmPemandu =
+    jamPemandu === null
+        ? null
+        : jamPemandu * kadarRM;
 
             // =================================================
             // JUMLAH RM TAMPUNGAN
             // =================================================
 
-            const rmTampungan =
+const senaraiRM = [
+    rmPos1,
+    rmPos2,
+    rmPos3,
+    rmPos4,
+    rmPos5,
+    rmPos6,
+    rmEskot,
+    rmCit,
+    rmKawalanTambahan,
+    rmKawalanWang,
+    rmPemandu
+];
 
-                rmPos1 +
-                rmPos2 +
-                rmPos3 +
-                rmPos4 +
-                rmPos5 +
-                rmPos6 +
-                rmEskot +
-                rmCit +
-                rmKawalanTambahan +
-                rmKawalanWang +
-                rmPemandu;
+const adaNilaiRM =
+    senaraiRM.some(
+        nilai =>
+            nilai !== null &&
+            nilai !== undefined
+    );
 
+const rmTampungan =
+    adaNilaiRM
+        ? senaraiRM.reduce(
+            (
+                jumlah,
+                nilai
+            ) =>
+                jumlah +
+                (
+                    nilai === null
+                        ? 0
+                        : nilai
+                ),
+            0
+        )
+        : null;
 
             // =================================================
             // BINA DATA UNTUK SUPABASE

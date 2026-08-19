@@ -4440,10 +4440,13 @@ function nilaiCutiInput(
 // ADA NILAI → nombor
 // =====================================================
 
-function nilaiInputCutiSimpan(
-    jenis,
-    noSkb
-) {
+// =====================================================
+// AMBIL JAM SECTION 5 UNTUK SIMPAN
+// KOSONG = NULL
+// ADA NILAI = NOMBOR
+// =====================================================
+
+function ambilJamSimpan(jenis, noSkb) {
 
     const input =
         document.querySelector(
@@ -4453,28 +4456,17 @@ function nilaiInputCutiSimpan(
     const value =
         input?.value?.trim();
 
-
-    if (
-        value === "" ||
-        value === null ||
-        value === undefined
-    ) {
-
+    if (!value) {
         return null;
-
     }
-
 
     const nilai =
         Number(value);
 
-
     return Number.isFinite(nilai)
         ? nilai
         : null;
-
 }
-
     
 // =====================================================
 // SIMPAN DATA CUTI PENGGANTI

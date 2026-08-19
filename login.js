@@ -3,7 +3,7 @@ async function login(){
     const no_skb =
         document.getElementById(
             "no_skb"
-        ).value;
+        ).value.trim();
 
     const password =
         document.getElementById(
@@ -92,6 +92,8 @@ async function login(){
         window.location.href =
             "rk02-pnl-data-entry.html";
 
+        return;
+
     }
 
 
@@ -99,12 +101,46 @@ async function login(){
     // PTW
     // =================================================
 
-    else if(
+    if(
         jawatan === "PTW"
     ){
 
         window.location.href =
-            "rk02-pnl-data-entry.html";
+            "rk02-laporan-ptw.html";
+
+        return;
+
+    }
+
+
+    // =================================================
+    // POW
+    // =================================================
+
+    if(
+        jawatan === "POW"
+    ){
+
+        window.location.href =
+            "rk02-laporan-ptw.html";
+
+        return;
+
+    }
+
+
+    // =================================================
+    // PPOW
+    // =================================================
+
+    if(
+        jawatan === "PPOW"
+    ){
+
+        window.location.href =
+            "rk02-laporan-ptw.html";
+
+        return;
 
     }
 
@@ -112,51 +148,6 @@ async function login(){
     // =================================================
     // LAIN-LAIN
     // =================================================
-
-    else{
-
-        alert(
-            "Akses belum dibuka"
-        );
-
-    }
-
-}
-
-
-// =====================================================
-// SEMAK JAWATAN
-// =====================================================
-
-const jawatan =
-    String(
-        data.jawatan || ""
-    )
-    .trim()
-    .toUpperCase();
-
-
-if(
-    jawatan === "KETUA POS"
-){
-
-    window.location.href =
-        "rk02-pnl-data-entry.html";
-
-}
-
-
-else if(
-    jawatan === "PTW"
-){
-
-    window.location.href =
-        "rk02-pnl-data-entry.html";
-
-}
-
-
-else{
 
     alert(
         "Akses belum dibuka"

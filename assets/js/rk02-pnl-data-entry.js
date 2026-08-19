@@ -5975,33 +5975,40 @@ async function simpanCutiPengganti() {
                     jamLain2,
 
 
-                rm_cuti_tahun:
-                    jamCutiTahun *
-                    kadarRM,
+rm_cuti_tahun:
+    jamCutiTahun === null
+        ? null
+        : jamCutiTahun * kadarRM,
 
-                rm_kursus:
-                    jamKursus *
-                    kadarRM,
+rm_kursus:
+    jamKursus === null
+        ? null
+        : jamKursus * kadarRM,
 
-                rm_cuti_sakit:
-                    jamCutiSakit *
-                    kadarRM,
+rm_cuti_sakit:
+    jamCutiSakit === null
+        ? null
+        : jamCutiSakit * kadarRM,
 
-                rm_cuti_ehsan:
-                    jamCutiEhsan *
-                    kadarRM,
+rm_cuti_ehsan:
+    jamCutiEhsan === null
+        ? null
+        : jamCutiEhsan * kadarRM,
 
-                rm_cuti_ganti:
-                    jamCutiGanti *
-                    kadarRM,
+rm_cuti_ganti:
+    jamCutiGanti === null
+        ? null
+        : jamCutiGanti * kadarRM,
 
-                rm_lain1:
-                    jamLain1 *
-                    kadarRM,
+rm_lain1:
+    jamLain1 === null
+        ? null
+        : jamLain1 * kadarRM,
 
-                rm_lain2:
-                    jamLain2 *
-                    kadarRM,
+rm_lain2:
+    jamLain2 === null
+        ? null
+        : jamLain2 * kadarRM,
 
 
                 dikemaskini_oleh:

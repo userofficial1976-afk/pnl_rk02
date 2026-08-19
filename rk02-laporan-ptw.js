@@ -505,34 +505,33 @@ async function binaLaporan(
     // MAP
     // =================================================
 
-    const anggotaMap =
-        new Map();
+const anggotaMap =
+    new Map();
 
 
-    (anggota || [])
-        .forEach(
-            a => {
+(anggota || [])
+    .forEach(
+        a => {
 
-                const key =
-                    String(
-                        a.no_skb ||
-                        ""
-                    )
-                        .trim();
+            const key =
+                String(
+                    a.noskb ||
+                    ""
+                )
+                    .trim();
 
 
-                if (key) {
+            if (key) {
 
-                    anggotaMap.set(
-                        key,
-                        a
-                    );
-
-                }
+                anggotaMap.set(
+                    key,
+                    a
+                );
 
             }
-        );
 
+        }
+    );
 
     const tampunganMap =
         new Map();

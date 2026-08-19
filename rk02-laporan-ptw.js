@@ -199,6 +199,13 @@ function pasangEvent() {
 
 
     document
+    .getElementById("btnExcelDatabase")
+    ?.addEventListener(
+        "click",
+        exportExcelDatabase
+    );
+
+    document
         .getElementById("btnSimpan")
         ?.addEventListener(
             "click",
@@ -2218,5 +2225,315 @@ function esc(
             /'/g,
             "&#039;"
         );
+
+}
+
+
+// =====================================================
+// EXPORT EXCEL DATABASE
+// STRUKTUR SAMA SEPERTI rk02_laporan_ptw
+// =====================================================
+
+async function exportExcelDatabase() {
+
+    if (
+        typeof XLSX ===
+        "undefined"
+    ) {
+
+        alert(
+            "Library Excel tidak dimuatkan."
+        );
+
+        return;
+
+    }
+
+
+    const bulan =
+        Number(
+            document.getElementById(
+                "bulan"
+            )?.value
+        );
+
+
+    const tahun =
+        Number(
+            document.getElementById(
+                "tahun"
+            )?.value
+        );
+
+
+    if (
+        !bulan ||
+        !tahun
+    ) {
+
+        alert(
+            "Sila pilih bulan dan tahun."
+        );
+
+        return;
+
+    }
+
+
+    setStatus(
+        "Sedang mengambil data rk02_laporan_ptw..."
+    );
+
+
+    try {
+
+        // =================================================
+        // AMBIL TERUS DARI DATABASE
+        // =================================================
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+
+                .from(
+                    "rk02_laporan_ptw"
+                )
+
+                .select("*")
+
+                .eq(
+                    "bulan",
+                    bulan
+                )
+
+                .eq(
+                    "tahun",
+                    tahun
+                )
+
+                .order(
+                    "id",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            alert(
+                "Tiada data rk02_laporan_ptw untuk bulan ini."
+            );
+
+            setStatus(
+                "Tiada data untuk diexport."
+            );
+
+            return;
+
+        }
+
+
+        // =================================================
+        // COLUMN SAMA TEPAT SEPERTI DATABASE
+        // =================================================
+
+        const columns = [
+
+            "id",
+            "bulan",
+            "tahun",
+            "poskhidmat",
+            "no_skb",
+            "nama",
+            "basic_gaji",
+
+            "jumlah_klm_tetap",
+            "rm_klm_tetap",
+
+            "jumlah_klm_tampung_luar",
+            "rm_klm_tampung_luar",
+
+            "hari_offday",
+            "jam_offday",
+            "rm_offday",
+
+            "hari_cuti_am",
+            "jam_cuti_am",
+            "rm_cuti_am",
+
+            "rm_keseluruhan",
+
+            "jam_ldb",
+            "rm_ldb",
+
+            "jam_cuti_tahun",
+            "rm_cuti_tahun",
+
+            "jam_klm_wajib",
+            "rm_klm_wajib",
+
+            "jam_cuti_ganti",
+            "rm_cuti_ganti",
+
+            "jam_eskot",
+            "rm_eskot",
+
+            "jam_cit",
+            "rm_cit",
+
+            "jam_kursus",
+            "rm_kursus",
+
+            "jam_mc",
+            "rm_mc",
+
+            "jam_cuti_ehsan",
+            "rm_cuti_ehsan",
+
+            "jam_tadbir",
+            "rm_tadbir",
+
+            "jam_kaw_tambahan",
+            "rm_kaw_tambahan",
+
+            "jam_eskot_rk02",
+            "km_eskot",
+
+            "medical",
+            "travel",
+
+            "dikemaskini_oleh",
+            "dikemaskini_pada"
+
+        ];
+
+
+        // =================================================
+        // SUSUN DATA IKUT COLUMN
+        // =================================================
+
+        const excelData =
+            data.map(
+                row => {
+
+                    const output = {};
+
+                    columns.forEach(
+                        column => {
+
+                            output[column] =
+                                row[column] ??
+                                "";
+
+                        }
+                    );
+
+                    return output;
+
+                }
+            );
+
+
+        // =================================================
+        // CREATE WORKSHEET
+        // =================================================
+
+        const worksheet =
+            XLSX.utils.json_to_sheet(
+                excelData,
+                {
+                    header:
+                        columns
+                }
+            );
+
+
+        // =================================================
+        // COLUMN WIDTH
+        // =================================================
+
+        worksheet["!cols"] =
+            columns.map(
+                column => ({
+
+                    wch:
+                        Math.max(
+                            15,
+                            column.length + 2
+                        )
+
+                })
+            );
+
+
+        // =================================================
+        // CREATE WORKBOOK
+        // =================================================
+
+        const workbook =
+            XLSX.utils.book_new();
+
+
+        XLSX.utils.book_append_sheet(
+            workbook,
+            worksheet,
+            "rk02_laporan_ptw"
+        );
+
+
+        // =================================================
+        // EXPORT
+        // =================================================
+
+        XLSX.writeFile(
+            workbook,
+            `rk02_laporan_ptw_DATABASE_${bulan}_${tahun}.xlsx`
+        );
+
+
+        setStatus(
+            `${data.length} rekod berjaya diexport.`
+        );
+
+
+        alert(
+            `${data.length} rekod berjaya diexport ke Excel.`
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "RALAT EXPORT DATABASE:",
+            error
+        );
+
+
+        setStatus(
+            "Gagal export database."
+        );
+
+
+        alert(
+            "Gagal export database:\n" +
+            error.message
+        );
+
+    }
 
 }

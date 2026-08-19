@@ -6033,3 +6033,444 @@ async function simpanCutiPengganti() {
     return true;
 
 }
+
+
+
+
+
+
+// =====================================================
+// SIMPAN RM SECTION 4
+// DATA ENTRY POS TAMPUNGAN
+//
+// FORMULA:
+// RM = JAM × Data_Anggota.rm_pehariklmbiasa
+//
+// RM TIDAK DIPAPARKAN DI PAGE
+// HANYA DISIMPAN KE SUPABASE
+// =====================================================
+
+async function simpanRMPosTampungan() {
+
+    const bulan =
+        Number(
+            document.getElementById(
+                "bulan"
+            )?.value
+        );
+
+    const tahun =
+        Number(
+            document.getElementById(
+                "tahun"
+            )?.value
+        );
+
+    const poskhidmat =
+        pengguna?.poskhidmat || "";
+
+
+    // =================================================
+    // SEMAK MAKLUMAT UTAMA
+    // =================================================
+
+    if (
+        !bulan ||
+        !tahun ||
+        !poskhidmat
+    ) {
+
+        console.error(
+            "Bulan, tahun atau poskhidmat tidak lengkap."
+        );
+
+        return false;
+
+    }
+
+
+    const rows = [];
+
+
+    // =================================================
+    // LOOP SEMUA ROW SECTION 4
+    // =================================================
+
+    document
+        .querySelectorAll(
+            "#posTampunganTableBody tr"
+        )
+        .forEach(row => {
+
+            const noSkb =
+                String(
+                    row.children[1]
+                        ?.textContent || ""
+                ).trim();
+
+
+            const nama =
+                String(
+                    row.children[2]
+                        ?.textContent || ""
+                ).trim();
+
+
+            if (!noSkb) {
+
+                return;
+
+            }
+
+
+            // =================================================
+            // CARI DATA ANGGOTA
+            // =================================================
+
+            const anggota =
+                (dataAnggota || []).find(
+                    a =>
+                        String(
+                            a.noskb ||
+                            a.no_skb ||
+                            a.noanggota ||
+                            ""
+                        ).trim() === noSkb
+                );
+
+
+            if (!anggota) {
+
+                console.warn(
+                    "DATA ANGGOTA TIDAK DIJUMPAI:",
+                    noSkb
+                );
+
+                return;
+
+            }
+
+
+            // =================================================
+            // KADAR RM
+            //
+            // Data_Anggota.rm_pehariklmbiasa
+            // =================================================
+
+            const kadarRM =
+                nombor(
+                    anggota.rm_pehariklmbiasa
+                );
+
+
+            // =================================================
+            // AMBIL SEMUA INPUT JAM SECTION 4
+            //
+            // Susunan:
+            //
+            // 0 = POS 1
+            // 1 = POS 2
+            // 2 = POS 3
+            // 3 = POS 4
+            // 4 = POS 5
+            // 5 = POS 6
+            // 6 = ESKOT
+            // 7 = CIT
+            // 8 = KAWALAN TAMBAHAN
+            // 9 = KAWALAN WANG
+            // 10 = PEMANDU
+            // =================================================
+
+            const input =
+                row.querySelectorAll(
+                    "input"
+                );
+
+
+            const jamPos1 =
+                nombor(
+                    input[0]?.value
+                );
+
+            const jamPos2 =
+                nombor(
+                    input[1]?.value
+                );
+
+            const jamPos3 =
+                nombor(
+                    input[2]?.value
+                );
+
+            const jamPos4 =
+                nombor(
+                    input[3]?.value
+                );
+
+            const jamPos5 =
+                nombor(
+                    input[4]?.value
+                );
+
+            const jamPos6 =
+                nombor(
+                    input[5]?.value
+                );
+
+            const jamEskot =
+                nombor(
+                    input[6]?.value
+                );
+
+            const jamCit =
+                nombor(
+                    input[7]?.value
+                );
+
+            const jamKawalanTambahan =
+                nombor(
+                    input[8]?.value
+                );
+
+            const jamKawalanWang =
+                nombor(
+                    input[9]?.value
+                );
+
+            const jamPemandu =
+                nombor(
+                    input[10]?.value
+                );
+
+
+            // =================================================
+            // KIRA RM
+            //
+            // SEMUA:
+            // JAM × rm_pehariklmbiasa
+            // =================================================
+
+            const rmPos1 =
+                jamPos1 * kadarRM;
+
+            const rmPos2 =
+                jamPos2 * kadarRM;
+
+            const rmPos3 =
+                jamPos3 * kadarRM;
+
+            const rmPos4 =
+                jamPos4 * kadarRM;
+
+            const rmPos5 =
+                jamPos5 * kadarRM;
+
+            const rmPos6 =
+                jamPos6 * kadarRM;
+
+            const rmEskot =
+                jamEskot * kadarRM;
+
+            const rmCit =
+                jamCit * kadarRM;
+
+            const rmKawalanTambahan =
+                jamKawalanTambahan * kadarRM;
+
+            const rmKawalanWang =
+                jamKawalanWang * kadarRM;
+
+            const rmPemandu =
+                jamPemandu * kadarRM;
+
+
+            // =================================================
+            // JUMLAH RM TAMPUNGAN
+            // =================================================
+
+            const rmTampungan =
+
+                rmPos1 +
+                rmPos2 +
+                rmPos3 +
+                rmPos4 +
+                rmPos5 +
+                rmPos6 +
+                rmEskot +
+                rmCit +
+                rmKawalanTambahan +
+                rmKawalanWang +
+                rmPemandu;
+
+
+            // =================================================
+            // BINA DATA UNTUK SUPABASE
+            // =================================================
+
+            rows.push({
+
+                bulan,
+
+                tahun,
+
+                poskhidmat,
+
+                no_skb:
+                    noSkb,
+
+                nama:
+                    nama || anggota.nama || "",
+
+
+                // ===============================
+                // JAM
+                // ===============================
+
+                jam_pos1:
+                    jamPos1,
+
+                jam_pos2:
+                    jamPos2,
+
+                jam_pos3:
+                    jamPos3,
+
+                jam_pos4:
+                    jamPos4,
+
+                jam_pos5:
+                    jamPos5,
+
+                jam_pos6:
+                    jamPos6,
+
+                eskot:
+                    jamEskot,
+
+                cit:
+                    jamCit,
+
+                kawalan_tambahan:
+                    jamKawalanTambahan,
+
+                kawalan_wang:
+                    jamKawalanWang,
+
+                pemandu:
+                    jamPemandu,
+
+
+                // ===============================
+                // RM
+                // ===============================
+
+                rm_pos1:
+                    rmPos1,
+
+                rm_pos2:
+                    rmPos2,
+
+                rm_pos3:
+                    rmPos3,
+
+                rm_pos4:
+                    rmPos4,
+
+                rm_pos5:
+                    rmPos5,
+
+                rm_pos6:
+                    rmPos6,
+
+                rm_eskot:
+                    rmEskot,
+
+                rm_cit:
+                    rmCit,
+
+                rm_kawalan_tambahan:
+                    rmKawalanTambahan,
+
+                rm_kawalan_wang:
+                    rmKawalanWang,
+
+                rm_pemandu:
+                    rmPemandu,
+
+                rm_tampungan:
+                    rmTampungan
+
+            });
+
+        });
+
+
+    // =================================================
+    // SEMAK DATA
+    // =================================================
+
+    if (
+        rows.length === 0
+    ) {
+
+        console.warn(
+            "TIADA DATA POS TAMPUNGAN UNTUK SIMPAN RM."
+        );
+
+        return false;
+
+    }
+
+
+    console.log(
+        "RM POS TAMPUNGAN UNTUK SIMPAN:",
+        rows
+    );
+
+
+    // =================================================
+    // SIMPAN / UPDATE SUPABASE
+    // =================================================
+
+    const {
+        error
+    } = await supabaseClient
+
+        .from(
+            "rk02_pos_tampungan"
+        )
+
+        .upsert(
+            rows,
+            {
+                onConflict:
+                    "bulan,tahun,poskhidmat,no_skb"
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "RALAT SIMPAN RM POS TAMPUNGAN:",
+            error
+        );
+
+        alert(
+            "Gagal simpan RM Pos Tampungan:\n" +
+            error.message
+        );
+
+        return false;
+
+    }
+
+
+    console.log(
+        "RM POS TAMPUNGAN BERJAYA DISIMPAN."
+    );
+
+
+    return true;
+
+}

@@ -1797,29 +1797,14 @@ function exportExcel() {
     ) {
 
         alert(
-            "Tiada laporan untuk diexport."
+            "Tiada laporan untuk disimpan."
         );
 
         return;
 
     }
 
-
-    if (
-        typeof XLSX ===
-        "undefined"
-    ) {
-
-        alert(
-            "Library Excel tidak dimuatkan."
-        );
-
-        return;
-
-    }
-
-
-    const dataExcel =
+    const dataCSV =
         laporanData.map(
             (r, index) => ({
 
@@ -1949,61 +1934,88 @@ function exportExcel() {
             })
         );
 
-
-    const worksheet =
-        XLSX.utils.json_to_sheet(
-            dataExcel
-        );
-
-
-    worksheet["!cols"] =
-
+    const headers =
         Object.keys(
-            dataExcel[0]
-        ).map(
-            key => ({
+            dataCSV[0]
+        );
 
-                wch:
-                    Math.max(
-                        12,
-                        key.length + 2
+    const csv = [
+
+        headers.join(","),
+
+        ...dataCSV.map(
+            row =>
+                headers
+                    .map(
+                        header =>
+                            `"${String(
+                                row[header] ?? ""
+                            ).replace(
+                                /"/g,
+                                '""'
+                            )}"`
                     )
+                    .join(",")
+        )
 
-            })
+    ].join("\r\n");
+
+
+    const blob =
+        new Blob(
+            [
+                "\uFEFF" + csv
+            ],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
         );
 
 
-    const workbook =
-        XLSX.utils.book_new();
+    const url =
+        URL.createObjectURL(
+            blob
+        );
 
 
-    XLSX.utils.book_append_sheet(
-        workbook,
-        worksheet,
-        "Laporan RK02"
-    );
+    const link =
+        document.createElement(
+            "a"
+        );
 
+    link.href = url;
 
     const bulan =
         document.getElementById(
             "bulan"
         )?.value || "";
 
-
     const tahun =
         document.getElementById(
             "tahun"
         )?.value || "";
 
+    link.download =
+        `Laporan_RK02_PTW_${bulan}_${tahun}.csv`;
 
-    XLSX.writeFile(
-        workbook,
-        `Laporan_RK02_PTW_${bulan}_${tahun}.xlsx`
+    document.body.appendChild(
+        link
+    );
+
+    link.click();
+
+    document.body.removeChild(
+        link
+    );
+
+    URL.revokeObjectURL(
+        url
     );
 
 
     setStatus(
-        "Excel berjaya dijana."
+        "CSV berjaya disimpan."
     );
 
 }

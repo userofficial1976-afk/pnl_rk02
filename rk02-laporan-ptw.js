@@ -981,6 +981,11 @@ function kiraRow(
         bulan,
 
         tahun,
+        
+        poskhidmat:
+        r.poskhidmat ||
+        a.poskhidmat ||
+        null,
 
         
 

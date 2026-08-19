@@ -4434,46 +4434,6 @@ function nilaiCutiInput(
 
 
 
-// =====================================================
-// NILAI INPUT CUTI UNTUK SIMPAN DATABASE
-//
-// KOSONG  → null
-// ADA NILAI → nombor
-// =====================================================
-
-function nilaiInputCutiSimpan(
-    jenis,
-    noSkb
-) {
-
-    const input =
-        document.querySelector(
-            `.input-cuti[data-field="${jenis}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
-        );
-
-
-    const value =
-        input?.value?.trim();
-
-
-    // INPUT KOSONG
-    if (
-        value === "" ||
-        value === null ||
-        value === undefined
-    ) {
-
-        return null;
-
-    }
-
-
-    return Number(value);
-
-}
-
-
-
 
     
 // =====================================================

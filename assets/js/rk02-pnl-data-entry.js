@@ -6470,21 +6470,19 @@ const adaNilaiRM =
     );
 
 const rmTampungan =
-    adaNilaiRM
-        ? senaraiRM.reduce(
+    senaraiRM.reduce(
+        (
+            jumlah,
+            nilai
+        ) =>
+            jumlah +
             (
-                jumlah,
-                nilai
-            ) =>
-                jumlah +
-                (
-                    nilai === null
-                        ? 0
-                        : nilai
-                ),
-            0
-        )
-        : null;
+                nilai === null
+                    ? 0
+                    : nilai
+            ),
+        0
+    );
 
             // =================================================
             // BINA DATA UNTUK SUPABASE

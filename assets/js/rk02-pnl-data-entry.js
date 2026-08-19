@@ -5896,43 +5896,43 @@ async function simpanCutiPengganti() {
 
 
             const jamCutiTahun =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "cuti_tahun",
                     noSkb
                 );
 
             const jamKursus =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "kursus",
                     noSkb
                 );
 
             const jamCutiSakit =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "cuti_sakit",
                     noSkb
                 );
 
             const jamCutiEhsan =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "cuti_ehsan",
                     noSkb
                 );
 
             const jamCutiGanti =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "cuti_ganti",
                     noSkb
                 );
 
             const jamLain1 =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "lain1",
                     noSkb
                 );
 
             const jamLain2 =
-                nilaiInputCutiSimpan(
+                nilaiInputCuti(
                     "lain2",
                     noSkb
                 );

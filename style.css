@@ -1609,3 +1609,34 @@ button{
     }
 
 }
+
+
+
+
+/* =====================================================
+   SECTION 2 - MAKLUMAT OPERASI POS
+   LEBIH RINGAN / TIDAK TERLALU TEBAL
+===================================================== */
+
+.rk02-info-grid .info-box.highlight {
+    background: #f8fbfb;
+    color: #294c50;
+    border: 1px solid #e1ebeb;
+}
+
+.rk02-info-grid .info-box.highlight .info-label {
+    color: #72888b;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.rk02-info-grid .info-box.highlight .info-value {
+    color: #247b83;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.rk02-info-grid .info-box.highlight .info-value.small {
+    font-size: 14px;
+    font-weight: 700;
+}

@@ -1737,14 +1737,6 @@ async function simpanDatabase() {
         );
 
 
- const {
-    data: { session },
-    error: sessionError
-} = await supabaseClient.auth.getSession();
-
-console.log("SESSION SIMPAN:", session);
-console.log("SESSION ERROR:", sessionError);
-
 const {
     error
 } = await supabaseClient

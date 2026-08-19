@@ -1903,7 +1903,7 @@ function pasangEventUtama() {
             async () => {
 
                 await simpanPosTampungan();
-
+                await simpanRMPosTampungan();
                 await simpanRK02();
                 await simpanCutiPengganti();
             }

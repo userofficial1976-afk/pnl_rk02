@@ -4433,7 +4433,47 @@ function nilaiCutiInput(
     );
 
 
+// =====================================================
+// NILAI INPUT CUTI UNTUK SIMPAN DATABASE
+//
+// KOSONG  → null
+// ADA NILAI → nombor
+// =====================================================
 
+function nilaiInputCutiSimpan(
+    jenis,
+    noSkb
+) {
+
+    const input =
+        document.querySelector(
+            `.input-cuti[data-field="${jenis}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
+        );
+
+    const value =
+        input?.value?.trim();
+
+
+    if (
+        value === "" ||
+        value === null ||
+        value === undefined
+    ) {
+
+        return null;
+
+    }
+
+
+    const nilai =
+        Number(value);
+
+
+    return Number.isFinite(nilai)
+        ? nilai
+        : null;
+
+}
 
     
 // =====================================================
@@ -5856,43 +5896,43 @@ async function simpanCutiPengganti() {
 
 
             const jamCutiTahun =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "cuti_tahun",
                     noSkb
                 );
 
             const jamKursus =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "kursus",
                     noSkb
                 );
 
             const jamCutiSakit =
-                nilaiInputCuti(
+               nilaiInputCutiSimpan(
                     "cuti_sakit",
                     noSkb
                 );
 
             const jamCutiEhsan =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "cuti_ehsan",
                     noSkb
                 );
 
             const jamCutiGanti =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "cuti_ganti",
                     noSkb
                 );
 
             const jamLain1 =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "lain1",
                     noSkb
                 );
 
             const jamLain2 =
-                nilaiInputCuti(
+                nilaiInputCutiSimpan(
                     "lain2",
                     noSkb
                 );

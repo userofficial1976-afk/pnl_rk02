@@ -5895,47 +5895,77 @@ async function simpanCutiPengganti() {
                 );
 
 
-            const jamCutiTahun =
-                nilaiInputCutiSimpan(
-                    "cuti_tahun",
-                    noSkb
-                );
+// =================================================
+// AMBIL JAM SECTION 5
+//
+// KOSONG = null
+// ADA NILAI = nombor
+// =================================================
 
-            const jamKursus =
-                nilaiInputCutiSimpan(
-                    "kursus",
-                    noSkb
-                );
+function ambilJamSimpan(jenis, noSkb) {
 
-            const jamCutiSakit =
-               nilaiInputCutiSimpan(
-                    "cuti_sakit",
-                    noSkb
-                );
+    const input =
+        document.querySelector(
+            `.input-cuti[data-field="${jenis}"][data-no-skb="${CSS.escape(String(noSkb))}"]`
+        );
 
-            const jamCutiEhsan =
-                nilaiInputCutiSimpan(
-                    "cuti_ehsan",
-                    noSkb
-                );
+    const value =
+        input?.value?.trim();
 
-            const jamCutiGanti =
-                nilaiInputCutiSimpan(
-                    "cuti_ganti",
-                    noSkb
-                );
+    if (!value) {
+        return null;
+    }
 
-            const jamLain1 =
-                nilaiInputCutiSimpan(
-                    "lain1",
-                    noSkb
-                );
+    const nilai =
+        Number(value);
 
-            const jamLain2 =
-                nilaiInputCutiSimpan(
-                    "lain2",
-                    noSkb
-                );
+    return Number.isFinite(nilai)
+        ? nilai
+        : null;
+}
+
+
+const jamCutiTahun =
+    ambilJamSimpan(
+        "cuti_tahun",
+        noSkb
+    );
+
+const jamKursus =
+    ambilJamSimpan(
+        "kursus",
+        noSkb
+    );
+
+const jamCutiSakit =
+    ambilJamSimpan(
+        "cuti_sakit",
+        noSkb
+    );
+
+const jamCutiEhsan =
+    ambilJamSimpan(
+        "cuti_ehsan",
+        noSkb
+    );
+
+const jamCutiGanti =
+    ambilJamSimpan(
+        "cuti_ganti",
+        noSkb
+    );
+
+const jamLain1 =
+    ambilJamSimpan(
+        "lain1",
+        noSkb
+    );
+
+const jamLain2 =
+    ambilJamSimpan(
+        "lain2",
+        noSkb
+    );
 
 
             rows.push({

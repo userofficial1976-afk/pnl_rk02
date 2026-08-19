@@ -1737,23 +1737,24 @@ async function simpanDatabase() {
         );
 
 
-    const {
-        error
-    } = await supabaseClient
+ const {
+    data: { session },
+    error: sessionError
+} = await supabaseClient.auth.getSession();
 
-        .from(
-            "rk02_laporan_ptw"
-        )
+console.log("SESSION SIMPAN:", session);
+console.log("SESSION ERROR:", sessionError);
 
-        .upsert(
-            rows,
-            {
-
-                onConflict:
-                    "bulan,tahun,poskhidmat,no_skb"
-
-            }
-        );
+const {
+    error
+} = await supabaseClient
+    .from("rk02_laporan_ptw")
+    .upsert(
+        rows,
+        {
+            onConflict: "bulan,tahun,poskhidmat,no_skb"
+        }
+    );
 
 
     if (error) {

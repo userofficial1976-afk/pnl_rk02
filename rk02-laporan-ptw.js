@@ -668,7 +668,7 @@ async function binaLaporan(
                         c,
                         bulan,
                         tahun,
-                        poskhidmat
+
                     )
                 );
 
@@ -692,7 +692,7 @@ function kiraRow(
     c,
     bulan,
     tahun,
-    poskhidmat
+   
 ) {
 
     const basicGaji =
@@ -1007,7 +1007,7 @@ function kiraRow(
 
         tahun,
 
-        poskhidmat,
+        
 
         no_skb:
             r.no_skb || null,

@@ -1031,7 +1031,7 @@ data-skb="${noSkb}"
 >
 
 <option value="">
--- PILIH POS --
+-- POS --
 </option>
 `;
 
@@ -2736,7 +2736,7 @@ function isiDropdownHeaderPos() {
 
 <option value="">
 
--- PILIH POS --
+-- POS --
 
 </option>
 

@@ -6419,29 +6419,36 @@ const rmPos6 =
         ? null
         : jamPos6 * kadarRM;
 
+
+// =====================================================
+// COLUMN DATABASE = NOT NULL
+// KOSONG → 0
+// ADA JAM → JAM × KADAR
+// =====================================================
+
 const rmEskot =
     jamEskot === null
-        ? null
+        ? 0
         : jamEskot * kadarRM;
 
 const rmCit =
     jamCit === null
-        ? null
+        ? 0
         : jamCit * kadarRM;
 
 const rmKawalanTambahan =
     jamKawalanTambahan === null
-        ? null
+        ? 0
         : jamKawalanTambahan * kadarRM;
 
 const rmKawalanWang =
     jamKawalanWang === null
-        ? null
+        ? 0
         : jamKawalanWang * kadarRM;
 
 const rmPemandu =
     jamPemandu === null
-        ? null
+        ? 0
         : jamPemandu * kadarRM;
 
             // =================================================
@@ -6470,19 +6477,18 @@ const adaNilaiRM =
     );
 
 const rmTampungan =
-    senaraiRM.reduce(
-        (
-            jumlah,
-            nilai
-        ) =>
-            jumlah +
-            (
-                nilai === null
-                    ? 0
-                    : nilai
-            ),
-        0
-    );
+
+    (rmPos1 ?? 0) +
+    (rmPos2 ?? 0) +
+    (rmPos3 ?? 0) +
+    (rmPos4 ?? 0) +
+    (rmPos5 ?? 0) +
+    (rmPos6 ?? 0) +
+    rmEskot +
+    rmCit +
+    rmKawalanTambahan +
+    rmKawalanWang +
+    rmPemandu;
 
             // =================================================
             // BINA DATA UNTUK SUPABASE

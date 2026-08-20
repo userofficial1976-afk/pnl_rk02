@@ -1047,8 +1047,8 @@ function num(
         .toLocaleString(
             "ms-MY",
             {
-                minimumFractionDigits:2,
-                maximumFractionDigits:2
+                minimumFractionDigits:0,
+                maximumFractionDigits:0
             }
         );
 

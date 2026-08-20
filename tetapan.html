@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Tetapan — FPB Duty Command Center V2
+</title>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="assets/logo.png"
+>
+
+<style>
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+
+    --orange: #e87522;
+    --orange-dark: #c95d12;
+    --orange-light: #fff1e7;
+
+    --dark: #252525;
+    --dark-2: #303030;
+
+    --grey-1: #f4f5f6;
+    --grey-2: #e7e8ea;
+    --grey-3: #c8cbd0;
+
+    --text: #252525;
+    --muted: #777;
+
+    --white: #ffffff;
+
+    --shadow:
+        0 12px 35px rgba(0,0,0,.08);
+
+    --radius: 18px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f5f5f5 0%,
+            #eeeeee 50%,
+            #f8f8f8 100%
+        );
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 285px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #292929 0%,
+            #202020 100%
+        );
+
+    color: white;
+
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow:
+        5px 0 25px rgba(0,0,0,.12);
+
+}
+
+
+/* =====================================================
+   SIDEBAR BRAND
+===================================================== */
+
+.brand {
+
+    min-height: 95px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding:
+        18px 20px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.brand-logo {
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 13px;
+
+    object-fit: contain;
+
+    background: white;
+
+    padding: 5px;
+
+}
+
+.brand-text {
+
+    line-height: 1.15;
+
+}
+
+.brand-title {
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    letter-spacing: .5px;
+
+}
+
+.brand-subtitle {
+
+    margin-top: 5px;
+
+    font-size: 10px;
+
+    color: #aaa;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.nav {
+
+    padding: 18px 12px;
+
+    overflow-y: auto;
+
+    flex: 1;
+
+}
+
+.nav-title {
+
+    padding:
+        8px 12px;
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: #888;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1.4px;
+
+}
+
+.nav-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-height: 47px;
+
+    padding:
+        0 14px;
+
+    margin-bottom: 5px;
+
+    border-radius: 11px;
+
+    color: #c9c9c9;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition:
+        .2s ease;
+
+}
+
+.nav-item:hover {
+
+    background:
+        rgba(255,255,255,.07);
+
+    color: white;
+
+    transform:
+        translateX(2px);
+
+}
+
+.nav-item.active {
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            #f18b3e
+        );
+
+    color: white;
+
+    box-shadow:
+        0 6px 15px
+        rgba(232,117,34,.22);
+
+}
+
+.nav-icon {
+
+    width: 23px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+}
+
+
+/* =====================================================
+   SIDEBAR FOOTER
+===================================================== */
+
+.sidebar-footer {
+
+    padding:
+        15px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.08);
+
+}
+
+.system-status {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        12px;
+
+    border-radius: 11px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    font-size: 11px;
+
+    color: #aaa;
+
+}
+
+.status-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #35c759;
+
+    box-shadow:
+        0 0 8px
+        rgba(53,199,89,.6);
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main {
+
+    margin-left: 285px;
+
+    min-height: 100vh;
+
+}
+
+
+/* =====================================================
+   TOPBAR
+===================================================== */
+
+.topbar {
+
+    height: 82px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter:
+        blur(12px);
+
+    border-bottom:
+        1px solid
+        var(--grey-2);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        0 32px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+}
+
+.topbar-left h1 {
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+}
+
+.topbar-left p {
+
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+}
+
+.user-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.avatar {
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            #f49b55
+        );
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+.user-info {
+
+    text-align: right;
+
+}
+
+.user-name {
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+.user-role {
+
+    font-size: 10px;
+
+    color: var(--muted);
+
+    margin-top: 2px;
+
+}
+
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content {
+
+    padding:
+        30px;
+
+    max-width: 1450px;
+
+    margin: auto;
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 290px;
+
+    border-radius:
+        25px;
+
+    padding:
+        42px 45px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2b2b2b 0%,
+            #3a3a3a 55%,
+            #e87522 150%
+        );
+
+    box-shadow:
+        0 18px 40px
+        rgba(0,0,0,.13);
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -130px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    border:
+        60px solid
+        rgba(232,117,34,.18);
+
+}
+
+.hero::after {
+
+    content: "❝";
+
+    position: absolute;
+
+    right: 45px;
+    bottom: -65px;
+
+    font-family: Georgia, serif;
+
+    font-size: 260px;
+
+    color:
+        rgba(255,255,255,.05);
+
+}
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 900px;
+
+}
+
+.hero-label {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        7px 12px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+
+    text-transform: uppercase;
+
+}
+
+.hero h2 {
+
+    margin-top: 22px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(27px, 3vw, 43px);
+
+    line-height: 1.22;
+
+    font-weight: 700;
+
+}
+
+.hero-author {
+
+    margin-top: 19px;
+
+    color:
+        rgba(255,255,255,.72);
+
+    font-size: 13px;
+
+    font-style: italic;
+
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-heading {
+
+    margin:
+        32px 0 18px;
+
+    display: flex;
+
+    align-items: end;
+
+    justify-content: space-between;
+
+}
+
+.section-heading h3 {
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+.section-heading p {
+
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+
+/* =====================================================
+   QUOTE GRID
+===================================================== */
+
+.quote-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+}
+
+.quote-card {
+
+    background:
+        white;
+
+    border:
+        1px solid
+        var(--grey-2);
+
+    border-radius:
+        var(--radius);
+
+    padding:
+        25px;
+
+    box-shadow:
+        var(--shadow);
+
+    min-height: 205px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+
+}
+
+.quote-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 17px 38px
+        rgba(0,0,0,.11);
+
+}
+
+.quote-icon {
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 10px;
+
+    background:
+        var(--orange-light);
+
+    color:
+        var(--orange);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-family: Georgia, serif;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+}
+
+.quote-text {
+
+    margin-top: 18px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 17px;
+
+    line-height: 1.55;
+
+    color:
+        #383838;
+
+    flex: 1;
+
+}
+
+.quote-footer {
+
+    margin-top: 18px;
+
+    padding-top: 13px;
+
+    border-top:
+        1px solid
+        var(--grey-2);
+
+    font-size: 11px;
+
+    color:
+        var(--orange);
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   MOTIVATION CARDS
+===================================================== */
+
+.motivation-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+}
+
+.motivation-card {
+
+    background:
+        white;
+
+    border-radius:
+        var(--radius);
+
+    border:
+        1px solid
+        var(--grey-2);
+
+    padding:
+        25px;
+
+    box-shadow:
+        var(--shadow);
+
+}
+
+.motivation-top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+}
+
+.motivation-icon {
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        var(--grey-1);
+
+    font-size: 21px;
+
+}
+
+.motivation-title {
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+}
+
+.motivation-subtitle {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+}
+
+.motivation-text {
+
+    margin-top: 18px;
+
+    color:
+        #555;
+
+    font-size: 13px;
+
+    line-height: 1.65;
+
+}
+
+
+/* =====================================================
+   NEXT QUOTE BUTTON
+===================================================== */
+
+.quote-action {
+
+    margin-top: 18px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+}
+
+.btn-next {
+
+    border: none;
+
+    border-radius: 11px;
+
+    padding:
+        11px 17px;
+
+    background:
+        var(--orange);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        .2s ease;
+
+}
+
+.btn-next:hover {
+
+    background:
+        var(--orange-dark);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.page-footer {
+
+    margin-top: 35px;
+
+    padding:
+        20px 5px 30px;
+
+    text-align: center;
+
+    color:
+        #999;
+
+    font-size: 10px;
+
+}
+
+.page-footer strong {
+
+    color:
+        #777;
+
+}
+
+
+/* =====================================================
+   MOBILE NAV
+===================================================== */
+
+.mobile-nav {
+
+    display: none;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1050px) {
+
+    .quote-grid,
+    .motivation-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .sidebar {
+
+        display: none;
+
+    }
+
+    .main {
+
+        margin-left: 0;
+
+        padding-bottom: 70px;
+
+    }
+
+    .topbar {
+
+        height: 70px;
+
+        padding:
+            0 18px;
+
+    }
+
+    .topbar-left h1 {
+
+        font-size: 17px;
+
+    }
+
+    .topbar-left p {
+
+        font-size: 10px;
+
+    }
+
+    .user-info {
+
+        display: none;
+
+    }
+
+    .content {
+
+        padding:
+            18px;
+
+    }
+
+    .hero {
+
+        min-height: 310px;
+
+        padding:
+            30px 25px;
+
+        border-radius:
+            20px;
+
+    }
+
+    .hero h2 {
+
+        font-size:
+            27px;
+
+    }
+
+    .quote-grid,
+    .motivation-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .mobile-nav {
+
+        position: fixed;
+
+        display: flex;
+
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        height: 64px;
+
+        background:
+            rgba(35,35,35,.97);
+
+        z-index: 2000;
+
+        align-items: center;
+
+        justify-content: space-around;
+
+        box-shadow:
+            0 -5px 20px
+            rgba(0,0,0,.16);
+
+    }
+
+    .mobile-nav a {
+
+        text-decoration: none;
+
+        color: #aaa;
+
+        font-size: 9px;
+
+        text-align: center;
+
+    }
+
+    .mobile-nav a.active {
+
+        color:
+            var(--orange);
+
+    }
+
+    .mobile-nav-icon {
+
+        display: block;
+
+        font-size: 18px;
+
+        margin-bottom: 3px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <img
+            src="assets/logo.png"
+            class="brand-logo"
+            alt="FPB"
+        >
+
+        <div class="brand-text">
+
+            <div class="brand-title">
+                FPB DUTY
+            </div>
+
+            <div class="brand-subtitle">
+                COMMAND CENTER V2
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+
+        <div class="nav-title">
+            MENU UTAMA
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                🏠
+            </span>
+
+            Dashboard
+
+        </a>
+
+
+        <a
+            href="senarai-anggota.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                👥
+            </span>
+
+            Senarai Anggota
+
+        </a>
+
+
+        <a
+            href="jadual-duty.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                📅
+            </span>
+
+            Jadual Duty
+
+        </a>
+
+
+        <a
+            href="kod-duty.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                🏷️
+            </span>
+
+            Kod Duty
+
+        </a>
+
+
+        <a
+            href="rk02-pnl-data-entry.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                📝
+            </span>
+
+            RK02 &amp; PNL Entry
+
+        </a>
+
+
+        <a
+            href="laporan.html"
+            class="nav-item"
+        >
+
+            <span class="nav-icon">
+                📊
+            </span>
+
+            Laporan
+
+        </a>
+
+
+        <div class="nav-title">
+            SISTEM
+        </div>
+
+
+        <a
+            href="tetapan.html"
+            class="nav-item active"
+        >
+
+            <span class="nav-icon">
+                ⚙️
+            </span>
+
+            Tetapan
+
+        </a>
+
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            Sistem Beroperasi
+
+        </div>
+
+    </div>
+
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <div class="topbar-left">
+
+            <h1>
+                Tetapan
+            </h1>
+
+            <p>
+                Ruang inspirasi dan kata-kata untuk warga FPB
+            </p>
+
+        </div>
+
+
+        <div class="user-box">
+
+            <div class="user-info">
+
+                <div
+                    class="user-name"
+                    id="namaPengguna"
+                >
+                    Pengguna
+                </div>
+
+                <div
+                    class="user-role"
+                    id="jawatanPengguna"
+                >
+                    FPB Duty Command Center
+                </div>
+
+            </div>
+
+
+            <div
+                class="avatar"
+                id="avatarPengguna"
+            >
+                FP
+            </div>
+
+        </div>
+
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- =================================================
+             HERO KATA-KATA
+        ================================================= -->
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+
+                <span class="hero-label">
+                    ✦ KATA-KATA HARI INI
+                </span>
+
+
+                <h2 id="heroQuote">
+
+                    “Amanah yang dilakukan dengan ikhlas
+                    akan menjadi nilai yang kekal.”
+
+                </h2>
+
+
+                <div
+                    class="hero-author"
+                    id="heroAuthor"
+                >
+                    — Inspirasi FPB
+                </div>
+
+
+                <div class="quote-action">
+
+                    <button
+                        type="button"
+                        class="btn-next"
+                        id="btnNextQuote"
+                    >
+                        ✨ Kata-Kata Seterusnya
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             KOLEKSI KATA-KATA
+        ================================================= -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <h3>
+                    Koleksi Kata-Kata
+                </h3>
+
+                <p>
+                    Sedikit kata-kata untuk menguatkan semangat
+                    dalam melaksanakan amanah.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <section class="quote-grid">
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Disiplin bukan sekadar mematuhi
+                    peraturan, tetapi membentuk diri
+                    untuk melakukan perkara yang betul
+                    walaupun tiada siapa yang melihat.
+
+                </div>
+
+                <div class="quote-footer">
+                    DISIPLIN
+                </div>
+
+            </article>
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Amanah mungkin berat untuk dipikul,
+                    tetapi lebih berat apabila amanah
+                    yang diberikan tidak dilaksanakan
+                    dengan sebaik-baiknya.
+
+                </div>
+
+                <div class="quote-footer">
+                    AMANAH
+                </div>
+
+            </article>
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Kerja yang dilakukan dengan ikhlas
+                    mungkin tidak selalu mendapat pujian,
+                    tetapi hasilnya sentiasa memberi makna.
+
+                </div>
+
+                <div class="quote-footer">
+                    KEIKHLASAN
+                </div>
+
+            </article>
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Jangan menunggu keadaan menjadi mudah.
+                    Jadilah lebih kuat, lebih sabar dan
+                    lebih bersedia menghadapi keadaan.
+
+                </div>
+
+                <div class="quote-footer">
+                    KETABAHAN
+                </div>
+
+            </article>
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Kepercayaan dibina sedikit demi sedikit,
+                    tetapi boleh hilang dalam satu tindakan.
+                    Jagalah kepercayaan seperti menjaga amanah.
+
+                </div>
+
+                <div class="quote-footer">
+                    INTEGRITI
+                </div>
+
+            </article>
+
+
+            <article class="quote-card">
+
+                <div class="quote-icon">
+                    “
+                </div>
+
+                <div class="quote-text">
+
+                    Dalam satu pasukan, kekuatan bukan
+                    terletak pada seorang sahaja, tetapi
+                    pada kesediaan semua untuk saling membantu.
+
+                </div>
+
+                <div class="quote-footer">
+                    KERJASAMA
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- =================================================
+             SEMANGAT TUGAS
+        ================================================= -->
+
+        <div class="section-heading">
+
+            <div>
+
+                <h3>
+                    Nilai Dalam Perkhidmatan
+                </h3>
+
+                <p>
+                    Prinsip yang menjadi asas dalam menjalankan tugas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <section class="motivation-grid">
+
+
+            <article class="motivation-card">
+
+                <div class="motivation-top">
+
+                    <div class="motivation-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+
+                        <div class="motivation-title">
+                            Amanah
+                        </div>
+
+                        <div class="motivation-subtitle">
+                            Laksanakan tanggungjawab
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p class="motivation-text">
+
+                    Setiap tugasan yang diberikan adalah
+                    satu kepercayaan. Laksanakan dengan
+                    penuh tanggungjawab, teliti dan ikhlas.
+
+                </p>
+
+            </article>
+
+
+            <article class="motivation-card">
+
+                <div class="motivation-top">
+
+                    <div class="motivation-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <div class="motivation-title">
+                            Disiplin
+                        </div>
+
+                        <div class="motivation-subtitle">
+                            Konsisten dalam tindakan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p class="motivation-text">
+
+                    Disiplin menjadikan tugas lebih tersusun,
+                    masa lebih dihargai dan pasukan lebih
+                    bersedia menghadapi sebarang keadaan.
+
+                </p>
+
+            </article>
+
+
+            <article class="motivation-card">
+
+                <div class="motivation-top">
+
+                    <div class="motivation-icon">
+                        🤝
+                    </div>
+
+                    <div>
+
+                        <div class="motivation-title">
+                            Integriti
+                        </div>
+
+                        <div class="motivation-subtitle">
+                            Jujur walau tanpa pengawasan
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p class="motivation-text">
+
+                    Integriti ialah melakukan perkara yang
+                    benar walaupun tiada siapa melihat,
+                    kerana maruah diri bermula daripada
+                    kejujuran sendiri.
+
+                </p>
+
+            </article>
+
+
+        </section>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================= -->
+
+        <footer class="page-footer">
+
+            <strong>
+                FPB DUTY COMMAND CENTER V2
+            </strong>
+
+            <br>
+
+            Amanah • Disiplin • Integriti • Kerjasama
+
+        </footer>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================================
+     MOBILE NAV
+===================================================== -->
+
+<nav class="mobile-nav">
+
+
+    <a href="dashboard.html">
+
+        <span class="mobile-nav-icon">
+            🏠
+        </span>
+
+        Dashboard
+
+    </a>
+
+
+    <a href="jadual-duty.html">
+
+        <span class="mobile-nav-icon">
+            📅
+        </span>
+
+        Duty
+
+    </a>
+
+
+    <a href="rk02-pnl-data-entry.html">
+
+        <span class="mobile-nav-icon">
+            📝
+        </span>
+
+        RK02
+
+    </a>
+
+
+    <a
+        href="tetapan.html"
+        class="active"
+    >
+
+        <span class="mobile-nav-icon">
+            ⚙️
+        </span>
+
+        Tetapan
+
+    </a>
+
+
+</nav>
+
+
+<script>
+
+/* =====================================================
+   KATA-KATA
+===================================================== */
+
+const SENARAI_KATA = [
+
+    {
+        text:
+            "Amanah yang dilakukan dengan ikhlas akan menjadi nilai yang kekal.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Disiplin bukan sekadar mematuhi peraturan, tetapi membentuk diri untuk melakukan perkara yang betul walaupun tiada siapa yang melihat.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Kejayaan bukan hanya tentang sampai ke destinasi, tetapi tentang bagaimana kita melaksanakan amanah sepanjang perjalanan.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Jadilah insan yang berguna ketika diperlukan, tenang ketika diuji dan ikhlas ketika melaksanakan amanah.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Kerja yang dilakukan dengan ikhlas mungkin tidak selalu mendapat pujian, tetapi meninggalkan kesan yang panjang.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Dalam satu pasukan, kekuatan bukan terletak pada seorang sahaja, tetapi pada kesediaan semua untuk saling membantu.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Kepercayaan dibina sedikit demi sedikit, tetapi boleh hilang dalam satu tindakan. Jagalah kepercayaan seperti menjaga amanah.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Jangan menunggu keadaan menjadi mudah. Jadilah lebih kuat, lebih sabar dan lebih bersedia menghadapi keadaan.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Kadang-kadang tugas yang kecil menjadi besar nilainya apabila dilakukan dengan penuh keikhlasan.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Kualiti seorang anggota bukan hanya dinilai ketika diawasi, tetapi ketika dia memilih untuk melakukan yang benar tanpa pengawasan.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Hormat kepada tugas, hormat kepada rakan dan hormat kepada amanah yang diberikan.",
+        author:
+            "— Inspirasi FPB"
+    },
+
+    {
+        text:
+            "Hari yang baik bukan hari tanpa cabaran, tetapi hari apabila kita berjaya melaksanakan tanggungjawab walaupun berdepan cabaran.",
+        author:
+            "— Inspirasi FPB"
+    }
+
+];
+
+
+let indexKata = 0;
+
+
+/* =====================================================
+   PAPAR KATA
+===================================================== */
+
+function paparKata(index) {
+
+    const quote =
+        SENARAI_KATA[index];
+
+    const heroQuote =
+        document.getElementById(
+            "heroQuote"
+        );
+
+    const heroAuthor =
+        document.getElementById(
+            "heroAuthor"
+        );
+
+
+    if (!quote) {
+
+        return;
+
+    }
+
+
+    heroQuote.style.opacity = "0";
+
+    heroAuthor.style.opacity = "0";
+
+
+    setTimeout(
+        function() {
+
+            heroQuote.textContent =
+                "“" +
+                quote.text +
+                "”";
+
+            heroAuthor.textContent =
+                quote.author;
+
+
+            heroQuote.style.opacity =
+                "1";
+
+            heroAuthor.style.opacity =
+                "1";
+
+        },
+        180
+    );
+
+}
+
+
+/* =====================================================
+   KATA SETERUSNYA
+===================================================== */
+
+document
+    .getElementById(
+        "btnNextQuote"
+    )
+    ?.addEventListener(
+        "click",
+        function() {
+
+            indexKata++;
+
+            if (
+                indexKata >=
+                SENARAI_KATA.length
+            ) {
+
+                indexKata = 0;
+
+            }
+
+            paparKata(
+                indexKata
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   TRANSITION
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const heroQuote =
+            document.getElementById(
+                "heroQuote"
+            );
+
+        const heroAuthor =
+            document.getElementById(
+                "heroAuthor"
+            );
+
+
+        if (heroQuote) {
+
+            heroQuote.style.transition =
+                "opacity .18s ease";
+
+        }
+
+
+        if (heroAuthor) {
+
+            heroAuthor.style.transition =
+                "opacity .18s ease";
+
+        }
+
+
+        /* ===============================
+           USER SEMENTARA
+        =============================== */
+
+        try {
+
+            const localUser =
+                localStorage.getItem(
+                    "pengguna"
+                );
+
+
+            if (localUser) {
+
+                const user =
+                    JSON.parse(
+                        localUser
+                    );
+
+
+                const nama =
+                    user?.nama ||
+                    "Pengguna";
+
+
+                const jawatan =
+                    user?.jawatan ||
+                    "FPB Duty Command Center";
+
+
+                const namaEl =
+                    document.getElementById(
+                        "namaPengguna"
+                    );
+
+
+                const jawatanEl =
+                    document.getElementById(
+                        "jawatanPengguna"
+                    );
+
+
+                const avatarEl =
+                    document.getElementById(
+                        "avatarPengguna"
+                    );
+
+
+                if (namaEl) {
+
+                    namaEl.textContent =
+                        nama;
+
+                }
+
+
+                if (jawatanEl) {
+
+                    jawatanEl.textContent =
+                        jawatan;
+
+                }
+
+
+                if (avatarEl) {
+
+                    avatarEl.textContent =
+                        binaAvatar(nama);
+
+                }
+
+            }
+
+        }
+
+        catch(error) {
+
+            console.warn(
+                "USER LOCAL TIDAK DAPAT DIBACA:",
+                error
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+function binaAvatar(
+    nama
+) {
+
+    const teks =
+        String(
+            nama || ""
+        )
+        .trim();
+
+
+    if (!teks) {
+
+        return "FP";
+
+    }
+
+
+    const bahagian =
+        teks.split(
+            /\s+/
+        );
+
+
+    if (
+        bahagian.length === 1
+    ) {
+
+        return bahagian[0]
+            .substring(
+                0,
+                2
+            )
+            .toUpperCase();
+
+    }
+
+
+    return (
+        bahagian[0][0] +
+        bahagian[
+            bahagian.length - 1
+        ][0]
+    )
+    .toUpperCase();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

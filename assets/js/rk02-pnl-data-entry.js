@@ -1811,6 +1811,8 @@ function pasangEventUtama() {
 
                 await muatPosTampunganDisimpan();
 
+                await muatCutiPengganti();
+
             }
 
         );
@@ -1841,6 +1843,8 @@ function pasangEventUtama() {
                 paparPosTampungan();
 
                 await muatPosTampunganDisimpan();
+
+                await muatCutiPengganti();
 
             }
 

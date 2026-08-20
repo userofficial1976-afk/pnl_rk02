@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Paparan Cuti Pengganti — FPB Duty Command Center V2
+</title>
+
+
+<link
+    rel="icon"
+    type="image/png"
+    href="logo.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="logo.png"
+>
+
+<link
+    rel="manifest"
+    href="manifest.json"
+>
+
+
+<link
+    rel="stylesheet"
+    href="assets/css/command-theme.css"
+>
+
+<link
+    rel="stylesheet"
+    href="paparan-cuti-pengganti.css"
+>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img
+            src="logo.png"
+            alt="FPB Logo"
+        >
+
+        <div>
+
+            <strong>
+                FPB DUTY
+            </strong>
+
+            <span>
+                COMMAND CENTER V2
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a href="rk02-pnl-data-entry.html">
+
+            <span>🏠</span>
+
+            Pengisian Data RK02
+
+        </a>
+
+
+        <a href="tampungan-rk02.html">
+
+            <span>📝</span>
+
+            Tampungan Pos
+
+        </a>
+
+
+        <a
+            href="paparan-cuti-pengganti.html"
+            class="active"
+        >
+
+            <span>📋</span>
+
+            Cuti Pengganti
+
+        </a>
+
+
+        <a href="laporan-penuh-pengurusan.html">
+
+            <span>📊</span>
+
+            Laporan Penuh Pengurusan
+
+        </a>
+
+
+        <a href="laporan-rk02.html">
+
+            <span>📄</span>
+
+            Cetak RK-02
+
+        </a>
+
+
+        <a href="tetapan.html">
+
+            <span>⚙️</span>
+
+            Tetapan
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <small>
+            FPB Duty System
+        </small>
+
+        <strong>
+            Wilayah Terengganu
+        </strong>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main-content">
+
+
+<!-- =====================================================
+     TOPBAR
+===================================================== -->
+
+<header class="topbar">
+
+    <div>
+
+        <h2>
+            Paparan Cuti Pengganti
+        </h2>
+
+        <p>
+            Rekod cuti dan jam anggota mengikut Pos
+        </p>
+
+    </div>
+
+
+    <div class="topbar-user">
+
+        <div>
+
+            <strong id="namaPengguna">
+                NAMA PENGGUNA
+            </strong>
+
+            <span id="jawatanPengguna">
+                -
+            </span>
+
+        </div>
+
+
+        <div
+            class="user-avatar"
+            id="avatarPengguna"
+        >
+            PT
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<section class="cuti-page">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<div class="cuti-hero">
+
+    <div class="hero-left">
+
+        <div class="hero-icon">
+            📋
+        </div>
+
+        <div>
+
+            <h1>
+                PAPARAN CUTI PENGGANTI
+            </h1>
+
+            <p>
+                Paparan rekod cuti pengganti
+                anggota mengikut Pos Ketua Pos
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-period">
+
+        <span>
+            POS KHIDMAT
+        </span>
+
+        <strong id="heroPos">
+            -
+        </strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FILTER
+===================================================== -->
+
+<div class="cuti-card filter-card">
+
+
+    <div class="section-heading">
+
+        <div class="section-heading-left">
+
+            <div class="section-icon">
+                1
+            </div>
+
+            <div>
+
+                <h2>
+                    Pilihan Paparan
+                </h2>
+
+                <p>
+                    Pilih bulan dan tahun
+                    untuk melihat rekod cuti
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="filter-grid">
+
+
+        <div class="filter-field">
+
+            <label for="bulan">
+                BULAN
+            </label>
+
+            <select id="bulan">
+
+                <option value="1">
+                    JANUARI
+                </option>
+
+                <option value="2">
+                    FEBRUARI
+                </option>
+
+                <option value="3">
+                    MAC
+                </option>
+
+                <option value="4">
+                    APRIL
+                </option>
+
+                <option value="5">
+                    MEI
+                </option>
+
+                <option value="6">
+                    JUN
+                </option>
+
+                <option value="7">
+                    JULAI
+                </option>
+
+                <option value="8">
+                    OGOS
+                </option>
+
+                <option value="9">
+                    SEPTEMBER
+                </option>
+
+                <option value="10">
+                    OKTOBER
+                </option>
+
+                <option value="11">
+                    NOVEMBER
+                </option>
+
+                <option value="12">
+                    DISEMBER
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-field">
+
+            <label for="tahun">
+                TAHUN
+            </label>
+
+            <select id="tahun">
+
+                <option value="2026">
+                    2026
+                </option>
+
+                <option value="2027">
+                    2027
+                </option>
+
+                <option value="2028">
+                    2028
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-field">
+
+            <label>
+                POS KHIDMAT
+            </label>
+
+            <input
+                type="text"
+                id="poskhidmat"
+                readonly
+            >
+
+        </div>
+
+
+
+        <div class="filter-actions">
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                id="btnPapar"
+            >
+                🔍
+                PAPAR
+            </button>
+
+
+            <button
+                type="button"
+                class="btn btn-print"
+                id="btnCetak"
+            >
+                🖨️
+                CETAK
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     STATUS
+===================================================== -->
+
+<div
+    id="status"
+    class="status-box"
+>
+    Sila pilih bulan dan tahun kemudian tekan PAPAR.
+</div>
+
+
+
+<!-- =====================================================
+     SUMMARY
+===================================================== -->
+
+<div class="summary-grid">
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            👮
+        </div>
+
+        <div>
+
+            <span>
+                JUMLAH ANGGOTA
+            </span>
+
+            <strong id="summaryAnggota">
+                0
+            </strong>
+
+            <small>
+                ORANG
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+        <div class="summary-icon">
+            ⏱️
+        </div>
+
+        <div>
+
+            <span>
+                JUMLAH JAM
+            </span>
+
+            <strong id="summaryJam">
+                0.00
+            </strong>
+
+            <small>
+                JAM
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-card summary-rm">
+
+        <div class="summary-icon">
+            💰
+        </div>
+
+        <div>
+
+            <span>
+                JUMLAH RM
+            </span>
+
+            <strong id="summaryRM">
+                RM 0.00
+            </strong>
+
+            <small>
+                KESELURUHAN
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TABLE
+===================================================== -->
+
+<div class="cuti-card report-card">
+
+
+    <div class="report-header">
+
+        <div>
+
+            <div class="report-title">
+                REKOD CUTI PENGGANTI
+            </div>
+
+            <div
+                class="report-subtitle"
+                id="reportSubtitle"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div
+            class="report-badge"
+            id="reportBadge"
+        >
+            -
+        </div>
+
+    </div>
+
+
+
+    <div class="table-container">
+
+        <table
+            class="cuti-table"
+            id="cutiTable"
+        >
+
+
+            <thead>
+
+                <!-- BARIS 1 -->
+
+                <tr>
+
+                    <th rowspan="2">
+                        BIL
+                    </th>
+
+                    <th rowspan="2">
+                        NO SKB
+                    </th>
+
+                    <th rowspan="2"
+                        class="nama-header"
+                    >
+                        NAMA
+                    </th>
+
+                    <th colspan="2">
+                        CUTI TAHUN
+                    </th>
+
+                    <th colspan="2">
+                        KURSUS
+                    </th>
+
+                    <th colspan="2">
+                        CUTI SAKIT
+                    </th>
+
+                    <th colspan="2">
+                        CUTI EHSAN
+                    </th>
+
+                    <th colspan="2">
+                        CUTI GANTI
+                    </th>
+
+                    <th colspan="2">
+                        LAIN 1
+                    </th>
+
+                    <th colspan="2">
+                        LAIN 2
+                    </th>
+
+                    <th colspan="2">
+                        JUMLAH
+                    </th>
+
+                </tr>
+
+
+                <!-- BARIS 2 -->
+
+                <tr>
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+
+                    <th>
+                        JAM
+                    </th>
+
+                    <th>
+                        RM
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody id="cutiTableBody">
+
+                <tr>
+
+                    <td
+                        colspan="18"
+                        class="empty-row"
+                    >
+                        Tiada data dipaparkan.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+
+
+            <tfoot>
+
+                <tr>
+
+                    <td
+                        colspan="3"
+                        class="total-label"
+                    >
+                        JUMLAH KESELURUHAN
+                    </td>
+
+
+                    <td id="totalCutiTahunJam">
+                        0.00
+                    </td>
+
+                    <td id="totalCutiTahunRM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalKursusJam">
+                        0.00
+                    </td>
+
+                    <td id="totalKursusRM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalMCJam">
+                        0.00
+                    </td>
+
+                    <td id="totalMCRM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalEhsanJam">
+                        0.00
+                    </td>
+
+                    <td id="totalEhsanRM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalGantiJam">
+                        0.00
+                    </td>
+
+                    <td id="totalGantiRM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalLain1Jam">
+                        0.00
+                    </td>
+
+                    <td id="totalLain1RM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalLain2Jam">
+                        0.00
+                    </td>
+
+                    <td id="totalLain2RM">
+                        RM 0.00
+                    </td>
+
+
+                    <td id="totalJam">
+                        0.00
+                    </td>
+
+                    <td id="totalRM"
+                        class="money-cell"
+                    >
+                        RM 0.00
+                    </td>
+
+                </tr>
+
+            </tfoot>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FOOTER SUMMARY
+===================================================== -->
+
+<div class="final-summary">
+
+
+    <div>
+
+        <span>
+            BULAN LAPORAN
+        </span>
+
+        <strong id="finalBulan">
+            -
+        </strong>
+
+    </div>
+
+
+
+    <div>
+
+        <span>
+            POS KHIDMAT
+        </span>
+
+        <strong id="finalPos">
+            -
+        </strong>
+
+    </div>
+
+
+
+    <div>
+
+        <span>
+            JUMLAH JAM
+        </span>
+
+        <strong id="finalJam">
+            0.00 JAM
+        </strong>
+
+    </div>
+
+
+
+    <div class="final-rm">
+
+        <span>
+            JUMLAH KESELURUHAN
+        </span>
+
+        <strong id="finalRM">
+            RM 0.00
+        </strong>
+
+    </div>
+
+</div>
+
+
+</section>
+
+</main>
+
+
+
+<!-- =====================================================
+     MOBILE NAV
+===================================================== -->
+
+<nav class="mobile-bottom-nav">
+
+    <a href="dashboard.html">
+
+        🏠
+
+        <span>
+            Dashboard
+        </span>
+
+    </a>
+
+
+    <a href="jadual-duty.html">
+
+        📅
+
+        <span>
+            Duty
+        </span>
+
+    </a>
+
+
+    <a href="rk02-pnl-data-entry.html">
+
+        📝
+
+        <span>
+            RK02
+        </span>
+
+    </a>
+
+
+    <a
+        href="paparan-cuti-pengganti.html"
+        class="active"
+    >
+
+        📋
+
+        <span>
+            Cuti
+        </span>
+
+    </a>
+
+</nav>
+
+
+
+<!-- =====================================================
+     LIBRARY
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="auth-guard.js"></script>
+
+<script src="paparan-cuti-pengganti.js"></script>
+
+
+</body>
+
+</html>

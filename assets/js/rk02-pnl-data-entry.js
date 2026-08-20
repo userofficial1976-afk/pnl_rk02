@@ -2183,6 +2183,67 @@ async function resetData() {
     }
 
 
+// =================================================
+// 9. PADAM DATA PENGGANTI CUTI SECTION 5
+// TABLE: cuti_pengganti
+// =================================================
+
+if (
+    bulan &&
+    tahun &&
+    poskhidmat
+) {
+
+    const {
+        error
+    } =
+        await supabaseClient
+
+            .from(
+                "cuti_pengganti"
+            )
+
+            .delete()
+
+            .eq(
+                "bulan",
+                bulan
+            )
+
+            .eq(
+                "tahun",
+                tahun
+            )
+
+            .eq(
+                "poskhidmat",
+                poskhidmat
+            );
+
+
+    if (error) {
+
+        console.error(
+            "RALAT RESET CUTI PENGGANTI:",
+            error
+        );
+
+
+        alert(
+            "Gagal reset data Cuti Pengganti."
+        );
+
+
+        return;
+
+    }
+
+}
+
+
+
+
+    
     // =================================================
     // 7. KIRA SEMULA
     // =================================================

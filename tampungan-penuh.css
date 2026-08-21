@@ -1,0 +1,668 @@
+/* =========================================================
+   TAMPUNGAN PENUH
+   FPB DUTY COMMAND CENTER V2
+   ========================================================= */
+
+:root {
+    --bg: #f1f3f5;
+    --card: #ffffff;
+
+    --text: #20252b;
+    --muted: #6b7280;
+
+    --border: #dfe3e8;
+
+    --dark: #263238;
+    --dark2: #455a64;
+
+    --orange: #f28c28;
+
+    --blue: #1769aa;
+    --green: #16834b;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   APP
+   ========================================================= */
+
+.app {
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.topbar {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--dark),
+            var(--dark2)
+        );
+
+    color: #fff;
+
+    padding:
+        24px
+        34px
+        22px;
+
+    border-bottom:
+        5px solid
+        var(--orange);
+}
+
+
+.brand {
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    letter-spacing: .6px;
+}
+
+
+.page-title {
+
+    margin-top: 22px;
+
+    font-size: 27px;
+
+    font-weight: 800;
+}
+
+
+.page-subtitle {
+
+    margin-top: 5px;
+
+    color: #d9e0e4;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.content {
+
+    width:
+        min(
+            1500px,
+            calc(100% - 40px)
+        );
+
+    margin:
+        22px auto
+        40px;
+}
+
+
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.card {
+
+    background: var(--card);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 16px
+        rgba(0,0,0,.06);
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+.filter-card {
+
+    padding: 22px;
+
+    margin-bottom: 20px;
+}
+
+
+.filter-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1.4fr;
+
+    gap: 18px;
+}
+
+
+.field label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #4b5563;
+
+    font-weight: 800;
+
+    font-size: 12px;
+
+    letter-spacing: .5px;
+}
+
+
+.field select {
+
+    width: 100%;
+
+    height: 44px;
+
+    border:
+        1px solid
+        #cbd1d7;
+
+    border-radius: 8px;
+
+    background: #fff;
+
+    padding:
+        0 13px;
+
+    color: #222;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+.field select:focus {
+
+    border-color:
+        var(--orange);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(242,140,40,.13);
+}
+
+
+/* =========================================================
+   BUTTON
+   ========================================================= */
+
+.action-row {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    gap: 14px;
+
+    margin-top: 22px;
+}
+
+
+.btn {
+
+    min-width: 190px;
+
+    height: 44px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    padding:
+        0 20px;
+
+    color: #fff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+.btn:hover:not(:disabled) {
+
+    filter: brightness(.95);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.btn:disabled {
+
+    opacity: .45;
+
+    cursor: not-allowed;
+}
+
+
+.btn-primary {
+
+    background:
+        var(--blue);
+}
+
+
+.btn-excel {
+
+    background:
+        var(--green);
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status {
+
+    min-height: 20px;
+
+    margin-top: 13px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   REPORT
+   ========================================================= */
+
+.report-card {
+
+    overflow: hidden;
+}
+
+
+.report-heading {
+
+    padding:
+        22px
+        24px
+        17px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+}
+
+
+.report-heading h2 {
+
+    margin: 0;
+
+    font-size: 19px;
+
+    font-weight: 800;
+}
+
+
+.report-heading p {
+
+    margin:
+        6px 0 0;
+
+    color:
+        var(--muted);
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrap {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+
+    width: 100%;
+
+    min-width: 1100px;
+
+    border-collapse:
+        collapse;
+}
+
+
+thead th {
+
+    background:
+        #eceff1;
+
+    color:
+        #263238;
+
+    border-bottom:
+        2px solid
+        #c7cdd1;
+
+    border-right:
+        1px solid
+        #d9dee1;
+
+    padding:
+        12px 10px;
+
+    text-align:
+        left;
+
+    white-space:
+        nowrap;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+tbody td {
+
+    padding:
+        11px 10px;
+
+    border-bottom:
+        1px solid
+        #e2e5e8;
+
+    border-right:
+        1px solid
+        #edf0f2;
+
+    vertical-align:
+        top;
+
+    line-height:
+        1.35;
+}
+
+
+tbody tr:nth-child(even) {
+
+    background:
+        #fafafa;
+}
+
+
+tbody tr:hover {
+
+    background:
+        #fff8ef;
+}
+
+
+/* =========================================================
+   COLUMNS
+   ========================================================= */
+
+.bil {
+
+    width: 58px;
+
+    text-align:
+        center !important;
+}
+
+
+.jam {
+
+    width: 75px;
+
+    text-align:
+        center !important;
+}
+
+
+.money {
+
+    text-align:
+        right !important;
+}
+
+
+.cell-place {
+
+    font-weight: 700;
+}
+
+
+.cell-skb {
+
+    font-family:
+        Consolas,
+        monospace;
+
+    font-weight: 700;
+
+    white-space:
+        nowrap;
+}
+
+
+.cell-name {
+
+    font-weight: 700;
+}
+
+
+.cell-pos {
+
+    font-weight: 600;
+}
+
+
+.empty {
+
+    padding:
+        35px !important;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+}
+
+
+/* =========================================================
+   SUMMARY
+   ========================================================= */
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1.4fr;
+
+    border-top:
+        2px solid
+        #cfd5d9;
+
+    background:
+        #f7f8f9;
+}
+
+
+.summary > div {
+
+    min-height: 68px;
+
+    padding:
+        14px 20px;
+
+    border-right:
+        1px solid
+        var(--border);
+
+    display: flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap: 15px;
+}
+
+
+.summary > div:last-child {
+
+    border-right: 0;
+}
+
+
+.summary span {
+
+    color:
+        #5d6670;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.summary strong {
+
+    font-size: 17px;
+
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    .topbar {
+
+        padding:
+            20px;
+    }
+
+
+    .page-title {
+
+        font-size: 23px;
+
+        margin-top:
+            18px;
+    }
+
+
+    .content {
+
+        width:
+            calc(100% - 20px);
+
+        margin-top:
+            12px;
+    }
+
+
+    .filter-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 14px;
+    }
+
+
+    .action-row {
+
+        flex-direction:
+            column;
+    }
+
+
+    .btn {
+
+        width: 100%;
+    }
+
+
+    .summary {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .summary > div {
+
+        border-right: 0;
+
+        border-bottom:
+            1px solid
+            var(--border);
+    }
+
+
+    .summary > div:last-child {
+
+        border-bottom: 0;
+    }
+
+}

@@ -959,7 +959,7 @@ async function lengkapkanBasicGaji(
                     .map(
                         row =>
                             clean(
-                                row.no_skb
+                                row.noskb
                             )
                     )
 
@@ -990,11 +990,11 @@ async function lengkapkanBasicGaji(
             )
 
             .select(
-                "no_skb,nama,gaji_pokok"
+                "noskb,nama,gaji_pokok"
             )
 
             .in(
-                "no_skb",
+                "noskb",
                 skbList
             );
 
@@ -1020,7 +1020,7 @@ async function lengkapkanBasicGaji(
 
                 map.set(
                     clean(
-                        member.no_skb
+                        member.noskb
                     ),
                     member
                 );
@@ -1034,7 +1034,7 @@ async function lengkapkanBasicGaji(
                 const member =
                     map.get(
                         clean(
-                            row.no_skb
+                            row.noskb
                         )
                     );
 

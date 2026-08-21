@@ -2,25 +2,46 @@
 // TAMPUNGAN PENUH
 // FPB DUTY COMMAND CENTER V2
 // =========================================================
+// DATABASE:
+// rk02_pos_tampungan
+//
+// STRUKTUR:
+// pos1 ... pos6
+// jam_pos1 ... jam_pos6
+// rm_pos1 ... rm_pos6
+//
+// BASIC GAJI:
+// Data_Anggota.gaji_pokok
+// berdasarkan no_skb
+//
+// PAPARAN + EXCEL:
+// Menggunakan dataTampungan yang sama
+// SORT TEMPAT TAMPUNGAN A-Z
+// =========================================================
 
 
 // =========================================================
-// DATA UTAMA
+// GLOBAL
 // =========================================================
+
+let supabaseClient = null;
 
 let dataTampungan = [];
 
 
 // =========================================================
-// TABLE SUPABASE
+// TABLE
 // =========================================================
 
-const TABLE_TAMPUNGAN = "rk02_pos_tampungan";
-const TABLE_ANGGOTA = "Data_Anggota";
+const TABLE_TAMPUNGAN =
+    "rk02_pos_tampungan";
+
+const TABLE_ANGGOTA =
+    "Data_Anggota";
 
 
 // =========================================================
-// BULAN
+// SENARAI BULAN
 // =========================================================
 
 const SENARAI_BULAN = [
@@ -64,6 +85,21 @@ const tbody =
 const statusEl =
     document.getElementById("status");
 
+const tajukLaporan =
+    document.getElementById("tajukLaporan");
+
+const subtajukLaporan =
+    document.getElementById("subtajukLaporan");
+
+const jumlahRekodEl =
+    document.getElementById("jumlahRekod");
+
+const jumlahJamEl =
+    document.getElementById("jumlahJam");
+
+const jumlahKlmEl =
+    document.getElementById("jumlahKlm");
+
 
 // =========================================================
 // INIT
@@ -77,58 +113,67 @@ document.addEventListener(
 
 async function init() {
 
-    isiBulan();
-
-    isiTahun();
+    console.log(
+        "TAMPUNGAN PENUH: INIT"
+    );
 
 
     // -----------------------------------------------------
     // SEMAK SUPABASE CLIENT
     // -----------------------------------------------------
 
-    try {
-
-        if (
-            !window.supabaseClient
-        ) {
-
-            throw new Error(
-                "supabaseClient tidak dijumpai. Semak supabase-config.js."
-            );
-        }
-
-
-        console.log(
-            "TAMPUNGAN PENUH: SUPABASE CLIENT OK"
-        );
-
-
-        // -------------------------------------------------
-        // ISI SENARAI POS
-        // -------------------------------------------------
-
-        await isiPosKhidmat();
-
-
-        setStatus(
-            "Sistem sedia. Sila tekan PAPAR DATA.",
-            "success"
-        );
-
-
-    } catch (error) {
+    if (
+        !window.supabaseClient
+    ) {
 
         console.error(
-            "SUPABASE ERROR:",
-            error
+            "SUPABASE CLIENT TIDAK DIJUMPAI"
         );
 
 
         setStatus(
-            "Gagal menyambung ke Supabase.",
+            "Supabase Client tidak dijumpai. Pastikan supabase-config.js dimuatkan dahulu.",
             "error"
         );
+
+
+        return;
     }
+
+
+    supabaseClient =
+        window.supabaseClient;
+
+
+    console.log(
+        "TAMPUNGAN PENUH: SUPABASE CLIENT OK"
+    );
+
+
+    // -----------------------------------------------------
+    // ISI FILTER
+    // -----------------------------------------------------
+
+    isiBulan();
+
+    isiTahun();
+
+
+    // -----------------------------------------------------
+    // AMBIL SENARAI POS KHIDMAT
+    // -----------------------------------------------------
+
+    await isiPosKhidmat();
+
+
+    // -----------------------------------------------------
+    // STATUS AWAL
+    // -----------------------------------------------------
+
+    setStatus(
+        "Sila pilih bulan dan tahun kemudian tekan PAPAR DATA.",
+        ""
+    );
 }
 
 
@@ -160,11 +205,6 @@ if (btnExcel) {
 
 function isiBulan() {
 
-    if (!bulanEl) {
-        return;
-    }
-
-
     bulanEl.innerHTML = "";
 
 
@@ -178,7 +218,7 @@ function isiBulan() {
 
 
             option.value =
-                bulan;
+                index + 1;
 
 
             option.textContent =
@@ -208,11 +248,6 @@ function isiBulan() {
 // =========================================================
 
 function isiTahun() {
-
-    if (!tahunEl) {
-        return;
-    }
-
 
     tahunEl.innerHTML = "";
 
@@ -265,112 +300,132 @@ function isiTahun() {
 // =========================================================
 // POS KHIDMAT
 // =========================================================
+//
+// PENTING:
+// Data_Anggota ANDA TIDAK ADA COLUMN "pos".
+// Berdasarkan schema projek:
+// gunakan "poskhidmat".
+//
+// Tetapi untuk lebih selamat kita ambil POS daripada
+// rk02_pos_tampungan sendiri kerana column tersebut
+// memang wujud.
+// =========================================================
 
 async function isiPosKhidmat() {
 
-    if (
-        !window.supabaseClient
-    ) {
-
-        console.error(
-            "supabaseClient tidak tersedia."
-        );
+    if (!supabaseClient) {
 
         return;
     }
 
 
-    const {
-        data,
-        error
-    } = await window.supabaseClient
-        .from(
-            TABLE_ANGGOTA
-        )
-        .select(
-            "pos"
-        )
-        .not(
-            "pos",
-            "is",
-            null
-        );
+    try {
 
-
-    if (error) {
-
-        console.warn(
-            "Gagal ambil POS:",
+        const {
+            data,
             error
-        );
+        } = await supabaseClient
 
-        return;
-    }
-
-
-    const senarai =
-        [
-            ...new Set(
-
-                (data || [])
-                    .map(
-                        item =>
-                            clean(
-                                item.pos
-                            )
-                    )
-                    .filter(
-                        Boolean
-                    )
+            .from(
+                TABLE_TAMPUNGAN
             )
-        ]
-        .sort(
-            compareMalay
-        );
+
+            .select(
+                "poskhidmat"
+            )
+
+            .not(
+                "poskhidmat",
+                "is",
+                null
+            );
 
 
-    // -----------------------------------------------------
-    // KOSONGKAN OPTION SEDIA ADA KECUALI SEMUA
-    // -----------------------------------------------------
+        if (error) {
 
-    if (posEl) {
+            console.error(
+                "Gagal ambil POS KHIDMAT:",
+                error
+            );
+
+
+            setStatus(
+                "Gagal mengambil senarai POS KHIDMAT.",
+                "error"
+            );
+
+
+            return;
+        }
+
+
+        const senarai =
+            [
+                ...new Set(
+                    (data || [])
+
+                        .map(
+                            row =>
+                                clean(
+                                    row.poskhidmat
+                                )
+                        )
+
+                        .filter(
+                            Boolean
+                        )
+                )
+            ]
+
+            .sort(
+                compareMalay
+            );
+
 
         posEl.innerHTML = `
             <option value="">
                 SEMUA
             </option>
         `;
-    }
 
 
-    senarai.forEach(
-        pos => {
+        senarai.forEach(
+            pos => {
 
-            const option =
-                document.createElement(
-                    "option"
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    pos;
+
+
+                option.textContent =
+                    pos;
+
+
+                posEl.appendChild(
+                    option
                 );
+            }
+        );
 
 
-            option.value =
-                pos;
+        console.log(
+            "SENARAI POS KHIDMAT:",
+            senarai
+        );
 
 
-            option.textContent =
-                pos;
+    } catch (error) {
 
-
-            posEl.appendChild(
-                option
-            );
-        }
-    );
-
-
-    console.log(
-        "SENARAI POS:",
-        senarai
-    );
+        console.error(
+            "RALAT ISI POS:",
+            error
+        );
+    }
 }
 
 
@@ -380,21 +435,22 @@ async function isiPosKhidmat() {
 
 async function paparData() {
 
-    if (
-        !window.supabaseClient
-    ) {
+    if (!supabaseClient) {
 
         setStatus(
-            "Supabase belum disambungkan.",
+            "Supabase Client belum tersedia.",
             "error"
         );
+
 
         return;
     }
 
 
     const bulan =
-        bulanEl.value;
+        Number(
+            bulanEl.value
+        );
 
 
     const tahun =
@@ -403,13 +459,21 @@ async function paparData() {
         );
 
 
-    const pos =
-        posEl.value;
+    const posKhidmat =
+        clean(
+            posEl.value
+        );
 
 
-    // -----------------------------------------------------
-    // DISABLE BUTTON
-    // -----------------------------------------------------
+    console.log(
+        "FILTER:",
+        {
+            bulan,
+            tahun,
+            posKhidmat
+        }
+    );
+
 
     btnPapar.disabled =
         true;
@@ -420,7 +484,7 @@ async function paparData() {
 
 
     setStatus(
-        "Sedang mengambil data...",
+        "Sedang mengambil data tampungan...",
         "loading"
     );
 
@@ -434,12 +498,24 @@ async function paparData() {
         const {
             data,
             error
-        } = await window.supabaseClient
+        } = await supabaseClient
+
             .from(
                 TABLE_TAMPUNGAN
             )
+
             .select(
                 "*"
+            )
+
+            .eq(
+                "bulan",
+                bulan
+            )
+
+            .eq(
+                "tahun",
+                tahun
             );
 
 
@@ -456,117 +532,72 @@ async function paparData() {
 
 
         // =================================================
-        // FILTER BULAN / TAHUN
+        // FILTER POS KHIDMAT
         // =================================================
 
         let rows =
-            (data || [])
-                .filter(
-                    row => {
-
-                        const rowBulan =
-                            clean(
-                                row.bulan
-                            );
+            data || [];
 
 
-                        const rowTahun =
-                            Number(
-                                row.tahun
-                            );
-
-
-                        return (
-
-                            normaliseBulan(
-                                rowBulan
-                            )
-                            ===
-                            normaliseBulan(
-                                bulan
-                            )
-
-                            &&
-
-                            rowTahun ===
-                            tahun
-
-                        );
-                    }
-                );
-
-
-        console.log(
-            "SELEPAS FILTER BULAN/TAHUN:",
-            rows
-        );
-
-
-        // =================================================
-        // NORMALISE
-        // =================================================
-
-        rows =
-            rows.map(
-                normaliseRow
-            );
-
-
-        // =================================================
-        // FILTER POS
-        // =================================================
-
-        if (pos) {
+        if (
+            posKhidmat
+        ) {
 
             rows =
                 rows.filter(
                     row =>
-
                         clean(
-                            row.pos
-                        )
-                        .toUpperCase()
-
+                            row.poskhidmat
+                        ).toUpperCase()
                         ===
-
-                        clean(
-                            pos
-                        )
-                        .toUpperCase()
+                        posKhidmat
+                            .toUpperCase()
                 );
         }
 
 
         console.log(
-            "SELEPAS FILTER POS:",
+            "SELEPAS FILTER BULAN/TAHUN/POS:",
             rows
         );
 
 
         // =================================================
-        // LENGKAPKAN BASIC GAJI
+        // PECAHKAN POS1 - POS6
         // =================================================
 
-        rows =
-            await lengkapkanBasicGaji(
+        let hasil =
+            binaBarisTampungan(
                 rows
+            );
+
+
+        console.log(
+            "SELEPAS PECAH POS1-POS6:",
+            hasil
+        );
+
+
+        // =================================================
+        // BASIC GAJI
+        // =================================================
+
+        hasil =
+            await lengkapkanBasicGaji(
+                hasil
             );
 
 
         // =================================================
         // SORT TEMPAT TAMPUNGAN A-Z
-        //
-        // KEUTAMAAN:
-        // 1. TEMPAT TAMPUNGAN
-        // 2. NAMA
-        // 3. NO SKB
         // =================================================
 
-        rows.sort(
-            (
-                a,
-                b
-            ) => {
+        hasil.sort(
+            (a, b) => {
+
+                // -----------------------------------------
+                // TEMPAT TAMPUNGAN
+                // -----------------------------------------
 
                 const tempat =
                     compareMalay(
@@ -583,6 +614,10 @@ async function paparData() {
                 }
 
 
+                // -----------------------------------------
+                // NAMA
+                // -----------------------------------------
+
                 const nama =
                     compareMalay(
                         a.nama,
@@ -598,6 +633,10 @@ async function paparData() {
                 }
 
 
+                // -----------------------------------------
+                // SKB
+                // -----------------------------------------
+
                 return compareMalay(
                     a.no_skb,
                     b.no_skb
@@ -607,17 +646,12 @@ async function paparData() {
 
 
         // =================================================
-        // BIL
-        //
-        // BIL DIBERI SELEPAS SORT
+        // BIL SELEPAS SORT
         // =================================================
 
-        rows =
-            rows.map(
-                (
-                    row,
-                    index
-                ) => ({
+        dataTampungan =
+            hasil.map(
+                (row, index) => ({
 
                     ...row,
 
@@ -627,19 +661,6 @@ async function paparData() {
             );
 
 
-        // =================================================
-        // SIMPAN ARRAY UTAMA
-        //
-        // ARRAY INI DIGUNAKAN OLEH:
-        // TABLE
-        // SUMMARY
-        // EXCEL
-        // =================================================
-
-        dataTampungan =
-            rows;
-
-
         console.log(
             "DATA AKHIR TAMPUNGAN:",
             dataTampungan
@@ -647,15 +668,10 @@ async function paparData() {
 
 
         // =================================================
-        // PAPAR TABLE
+        // PAPAR
         // =================================================
 
         renderTable();
-
-
-        // =================================================
-        // PAPAR JUMLAH
-        // =================================================
 
         renderSummary();
 
@@ -664,46 +680,36 @@ async function paparData() {
         // TAJUK
         // =================================================
 
-        const tajuk =
-            document.getElementById(
-                "tajukLaporan"
-            );
+        const namaBulan =
+            SENARAI_BULAN[
+                bulan - 1
+            ] || "";
 
 
-        if (tajuk) {
+        tajukLaporan.textContent =
+            `TAMPUNGAN PENUH — ${namaBulan.toUpperCase()} ${tahun}`;
 
-            tajuk.textContent =
-                `TAMPUNGAN PENUH — ${bulan.toUpperCase()} ${tahun}`;
+
+        if (
+            posKhidmat
+        ) {
+
+            subtajukLaporan.textContent =
+                `POS KHIDMAT: ${posKhidmat} • SUSUNAN: TEMPAT TAMPUNGAN A–Z`;
+
+        } else {
+
+            subtajukLaporan.textContent =
+                "SEMUA POS KHIDMAT • SUSUNAN: TEMPAT TAMPUNGAN A–Z";
         }
 
 
         // =================================================
-        // SUBTAJUK
-        // =================================================
-
-        const subtajuk =
-            document.getElementById(
-                "subtajukLaporan"
-            );
-
-
-        if (subtajuk) {
-
-            subtajuk.textContent =
-                pos
-
-                    ? `POS KHIDMAT: ${pos} • SUSUNAN: TEMPAT TAMPUNGAN A–Z`
-
-                    : "SEMUA POS KHIDMAT • SUSUNAN: TEMPAT TAMPUNGAN A–Z";
-        }
-
-
-        // =================================================
-        // BUTTON EXCEL
+        // EXCEL
         // =================================================
 
         btnExcel.disabled =
-            rows.length === 0;
+            dataTampungan.length === 0;
 
 
         // =================================================
@@ -711,7 +717,7 @@ async function paparData() {
         // =================================================
 
         setStatus(
-            `${rows.length} rekod dijumpai. Data telah disusun TEMPAT TAMPUNGAN A–Z.`,
+            `${dataTampungan.length} rekod tampungan dijumpai. Susunan TEMPAT TAMPUNGAN A–Z.`,
             "success"
         );
 
@@ -734,7 +740,7 @@ async function paparData() {
 
 
         setStatus(
-            "Gagal mengambil data. Semak nama table dan column Supabase.",
+            "Gagal mengambil data tampungan. Semak Console dan struktur Supabase.",
             "error"
         );
 
@@ -748,150 +754,196 @@ async function paparData() {
 
 
 // =========================================================
-// NORMALISE DATA
+// BINA BARIS TAMPUNGAN
+// =========================================================
+//
+// SATU rekod Supabase boleh mempunyai:
+// pos1
+// pos2
+// pos3
+// pos4
+// pos5
+// pos6
+//
+// Setiap POS yang mempunyai jam > 0 akan menjadi SATU BARIS.
+//
+// Contoh:
+//
+// pos1 = F102-01
+// jam_pos1 = 4
+// rm_pos1 = 76.41
+//
+// akan menjadi:
+//
+// TEMPAT TAMPUNGAN = F102-01
+// JAM = 4
+// KLM = 76.41
 // =========================================================
 
-function normaliseRow(row) {
+function binaBarisTampungan(
+    rows
+) {
 
-    return {
-
-        bil:
-            0,
-
-
-        // -------------------------------------------------
-        // TEMPAT TAMPUNGAN
-        // -------------------------------------------------
-
-        tempat:
-            firstValue(
-                row,
-                [
-                    "tempat_tampungan",
-                    "pos_tampungan",
-                    "tempattampungan"
-                ]
-            ),
+    const hasil =
+        [];
 
 
-        // -------------------------------------------------
-        // NO SKB
-        // -------------------------------------------------
+    const pasangan =
+        [
+            {
+                tempat: "pos1",
+                jam: "jam_pos1",
+                rm: "rm_pos1"
+            },
 
-        no_skb:
-            firstValue(
-                row,
-                [
-                    "no_skb",
-                    "skb"
-                ]
-            ),
+            {
+                tempat: "pos2",
+                jam: "jam_pos2",
+                rm: "rm_pos2"
+            },
 
+            {
+                tempat: "pos3",
+                jam: "jam_pos3",
+                rm: "rm_pos3"
+            },
 
-        // -------------------------------------------------
-        // NAMA
-        // -------------------------------------------------
+            {
+                tempat: "pos4",
+                jam: "jam_pos4",
+                rm: "rm_pos4"
+            },
 
-        nama:
-            firstValue(
-                row,
-                [
-                    "nama",
-                    "nama_anggota"
-                ]
-            ),
+            {
+                tempat: "pos5",
+                jam: "jam_pos5",
+                rm: "rm_pos5"
+            },
 
-
-        // -------------------------------------------------
-        // POS
-        // -------------------------------------------------
-
-        pos:
-            firstValue(
-                row,
-                [
-                    "pos",
-                    "poskhidmat",
-                    "pos_khidmat"
-                ]
-            ),
+            {
+                tempat: "pos6",
+                jam: "jam_pos6",
+                rm: "rm_pos6"
+            }
+        ];
 
 
-        // -------------------------------------------------
-        // BASIC GAJI
-        // -------------------------------------------------
+    rows.forEach(
+        row => {
 
-        gaji:
-            toNumber(
-                firstValue(
-                    row,
-                    [
-                        "basic_gaji",
-                        "gaji_pokok",
-                        "gaji"
-                    ]
-                )
-            ),
+            pasangan.forEach(
+                pasanganItem => {
+
+                    const tempat =
+                        clean(
+                            row[
+                                pasanganItem
+                                    .tempat
+                            ]
+                        );
 
 
-        // -------------------------------------------------
-        // JAM
-        // -------------------------------------------------
-
-        jam:
-            toNumber(
-                firstValue(
-                    row,
-                    [
-                        "jumlah_jam_tampung",
-                        "jam_tampungan",
-                        "jam_tampung",
-                        "jumlah_jam",
-                        "jam"
-                    ]
-                )
-            ),
+                    const jam =
+                        toNumber(
+                            row[
+                                pasanganItem
+                                    .jam
+                            ]
+                        );
 
 
-        // -------------------------------------------------
-        // KLM
-        // -------------------------------------------------
+                    const rm =
+                        toNumber(
+                            row[
+                                pasanganItem
+                                    .rm
+                            ]
+                        );
 
-        klm:
-            toNumber(
-                firstValue(
-                    row,
-                    [
-                        "jumlah_klm",
-                        "klm",
-                        "km_tampungan",
-                        "rm_klm"
-                    ]
-                )
-            )
-    };
+
+                    // -------------------------------------
+                    // HANYA PAPAR POS YANG ADA DATA
+                    //
+                    // Walaupun jam = 0 tetapi ada tempat,
+                    // kita masih boleh paparkan jika RM ada.
+                    // -------------------------------------
+
+                    if (
+                        !tempat
+                    ) {
+
+                        return;
+                    }
+
+
+                    if (
+                        jam <= 0
+                        &&
+                        rm <= 0
+                    ) {
+
+                        return;
+                    }
+
+
+                    hasil.push({
+
+                        bil: 0,
+
+                        tempat:
+                            tempat,
+
+                        no_skb:
+                            clean(
+                                row.no_skb
+                            ),
+
+                        nama:
+                            clean(
+                                row.nama
+                            ),
+
+                        pos:
+                            clean(
+                                row.poskhidmat
+                            ),
+
+                        gaji:
+                            0,
+
+                        jam:
+                            jam,
+
+                        klm:
+                            rm
+                    });
+                }
+            );
+        }
+    );
+
+
+    return hasil;
 }
 
 
 // =========================================================
-// BASIC GAJI DARIPADA DATA ANGGOTA
+// BASIC GAJI
+// =========================================================
+//
+// Ambil daripada Data_Anggota.gaji_pokok
+// berdasarkan no_skb.
+//
+// TIDAK guna column "pos" kerana Data_Anggota anda
+// tidak mempunyai column tersebut.
 // =========================================================
 
 async function lengkapkanBasicGaji(
     rows
 ) {
 
-    const missing =
-        rows.filter(
-            row =>
-                !row.gaji
-                &&
-                row.no_skb
-        );
-
-
     if (
-        !missing.length
+        !rows.length
     ) {
 
         return rows;
@@ -901,13 +953,16 @@ async function lengkapkanBasicGaji(
     const skbList =
         [
             ...new Set(
-                missing
+
+                rows
+
                     .map(
                         row =>
                             clean(
                                 row.no_skb
                             )
                     )
+
                     .filter(
                         Boolean
                     )
@@ -928,13 +983,16 @@ async function lengkapkanBasicGaji(
         const {
             data,
             error
-        } = await window.supabaseClient
+        } = await supabaseClient
+
             .from(
                 TABLE_ANGGOTA
             )
+
             .select(
-                "no_skb,nama,pos,gaji_pokok"
+                "no_skb,nama,gaji_pokok"
             )
+
             .in(
                 "no_skb",
                 skbList
@@ -948,6 +1006,7 @@ async function lengkapkanBasicGaji(
                 error
             );
 
+
             return rows;
         }
 
@@ -956,18 +1015,17 @@ async function lengkapkanBasicGaji(
             new Map();
 
 
-        (data || [])
-            .forEach(
-                member => {
+        (data || []).forEach(
+            member => {
 
-                    map.set(
-                        clean(
-                            member.no_skb
-                        ),
-                        member
-                    );
-                }
-            );
+                map.set(
+                    clean(
+                        member.no_skb
+                    ),
+                    member
+                );
+            }
+        );
 
 
         return rows.map(
@@ -991,26 +1049,12 @@ async function lengkapkanBasicGaji(
 
                     ...row,
 
-
                     nama:
-                        row.nama
-                        ||
-                        member.nama
-                        ||
+                        row.nama ||
+                        member.nama ||
                         "",
-
-
-                    pos:
-                        row.pos
-                        ||
-                        member.pos
-                        ||
-                        "",
-
 
                     gaji:
-                        row.gaji
-                        ||
                         toNumber(
                             member.gaji_pokok
                         )
@@ -1044,16 +1088,15 @@ function renderTable() {
 
         tbody.innerHTML = `
             <tr>
-
                 <td
                     colspan="8"
                     class="empty"
                 >
                     Tiada data tampungan untuk pilihan tersebut.
                 </td>
-
             </tr>
         `;
+
 
         return;
     }
@@ -1120,7 +1163,6 @@ function renderTable() {
                     </td>
 
                 </tr>
-
             `
             )
             .join("");
@@ -1143,12 +1185,10 @@ function renderSummary() {
                 total,
                 row
             ) =>
-
                 total +
                 toNumber(
                     row.jam
                 ),
-
             0
         );
 
@@ -1159,70 +1199,46 @@ function renderSummary() {
                 total,
                 row
             ) =>
-
                 total +
                 toNumber(
                     row.klm
                 ),
-
             0
         );
 
 
-    const jumlahRekodEl =
-        document.getElementById(
-            "jumlahRekod"
+    jumlahRekodEl.textContent =
+        jumlahRekod.toLocaleString(
+            "ms-MY"
         );
 
 
-    const jumlahJamEl =
-        document.getElementById(
-            "jumlahJam"
+    jumlahJamEl.textContent =
+        formatNumber(
+            jumlahJam
         );
 
 
-    const jumlahKlmEl =
-        document.getElementById(
-            "jumlahKlm"
-        );
-
-
-    if (
-        jumlahRekodEl
-    ) {
-
-        jumlahRekodEl.textContent =
-            jumlahRekod.toLocaleString(
-                "ms-MY"
-            );
-    }
-
-
-    if (
-        jumlahJamEl
-    ) {
-
-        jumlahJamEl.textContent =
-            formatNumber(
-                jumlahJam
-            );
-    }
-
-
-    if (
-        jumlahKlmEl
-    ) {
-
-        jumlahKlmEl.textContent =
-            `RM ${formatMoney(
-                jumlahKlm
-            )}`;
-    }
+    jumlahKlmEl.textContent =
+        `RM ${formatMoney(
+            jumlahKlm
+        )}`;
 }
 
 
 // =========================================================
 // DOWNLOAD EXCEL
+// =========================================================
+//
+// PENTING:
+//
+// Excel menggunakan dataTampungan yang SAMA
+// dengan paparan HTML.
+//
+// Jadi:
+// PAPAR = A-Z
+// EXCEL = A-Z
+// BIL = SAMA
 // =========================================================
 
 function downloadExcel() {
@@ -1235,25 +1251,52 @@ function downloadExcel() {
             "Tiada data untuk dimuat turun."
         );
 
+
         return;
     }
 
 
-    const bulan =
-        bulanEl.value;
+    if (
+        typeof XLSX ===
+        "undefined"
+    ) {
+
+        alert(
+            "Library Excel XLSX belum dimuatkan."
+        );
+
+
+        return;
+    }
+
+
+    const bulanNumber =
+        Number(
+            bulanEl.value
+        );
 
 
     const tahun =
-        tahunEl.value;
+        Number(
+            tahunEl.value
+        );
 
 
-    const pos =
-        posEl.value ||
+    const namaBulan =
+        SENARAI_BULAN[
+            bulanNumber - 1
+        ] || "";
+
+
+    const posKhidmat =
+        clean(
+            posEl.value
+        ) ||
         "SEMUA";
 
 
     // =====================================================
-    // EXCEL GUNA DATA YANG SAMA DENGAN PAPARAN
+    // DATA EXCEL
     // =====================================================
 
     const excelData =
@@ -1297,12 +1340,10 @@ function downloadExcel() {
                 total,
                 row
             ) =>
-
                 total +
                 toNumber(
                     row.jam
                 ),
-
             0
         );
 
@@ -1313,12 +1354,10 @@ function downloadExcel() {
                 total,
                 row
             ) =>
-
                 total +
                 toNumber(
                     row.klm
                 ),
-
             0
         );
 
@@ -1328,30 +1367,23 @@ function downloadExcel() {
         "BIL":
             "",
 
-
         "TEMPAT TAMPUNGAN":
             "JUMLAH",
-
 
         "SKB":
             "",
 
-
         "NAMA ANGGOTA":
             "",
-
 
         "POS":
             "",
 
-
         "BASIC GAJI":
             "",
 
-
         "JUMLAH JAM TAMPUNG / BLN":
             totalJam,
-
 
         "JUMLAH KLM (RM)":
             totalKlm
@@ -1379,7 +1411,7 @@ function downloadExcel() {
         },
 
         {
-            wch: 35
+            wch: 42
         },
 
         {
@@ -1387,15 +1419,15 @@ function downloadExcel() {
         },
 
         {
+            wch: 38
+        },
+
+        {
             wch: 35
         },
 
         {
-            wch: 30
-        },
-
-        {
-            wch: 15
+            wch: 16
         },
 
         {
@@ -1403,13 +1435,13 @@ function downloadExcel() {
         },
 
         {
-            wch: 18
+            wch: 20
         }
     ];
 
 
     // =====================================================
-    // FORMAT NOMBOR
+    // FORMAT CELL
     // =====================================================
 
     const range =
@@ -1426,50 +1458,71 @@ function downloadExcel() {
         r++
     ) {
 
+        // BASIC GAJI
         const basicCell =
             XLSX.utils.encode_cell({
+
                 r,
+
                 c: 5
             });
 
 
+        // JAM
         const jamCell =
             XLSX.utils.encode_cell({
+
                 r,
+
                 c: 6
             });
 
 
+        // KLM
         const klmCell =
             XLSX.utils.encode_cell({
+
                 r,
+
                 c: 7
             });
 
 
         if (
-            worksheet[basicCell]
+            worksheet[
+                basicCell
+            ]
         ) {
 
-            worksheet[basicCell].z =
+            worksheet[
+                basicCell
+            ].z =
                 "#,##0.00";
         }
 
 
         if (
-            worksheet[jamCell]
+            worksheet[
+                jamCell
+            ]
         ) {
 
-            worksheet[jamCell].z =
+            worksheet[
+                jamCell
+            ].z =
                 "#,##0.##";
         }
 
 
         if (
-            worksheet[klmCell]
+            worksheet[
+                klmCell
+            ]
         ) {
 
-            worksheet[klmCell].z =
+            worksheet[
+                klmCell
+            ].z =
                 "#,##0.00";
         }
     }
@@ -1484,6 +1537,7 @@ function downloadExcel() {
 
 
     XLSX.utils.book_append_sheet(
+
         workbook,
 
         worksheet,
@@ -1493,22 +1547,23 @@ function downloadExcel() {
 
 
     // =====================================================
-    // NAMA FILE
+    // NAMA FAIL
     // =====================================================
 
     const posFile =
-        pos === "SEMUA"
+        posKhidmat ===
+            "SEMUA"
 
             ? "SEMUA"
 
             : sanitizeFilename(
-                pos
+                posKhidmat
             );
 
 
     const namaFail =
         `TAMPUNGAN_PENUH_${sanitizeFilename(
-            bulan
+            namaBulan
         )}_${tahun}_${posFile}.xlsx`;
 
 
@@ -1530,56 +1585,7 @@ function downloadExcel() {
 
 
 // =========================================================
-// FIRST VALUE
-// =========================================================
-
-function firstValue(
-    row,
-    fields
-) {
-
-    for (
-        const field of fields
-    ) {
-
-        if (
-
-            Object.prototype
-                .hasOwnProperty
-                .call(
-                    row,
-                    field
-                )
-
-            &&
-
-            row[field] !==
-                null
-
-            &&
-
-            row[field] !==
-                undefined
-
-            &&
-
-            String(
-                row[field]
-            ).trim() !== ""
-
-        ) {
-
-            return row[field];
-        }
-    }
-
-
-    return "";
-}
-
-
-// =========================================================
-// CLEAN
+// HELPER
 // =========================================================
 
 function clean(
@@ -1589,25 +1595,6 @@ function clean(
     return String(
         value ?? ""
     ).trim();
-}
-
-
-// =========================================================
-// NORMALISE BULAN
-// =========================================================
-
-function normaliseBulan(
-    value
-) {
-
-    return clean(
-        value
-    )
-        .toLowerCase()
-        .replace(
-            /[^a-z]/g,
-            ""
-        );
 }
 
 
@@ -1633,17 +1620,14 @@ function toNumber(
 
 
     if (
-
-        value === null
-
+        value ===
+            null
         ||
-
-        value === undefined
-
+        value ===
+            undefined
         ||
-
-        value === ""
-
+        value ===
+            ""
     ) {
 
         return 0;
@@ -1651,24 +1635,23 @@ function toNumber(
 
 
     const text =
-        String(
-            value
-        )
+        String(value)
+
             .replace(
                 /RM/gi,
                 ""
             )
+
             .replace(
                 /,/g,
                 ""
             )
+
             .trim();
 
 
     const number =
-        Number(
-            text
-        );
+        Number(text);
 
 
     return Number.isFinite(
@@ -1690,7 +1673,9 @@ function formatMoney(
     return toNumber(
         value
     ).toLocaleString(
+
         "ms-MY",
+
         {
 
             minimumFractionDigits:
@@ -1714,7 +1699,9 @@ function formatNumber(
     return toNumber(
         value
     ).toLocaleString(
+
         "ms-MY",
+
         {
 
             minimumFractionDigits:
@@ -1728,7 +1715,7 @@ function formatNumber(
 
 
 // =========================================================
-// SORT A-Z
+// SORT MALAY
 // =========================================================
 
 function compareMalay(
@@ -1739,10 +1726,13 @@ function compareMalay(
     return String(
         a ?? ""
     ).localeCompare(
+
         String(
             b ?? ""
         ),
+
         "ms",
+
         {
 
             numeric:
@@ -1766,10 +1756,12 @@ function sanitizeFilename(
     return String(
         value ?? "DATA"
     )
+
         .replace(
             /[\\/:*?"<>|]/g,
             "_"
         )
+
         .replace(
             /\s+/g,
             "_"
@@ -1788,22 +1780,27 @@ function escapeHtml(
     return String(
         value ?? ""
     )
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
@@ -1821,6 +1818,7 @@ function setStatus(
 ) {
 
     if (!statusEl) {
+
         return;
     }
 
@@ -1845,6 +1843,13 @@ window.tampunganPenuh = {
             dataTampungan,
 
     paparData:
-        paparData
+        paparData,
 
+    downloadExcel:
+        downloadExcel
 };
+
+
+console.log(
+    "TAMPUNGAN PENUH JS READY"
+);

@@ -12,11 +12,9 @@
 // YANG SAMA DIGUNAKAN OLEH PAGE LAIN.
 // =========================================================
 
-const SUPABASE_URL =
-    "MASUKKAN_SUPABASE_URL";
-
-const SUPABASE_ANON_KEY =
-    "MASUKKAN_SUPABASE_ANON_KEY";
+const { data, error } = await supabase
+    .from("rk02_pos_tampungan")
+    .select("*");
 
 
 let supabaseClient = null;

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tampungan Penuh — FPB Duty Command Center V2</title>
+
+    <link rel="stylesheet" href="tampungan-penuh.css">
+
+    <!-- SUPABASE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- EXCEL -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =================================================
+         HEADER
+         ================================================= -->
+    <header class="topbar">
+
+        <div class="brand">
+            FPB DUTY COMMAND CENTER V2
+        </div>
+
+        <div class="page-title">
+            TAMPUNGAN PENUH
+        </div>
+
+        <div class="page-subtitle">
+            Laporan Penuh Pos Tampungan
+        </div>
+
+    </header>
+
+
+    <main class="content">
+
+        <!-- =================================================
+             FILTER
+             ================================================= -->
+        <section class="card filter-card">
+
+            <div class="filter-grid">
+
+                <div class="field">
+
+                    <label for="bulan">
+                        BULAN
+                    </label>
+
+                    <select id="bulan"></select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="tahun">
+                        TAHUN
+                    </label>
+
+                    <select id="tahun"></select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="posKhidmat">
+                        POS KHIDMAT
+                    </label>
+
+                    <select id="posKhidmat">
+
+                        <option value="">
+                            SEMUA
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-row">
+
+                <button
+                    type="button"
+                    id="btnPaparData"
+                    class="btn btn-primary"
+                >
+                    🔄 PAPAR DATA
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnDownloadExcel"
+                    class="btn btn-excel"
+                    disabled
+                >
+                    📥 DOWNLOAD EXCEL
+                </button>
+
+            </div>
+
+
+            <div
+                id="status"
+                class="status"
+            ></div>
+
+        </section>
+
+
+        <!-- =================================================
+             LAPORAN
+             ================================================= -->
+        <section class="card report-card">
+
+            <div class="report-heading">
+
+                <h2 id="tajukLaporan">
+                    TAMPUNGAN PENUH
+                </h2>
+
+                <p id="subtajukLaporan">
+                    Sila pilih bulan dan tahun kemudian tekan PAPAR DATA.
+                </p>
+
+            </div>
+
+
+            <div class="table-wrap">
+
+                <table id="tableTampungan">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="bil">
+                                BIL
+                            </th>
+
+                            <th>
+                                TEMPAT TAMPUNGAN
+                            </th>
+
+                            <th>
+                                SKB
+                            </th>
+
+                            <th>
+                                NAMA ANGGOTA
+                            </th>
+
+                            <th>
+                                POS
+                            </th>
+
+                            <th class="money">
+                                BASIC GAJI
+                            </th>
+
+                            <th class="jam">
+                                JAM
+                            </th>
+
+                            <th class="money">
+                                KLM (RM)
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tbodyTampungan">
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="empty"
+                            >
+                                Belum ada data dipaparkan.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- =================================================
+                 JUMLAH
+                 ================================================= -->
+            <div class="summary">
+
+                <div>
+
+                    <span>
+                        JUMLAH REKOD
+                    </span>
+
+                    <strong id="jumlahRekod">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        JUMLAH JAM
+                    </span>
+
+                    <strong id="jumlahJam">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        JUMLAH KLM
+                    </span>
+
+                    <strong id="jumlahKlm">
+                        RM 0.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="tampungan-penuh.js"></script>
+
+</body>
+</html>

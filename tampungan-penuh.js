@@ -5,27 +5,7 @@
 
 
 // =========================================================
-// SUPABASE
-// =========================================================
-//
-// GANTIKAN DUA NILAI INI DENGAN CONNECTION SUPABASE
-// YANG SAMA DIGUNAKAN OLEH PAGE LAIN.
-// =========================================================
-
-const { data, error } = await supabase
-    .from("rk02_pos_tampungan")
-    .select("*");
-
-
-let supabaseClient = null;
-
-
-// =========================================================
 // DATA UTAMA
-// =========================================================
-//
-// Data ini ialah DATA YANG SUDAH DISORT.
-// HTML dan Excel menggunakan array yang sama.
 // =========================================================
 
 let dataTampungan = [];
@@ -35,11 +15,8 @@ let dataTampungan = [];
 // TABLE
 // =========================================================
 
-const TABLE_TAMPUNGAN =
-    "rk02_pos_tampungan";
-
-const TABLE_ANGGOTA =
-    "Data_Anggota";
+const TABLE_TAMPUNGAN = "rk02_pos_tampungan";
+const TABLE_ANGGOTA = "Data_Anggota";
 
 
 // =========================================================
@@ -104,34 +81,38 @@ async function init() {
 
     isiTahun();
 
-
-    if (
-        SUPABASE_URL ===
-        "MASUKKAN_SUPABASE_URL"
-        ||
-        SUPABASE_ANON_KEY ===
-        "MASUKKAN_SUPABASE_ANON_KEY"
-    ) {
-
-        setStatus(
-            "Sila masukkan SUPABASE_URL dan SUPABASE_ANON_KEY dalam tampungan-penuh.js.",
-            "error"
-        );
-
-        return;
-    }
-
-
     try {
 
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
+        /*
+         * supabase datang daripada:
+         *
+         * supabase-config.js
+         *
+         * TIDAK perlu createClient lagi di sini.
+         */
+
+        if (!window.supabase) {
+
+            throw new Error(
+                "Supabase library tidak dijumpai."
             );
+        }
+
+        if (!supabase) {
+
+            throw new Error(
+                "Objek Supabase tidak dijumpai."
+            );
+        }
 
 
         await isiPosKhidmat();
+
+
+        setStatus(
+            "Sistem sedia. Sila tekan PAPAR DATA.",
+            "success"
+        );
 
 
     } catch (error) {
@@ -182,11 +163,9 @@ function isiBulan() {
                     "option"
                 );
 
-            option.value =
-                bulan;
+            option.value = bulan;
 
-            option.textContent =
-                bulan;
+            option.textContent = bulan;
 
 
             if (
@@ -194,8 +173,7 @@ function isiBulan() {
                 new Date().getMonth()
             ) {
 
-                option.selected =
-                    true;
+                option.selected = true;
             }
 
 
@@ -221,11 +199,9 @@ function isiTahun() {
 
 
     for (
-        let tahun =
-            tahunSemasa - 2;
+        let tahun = tahunSemasa - 2;
 
-        tahun <=
-            tahunSemasa + 2;
+        tahun <= tahunSemasa + 2;
 
         tahun++
     ) {
@@ -235,11 +211,9 @@ function isiTahun() {
                 "option"
             );
 
-        option.value =
-            tahun;
+        option.value = tahun;
 
-        option.textContent =
-            tahun;
+        option.textContent = tahun;
 
 
         if (
@@ -247,8 +221,7 @@ function isiTahun() {
             tahunSemasa
         ) {
 
-            option.selected =
-                true;
+            option.selected = true;
         }
 
 
@@ -268,7 +241,7 @@ async function isiPosKhidmat() {
     const {
         data,
         error
-    } = await supabaseClient
+    } = await supabase
         .from(TABLE_ANGGOTA)
         .select("pos")
         .not(
@@ -313,11 +286,9 @@ async function isiPosKhidmat() {
                     "option"
                 );
 
-            option.value =
-                pos;
+            option.value = pos;
 
-            option.textContent =
-                pos;
+            option.textContent = pos;
 
             posEl.appendChild(
                 option
@@ -333,17 +304,6 @@ async function isiPosKhidmat() {
 
 async function paparData() {
 
-    if (!supabaseClient) {
-
-        setStatus(
-            "Supabase belum disambungkan.",
-            "error"
-        );
-
-        return;
-    }
-
-
     const bulan =
         bulanEl.value;
 
@@ -356,11 +316,9 @@ async function paparData() {
         posEl.value;
 
 
-    btnPapar.disabled =
-        true;
+    btnPapar.disabled = true;
 
-    btnExcel.disabled =
-        true;
+    btnExcel.disabled = true;
 
 
     setStatus(
@@ -371,14 +329,14 @@ async function paparData() {
 
     try {
 
-        // -------------------------------------------------
-        // AMBIL DATA
-        // -------------------------------------------------
+        // =================================================
+        // AMBIL DATA TAMPUNGAN
+        // =================================================
 
         const {
             data,
             error
-        } = await supabaseClient
+        } = await supabase
             .from(TABLE_TAMPUNGAN)
             .select("*");
 
@@ -389,42 +347,45 @@ async function paparData() {
         }
 
 
-        // -------------------------------------------------
+        // =================================================
         // FILTER BULAN / TAHUN
-        // -------------------------------------------------
+        // =================================================
 
         let rows =
             (data || [])
-                .filter(row => {
+                .filter(
+                    row => {
 
-                    const rowBulan =
-                        clean(
-                            row.bulan
+                        const rowBulan =
+                            clean(
+                                row.bulan
+                            );
+
+                        const rowTahun =
+                            Number(
+                                row.tahun
+                            );
+
+
+                        return (
+                            normaliseBulan(
+                                rowBulan
+                            )
+                            ===
+                            normaliseBulan(
+                                bulan
+                            )
+                            &&
+                            rowTahun ===
+                            tahun
                         );
-
-                    const rowTahun =
-                        Number(
-                            row.tahun
-                        );
+                    }
+                );
 
 
-                    return (
-                        normaliseBulan(
-                            rowBulan
-                        ) ===
-                        normaliseBulan(
-                            bulan
-                        )
-                        &&
-                        rowTahun ===
-                        tahun
-                    );
-                });
-
-
-        // -------------------------------------------------
+        // =================================================
         // NORMALISE
-        // -------------------------------------------------
+        // =================================================
 
         rows =
             rows.map(
@@ -432,9 +393,9 @@ async function paparData() {
             );
 
 
-        // -------------------------------------------------
+        // =================================================
         // FILTER POS
-        // -------------------------------------------------
+        // =================================================
 
         if (pos) {
 
@@ -452,9 +413,9 @@ async function paparData() {
         }
 
 
-        // -------------------------------------------------
+        // =================================================
         // BASIC GAJI
-        // -------------------------------------------------
+        // =================================================
 
         rows =
             await lengkapkanBasicGaji(
@@ -462,11 +423,11 @@ async function paparData() {
             );
 
 
-        // -------------------------------------------------
-        // SORT UTAMA
+        // =================================================
+        // SORT
         //
         // TEMPAT TAMPUNGAN A-Z
-        // -------------------------------------------------
+        // =================================================
 
         rows.sort(
             (a, b) => {
@@ -509,33 +470,30 @@ async function paparData() {
         );
 
 
-        // -------------------------------------------------
-        // BIL
-        //
-        // BIL DIBUAT SELEPAS SORT.
-        // -------------------------------------------------
+        // =================================================
+        // BIL SELEPAS SORT
+        // =================================================
 
         rows =
             rows.map(
                 (row, index) => ({
                     ...row,
-                    bil:
-                        index + 1
+                    bil: index + 1
                 })
             );
 
 
-        // -------------------------------------------------
-        // SIMPAN DATA
-        // -------------------------------------------------
+        // =================================================
+        // SIMPAN DATA YANG SAMA UNTUK
+        // TABLE + EXCEL
+        // =================================================
 
-        dataTampungan =
-            rows;
+        dataTampungan = rows;
 
 
-        // -------------------------------------------------
+        // =================================================
         // PAPAR
-        // -------------------------------------------------
+        // =================================================
 
         renderTable();
 
@@ -566,6 +524,12 @@ async function paparData() {
         );
 
 
+        console.log(
+            "DATA TAMPUNGAN:",
+            dataTampungan
+        );
+
+
     } catch (error) {
 
         console.error(
@@ -574,8 +538,7 @@ async function paparData() {
         );
 
 
-        dataTampungan =
-            [];
+        dataTampungan = [];
 
 
         renderTable();
@@ -591,8 +554,7 @@ async function paparData() {
 
     } finally {
 
-        btnPapar.disabled =
-            false;
+        btnPapar.disabled = false;
     }
 }
 
@@ -691,22 +653,17 @@ function normaliseRow(row) {
 // BASIC GAJI DARIPADA DATA ANGGOTA
 // =========================================================
 
-async function lengkapkanBasicGaji(
-    rows
-) {
+async function lengkapkanBasicGaji(rows) {
 
     const missing =
         rows.filter(
             row =>
-                !row.gaji
-                &&
+                !row.gaji &&
                 row.no_skb
         );
 
 
-    if (
-        !missing.length
-    ) {
+    if (!missing.length) {
 
         return rows;
     }
@@ -725,9 +682,7 @@ async function lengkapkanBasicGaji(
         ];
 
 
-    if (
-        !skbList.length
-    ) {
+    if (!skbList.length) {
 
         return rows;
     }
@@ -738,7 +693,7 @@ async function lengkapkanBasicGaji(
         const {
             data,
             error
-        } = await supabaseClient
+        } = await supabase
             .from(TABLE_ANGGOTA)
             .select(
                 "no_skb,nama,pos,gaji_pokok"
@@ -764,18 +719,17 @@ async function lengkapkanBasicGaji(
             new Map();
 
 
-        (data || [])
-            .forEach(
-                member => {
+        (data || []).forEach(
+            member => {
 
-                    map.set(
-                        clean(
-                            member.no_skb
-                        ),
-                        member
-                    );
-                }
-            );
+                map.set(
+                    clean(
+                        member.no_skb
+                    ),
+                    member
+                );
+            }
+        );
 
 
         return rows.map(
@@ -822,6 +776,7 @@ async function lengkapkanBasicGaji(
     } catch (error) {
 
         console.warn(
+            "RALAT BASIC GAJI:",
             error
         );
 
@@ -866,13 +821,11 @@ function renderTable() {
                         ${row.bil}
                     </td>
 
-
                     <td class="cell-place">
                         ${escapeHtml(
                             row.tempat
                         )}
                     </td>
-
 
                     <td class="cell-skb">
                         ${escapeHtml(
@@ -880,13 +833,11 @@ function renderTable() {
                         )}
                     </td>
 
-
                     <td class="cell-name">
                         ${escapeHtml(
                             row.nama
                         )}
                     </td>
-
 
                     <td class="cell-pos">
                         ${escapeHtml(
@@ -894,20 +845,17 @@ function renderTable() {
                         )}
                     </td>
 
-
                     <td class="money">
                         RM ${formatMoney(
                             row.gaji
                         )}
                     </td>
 
-
                     <td class="jam">
                         ${formatNumber(
                             row.jam
                         )}
                     </td>
-
 
                     <td class="money">
                         RM ${formatMoney(
@@ -1015,13 +963,10 @@ function downloadExcel() {
 
 
     // =====================================================
-    // SANGAT PENTING
+    // DATA EXCEL
     //
-    // GUNA dataTampungan YANG SAMA DENGAN PAPARAN.
-    //
-    // Oleh itu:
-    // TEMPAT TAMPUNGAN A-Z
-    // BIL sama
+    // GUNA ARRAY YANG SAMA DENGAN TABLE.
+    // JADI SORT DAN BIL MEMANG SAMA.
     // =====================================================
 
     const excelData =
@@ -1089,23 +1034,18 @@ function downloadExcel() {
 
     excelData.push({
 
-        "BIL":
-            "",
+        "BIL": "",
 
         "TEMPAT TAMPUNGAN":
             "JUMLAH",
 
-        "SKB":
-            "",
+        "SKB": "",
 
-        "NAMA ANGGOTA":
-            "",
+        "NAMA ANGGOTA": "",
 
-        "POS":
-            "",
+        "POS": "",
 
-        "BASIC GAJI":
-            "",
+        "BASIC GAJI": "",
 
         "JUMLAH JAM TAMPUNG / BLN":
             totalJam,
@@ -1146,7 +1086,7 @@ function downloadExcel() {
 
 
     // =====================================================
-    // FORMAT RM / JAM
+    // FORMAT
     // =====================================================
 
     const range =
@@ -1167,13 +1107,11 @@ function downloadExcel() {
                 c: 5
             });
 
-
         const jamCell =
             XLSX.utils.encode_cell({
                 r,
                 c: 6
             });
-
 
         const klmCell =
             XLSX.utils.encode_cell({
@@ -1277,11 +1215,9 @@ function firstValue(
                     field
                 )
             &&
-            row[field] !==
-                null
+            row[field] !== null
             &&
-            row[field] !==
-                undefined
+            row[field] !== undefined
             &&
             String(
                 row[field]
@@ -1301,9 +1237,7 @@ function firstValue(
 // CLEAN
 // =========================================================
 
-function clean(
-    value
-) {
+function clean(value) {
 
     return String(
         value ?? ""
@@ -1315,9 +1249,7 @@ function clean(
 // NORMALISE BULAN
 // =========================================================
 
-function normaliseBulan(
-    value
-) {
+function normaliseBulan(value) {
 
     return clean(
         value
@@ -1334,13 +1266,10 @@ function normaliseBulan(
 // NUMBER
 // =========================================================
 
-function toNumber(
-    value
-) {
+function toNumber(value) {
 
     if (
-        typeof value ===
-        "number"
+        typeof value === "number"
     ) {
 
         return Number.isFinite(
@@ -1352,12 +1281,8 @@ function toNumber(
 
 
     if (
-        value ===
-            null
-        ||
-        value ===
-            undefined
-        ||
+        value === null ||
+        value === undefined ||
         value === ""
     ) {
 
@@ -1394,20 +1319,15 @@ function toNumber(
 // MONEY
 // =========================================================
 
-function formatMoney(
-    value
-) {
+function formatMoney(value) {
 
     return toNumber(
         value
     ).toLocaleString(
         "ms-MY",
         {
-            minimumFractionDigits:
-                2,
-
-            maximumFractionDigits:
-                2
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }
     );
 }
@@ -1417,20 +1337,15 @@ function formatMoney(
 // NUMBER FORMAT
 // =========================================================
 
-function formatNumber(
-    value
-) {
+function formatNumber(value) {
 
     return toNumber(
         value
     ).toLocaleString(
         "ms-MY",
         {
-            minimumFractionDigits:
-                0,
-
-            maximumFractionDigits:
-                2
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
         }
     );
 }
@@ -1440,10 +1355,7 @@ function formatNumber(
 // SORT A-Z
 // =========================================================
 
-function compareMalay(
-    a,
-    b
-) {
+function compareMalay(a, b) {
 
     return String(
         a ?? ""
@@ -1453,11 +1365,8 @@ function compareMalay(
         ),
         "ms",
         {
-            numeric:
-                true,
-
-            sensitivity:
-                "base"
+            numeric: true,
+            sensitivity: "base"
         }
     );
 }
@@ -1467,9 +1376,7 @@ function compareMalay(
 // FILE NAME
 // =========================================================
 
-function sanitizeFilename(
-    value
-) {
+function sanitizeFilename(value) {
 
     return String(
         value ?? "DATA"
@@ -1489,9 +1396,7 @@ function sanitizeFilename(
 // ESCAPE HTML
 // =========================================================
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value) {
 
     return String(
         value ?? ""
@@ -1542,8 +1447,8 @@ function setStatus(
 
 window.tampunganPenuh = {
 
-    getData: () =>
-        dataTampungan,
+    getData:
+        () => dataTampungan,
 
     paparData:
         paparData

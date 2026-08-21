@@ -959,7 +959,7 @@ async function lengkapkanBasicGaji(
                     .map(
                         row =>
                             clean(
-                                row.noskb
+                                row.no_skb
                             )
                     )
 
@@ -979,6 +979,11 @@ async function lengkapkanBasicGaji(
 
 
     try {
+
+        console.log(
+            "CARI BASIC GAJI UNTUK SKB:",
+            skbList
+        );
 
         const {
             data,
@@ -1020,7 +1025,7 @@ async function lengkapkanBasicGaji(
 
                 map.set(
                     clean(
-                        member.noskb
+                        member.no_skb
                     ),
                     member
                 );
@@ -1034,7 +1039,7 @@ async function lengkapkanBasicGaji(
                 const member =
                     map.get(
                         clean(
-                            row.noskb
+                            row.no_skb
                         )
                     );
 

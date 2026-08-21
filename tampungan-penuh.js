@@ -938,14 +938,19 @@ function binaBarisTampungan(
 // tidak mempunyai column tersebut.
 // =========================================================
 
-async function lengkapkanBasicGaji(
-    rows
-) {
+// =========================================================
+// BASIC GAJI
+// =========================================================
+// DATA_ANGGOTA MENGGUNAKAN:
+// noskb
+//
+// BUKAN:
+// no_skb
+// =========================================================
 
-    if (
-        !rows.length
-    ) {
+async function lengkapkanBasicGaji(rows) {
 
+    if (!rows.length) {
         return rows;
     }
 
@@ -958,22 +963,15 @@ async function lengkapkanBasicGaji(
 
                     .map(
                         row =>
-                            clean(
-                                row.no_skb
-                            )
+                            clean(row.no_skb)
                     )
 
-                    .filter(
-                        Boolean
-                    )
+                    .filter(Boolean)
             )
         ];
 
 
-    if (
-        !skbList.length
-    ) {
-
+    if (!skbList.length) {
         return rows;
     }
 
@@ -985,14 +983,13 @@ async function lengkapkanBasicGaji(
             skbList
         );
 
+
         const {
             data,
             error
         } = await supabaseClient
 
-            .from(
-                TABLE_ANGGOTA
-            )
+            .from(TABLE_ANGGOTA)
 
             .select(
                 "noskb,nama,gaji_pokok"
@@ -1006,14 +1003,19 @@ async function lengkapkanBasicGaji(
 
         if (error) {
 
-            console.warn(
-                "Gagal ambil BASIC GAJI:",
+            console.error(
+                "GAGAL AMBIL BASIC GAJI:",
                 error
             );
 
-
             return rows;
         }
+
+
+        console.log(
+            "DATA ANGGOTA BASIC GAJI:",
+            data
+        );
 
 
         const map =
@@ -1025,7 +1027,7 @@ async function lengkapkanBasicGaji(
 
                 map.set(
                     clean(
-                        member.no_skb
+                        member.noskb
                     ),
                     member
                 );
@@ -1045,6 +1047,12 @@ async function lengkapkanBasicGaji(
 
 
                 if (!member) {
+
+                    console.warn(
+                        "SKB TIADA DALAM DATA_ANGGOTA:",
+                        row.no_skb
+                    );
+
 
                     return row;
                 }
@@ -1070,7 +1078,7 @@ async function lengkapkanBasicGaji(
 
     } catch (error) {
 
-        console.warn(
+        console.error(
             "RALAT BASIC GAJI:",
             error
         );

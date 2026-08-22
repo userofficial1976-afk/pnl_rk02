@@ -372,24 +372,32 @@ function kemasKiniHeader(){
         tahunSemasa;
 
 
-    document.getElementById(
-        "heroBulanTahun"
-    ).textContent =
-        tempoh;
+    const heroBulanTahun =
+        document.getElementById(
+            "heroBulanTahun"
+        );
+
+    if(heroBulanTahun){
+
+        heroBulanTahun.textContent =
+            tempoh;
+
+    }
 
 
-    document.getElementById(
-        "reportSubtitle"
-    ).textContent =
-        tempoh
-        +
-        " — WILAYAH TERENGGANU";
+    const reportSubtitle =
+        document.getElementById(
+            "reportSubtitle"
+        );
 
+    if(reportSubtitle){
 
-    document.getElementById(
-        "finalBulan"
-    ).textContent =
-        tempoh;
+        reportSubtitle.textContent =
+            tempoh
+            +
+            " — WILAYAH TERENGGANU";
+
+    }
 
 }
 
@@ -1704,60 +1712,62 @@ function binaSummary(){
     );
 
 
-    document.getElementById(
-        "summaryPos"
-    ).textContent =
-        laporanPos.length;
-
-
-    document.getElementById(
-        "summaryAnggota"
-    ).textContent =
-        jumlahAnggota.size;
-
-
-    document.getElementById(
-        "summaryJam"
-    ).textContent =
-        formatJam(
-            total.hariBiasa
+    const summaryPos =
+        document.getElementById(
+            "summaryPos"
         );
 
+    if(summaryPos){
 
-    document.getElementById(
-        "summaryRM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.rm
+        summaryPos.textContent =
+            laporanPos.length;
+
+    }
+
+
+    const summaryAnggota =
+        document.getElementById(
+            "summaryAnggota"
         );
 
+    if(summaryAnggota){
 
-    document.getElementById(
-        "finalPos"
-    ).textContent =
-        laporanPos.length;
+        summaryAnggota.textContent =
+            jumlahAnggota.size;
 
-
-    document.getElementById(
-        "finalKLM"
-    ).textContent =
-        formatJam(
-            total.hariBiasa
-        )
-        +
-        " JAM";
+    }
 
 
-    document.getElementById(
-        "finalRM"
-    ).textContent =
-        "RM "
-        +
-        formatRM(
-            total.rm
+    const summaryJam =
+        document.getElementById(
+            "summaryJam"
         );
+
+    if(summaryJam){
+
+        summaryJam.textContent =
+            formatJam(
+                total.hariBiasa
+            );
+
+    }
+
+
+    const summaryRM =
+        document.getElementById(
+            "summaryRM"
+        );
+
+    if(summaryRM){
+
+        summaryRM.textContent =
+            "RM "
+            +
+            formatRM(
+                total.rm
+            );
+
+    }
 
 }
 
